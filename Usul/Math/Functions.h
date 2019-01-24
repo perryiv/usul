@@ -17,7 +17,6 @@
 #define _USUL_MATH_FUNCTIONS_H_
 
 #include <cmath>
-#include <type_traits>
 
 
 namespace Usul {
@@ -33,7 +32,6 @@ namespace Math {
 template < class VectorType >
 inline typename VectorType::value_type dot ( const VectorType &a, const VectorType &b )
 {
-  static_assert ( ( 3 == VectorType::SIZE ), "Must be 3D vector" );
   return (
     a[0] * b[0] +
     a[1] * b[1] +
@@ -50,7 +48,6 @@ inline typename VectorType::value_type dot ( const VectorType &a, const VectorTy
 template < class VectorType >
 inline VectorType cross ( const VectorType &a, const VectorType &b )
 {
-  static_assert ( ( 3 == VectorType::SIZE ), "Must be 3D vector" );
   return VectorType (
     a[1] * b[2] - a[2] * b[1],
     a[2] * b[0] - a[0] * b[2],
@@ -97,7 +94,6 @@ inline typename VectorType::value_type length ( const VectorType &v )
 template < class PointType >
 inline typename PointType::value_type distanceSquared ( const PointType &a, const PointType &b )
 {
-  static_assert ( ( 3 == PointType::SIZE ), "Must be a 3D point" );
   return (
     a[0] - b[0] * a[0] - b[0] +
     a[1] - b[1] * a[1] - b[1] +
@@ -120,23 +116,39 @@ inline typename PointType::value_type distance ( const PointType &a, const Point
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-//  Normalize the vector and return the length prior to normalization.
+//  Normalize the vector and, if the caller wants it, set the length
+//  prior to normalization.
 //
 ///////////////////////////////////////////////////////////////////////////////
 
 template < class VectorType >
-inline typename VectorType::value_type normalize ( VectorType &v )
+inline void normalize ( const VectorType &v, VectorType &n, typename VectorType::value_type *originalLength = nullptr )
 {
-  static_assert ( ( 3 == VectorType::SIZE ), "Must be 3D vector" );
+  const auto currentLength ( length ( v ) );
+  const auto invLength ( 1 / currentLength );
 
-  const auto l ( length ( v ) );
-  const auto il ( 1 / l );
+  if ( originalLength )
+  {
+    *originalLength = currentLength;
+  }
 
-  v[0] *= il;
-  v[1] *= il;
-  v[2] *= il;
+  v[0] *= invLength;
+  v[1] *= invLength;
+  v[2] *= invLength;
+}
 
-  return l;
+template < class VectorType >
+inline VectorType normalize ( const VectorType &v, typename VectorType::value_type *originalLength = nullptr )
+{
+  const auto currentLength ( length ( v ) );
+  const auto invLength ( 1 / currentLength );
+
+  if ( originalLength )
+  {
+    *originalLength = currentLength;
+  }
+
+  return VectorType ( v[0] * invLength, v[1] * invLength, v[2] * invLength );
 }
 
 
@@ -149,7 +161,6 @@ inline typename VectorType::value_type normalize ( VectorType &v )
 template < class VectorType >
 bool equal ( const VectorType &a, const VectorType &b )
 {
-  static_assert ( ( 3 == VectorType::SIZE ), "Must be 3D vector" );
   return (
     ( a[0] == b[0] ) &&
     ( a[1] == b[1] ) &&
@@ -164,9 +175,8 @@ bool equal ( const VectorType &a, const VectorType &b )
 ///////////////////////////////////////////////////////////////////////////////
 
 template < class VectorType, class Fun >
-bool each ( const VectorType &v, Fun f )
+void each ( const VectorType &v, Fun f )
 {
-  static_assert ( ( 3 == VectorType::SIZE ), "Must be 3D vector" );
   f ( v[0] );
   f ( v[1] );
   f ( v[2] );
@@ -182,7 +192,6 @@ bool each ( const VectorType &v, Fun f )
 template < class VectorType >
 inline void add ( const VectorType &a, const VectorType &b, VectorType &c )
 {
-  static_assert ( ( 3 == VectorType::SIZE ), "Must be 3D vector" );
   c[0] = a[0] + b[0];
   c[1] = a[1] + b[1];
   c[2] = a[2] + b[2];
@@ -205,7 +214,6 @@ inline VectorType add ( const VectorType &a, const VectorType &b )
 template < class VectorType >
 inline void subtract ( const VectorType &a, const VectorType &b, VectorType &c )
 {
-  static_assert ( ( 3 == VectorType::SIZE ), "Must be 3D vector" );
   c[0] = a[0] - b[0];
   c[1] = a[1] - b[1];
   c[2] = a[2] - b[2];
@@ -228,7 +236,6 @@ inline VectorType subtract ( const VectorType &a, const VectorType &b )
 template < class VectorType, class ScalarType >
 inline void scale ( const VectorType &v, const ScalarType &s, VectorType &a )
 {
-  static_assert ( ( 3 == VectorType::SIZE ), "Must be 3D vector" );
   a[0] = v[0] * s;
   a[1] = v[1] * s;
   a[2] = v[2] * s;
