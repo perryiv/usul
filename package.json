@@ -1,0 +1,29 @@
+{
+  "name": "usul",
+  "version": "0.1.0",
+  "description": "The strength of the base of the pillar",
+  "scripts": {
+    "build": "cd build && make",
+    "clear": "./node_modules/.bin/clear",
+    "config": "del build && make-dir build && cd build && conan install .. && cmake ..",
+    "rebuild": "npm run config && npm run build",
+    "test": "./build/bin/usul_test",
+    "watch": "watch \"npm run clear && npm run build && npm run test\" ./Usul ./tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/perryiv/usul.git"
+  },
+  "author": "Perry L Miller IV",
+  "license": "BSD",
+  "bugs": {
+    "url": "https://github.com/perryiv/usul/issues"
+  },
+  "homepage": "https://github.com/perryiv/usul#readme",
+  "devDependencies": {
+    "clear-cli": "^1.0.1",
+    "del-cli": "^1.1.0",
+    "make-dir-cli": "^1.0.0",
+    "watch": "^1.0.2"
+  }
+}
