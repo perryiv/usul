@@ -15,7 +15,7 @@
 #include "Usul/Math/Functions.h"
 #include "Usul/Math/Vector3.h"
 
-#include "external/catch/catch.hpp"
+#include "catch2/catch.hpp"
 
 
 ////////////////////////////////////////////////////////////////////////////////

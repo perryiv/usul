@@ -26,6 +26,11 @@ set ( CMAKE_CXX_STANDARD 11 )
 # Look in the current directory for include files.
 set ( CMAKE_INCLUDE_CURRENT_DIR ON )
 
+# We're using conan.
+# https://docs.conan.io/en/latest/getting_started.html
+include ( ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake )
+conan_basic_setup()
+
 # Define a variable that holds all the source files.
 set ( SOURCE_FILES
   tests/Math.cpp
