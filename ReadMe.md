@@ -8,6 +8,16 @@ which is itself just an unaltered copy of
 It also takes into consideration the first attempt at a re-write found
 [here](https://github.com/perryiv/haf/tree/master/Source/Usul).
 
+### Do This first
+
+If you don't already have [Conan](https://conan.io/) get it here:
+
+    https://conan.io/
+
+Then do this one time:
+
+    conan remote add catchorg https://api.bintray.com/conan/catchorg/Catch2
+
 ### Building
 
 Do this once, or whenever the conan configuration file changes.
