@@ -27,8 +27,17 @@ Do this once, or whenever the conan configuration file changes.
     mkdir build
     cd build
     conan install ..
+
+Also do this once, or whenever the CMakeLists.txt file changes.
+
+    cd usul/build
     cmake ..
+
+Assuming you have done the above, to compile just do this:
+
     make
+
+As of now the only thing that gets compiled is the test program.
 
 ### Testing
 
@@ -48,3 +57,12 @@ do this:
 
     cd usul/build
     watch 'clear && make && ./bin/usul_test' ../Usul/ ../tests/
+
+Alternatively, if you have a recent version of
+[Node.js](https://nodejs.org/) and `npm` ...
+
+do this:
+
+    cd usul
+    npm run rebuild
+    npm run watch
