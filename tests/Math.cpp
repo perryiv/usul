@@ -26,19 +26,19 @@
 
 template < class ScalarType > inline void testAddVec3()
 {
-  typedef typename Usul::Math::Vector3 < ScalarType > Vec3;
+  typedef typename Usul::Math::Vector3 < ScalarType > VectorType;
 
-  Vec3 a ( 1, 2, 3 );
-  Vec3 b ( 4, 5, 6 );
+  const VectorType a ( 1, 2, 3 );
+  const VectorType b ( 4, 5, 6 );
 
-  Vec3 c;
+  VectorType c;
   Usul::Math::add ( a, b, c );
 
   REQUIRE ( 5 == c[0] );
   REQUIRE ( 7 == c[1] );
   REQUIRE ( 9 == c[2] );
 
-  Vec3 d = Usul::Math::add ( a, b );
+  VectorType d = Usul::Math::add ( a, b );
 
   REQUIRE ( 5 == d[0] );
   REQUIRE ( 7 == d[1] );
@@ -53,8 +53,8 @@ template < class ScalarType > inline void testAddVec3()
 
 template < class ScalarType > inline void testAddArray3()
 {
-  ScalarType a[3] = { 1, 2, 3 };
-  ScalarType b[3] = { 4, 5, 6 };
+  const ScalarType a[3] = { 1, 2, 3 };
+  const ScalarType b[3] = { 4, 5, 6 };
 
   ScalarType c[3];
   Usul::Math::add ( a, b, c );
@@ -73,19 +73,19 @@ template < class ScalarType > inline void testAddArray3()
 
 template < class ScalarType > inline void testSubtractVec3()
 {
-  typedef typename Usul::Math::Vector3 < ScalarType > Vec3;
+  typedef typename Usul::Math::Vector3 < ScalarType > VectorType;
 
-  Vec3 a ( 4, 5, 6 );
-  Vec3 b ( 1, 2, 3 );
+  const VectorType a ( 4, 5, 6 );
+  const VectorType b ( 1, 2, 3 );
 
-  Vec3 c;
+  VectorType c;
   Usul::Math::subtract ( a, b, c );
 
   REQUIRE ( 3 == c[0] );
   REQUIRE ( 3 == c[1] );
   REQUIRE ( 3 == c[2] );
 
-  Vec3 d = Usul::Math::subtract ( a, b );
+  VectorType d = Usul::Math::subtract ( a, b );
 
   REQUIRE ( 3 == d[0] );
   REQUIRE ( 3 == d[1] );
@@ -101,8 +101,8 @@ template < class ScalarType > inline void testSubtractVec3()
 
 template < class ScalarType > inline void testSubtractArray3()
 {
-  ScalarType a[3] = { 4, 5, 6 };
-  ScalarType b[3] = { 1, 2, 3 };
+  const ScalarType a[3] = { 4, 5, 6 };
+  const ScalarType b[3] = { 1, 2, 3 };
 
   ScalarType c[3];
   Usul::Math::subtract ( a, b, c );
@@ -121,18 +121,18 @@ template < class ScalarType > inline void testSubtractArray3()
 
 template < class ScalarType > inline void testScaleVec3()
 {
-  typedef typename Usul::Math::Vector3 < ScalarType > Vec3;
+  typedef typename Usul::Math::Vector3 < ScalarType > VectorType;
 
-  Vec3 a ( 1, 2, 3 );
+  const VectorType a ( 1, 2, 3 );
 
-  Vec3 b;
+  VectorType b;
   Usul::Math::scale ( a, 10, b );
 
   REQUIRE ( 10 == b[0] );
   REQUIRE ( 20 == b[1] );
   REQUIRE ( 30 == b[2] );
 
-  Vec3 c = Usul::Math::scale ( a, 10 );
+  const VectorType c = Usul::Math::scale ( a, 10 );
 
   REQUIRE ( 10 == c[0] );
   REQUIRE ( 20 == c[1] );
@@ -148,7 +148,7 @@ template < class ScalarType > inline void testScaleVec3()
 
 template < class ScalarType > inline void testScaleArray3()
 {
-  ScalarType a[3] = { 1, 2, 3 };
+  const ScalarType a[3] = { 1, 2, 3 };
 
   ScalarType b[3];
   Usul::Math::scale ( a, 10, b );
@@ -167,20 +167,26 @@ template < class ScalarType > inline void testScaleArray3()
 
 template < class ScalarType > inline void testNormalizeVec3()
 {
-  typedef typename Usul::Math::Vector3 < ScalarType > Vec3;
+  typedef typename Usul::Math::Vector3 < ScalarType > VectorType;
 
-  Vec3 a ( 3, 4, 0 ); // 3-4-5 right triangle.
+  const VectorType a ( 3, 4, 0 ); // 3-4-5 right triangle.
 
   REQUIRE ( 5 == Usul::Math::length ( a ) );
 
+  VectorType b;
   ScalarType originalLength = 0;
-  Usul::Math::normalize ( a, &originalLength );
+  Usul::Math::normalize ( a, b, &originalLength ); // We want the original length.
 
   REQUIRE ( 5 == originalLength );
-  // REQUIRE ( 1 == Usul::Math::length ( a ) );
+  REQUIRE ( 1 == Usul::Math::length ( b ) );
 
-  // const Vec3 b = Usul::Math::normalized ( Vec3 ( 3, 4, 0 ) );
-  // REQUIRE ( 1 == Usul::Math::length ( b ) );
+  VectorType c;
+  Usul::Math::normalize ( a, c ); // We do not want the original length.
+
+  REQUIRE ( 1 == Usul::Math::length ( c ) );
+
+  const VectorType d = Usul::Math::normalize ( VectorType ( 3, 4, 0 ) );
+  REQUIRE ( 1 == Usul::Math::length ( d ) );
 }
 
 
@@ -194,10 +200,37 @@ TEST_CASE ( "Math functions" )
 {
   SECTION ( "Vectors" )
   {
+    SECTION ( "Default constructor works" )
+    {
+      const Usul::Math::Vec3d a;
+
+      REQUIRE ( 0 == a[0] );
+      REQUIRE ( 0 == a[1] );
+      REQUIRE ( 0 == a[2] );
+    }
+
+    SECTION ( "Constructor that takes 3 values works" )
+    {
+      const Usul::Math::Vec3d a ( 1, 2, 3 );
+
+      REQUIRE ( 1 == a[0] );
+      REQUIRE ( 2 == a[1] );
+      REQUIRE ( 3 == a[2] );
+    }
+
+    SECTION ( "Constructor that takes an array works" )
+    {
+      const Usul::Math::Vec3d a ( { 1, 2, 3 } );
+
+      REQUIRE ( 1 == a[0] );
+      REQUIRE ( 2 == a[1] );
+      REQUIRE ( 3 == a[2] );
+    }
+
     SECTION ( "Default copy constructor works" )
     {
       Usul::Math::Vec3d a ( 1, 2, 3 );
-      Usul::Math::Vec3d b ( a ); // Copy constructor.
+      const Usul::Math::Vec3d b ( a ); // Copy constructor.
 
       // Should be the same.
       REQUIRE ( a[0] == b[0] );
@@ -213,7 +246,7 @@ TEST_CASE ( "Math functions" )
     SECTION ( "Assigning is making a copy" )
     {
       Usul::Math::Vec3d a ( 1, 2, 3 );
-      Usul::Math::Vec3d b = a; // Assignment operator.
+      const Usul::Math::Vec3d b = a; // Assignment operator.
 
       // Should be the same.
       REQUIRE ( a[0] == b[0] );
@@ -224,6 +257,51 @@ TEST_CASE ( "Math functions" )
       a[0] = 4; // Changing one value.
       REQUIRE ( 4 == a[0] ); // It should be different.
       REQUIRE ( 1 == b[0] ); // It should be original value.
+    }
+
+    SECTION ( "Setter functions work" )
+    {
+      {
+        Usul::Math::Vec3d a;
+
+        REQUIRE ( 0 == a[0] );
+        REQUIRE ( 0 == a[1] );
+        REQUIRE ( 0 == a[2] );
+
+        a.set ( Usul::Math::Vec3d ( 1, 2, 3 ) );
+
+        REQUIRE ( 1 == a[0] );
+        REQUIRE ( 2 == a[1] );
+        REQUIRE ( 3 == a[2] );
+      }
+
+      {
+        Usul::Math::Vec3d a;
+
+        REQUIRE ( 0 == a[0] );
+        REQUIRE ( 0 == a[1] );
+        REQUIRE ( 0 == a[2] );
+
+        a.set ( { 1, 2, 3 } );
+
+        REQUIRE ( 1 == a[0] );
+        REQUIRE ( 2 == a[1] );
+        REQUIRE ( 3 == a[2] );
+      }
+
+      {
+        Usul::Math::Vec3d a;
+
+        REQUIRE ( 0 == a[0] );
+        REQUIRE ( 0 == a[1] );
+        REQUIRE ( 0 == a[2] );
+
+        a.set ( 1, 2, 3 );
+
+        REQUIRE ( 1 == a[0] );
+        REQUIRE ( 2 == a[1] );
+        REQUIRE ( 3 == a[2] );
+      }
     }
 
     SECTION ( "Can add two vectors" )

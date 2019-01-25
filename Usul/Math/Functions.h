@@ -132,22 +132,22 @@ inline void normalize ( const VectorType &v, VectorType &n, typename VectorType:
     *originalLength = currentLength;
   }
 
-  v[0] *= invLength;
-  v[1] *= invLength;
-  v[2] *= invLength;
+  n[0] = v[0] * invLength;
+  n[1] = v[1] * invLength;
+  n[2] = v[2] * invLength;
 }
 
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Return a normalized vector.
+//
+///////////////////////////////////////////////////////////////////////////////
+
 template < class VectorType >
-inline VectorType normalize ( const VectorType &v, typename VectorType::value_type *originalLength = nullptr )
+inline VectorType normalize ( const VectorType &v )
 {
-  const auto currentLength ( length ( v ) );
-  const auto invLength ( 1 / currentLength );
-
-  if ( originalLength )
-  {
-    *originalLength = currentLength;
-  }
-
+  const auto invLength ( 1 / length ( v ) );
   return VectorType ( v[0] * invLength, v[1] * invLength, v[2] * invLength );
 }
 
