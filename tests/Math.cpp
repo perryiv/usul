@@ -192,6 +192,59 @@ template < class ScalarType > inline void testNormalizeVec3()
 
 ////////////////////////////////////////////////////////////////////////////////
 //
+//  Helper function to normalize arrays.
+//
+////////////////////////////////////////////////////////////////////////////////
+
+template < class ScalarType > inline void testNormalizeArray3()
+{
+  const ScalarType a[3] = { 3, 4, 0 }; // 3-4-5 right triangle.
+
+  REQUIRE ( 5 == Usul::Math::length ( a ) );
+
+  ScalarType b[3] = { 0, 0, 0 };
+  ScalarType originalLength = 0;
+  Usul::Math::normalize ( a, b, &originalLength ); // We want the original length.
+
+  REQUIRE ( 5 == originalLength );
+  REQUIRE ( 1 == Usul::Math::length ( b ) );
+
+  ScalarType c[3] = { 0, 0, 0 };
+  Usul::Math::normalize ( a, c ); // We do not want the original length.
+
+  REQUIRE ( 1 == Usul::Math::length ( c ) );
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//  Helper function to test array length.
+//
+////////////////////////////////////////////////////////////////////////////////
+
+template < class ScalarType > inline void testLengthArray3()
+{
+  const ScalarType a[3] = { 3, 4, 0 }; // 3-4-5 right triangle.
+  REQUIRE ( 5 == Usul::Math::length ( a ) );
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//  Helper function to test vector length.
+//
+////////////////////////////////////////////////////////////////////////////////
+
+template < class ScalarType > inline void testLengthVec3()
+{
+  typedef typename Usul::Math::Vector3 < ScalarType > VectorType;
+  const VectorType a ( 3, 4, 0 ); // 3-4-5 right triangle.
+  REQUIRE ( 5 == Usul::Math::length ( a ) );
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+//
 //  Test the math functions.
 //
 ////////////////////////////////////////////////////////////////////////////////
@@ -395,26 +448,26 @@ TEST_CASE ( "Math functions" )
       REQUIRE ( false == Usul::Math::equal ( a, VectorType ( 4, 5, 6 ) ) );
     }
 
+    SECTION ( "Can get the length" )
+    {
+      testLengthVec3 < float       > ();
+      testLengthVec3 < double      > ();
+      testLengthVec3 < long double > ();
+
+      testLengthArray3 < float       > ();
+      testLengthArray3 < double      > ();
+      testLengthArray3 < long double > ();
+    }
+
     SECTION ( "Can normalize" )
     {
       testNormalizeVec3 < float       > ();
       testNormalizeVec3 < double      > ();
       testNormalizeVec3 < long double > ();
 
-      // testNormalizeArray3 < float       > ();
-      // testNormalizeArray3 < double      > ();
-      // testNormalizeArray3 < long double > ();
+      testNormalizeArray3 < float       > ();
+      testNormalizeArray3 < double      > ();
+      testNormalizeArray3 < long double > ();
     }
-
-    // SECTION ( "Can get the length" )
-    // {
-    //   testLengthVec3 < float       > ();
-    //   testLengthVec3 < double      > ();
-    //   testLengthVec3 < long double > ();
-    //
-    //   testLengthArray3 < float       > ();
-    //   testLengthArray3 < double      > ();
-    //   testLengthArray3 < long double > ();
-    // }
   }
 }

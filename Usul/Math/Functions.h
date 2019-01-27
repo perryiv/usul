@@ -29,6 +29,22 @@ namespace Math {
 //
 ///////////////////////////////////////////////////////////////////////////////
 
+template < class ScalarType >
+inline ScalarType dot ( ScalarType a0, ScalarType a1, ScalarType a2, ScalarType b0, ScalarType b1, ScalarType b2 )
+{
+  return (
+    a0 * b0 +
+    a1 * b1 +
+    a2 * b2 );
+}
+template < class ScalarType >
+inline ScalarType dot ( const ScalarType a[3], const ScalarType b[3] )
+{
+  return (
+    a[0] * b[0] +
+    a[1] * b[1] +
+    a[2] * b[2] );
+}
 template < class VectorType >
 inline typename VectorType::value_type dot ( const VectorType &a, const VectorType &b )
 {
@@ -78,6 +94,16 @@ inline typename VectorType::value_type angle ( const VectorType &a, const Vector
 //
 ///////////////////////////////////////////////////////////////////////////////
 
+template < class ScalarType >
+inline ScalarType length ( const ScalarType &v0, const ScalarType &v1, const ScalarType &v2 )
+{
+  return std::sqrt ( dot ( v0, v1, v2, v0, v1, v2 ) );
+}
+template < class ScalarType >
+inline ScalarType length ( const ScalarType v[3] )
+{
+  return std::sqrt ( dot ( v, v ) );
+}
 template < class VectorType >
 inline typename VectorType::value_type length ( const VectorType &v )
 {
@@ -121,10 +147,13 @@ inline typename PointType::value_type distance ( const PointType &a, const Point
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-template < class VectorType >
-inline void normalize ( const VectorType &v, VectorType &n, typename VectorType::value_type *originalLength = nullptr )
+template < class ScalarType >
+inline void normalize (
+  const ScalarType &v0, const ScalarType &v1, const ScalarType &v2,
+  ScalarType &n0, ScalarType &n1, ScalarType &n2,
+  ScalarType *originalLength = nullptr )
 {
-  const auto currentLength ( length ( v ) );
+  const auto currentLength ( length ( v0, v1, v2 ) );
   const auto invLength ( 1 / currentLength );
 
   if ( originalLength )
@@ -132,9 +161,19 @@ inline void normalize ( const VectorType &v, VectorType &n, typename VectorType:
     *originalLength = currentLength;
   }
 
-  n[0] = v[0] * invLength;
-  n[1] = v[1] * invLength;
-  n[2] = v[2] * invLength;
+  n0 = v0 * invLength;
+  n1 = v1 * invLength;
+  n2 = v2 * invLength;
+}
+template < class ScalarType >
+inline void normalize ( const ScalarType v[3], ScalarType n[3], ScalarType *originalLength = nullptr )
+{
+  normalize ( v[0], v[1], v[2], n[0], n[1], n[2], originalLength );
+}
+template < class VectorType >
+inline void normalize ( const VectorType &v, VectorType &n, typename VectorType::value_type *originalLength = nullptr )
+{
+  normalize ( v[0], v[1], v[2], n[0], n[1], n[2], originalLength );
 }
 
 
