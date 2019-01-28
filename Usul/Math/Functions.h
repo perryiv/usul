@@ -51,9 +51,9 @@ template < class VectorType >
 inline typename VectorType::value_type dot ( const VectorType &a, const VectorType &b )
 {
   return (
-    a[0] * b[0] +
-    a[1] * b[1] +
-    a[2] * b[2] );
+    ( a[0] * b[0] ) +
+    ( a[1] * b[1] ) +
+    ( a[2] * b[2] ) );
 }
 
 
@@ -66,17 +66,17 @@ inline typename VectorType::value_type dot ( const VectorType &a, const VectorTy
 template < class VectorType >
 inline void cross ( const VectorType &a, const VectorType &b, VectorType &c )
 {
-  c[0] = a[1] * b[2] - a[2] * b[1];
-  c[1] = a[2] * b[0] - a[0] * b[2];
-  c[2] = a[0] * b[1] - a[1] * b[0];
+  c[0] = ( a[1] * b[2] ) - ( a[2] * b[1] );
+  c[1] = ( a[2] * b[0] ) - ( a[0] * b[2] );
+  c[2] = ( a[0] * b[1] ) - ( a[1] * b[0] );
 }
 template < class VectorType >
 inline VectorType cross ( const VectorType &a, const VectorType &b )
 {
   return VectorType (
-    a[1] * b[2] - a[2] * b[1],
-    a[2] * b[0] - a[0] * b[2],
-    a[0] * b[1] - a[1] * b[0] );
+    ( a[1] * b[2] ) - ( a[2] * b[1] ),
+    ( a[2] * b[0] ) - ( a[0] * b[2] ),
+    ( a[0] * b[1] ) - ( a[1] * b[0] ) );
 }
 
 
@@ -120,9 +120,9 @@ template < class PointType >
 inline typename PointType::value_type distanceSquared ( const PointType &a, const PointType &b )
 {
   return (
-    a[0] - b[0] * a[0] - b[0] +
-    a[1] - b[1] * a[1] - b[1] +
-    a[2] - b[2] * a[2] - b[2] );
+    ( ( a[0] - b[0] ) * ( a[0] - b[0] ) ) +
+    ( ( a[1] - b[1] ) * ( a[1] - b[1] ) ) +
+    ( ( a[2] - b[2] ) * ( a[2] - b[2] ) ) );
 }
 
 

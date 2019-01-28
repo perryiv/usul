@@ -260,7 +260,9 @@ TEMPLATE_TEST_CASE ( "Template math functions with all primitive types", "",
   SECTION ( "Can get the length" )
   {
     // 3-4-5 right triangle.
-    checkLength ( 3, 4, 0, 5 );
+    checkLength (  3,  4,  0,  5 );
+    checkLength (  5, 12,  0, 13 );
+    checkLength (  8, 15,  0, 17 );
 
     // One pythagorean quadruple.
     checkLength ( 1, 2, 2, 3 );
@@ -268,9 +270,19 @@ TEMPLATE_TEST_CASE ( "Template math functions with all primitive types", "",
 
   SECTION ( "Can get the dot product" )
   {
-    const VectorType a ( 1, 2, 3 );
-    const VectorType b ( 4, 5, 6 );
-    REQUIRE ( 32 == Usul::Math::dot ( a, b ) );
+    REQUIRE ( 26 == Usul::Math::dot ( VectorType ( 1, 2, 3 ), VectorType (  3,  4,  5 ) ) );
+    REQUIRE ( 32 == Usul::Math::dot ( VectorType ( 1, 2, 3 ), VectorType (  4,  5,  6 ) ) );
+    REQUIRE ( 38 == Usul::Math::dot ( VectorType ( 1, 2, 3 ), VectorType (  5,  6,  7 ) ) );
+  }
+
+  SECTION ( "Can get the distance squared between two points" )
+  {
+    REQUIRE ( 12 == Usul::Math::distanceSquared ( VectorType (  0,  0,  0 ), VectorType ( 2, 2, 2 ) ) );
+    REQUIRE ( 27 == Usul::Math::distanceSquared ( VectorType (  0,  0,  0 ), VectorType ( 3, 3, 3 ) ) );
+    REQUIRE ( 27 == Usul::Math::distanceSquared ( VectorType ( -1, -1, -1 ), VectorType ( 2, 2, 2 ) ) );
+    REQUIRE ( 27 == Usul::Math::distanceSquared ( VectorType (  1,  2,  3 ), VectorType ( 4, 5, 6 ) ) );
+    REQUIRE ( 48 == Usul::Math::distanceSquared ( VectorType (  0,  0,  0 ), VectorType ( 4, 4, 4 ) ) );
+    REQUIRE ( 75 == Usul::Math::distanceSquared ( VectorType (  0,  0,  0 ), VectorType ( 5, 5, 5 ) ) );
   }
 }
 
@@ -278,6 +290,13 @@ TEMPLATE_TEST_CASE ( "Template math functions with signed primitive types", "",
   short, int, long, float, double, ( long double ) )
 {
   typedef typename Usul::Math::Vector3 < TestType > VectorType;
+
+  SECTION ( "Can get the dot product" )
+  {
+    REQUIRE ( -26 == Usul::Math::dot ( VectorType ( 1, 2, 3 ), VectorType ( -3, -4, -5 ) ) );
+    REQUIRE ( -32 == Usul::Math::dot ( VectorType ( 1, 2, 3 ), VectorType ( -4, -5, -6 ) ) );
+    REQUIRE ( -38 == Usul::Math::dot ( VectorType ( 1, 2, 3 ), VectorType ( -5, -6, -7 ) ) );
+  }
 
   SECTION ( "Can get the cross product" )
   {
@@ -385,8 +404,21 @@ TEMPLATE_TEST_CASE ( "Template math functions with floating point types", "",
 
     REQUIRE ( expected == answer.str() );
   }
-}
 
-// inline typename VectorType::value_type angle ( const VectorType &a, const VectorType &b )
-// inline typename PointType::value_type distanceSquared ( const PointType &a, const PointType &b )
-// inline typename PointType::value_type distance ( const PointType &a, const PointType &b )
+  SECTION ( "Can get the distance between two points" )
+  {
+    const VectorType a ( 1, 2, 3 );
+    const VectorType b ( 4, 5, 6 );
+
+    // Got the answer from here using "distance between two points":
+    // https://www.wolframalpha.com
+    const std::string expected ( "5.19615" );
+
+    // We need the answer with only so many decimals.
+    std::ostringstream answer;
+    answer << std::fixed << std::setprecision ( 5 )
+      << Usul::Math::distance ( a, b );
+
+    REQUIRE ( expected == answer.str() );
+  }
+}
