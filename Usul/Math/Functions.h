@@ -16,11 +16,29 @@
 #ifndef _USUL_MATH_FUNCTIONS_H_
 #define _USUL_MATH_FUNCTIONS_H_
 
+#include "Usul/Math/Constants.h"
+
 #include <cmath>
 
 
 namespace Usul {
 namespace Math {
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Convert the angle.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+template < class ScalarType > inline ScalarType radToDeg ( const ScalarType &angle )
+{
+  return ( angle * Usul::Math::RAD_TO_DEG );
+}
+template < class ScalarType > inline ScalarType degToRad ( const ScalarType &angle )
+{
+  return ( angle * Usul::Math::DEG_TO_RAD );
+}
 
 
 ///////////////////////////////////////////////////////////////////////////////

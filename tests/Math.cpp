@@ -19,6 +19,7 @@
 
 #include <sstream>
 #include <iostream>
+#include <iomanip>
 
 // Pythagorean quadruples.
 // https://plus.maths.org/content/triples-and-quadruples
@@ -280,18 +281,19 @@ TEMPLATE_TEST_CASE ( "Template math functions with signed primitive types", "",
 
   SECTION ( "Can get the cross product" )
   {
-    // Got the answer from here:
-    // https://www.wolframalpha.com/input/?i=cross+product+calculator&lk=2
     const VectorType a ( 1, 2, 3 );
     const VectorType b ( 4, 5, 6 );
-    const VectorType e ( -3, 6, -3 );
+
+    // Got the answer from here:
+    // https://www.wolframalpha.com/input/?i=cross+product+calculator&lk=2
+    const VectorType expected ( -3, 6, -3 );
 
     VectorType c;
     Usul::Math::cross ( a, b, c );
-    REQUIRE ( true == Usul::Math::equal ( e, c ) );
+    REQUIRE ( true == Usul::Math::equal ( expected, c ) );
 
     const VectorType d = Usul::Math::cross ( a, b );
-    REQUIRE ( true == Usul::Math::equal ( e, d ) );
+    REQUIRE ( true == Usul::Math::equal ( expected, d ) );
   }
 }
 
@@ -365,6 +367,23 @@ TEMPLATE_TEST_CASE ( "Template math functions with floating point types", "",
       REQUIRE ( len == Usul::Math::length ( a ) );
       isUnitLength ( d );
     }
+  }
+
+  SECTION ( "Can get the angle between two vectors" )
+  {
+    const VectorType a ( 2, 5, 1 );
+    const VectorType b ( 9, -3, 6 );
+
+    // Got the answer from here:
+    // https://socratic.org/questions/how-do-i-calculate-the-angle-between-two-vectors
+    const std::string expected ( "81.5825" );
+
+    // We need the answer with only so many decimals.
+    std::ostringstream answer;
+    answer << std::fixed << std::setprecision ( 4 )
+      << Usul::Math::radToDeg ( Usul::Math::angle ( a, b ) );
+
+    REQUIRE ( expected == answer.str() );
   }
 }
 
