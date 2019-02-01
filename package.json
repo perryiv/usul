@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "The strength of the base of the pillar",
   "scripts": {
-    "build": "cd build && make",
+    "build": "cd build && cmake --build .",
     "clear": "./node_modules/.bin/clear",
     "config": "del build && make-dir build && cd build && conan install .. && cmake ..",
     "rebuild": "npm run config && npm run build",
