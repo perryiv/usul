@@ -33,11 +33,11 @@ namespace Math {
 
 template < class ScalarType > inline ScalarType radToDeg ( const ScalarType &angle )
 {
-  return ( angle * Usul::Math::RAD_TO_DEG );
+  return ( static_cast < ScalarType > ( angle * Usul::Math::RAD_TO_DEG ) );
 }
 template < class ScalarType > inline ScalarType degToRad ( const ScalarType &angle )
 {
-  return ( angle * Usul::Math::DEG_TO_RAD );
+  return ( static_cast < ScalarType > ( angle * Usul::Math::DEG_TO_RAD ) );
 }
 
 
@@ -106,7 +106,8 @@ inline typename VectorType::value_type angle ( const VectorType &a, const Vector
 template < class VectorType >
 inline typename VectorType::value_type length ( const VectorType &v )
 {
-  return std::sqrt ( dot ( v, v ) );
+  typedef typename VectorType::value_type ValueType;
+  return ( static_cast < ValueType > ( std::sqrt ( dot ( v, v ) ) ) );
 }
 
 
