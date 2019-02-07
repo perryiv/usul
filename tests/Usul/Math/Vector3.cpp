@@ -13,19 +13,19 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "Usul/Math/Functions.h"
+#include "Usul/Math/Vector.h"
 #include "Usul/Math/Vector3.h"
 
 #include "catch2/catch.hpp"
 
 #include <sstream>
-#include <iostream>
 #include <iomanip>
 
 // Pythagorean quadruples.
 // https://plus.maths.org/content/triples-and-quadruples
 // https://en.wikipedia.org/wiki/Pythagorean_quadruple
-const unsigned int numQythagoreanQuadruples = 31;
-const unsigned char pythagoreanQuadruples[numQythagoreanQuadruples][4] = {
+const unsigned int numPythagoreanQuadruples = 31;
+const unsigned char pythagoreanQuadruples[numPythagoreanQuadruples][4] = {
   {  1,  2,  2,  3 }, {  2, 10, 11, 15 },
   {  4, 13, 16, 21 }, {  2, 10, 25, 27 },
   {  2,  3,  6,  7 }, {  1, 12, 12, 17 },
@@ -41,7 +41,7 @@ const unsigned char pythagoreanQuadruples[numQythagoreanQuadruples][4] = {
   {  3,  4, 12, 13 }, {  4,  5, 20, 21 },
   { 12, 15, 16, 25 }, { 12, 16, 21, 29 },
   {  2,  5, 14, 15 }, {  4,  8, 19, 21 },
-  {  2,  7, 26, 27 },
+  {  2,  7, 26, 27 }
 };
 
 
@@ -65,7 +65,7 @@ template < class ScalarType > inline void checkLength (
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-TEMPLATE_TEST_CASE ( "Template math functions with all primitive types", "",
+TEMPLATE_TEST_CASE ( "Vector3 template math functions with all primitive types", "",
   char, short, int, long, ( unsigned char ), ( unsigned short ),
   ( unsigned int ), ( unsigned long ), float, double, ( long double ) )
 {
@@ -270,9 +270,9 @@ TEMPLATE_TEST_CASE ( "Template math functions with all primitive types", "",
 
   SECTION ( "Can get the dot product" )
   {
-    REQUIRE ( 26 == Usul::Math::dot ( VectorType ( 1, 2, 3 ), VectorType (  3,  4,  5 ) ) );
-    REQUIRE ( 32 == Usul::Math::dot ( VectorType ( 1, 2, 3 ), VectorType (  4,  5,  6 ) ) );
-    REQUIRE ( 38 == Usul::Math::dot ( VectorType ( 1, 2, 3 ), VectorType (  5,  6,  7 ) ) );
+    REQUIRE ( 26 == Usul::Math::dot ( VectorType ( 1, 2, 3 ), VectorType ( 3, 4, 5 ) ) );
+    REQUIRE ( 32 == Usul::Math::dot ( VectorType ( 1, 2, 3 ), VectorType ( 4, 5, 6 ) ) );
+    REQUIRE ( 38 == Usul::Math::dot ( VectorType ( 1, 2, 3 ), VectorType ( 5, 6, 7 ) ) );
   }
 
   SECTION ( "Can get the distance squared between two points" )
@@ -286,7 +286,7 @@ TEMPLATE_TEST_CASE ( "Template math functions with all primitive types", "",
   }
 }
 
-TEMPLATE_TEST_CASE ( "Template math functions with signed primitive types", "",
+TEMPLATE_TEST_CASE ( "Vector3 template math functions with signed primitive types", "",
   short, int, long, float, double, ( long double ) )
 {
   typedef typename Usul::Math::Vector3 < TestType > VectorType;
@@ -316,7 +316,7 @@ TEMPLATE_TEST_CASE ( "Template math functions with signed primitive types", "",
   }
 }
 
-TEMPLATE_TEST_CASE ( "Template math functions with larger primitive types", "",
+TEMPLATE_TEST_CASE ( "Vector3 template math functions with larger primitive types", "",
   short, int, long, ( unsigned short ),
   ( unsigned int ), ( unsigned long ), float, double, ( long double ) )
 {
@@ -325,7 +325,7 @@ TEMPLATE_TEST_CASE ( "Template math functions with larger primitive types", "",
   SECTION ( "Can get the length" )
   {
     // Test all pythagorean quadruples.
-    for ( unsigned int i = 0; i < numQythagoreanQuadruples; ++i )
+    for ( unsigned int i = 0; i < numPythagoreanQuadruples; ++i )
     {
       const auto q = pythagoreanQuadruples[i];
       checkLength (
@@ -338,7 +338,7 @@ TEMPLATE_TEST_CASE ( "Template math functions with larger primitive types", "",
   }
 }
 
-TEMPLATE_TEST_CASE ( "Template math functions with floating point types", "",
+TEMPLATE_TEST_CASE ( "Vector3 template math functions with floating point types", "",
   float, double, ( long double ) )
 {
   typedef typename Usul::Math::Vector3 < TestType > VectorType;
@@ -355,7 +355,7 @@ TEMPLATE_TEST_CASE ( "Template math functions with floating point types", "",
     };
 
     // Test all pythagorean quadruples.
-    for ( unsigned int i = 0; i < numQythagoreanQuadruples; ++i )
+    for ( unsigned int i = 0; i < numPythagoreanQuadruples; ++i )
     {
       const auto q = pythagoreanQuadruples[i];
       const VectorType a (
@@ -390,7 +390,7 @@ TEMPLATE_TEST_CASE ( "Template math functions with floating point types", "",
 
   SECTION ( "Can get the angle between two vectors" )
   {
-    const VectorType a ( 2, 5, 1 );
+    const VectorType a ( 2,  5, 1 );
     const VectorType b ( 9, -3, 6 );
 
     // Got the answer from here:

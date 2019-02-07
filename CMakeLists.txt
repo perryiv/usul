@@ -24,18 +24,34 @@ project ( usul_test )
 set ( CMAKE_CXX_STANDARD 11 )
 
 # Look in the current directory for include files.
-set ( CMAKE_INCLUDE_CURRENT_DIR ON )
+# set ( CMAKE_INCLUDE_CURRENT_DIR ON )
 
 # We're using conan.
 # https://docs.conan.io/en/latest/getting_started.html
 include ( ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake )
-conan_basic_setup()
+
+# More efficient command-line for compiler and linker.
+# With TARGETS here I need "CONAN_PKG::Catch2" below.
+conan_basic_setup ( TARGETS )
 
 # Define a variable that holds all the source files.
 set ( SOURCE_FILES
-  tests/Math.cpp
-  tests/Main.cpp
+  tests/Usul/Math/Base.cpp
+  # tests/Usul/Math/CloseFloat.cpp
+  # tests/Usul/Math/Functions.cpp
+  # tests/Usul/Math/Vector2.cpp
+  # tests/Usul/Math/Vector3.cpp
+  tests/Usul/Main.cpp
 )
 
 # Make an executable.
 add_executable ( ${PROJECT_NAME} ${SOURCE_FILES} )
+
+# We're going to use this library. CMake will automatically add -I, -L, and -D (etc) appropriately.
+target_link_libraries ( ${PROJECT_NAME} PRIVATE usul_math CONAN_PKG::Catch2 )
+
+# Define a variable that points to the top-level include directory.
+set ( USUL_INC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include )
+
+# Use the CMakeLists.txt file found here too.
+add_subdirectory ( src/Usul/Math )
