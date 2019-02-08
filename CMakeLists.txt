@@ -36,8 +36,8 @@ set ( SOURCE_FILES
   tests/Usul/Math/Base.cpp
   tests/Usul/Math/CloseFloat.cpp
   tests/Usul/Math/Functions.cpp
-  # tests/Usul/Math/Vector2.cpp
-  # tests/Usul/Math/Vector3.cpp
+  tests/Usul/Math/Vector2.cpp
+  tests/Usul/Math/Vector3.cpp
   tests/Usul/Main.cpp
 )
 
