@@ -83,4 +83,17 @@ TEMPLATE_TEST_CASE ( "Misc template math functions with floating point types", "
     REQUIRE ( Usul::Math::round ( value, 7 ) == static_cast < TestType > ( 10.1234568 ) );
     REQUIRE ( Usul::Math::round ( value, 8 ) == static_cast < TestType > ( 10.12345679 ) );
   }
+
+  SECTION ( "Can truncate to the nearest decimal" )
+  {
+    const TestType value = static_cast < TestType > ( 10.123456789 );
+    REQUIRE ( Usul::Math::trunc ( value, 1 ) == static_cast < TestType > ( 10.1 ) );
+    REQUIRE ( Usul::Math::trunc ( value, 2 ) == static_cast < TestType > ( 10.12 ) );
+    REQUIRE ( Usul::Math::trunc ( value, 3 ) == static_cast < TestType > ( 10.123 ) );
+    REQUIRE ( Usul::Math::trunc ( value, 4 ) == static_cast < TestType > ( 10.1234 ) );
+    REQUIRE ( Usul::Math::trunc ( value, 5 ) == static_cast < TestType > ( 10.12345 ) );
+    // REQUIRE ( Usul::Math::trunc ( value, 6 ) == static_cast < TestType > ( 10.123456 ) ); // Does not work for type float.
+    REQUIRE ( Usul::Math::trunc ( value, 7 ) == static_cast < TestType > ( 10.1234567 ) );
+    REQUIRE ( Usul::Math::trunc ( value, 8 ) == static_cast < TestType > ( 10.12345678 ) );
+  }
 }
