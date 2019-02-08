@@ -105,16 +105,32 @@ TEST_CASE ( "Tolerance function that measures closeness of real numbers" )
 {
   SECTION ( "Can compare the closeness of two real floating point numbers" )
   {
-    isEqualFloat < float > ( true, 0.12345678 );
+    isEqualFloat < float > ( true,  0.12345678 );
+    isEqualFloat < float > ( true,  0.1234567 );
+    isEqualFloat < float > ( true,  0.1 );
+    isEqualFloat < float > ( true, -0.1 );
+    isEqualFloat < float > ( true,  0 );
 
-    isEqualFloat < double > ( true, 0.1234567890123456 );
+    isEqualFloat < double > ( true,  0.1234567890123456 );
+    isEqualFloat < double > ( true,  0.123456789012345 );
+    isEqualFloat < double > ( true,  0.1 );
+    isEqualFloat < double > ( true, -0.1 );
+    isEqualFloat < double > ( true,  0 );
 
     isCloseFloat < float > ( true,
       0.12345678,
       0.12345677, 2 );
 
+    isCloseFloat < float > ( true,
+      0.1234567,
+      0.1234566, 14 );
+
     isCloseFloat < double > ( true,
       0.1234567890123456,
       0.1234567890123455, 7 );
+
+    isCloseFloat < double > ( true,
+      0.123456789012345,
+      0.123456789012344, 72 );
   }
 }
