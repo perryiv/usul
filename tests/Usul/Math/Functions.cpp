@@ -12,7 +12,6 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "Usul/Math/CloseFloat.h"
 #include "Usul/Math/Constants.h"
 #include "Usul/Math/Functions.h"
 
@@ -26,28 +25,62 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 TEMPLATE_TEST_CASE ( "Misc template math functions with floating point types", "",
-  float, double, ( long double ) )
+  float, double )
 {
   SECTION ( "Can convert radians to degrees" )
   {
-    REQUIRE ( ( static_cast < TestType > ( 180 ) ) == Usul::Math::radToDeg ( static_cast < TestType > ( Usul::Math::PI ) ) );
+    {
+      const TestType deg1 ( 180 );
+      const TestType rad ( Usul::Math::PI );
+      const TestType deg2 ( Usul::Math::radToDeg ( rad ) );
+      REQUIRE ( deg1 == deg2 );
+    }
+    {
+      const TestType deg1 ( 90 );
+      const TestType rad ( Usul::Math::PI_OVER_2 );
+      const TestType deg2 ( Usul::Math::radToDeg ( rad ) );
+      REQUIRE ( deg1 == deg2 );
+    }
+    {
+      const TestType deg1 ( 45 );
+      const TestType rad ( Usul::Math::PI_OVER_2 / 2 );
+      const TestType deg2 ( Usul::Math::radToDeg ( rad ) );
+      REQUIRE ( deg1 == deg2 );
+    }
   }
 
   SECTION ( "Can convert degrees to radians" )
   {
-    REQUIRE ( ( static_cast < TestType > ( Usul::Math::PI ) ) == Usul::Math::degToRad ( static_cast < TestType > ( 180 ) ) );
+    {
+      const TestType rad1 ( Usul::Math::PI );
+      const TestType deg ( 180 );
+      const TestType rad2 ( Usul::Math::degToRad ( deg ) );
+      REQUIRE ( rad1 == rad2 );
+    }
+    {
+      const TestType rad1 ( Usul::Math::PI_OVER_2 );
+      const TestType deg ( 90 );
+      const TestType rad2 ( Usul::Math::degToRad ( deg ) );
+      REQUIRE ( rad1 == rad2 );
+    }
+    {
+      const TestType rad1 ( Usul::Math::PI_OVER_2 / 2 );
+      const TestType deg ( 45 );
+      const TestType rad2 ( Usul::Math::degToRad ( deg ) );
+      REQUIRE ( rad1 == rad2 );
+    }
   }
 
   SECTION ( "Can round to the nearest decimal" )
   {
     const TestType value = static_cast < TestType > ( 10.123456789 );
-    REQUIRE ( Usul::Math::round ( static_cast < TestType > ( value ), 1 ) == 10.1 );
-    REQUIRE ( Usul::Math::round ( static_cast < TestType > ( value ), 2 ) == 10.12 );
-    REQUIRE ( Usul::Math::round ( static_cast < TestType > ( value ), 3 ) == 10.123 );
-    REQUIRE ( Usul::Math::round ( static_cast < TestType > ( value ), 4 ) == 10.1235 );
-    REQUIRE ( Usul::Math::round ( static_cast < TestType > ( value ), 5 ) == 10.12346 );
-    REQUIRE ( Usul::Math::round ( static_cast < TestType > ( value ), 6 ) == 10.123467 );
-    REQUIRE ( Usul::Math::round ( static_cast < TestType > ( value ), 7 ) == 10.1234678 );
-    REQUIRE ( Usul::Math::round ( static_cast < TestType > ( value ), 8 ) == 10.12346789 );
+    REQUIRE ( Usul::Math::round ( value, 1 ) == static_cast < TestType > ( 10.1 ) );
+    REQUIRE ( Usul::Math::round ( value, 2 ) == static_cast < TestType > ( 10.12 ) );
+    REQUIRE ( Usul::Math::round ( value, 3 ) == static_cast < TestType > ( 10.123 ) );
+    REQUIRE ( Usul::Math::round ( value, 4 ) == static_cast < TestType > ( 10.1235 ) );
+    REQUIRE ( Usul::Math::round ( value, 5 ) == static_cast < TestType > ( 10.12346 ) );
+    REQUIRE ( Usul::Math::round ( value, 6 ) == static_cast < TestType > ( 10.123457 ) );
+    REQUIRE ( Usul::Math::round ( value, 7 ) == static_cast < TestType > ( 10.1234568 ) );
+    REQUIRE ( Usul::Math::round ( value, 8 ) == static_cast < TestType > ( 10.12345679 ) );
   }
 }
