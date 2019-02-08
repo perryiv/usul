@@ -1,0 +1,47 @@
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Copyright (c) 2019, Perry L Miller IV
+//  All rights reserved.
+//  BSD License: http://www.opensource.org/licenses/bsd-license.html
+//
+///////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Basic math functions that should be in cmath but are not.
+//  I wish this file were not needed.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+#ifndef _USUL_MATH_MISSING_BASIC_FUNCTION_H_
+#define _USUL_MATH_MISSING_BASIC_FUNCTION_H_
+
+#include <cmath>
+
+
+namespace Usul {
+namespace Math {
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Return the absolute value.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+template < class T > inline T absolute ( T value )
+{
+  return ( ( value < 0 ) ? ( -value ) : value );
+}
+template < class T > inline T abs ( T value )
+{
+  return absolute ( value );
+}
+
+
+} // namespace Math
+} // namespace Usul
+
+
+#endif // _USUL_MATH_MISSING_BASIC_FUNCTION_H_
