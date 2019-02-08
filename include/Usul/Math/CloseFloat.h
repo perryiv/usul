@@ -34,7 +34,7 @@
 
 #include <cstdint>
 #include <cmath>
-#include <iostream>
+// #include <iostream>
 
 
 namespace Usul {
@@ -127,32 +127,36 @@ template < class FloatType_ > struct CloseFloat
   // in the literature.
   static bool compare ( FloatType a, FloatType b, UnsignedInteger numAdjacentValues )
   {
+    // All these special cases (the "if" statements) are not needed, but keep
+    // them here to make debugging easier. The exception is checking for nan,
+    // which seems to be necessary in order to make the tests pass.
+
     // They are close if they are exact.
-    if ( a == b )
-    {
-      // std::cout << "They are exact" << std::endl;
-      return true;
-    }
+    // if ( a == b )
+    // {
+    //   std::cout << "They are exact" << std::endl;
+    //   return true;
+    // }
 
     // If either are NAN, then they cannot be equal, even if they are identical.
     if ( std::isnan ( a ) || std::isnan ( b ) )
     {
-      std::cout << "One or both is nan" << std::endl;
+      // std::cout << "One or both is nan" << std::endl;
       return false; // TODO: Make this a policy using a template argument.
     }
 
     // If either are infinity, then they are "close" iff they are exact.
-    if ( ( false == std::isfinite ( a ) ) || ( false == std::isfinite ( b ) ) )
-    {
-      std::cout << "One or both is not finite" << std::endl;
-      return a == b; // TODO: Make this a policy using a template argument.
-    }
+    // if ( ( false == std::isfinite ( a ) ) || ( false == std::isfinite ( b ) ) )
+    // {
+    //   std::cout << "One or both is not finite" << std::endl;
+    //   return a == b; // TODO: Make this a policy using a template argument.
+    // }
 
     // Interpret the memory as a signed integer.
     SignedInteger ia ( *( reinterpret_cast < SignedInteger * > ( &a ) ) );
     SignedInteger ib ( *( reinterpret_cast < SignedInteger * > ( &b ) ) );
 
-    std::cout << "ia = " << ia << "\nib = " << ib << std::endl;
+    // std::cout << "ia = " << ia << "\nib = " << ib << std::endl;
 
     // Make them lexicographically ordered as a twos-complement int.
     ia = Detail::handleTwosCompliment ( ia );
