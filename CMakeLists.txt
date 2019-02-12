@@ -38,6 +38,7 @@ set ( SOURCE_FILES
   tests/Usul/Math/Functions.cpp
   tests/Usul/Math/Vector2.cpp
   tests/Usul/Math/Vector3.cpp
+  tests/Usul/Math/Vector4.cpp
   tests/Usul/Main.cpp
 )
 
