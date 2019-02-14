@@ -31,19 +31,19 @@ TEMPLATE_TEST_CASE ( "Misc template math functions with floating point types", "
   {
     {
       const TestType deg1 ( 180 );
-      const TestType rad ( Usul::Math::PI );
+      const TestType rad ( static_cast < TestType > ( Usul::Math::PI ) );
       const TestType deg2 ( Usul::Math::radToDeg ( rad ) );
       REQUIRE ( deg1 == deg2 );
     }
     {
       const TestType deg1 ( 90 );
-      const TestType rad ( Usul::Math::PI_OVER_2 );
+      const TestType rad ( static_cast < TestType > ( Usul::Math::PI_OVER_2 ) );
       const TestType deg2 ( Usul::Math::radToDeg ( rad ) );
       REQUIRE ( deg1 == deg2 );
     }
     {
       const TestType deg1 ( 45 );
-      const TestType rad ( Usul::Math::PI_OVER_2 / 2 );
+      const TestType rad ( static_cast < TestType > ( Usul::Math::PI_OVER_2 / 2 ) );
       const TestType deg2 ( Usul::Math::radToDeg ( rad ) );
       REQUIRE ( deg1 == deg2 );
     }
@@ -52,19 +52,19 @@ TEMPLATE_TEST_CASE ( "Misc template math functions with floating point types", "
   SECTION ( "Can convert degrees to radians" )
   {
     {
-      const TestType rad1 ( Usul::Math::PI );
+      const TestType rad1 ( static_cast < TestType > ( Usul::Math::PI ) );
       const TestType deg ( 180 );
       const TestType rad2 ( Usul::Math::degToRad ( deg ) );
       REQUIRE ( rad1 == rad2 );
     }
     {
-      const TestType rad1 ( Usul::Math::PI_OVER_2 );
+      const TestType rad1 ( static_cast < TestType > ( Usul::Math::PI_OVER_2 ) );
       const TestType deg ( 90 );
       const TestType rad2 ( Usul::Math::degToRad ( deg ) );
       REQUIRE ( rad1 == rad2 );
     }
     {
-      const TestType rad1 ( Usul::Math::PI_OVER_2 / 2 );
+      const TestType rad1 ( static_cast < TestType > ( Usul::Math::PI_OVER_2 / 2 ) );
       const TestType deg ( 45 );
       const TestType rad2 ( Usul::Math::degToRad ( deg ) );
       REQUIRE ( rad1 == rad2 );

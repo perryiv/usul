@@ -5,7 +5,7 @@
   "scripts": {
     "build": "cd build && cmake --build . --config Debug",
     "clear": "node_modules/.bin/clear",
-    "config": "del build && make-dir build && cd build && conan install .. && cmake .. -DCMAKE_VERBOSE_MAKEFILE=OFF",
+    "config": "del-cli build && make-dir build && cd build && cmake .. -DCMAKE_VERBOSE_MAKEFILE=OFF",
     "rebuild": "npm run config && npm run build",
     "test": "cd build/bin && usul_test --abort --use-colour=yes --durations=no",
     "watch": "watch \"npm run clear && npm run build && npm run test\" ./include ./src ./tests"
