@@ -15,7 +15,7 @@
     "url": "git+https://github.com/perryiv/usul.git"
   },
   "author": "Perry L Miller IV",
-  "license": "BSD",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/perryiv/usul/issues"
   },
