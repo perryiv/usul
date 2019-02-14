@@ -4,11 +4,11 @@
   "description": "The strength of the base of the pillar",
   "scripts": {
     "build": "cd build && cmake --build . --config Debug",
-    "clear": "./node_modules/.bin/clear",
-    "config": "del build && make-dir build && cd build && cmake .. -DCMAKE_VERBOSE_MAKEFILE=ON",
+    "clear": "node_modules/.bin/clear",
+    "config": "del build && make-dir build && cd build && cmake .. -DCMAKE_VERBOSE_MAKEFILE=OFF",
     "rebuild": "npm run config && npm run build",
     "test": "cd build/bin && usul_test --abort --use-colour=yes --durations=no",
-    "watch": "watch \"npm run clear && npm run build && npm run test\" ./Usul ./tests"
+    "watch": "watch \"npm run clear && npm run build && npm run test\" ./include ./src ./tests"
   },
   "repository": {
     "type": "git",

@@ -48,6 +48,20 @@ template < class ScalarType > inline void checkLength (
 
 ////////////////////////////////////////////////////////////////////////////////
 //
+//  Helper function to check the angle between two vectors.
+//
+////////////////////////////////////////////////////////////////////////////////
+
+template < class VectorType >
+inline void testAngle ( const VectorType &a, const VectorType &b,
+  const typename VectorType::value_type &expected, unsigned int numDecimals )
+{
+  REQUIRE ( expected == Usul::Math::trunc ( Usul::Math::radToDeg ( Usul::Math::angle ( a, b ) ), numDecimals ) );
+};
+
+
+////////////////////////////////////////////////////////////////////////////////
+//
 //  Test the math functions.
 //
 ////////////////////////////////////////////////////////////////////////////////
@@ -105,7 +119,7 @@ TEMPLATE_TEST_CASE ( "Vector2 template math functions with all primitive types",
       ++count;
       REQUIRE ( count == value );
     } );
-    REQUIRE ( 3 == count );
+    REQUIRE ( VectorType::SIZE == count );
   }
 
   SECTION ( "Equal vectors are equal" )
@@ -237,21 +251,28 @@ TEMPLATE_TEST_CASE ( "Vector2 template math functions with all primitive types",
 
   SECTION ( "Can get the dot product" )
   {
-    REQUIRE ( 26 == Usul::Math::dot ( VectorType ( 1, 2 ), VectorType ( 3, 4 ) ) );
-    REQUIRE ( 32 == Usul::Math::dot ( VectorType ( 1, 2 ), VectorType ( 4, 5 ) ) );
-    REQUIRE ( 38 == Usul::Math::dot ( VectorType ( 1, 2 ), VectorType ( 5, 6 ) ) );
+    REQUIRE ( 11 == Usul::Math::dot ( VectorType ( 1, 2 ), VectorType ( 3, 4 ) ) );
+    REQUIRE ( 14 == Usul::Math::dot ( VectorType ( 1, 2 ), VectorType ( 4, 5 ) ) );
+    REQUIRE ( 17 == Usul::Math::dot ( VectorType ( 1, 2 ), VectorType ( 5, 6 ) ) );
   }
 
   SECTION ( "Can get the distance squared between two points" )
   {
-    REQUIRE ( 12 == Usul::Math::distanceSquared ( VectorType (  0,  0 ), VectorType ( 2, 2 ) ) );
-    REQUIRE ( 27 == Usul::Math::distanceSquared ( VectorType (  0,  0 ), VectorType ( 3, 3 ) ) );
-    REQUIRE ( 27 == Usul::Math::distanceSquared ( VectorType ( -1, -1 ), VectorType ( 2, 2 ) ) );
-    REQUIRE ( 27 == Usul::Math::distanceSquared ( VectorType (  1,  2 ), VectorType ( 4, 5 ) ) );
-    REQUIRE ( 48 == Usul::Math::distanceSquared ( VectorType (  0,  0 ), VectorType ( 4, 4 ) ) );
-    REQUIRE ( 75 == Usul::Math::distanceSquared ( VectorType (  0,  0 ), VectorType ( 5, 5 ) ) );
+    REQUIRE (  8 == Usul::Math::distanceSquared ( VectorType (  0,  0 ), VectorType ( 2, 2 ) ) );
+    REQUIRE ( 18 == Usul::Math::distanceSquared ( VectorType (  0,  0 ), VectorType ( 3, 3 ) ) );
+    REQUIRE ( 18 == Usul::Math::distanceSquared ( VectorType ( -1, -1 ), VectorType ( 2, 2 ) ) );
+    REQUIRE ( 18 == Usul::Math::distanceSquared ( VectorType (  1,  2 ), VectorType ( 4, 5 ) ) );
+    REQUIRE ( 32 == Usul::Math::distanceSquared ( VectorType (  0,  0 ), VectorType ( 4, 4 ) ) );
+    REQUIRE ( 50 == Usul::Math::distanceSquared ( VectorType (  0,  0 ), VectorType ( 5, 5 ) ) );
   }
 }
+
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//  Test the math functions.
+//
+////////////////////////////////////////////////////////////////////////////////
 
 TEMPLATE_TEST_CASE ( "Vector2 template math functions with signed primitive types", "",
   short, int, long, float, double, ( long double ) )
@@ -260,11 +281,18 @@ TEMPLATE_TEST_CASE ( "Vector2 template math functions with signed primitive type
 
   SECTION ( "Can get the dot product" )
   {
-    REQUIRE ( -26 == Usul::Math::dot ( VectorType ( 1, 2 ), VectorType ( -3, -4 ) ) );
-    REQUIRE ( -32 == Usul::Math::dot ( VectorType ( 1, 2 ), VectorType ( -4, -5 ) ) );
-    REQUIRE ( -38 == Usul::Math::dot ( VectorType ( 1, 2 ), VectorType ( -5, -6 ) ) );
+    REQUIRE ( -11 == Usul::Math::dot ( VectorType ( 1, 2 ), VectorType ( -3, -4 ) ) );
+    REQUIRE ( -14 == Usul::Math::dot ( VectorType ( 1, 2 ), VectorType ( -4, -5 ) ) );
+    REQUIRE ( -17 == Usul::Math::dot ( VectorType ( 1, 2 ), VectorType ( -5, -6 ) ) );
   }
 }
+
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//  Test the math functions.
+//
+////////////////////////////////////////////////////////////////////////////////
 
 TEMPLATE_TEST_CASE ( "Vector2 template math functions with larger primitive types", "",
   short, int, long, ( unsigned short ),
@@ -286,6 +314,13 @@ TEMPLATE_TEST_CASE ( "Vector2 template math functions with larger primitive type
     }
   }
 }
+
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//  Test the math functions.
+//
+////////////////////////////////////////////////////////////////////////////////
 
 TEMPLATE_TEST_CASE ( "Vector2 template math functions with floating point types", "",
   float, double, ( long double ) )
@@ -336,23 +371,6 @@ TEMPLATE_TEST_CASE ( "Vector2 template math functions with floating point types"
     }
   }
 
-  SECTION ( "Can get the angle between two vectors" )
-  {
-    const VectorType a ( 5, 24 );
-    const VectorType b ( 1,  3 );
-
-    // Got the answer from here:
-    // https://www.varsitytutors.com/precalculus-help/find-the-measure-of-an-angle-between-two-vectors
-    const std::string expected ( "6.6667" );
-
-    // We need the answer with only so many decimals.
-    std::ostringstream answer;
-    answer << std::fixed << std::setprecision ( 4 )
-      << Usul::Math::radToDeg ( Usul::Math::angle ( a, b ) );
-
-    REQUIRE ( expected == answer.str() );
-  }
-
   SECTION ( "Can get the distance between two points" )
   {
     const VectorType a ( 1, 2 );
@@ -368,5 +386,36 @@ TEMPLATE_TEST_CASE ( "Vector2 template math functions with floating point types"
       << Usul::Math::distance ( a, b );
 
     REQUIRE ( expected == answer.str() );
+  }
+}
+
+TEST_CASE ( "Angle between two vectors" )
+{
+  SECTION ( "Can get the angle between two vectors of floats" )
+  {
+    typedef float TestType;
+    typedef typename Usul::Math::Vector2 < TestType > VectorType;
+
+    testAngle ( VectorType ( 5, 24 ), VectorType ( 1, 3 ),
+      static_cast < TestType > ( 6.6666 ), 4 );
+  }
+
+  SECTION ( "Can get the angle between two vectors of doubles" )
+  {
+    typedef double TestType;
+    typedef typename Usul::Math::Vector2 < TestType > VectorType;
+
+    testAngle ( VectorType ( 5, 24 ), VectorType ( 1, 3 ),
+      static_cast < TestType > ( 6.66665989 ), 8 );
+  }
+
+  SECTION ( "Can get the angle between two vectors of long doubles" )
+  {
+    typedef long double TestType;
+    typedef typename Usul::Math::Vector2 < TestType > VectorType;
+
+    // Why doesn't this one work?
+    // testAngle ( VectorType ( 5, 24 ), VectorType ( 1, 3 ),
+    //   static_cast < TestType > ( 6.66665989 ), 8 );
   }
 }

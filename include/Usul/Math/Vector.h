@@ -123,7 +123,8 @@ inline typename VectorType::value_type angle ( const VectorType &a, const Vector
 template < class VectorType >
 inline typename VectorType::value_type length ( const VectorType &v )
 {
-  return std::sqrt ( dot ( v, v ) );
+  typedef typename VectorType::value_type ValueType;
+  return ( static_cast < ValueType > ( std::sqrt ( dot ( v, v ) ) ) );
 }
 
 
@@ -305,6 +306,48 @@ inline VectorType normalize ( const VectorType &v )
 
 ///////////////////////////////////////////////////////////////////////////////
 //
+//  Details for the equal function.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+namespace Detail
+{
+  template < class VectorType, unsigned int > struct IsEqual{};
+  template < class VectorType > struct IsEqual < VectorType, 2 >
+  {
+    static bool check ( const VectorType &a, const VectorType &b )
+    {
+      return (
+        ( a[0] == b[0] ) &&
+        ( a[1] == b[1] ) );
+    }
+  };
+  template < class VectorType > struct IsEqual < VectorType, 3 >
+  {
+    static bool check ( const VectorType &a, const VectorType &b )
+    {
+      return (
+        ( a[0] == b[0] ) &&
+        ( a[1] == b[1] ) &&
+        ( a[2] == b[2] ) );
+    }
+  };
+  template < class VectorType > struct IsEqual < VectorType, 4 >
+  {
+    static bool check ( const VectorType &a, const VectorType &b )
+    {
+      return (
+        ( a[0] == b[0] ) &&
+        ( a[1] == b[1] ) &&
+        ( a[2] == b[2] ) &&
+        ( a[3] == b[3] ) );
+    }
+  };
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
 //  See if they are equal.
 //
 ///////////////////////////////////////////////////////////////////////////////
@@ -312,10 +355,47 @@ inline VectorType normalize ( const VectorType &v )
 template < class VectorType >
 bool equal ( const VectorType &a, const VectorType &b )
 {
-  return (
-    ( a[0] == b[0] ) &&
-    ( a[1] == b[1] ) &&
-    ( a[2] == b[2] ) );
+  typedef Detail::IsEqual < VectorType, VectorType::SIZE > IsEqual;
+  return IsEqual::check ( a, b );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Details for the "for each" function.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+namespace Detail
+{
+  template < class VectorType, class Fun, unsigned int > struct ForEach{};
+  template < class VectorType, class Fun > struct ForEach < VectorType, Fun, 2 >
+  {
+    static void execute ( const VectorType &v, Fun f )
+    {
+      f ( v[0] );
+      f ( v[1] );
+    }
+  };
+  template < class VectorType, class Fun > struct ForEach < VectorType, Fun, 3 >
+  {
+    static void execute ( const VectorType &v, Fun f )
+    {
+      f ( v[0] );
+      f ( v[1] );
+      f ( v[2] );
+    }
+  };
+  template < class VectorType, class Fun > struct ForEach < VectorType, Fun, 4 >
+  {
+    static void execute ( const VectorType &v, Fun f )
+    {
+      f ( v[0] );
+      f ( v[1] );
+      f ( v[2] );
+      f ( v[3] );
+    }
+  };
 }
 
 
@@ -328,9 +408,8 @@ bool equal ( const VectorType &a, const VectorType &b )
 template < class VectorType, class Fun >
 void each ( const VectorType &v, Fun f )
 {
-  f ( v[0] );
-  f ( v[1] );
-  f ( v[2] );
+  typedef Detail::ForEach < VectorType, Fun, VectorType::SIZE > ForEach;
+  ForEach::execute ( v, f );
 }
 
 

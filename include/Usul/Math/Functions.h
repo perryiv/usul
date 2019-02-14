@@ -42,17 +42,32 @@ inline FloatType round ( const FloatType value, const UnsignedInteger numDecimal
 
 ///////////////////////////////////////////////////////////////////////////////
 //
+//  Truncate to the nearest decimal.
+//  https://stackoverflow.com/questions/1343890/rounding-number-to-2-decimal-places-in-c
+//
+///////////////////////////////////////////////////////////////////////////////
+
+template < class FloatType, class UnsignedInteger >
+inline FloatType trunc ( const FloatType value, const UnsignedInteger numDecimals )
+{
+  const FloatType factor = static_cast < FloatType > ( std::pow ( 10, numDecimals ) );
+  return static_cast < FloatType > ( std::trunc ( value * factor ) / factor );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
 //  Convert the angle.
 //
 ///////////////////////////////////////////////////////////////////////////////
 
 template < class ScalarType > inline ScalarType radToDeg ( const ScalarType angle )
 {
-  return ( angle * Usul::Math::RAD_TO_DEG );
+  return ( static_cast < ScalarType > ( angle * Usul::Math::RAD_TO_DEG ) );
 }
 template < class ScalarType > inline ScalarType degToRad ( const ScalarType angle )
 {
-  return ( angle * Usul::Math::DEG_TO_RAD );
+  return ( static_cast < ScalarType > ( angle * Usul::Math::DEG_TO_RAD ) );
 }
 
 

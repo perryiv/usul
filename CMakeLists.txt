@@ -46,10 +46,11 @@ conan_basic_setup ( TARGETS )
 # Define a variable that holds all the source files.
 set ( SOURCE_FILES
   tests/Usul/Math/Base.cpp
-  # tests/Usul/Math/CloseFloat.cpp
-  # tests/Usul/Math/Functions.cpp
-  # tests/Usul/Math/Vector2.cpp
-  # tests/Usul/Math/Vector3.cpp
+  tests/Usul/Math/CloseFloat.cpp
+  tests/Usul/Math/Functions.cpp
+  tests/Usul/Math/Vector2.cpp
+  tests/Usul/Math/Vector3.cpp
+  tests/Usul/Math/Vector4.cpp
   tests/Usul/Main.cpp
 )
 
@@ -63,5 +64,5 @@ target_link_libraries ( ${PROJECT_NAME} PRIVATE usul_math CONAN_PKG::Catch2 )
 # Define a variable that points to the top-level include directory.
 set ( USUL_INC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include )
 
-# Use the CMakeLists.txt file found here too.
+# Also process the CMakeLists.txt found in this directory.
 add_subdirectory ( src/Usul/Math )
