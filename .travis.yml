@@ -20,16 +20,16 @@
 language: cpp
 compiler: gcc
 dist: trusty
-sudo : require
+# sudo : require
 
-before_install:
-- sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
-- sudo apt-get update -qq
-
-install:
-- sudo apt-get install -qq g++-5
-- git clone https://github.com/catchorg/Catch2.git
-- export USUL_INC_DIR=${HOME}/Catch2/single_include
+# before_install:
+# - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+# - sudo apt-get update -qq
+#
+# install:
+# - sudo apt-get install -qq g++-5
+# - git clone https://github.com/catchorg/Catch2.git
+# - export USUL_INC_DIR=${HOME}/Catch2/single_include
 
 script:
 - mkdir -p build || travis_terminate 1;
