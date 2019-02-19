@@ -29,10 +29,12 @@ dist: trusty
 # install:
 # - sudo apt-get install -qq g++-5
 # - git clone https://github.com/catchorg/Catch2.git
-# - export USUL_INC_DIR=${HOME}/Catch2/single_include
+# - export CATCH2_INC_DIR=${HOME}/Catch2/single_include
 
 script:
-- export USUL_INC_DIR=${HOME}/Catch2/single_include
+- export CATCH2_INC_DIR=${HOME}/Catch2/single_include
+- echo $CATCH2_INC_DIR
+- ls $CATCH2_INC_DIR
 - mkdir -p build || travis_terminate 1;
 - cd build || travis_terminate 1;
 - mkdir debug || travis_terminate 1;
