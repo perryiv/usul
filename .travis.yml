@@ -1,0 +1,52 @@
+
+################################################################################
+#
+#  Copyright (c) 2019, Perry L Miller IV
+#  All rights reserved.
+#
+################################################################################
+
+################################################################################
+#
+#  Continuous integration configuration file.
+#
+#  Sources:
+#  https://docs.travis-ci.com/user/languages/cpp/
+#  https://github.com/richelbilderbeek/travis_cpp_tutorial/blob/master/.travis.yml
+#
+################################################################################
+
+language: cpp
+compiler: gcc
+dist: trusty
+sudo : require
+
+before_install:
+- sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+- sudo apt-get update -qq
+
+install:
+- sudo apt-get install -qq g++-5
+- git clone https://github.com/catchorg/Catch2.git
+- export USUL_INC_DIR=${HOME}/Catch2/single_include
+
+script:
+- mkdir -p build
+- cd build
+- mkdir debug
+- cd debug
+- cmake ../../ -DCMAKE_VERBOSE_MAKEFILE=ON -DCMAKE_BUILD_TYPE="Debug"
+- cmake --build .
+- cd bin
+- ls -al ./usul_math_test
+- file ./usul_math_test
+- ./usul_math_test
+- cd ../
+- mkdir release
+- cd release
+- cmake ../../ -DCMAKE_VERBOSE_MAKEFILE=ON -DCMAKE_BUILD_TYPE="Release"
+- cmake --build .
+- cd bin
+- ls -al ./usul_math_test
+- file ./usul_math_test
+- ./usul_math_test
