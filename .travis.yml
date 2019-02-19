@@ -32,6 +32,7 @@ dist: trusty
 # - export USUL_INC_DIR=${HOME}/Catch2/single_include
 
 script:
+- export USUL_INC_DIR=${HOME}/Catch2/single_include
 - mkdir -p build || travis_terminate 1;
 - cd build || travis_terminate 1;
 - mkdir debug || travis_terminate 1;
