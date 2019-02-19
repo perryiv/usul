@@ -21,6 +21,9 @@ if ( NOT DEFINED ENV{CATCH2_INC_DIR} )
   )
 endif()
 
+# For debug builds we want the _DEBUG preprocessor symbol to be defined.
+add_compile_definitions ( $<$<CONFIG:Debug>:_DEBUG> )
+
 # Add the include directory for catch.
 include_directories ( $ENV{CATCH2_INC_DIR} )
 
