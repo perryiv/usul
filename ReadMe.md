@@ -47,6 +47,6 @@ you can do this:
     npm run build
     npm run test
 
-If you want to automatically recompile when the source code changes, so this:
+If you want to automatically recompile when the source code changes, do this:
 
     npm run watch
