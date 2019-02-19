@@ -32,7 +32,6 @@ dist: trusty
 - export CATCH2_INC_DIR=${HOME}/Catch2/single_include
 
 script:
-# - export CATCH2_INC_DIR=${HOME}/Catch2/single_include
 - echo $CATCH2_INC_DIR
 - ls $CATCH2_INC_DIR
 - mkdir -p build || travis_terminate 1;
