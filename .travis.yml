@@ -13,6 +13,7 @@
 #  Sources:
 #  https://docs.travis-ci.com/user/languages/cpp/
 #  https://github.com/richelbilderbeek/travis_cpp_tutorial/blob/master/.travis.yml
+#  https://medium.com/@manjula.cse/how-to-stop-the-execution-of-travis-pipeline-if-script-exits-with-an-error-f0e5a43206bf
 #
 ################################################################################
 
@@ -31,22 +32,22 @@ install:
 - export USUL_INC_DIR=${HOME}/Catch2/single_include
 
 script:
-- mkdir -p build
-- cd build
-- mkdir debug
-- cd debug
-- cmake ../../ -DCMAKE_VERBOSE_MAKEFILE=ON -DCMAKE_BUILD_TYPE="Debug"
-- cmake --build .
-- cd bin
-- ls -al ./usul_math_test
-- file ./usul_math_test
-- ./usul_math_test
-- cd ../
-- mkdir release
-- cd release
-- cmake ../../ -DCMAKE_VERBOSE_MAKEFILE=ON -DCMAKE_BUILD_TYPE="Release"
-- cmake --build .
-- cd bin
-- ls -al ./usul_math_test
-- file ./usul_math_test
-- ./usul_math_test
+- mkdir -p build || travis_terminate 1;
+- cd build || travis_terminate 1;
+- mkdir debug || travis_terminate 1;
+- cd debug || travis_terminate 1;
+- cmake ../../ -DCMAKE_VERBOSE_MAKEFILE=ON -DCMAKE_BUILD_TYPE="Debug" || travis_terminate 1;
+- cmake --build . || travis_terminate 1;
+- cd bin || travis_terminate 1;
+- ls -al ./usul_math_test || travis_terminate 1;
+- file ./usul_math_test || travis_terminate 1;
+- ./usul_math_test || travis_terminate 1;
+- cd ../ || travis_terminate 1;
+- mkdir release || travis_terminate 1;
+- cd release || travis_terminate 1;
+- cmake ../../ -DCMAKE_VERBOSE_MAKEFILE=ON -DCMAKE_BUILD_TYPE="Release" || travis_terminate 1;
+- cmake --build . || travis_terminate 1;
+- cd bin || travis_terminate 1;
+- ls -al ./usul_math_test || travis_terminate 1;
+- file ./usul_math_test || travis_terminate 1;
+- ./usul_math_test || travis_terminate 1;
