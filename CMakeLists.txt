@@ -37,4 +37,4 @@ set ( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin )
 
 # Also process the CMakeLists.txt files found in these directories.
 add_subdirectory ( src/Usul/Math )
-add_subdirectory ( tests/Usul/Math )
+add_subdirectory ( tests/Usul )
