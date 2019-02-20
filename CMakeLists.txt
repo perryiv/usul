@@ -36,6 +36,9 @@ set ( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib )
 set ( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib )
 set ( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin )
 
+# For debug builds we want the _DEBUG preprocessor symbol to be defined.
+add_compile_definitions ( $<$<CONFIG:Debug>:_DEBUG> )
+
 # Also process the CMakeLists.txt files found in these directories.
 add_subdirectory ( src/Usul/Math )
 add_subdirectory ( tests/Usul )
