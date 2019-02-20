@@ -12,9 +12,6 @@
 #
 ################################################################################
 
-# Add the include directory for catch.
-include_directories ( $ENV{CATCH2_INC_DIR} )
-
 # Define a variable that holds all the source files.
 set ( SOURCE_FILES
   ./Base.cpp
