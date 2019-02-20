@@ -41,4 +41,4 @@ add_compile_definitions ( $<$<CONFIG:Debug>:_DEBUG> )
 
 # Also process the CMakeLists.txt files found in these directories.
 add_subdirectory ( src/Usul/Math )
-add_subdirectory ( tests/Usul )
+add_subdirectory ( tests )
