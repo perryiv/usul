@@ -3,7 +3,7 @@
 //
 //  Copyright (c) 2002, 2019, Perry L Miller IV
 //  All rights reserved.
-//  BSD License: http://www.opensource.org/licenses/bsd-license.html
+//  MIT License: https://opensource.org/licenses/mit-license.html
 //
 ///////////////////////////////////////////////////////////////////////////////
 
