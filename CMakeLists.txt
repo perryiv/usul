@@ -18,8 +18,9 @@
 #
 ################################################################################
 
-# Need to use this version or newer.
-cmake_minimum_required ( VERSION 3.1.0 )
+# We use the add_compile_definitions command.
+# https://cmake.org/cmake/help/v3.12/release/3.12.html
+cmake_minimum_required ( VERSION 3.12.0 )
 
 # The name of this project.
 project ( usul )

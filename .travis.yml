@@ -17,9 +17,18 @@
 #
 ################################################################################
 
+# We're compiling C++ code.
 language: cpp
+
+# For now we're only using this compiler.
 compiler: gcc
-dist: trusty
+
+# We use the add_compile_definitions command.
+# https://cmake.org/cmake/help/v3.12/release/3.12.html
+# https://docs.travis-ci.com/user/languages/cpp/
+dist: xenial
+
+# We need sudo to install things below.
 # sudo : require
 
 # before_install:
