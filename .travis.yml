@@ -31,27 +31,28 @@ dist: trusty
 
 script:
 - cmake -version
-# - mkdir -p external/catch2
-# - curl https://raw.githubusercontent.com/catchorg/Catch2/master/single_include/catch2/catch.hpp > external/catch2/catch.hpp
-# - export CATCH2_INC_DIR=`pwd`/external
-# - echo $CATCH2_INC_DIR
-# - ls $CATCH2_INC_DIR
-# - mkdir -p build || travis_terminate 1;
-# - cd build || travis_terminate 1;
-# - mkdir debug || travis_terminate 1;
-# - cd debug || travis_terminate 1;
-# - cmake ../../ -DCMAKE_VERBOSE_MAKEFILE=ON -DCMAKE_BUILD_TYPE="Debug" || travis_terminate 1;
-# - cmake --build . || travis_terminate 1;
-# - cd bin || travis_terminate 1;
-# - ls -al ./usul_math_test || travis_terminate 1;
-# - file ./usul_math_test || travis_terminate 1;
-# - ./usul_math_test || travis_terminate 1;
-# - cd ../ || travis_terminate 1;
-# - mkdir release || travis_terminate 1;
-# - cd release || travis_terminate 1;
-# - cmake ../../ -DCMAKE_VERBOSE_MAKEFILE=ON -DCMAKE_BUILD_TYPE="Release" || travis_terminate 1;
-# - cmake --build . || travis_terminate 1;
-# - cd bin || travis_terminate 1;
-# - ls -al ./usul_math_test || travis_terminate 1;
-# - file ./usul_math_test || travis_terminate 1;
-# - ./usul_math_test || travis_terminate 1;
+- gcc --version
+- mkdir -p external/catch2
+- curl https://raw.githubusercontent.com/catchorg/Catch2/master/single_include/catch2/catch.hpp > external/catch2/catch.hpp
+- export CATCH2_INC_DIR=`pwd`/external
+- echo $CATCH2_INC_DIR
+- ls $CATCH2_INC_DIR
+- mkdir -p build || travis_terminate 1;
+- cd build || travis_terminate 1;
+- mkdir debug || travis_terminate 1;
+- cd debug || travis_terminate 1;
+- cmake ../../ -DCMAKE_VERBOSE_MAKEFILE=ON -DCMAKE_BUILD_TYPE="Debug" || travis_terminate 1;
+- cmake --build . || travis_terminate 1;
+- cd bin || travis_terminate 1;
+- ls -al ./usul_math_test || travis_terminate 1;
+- file ./usul_math_test || travis_terminate 1;
+- ./usul_math_test || travis_terminate 1;
+- cd ../ || travis_terminate 1;
+- mkdir release || travis_terminate 1;
+- cd release || travis_terminate 1;
+- cmake ../../ -DCMAKE_VERBOSE_MAKEFILE=ON -DCMAKE_BUILD_TYPE="Release" || travis_terminate 1;
+- cmake --build . || travis_terminate 1;
+- cd bin || travis_terminate 1;
+- ls -al ./usul_math_test || travis_terminate 1;
+- file ./usul_math_test || travis_terminate 1;
+- ./usul_math_test || travis_terminate 1;
