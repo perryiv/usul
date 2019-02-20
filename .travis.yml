@@ -32,10 +32,12 @@ dist: trusty
 script:
 - pwd
 - ls -al
+- cd ..
 - git clone https://github.com/catchorg/Catch2.git
 - export CATCH2_INC_DIR=${HOME}/Catch2/single_include
 - echo $CATCH2_INC_DIR
 - ls $CATCH2_INC_DIR
+- cd usul
 - mkdir -p build || travis_terminate 1;
 - cd build || travis_terminate 1;
 - mkdir debug || travis_terminate 1;
