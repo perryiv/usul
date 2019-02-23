@@ -29,12 +29,11 @@ compiler: gcc
 dist: xenial
 
 # We install things.
-sudo: required
+# sudo: required
 
 # Install what we need
-install:
-  - aptitude search boost
-  - sudo apt-get install libboost_atomic libboost_filesystem
+# install:
+#   - sudo apt-get install libboost_atomic libboost_filesystem
 
 # The sequence of commands that get executed.
 script:
@@ -44,6 +43,8 @@ script:
 - ls
 - cmake -version
 - gcc --version
+
+- aptitude search boost
 
 - updatedb
 - locate libboost_filesystem
