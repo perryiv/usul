@@ -32,8 +32,8 @@ dist: xenial
 # sudo: required
 
 # Install what we need
-# install:
-#   - sudo apt-get install libboost_atomic libboost_filesystem
+install:
+  - sudo apt-get install libboost-filesystem1.58.0
 
 # The sequence of commands that get executed.
 script:
@@ -44,9 +44,9 @@ script:
 - cmake -version
 - gcc --version
 
-- aptitude search boost
+# - aptitude search boost
 
-- updatedb
+- sudo updatedb
 - locate libboost_filesystem
 
 - export BOOST_INC_DIR=/usr/include
