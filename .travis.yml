@@ -44,11 +44,14 @@ script:
 - cmake -version
 - gcc --version
 
+- updatedb
+- locate libboost_filesystem
+
 - export BOOST_INC_DIR=/usr/include
 - echo $BOOST_INC_DIR
 - ls $BOOST_INC_DIR/boost
 
-- export BOOST_LIB_DIR=/usr/lib64
+- export BOOST_LIB_DIR=/usr/lib
 - echo $BOOST_LIB_DIR
 - ls $BOOST_LIB_DIR/libboost*
 
