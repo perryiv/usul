@@ -33,7 +33,7 @@ sudo: required
 
 # Install what we need
 install:
-  - sudo apt-get install libboost-all-dev
+  - sudo apt-get install libboost_atomic libboost_filesystem
 
 # The sequence of commands that get executed.
 script:
