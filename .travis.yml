@@ -33,7 +33,7 @@ sudo: required
 
 # Install what we need
 install:
-  - sudo apt-get install libboost-all-dev
+  - sudo apt-get install libboost-filesystem-dev
 
 # The sequence of commands that get executed.
 script:
@@ -51,7 +51,7 @@ script:
 - echo $BOOST_INC_DIR
 - ls $BOOST_INC_DIR/boost
 
-- export BOOST_LIB_DIR=/usr/lib
+- export BOOST_LIB_DIR=/usr/lib/x86_64-linux-gnu
 - echo $BOOST_LIB_DIR
 - ls $BOOST_LIB_DIR/libboost*
 
