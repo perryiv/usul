@@ -33,6 +33,7 @@ sudo: required
 
 # Install what we need
 install:
+  - apt-get search boost
   - sudo apt-get install libboost_atomic libboost_filesystem
 
 # The sequence of commands that get executed.
@@ -55,25 +56,25 @@ script:
 - echo $BOOST_LIB_DIR
 - ls $BOOST_LIB_DIR/libboost*
 
-- mkdir -p external/catch2
-- curl https://raw.githubusercontent.com/catchorg/Catch2/master/single_include/catch2/catch.hpp > external/catch2/catch.hpp
-- export CATCH2_INC_DIR=`pwd`/external
-- echo $CATCH2_INC_DIR
-- ls $CATCH2_INC_DIR
-
-- mkdir -p build/debug
-- cd build/debug
-- cmake ../../ -DCMAKE_VERBOSE_MAKEFILE=ON -DCMAKE_BUILD_TYPE="Debug"
-- cmake --build .
-- ls -al ./bin/usul_test
-- file ./bin/usul_test
-- ./bin/usul_test
-
-- cd ../
-- mkdir release
-- cd release
-- cmake ../../ -DCMAKE_VERBOSE_MAKEFILE=ON -DCMAKE_BUILD_TYPE="Release"
-- cmake --build .
-- ls -al ./bin/usul_test
-- file ./bin/usul_test
-- ./bin/usul_test
+# - mkdir -p external/catch2
+# - curl https://raw.githubusercontent.com/catchorg/Catch2/master/single_include/catch2/catch.hpp > external/catch2/catch.hpp
+# - export CATCH2_INC_DIR=`pwd`/external
+# - echo $CATCH2_INC_DIR
+# - ls $CATCH2_INC_DIR
+#
+# - mkdir -p build/debug
+# - cd build/debug
+# - cmake ../../ -DCMAKE_VERBOSE_MAKEFILE=ON -DCMAKE_BUILD_TYPE="Debug"
+# - cmake --build .
+# - ls -al ./bin/usul_test
+# - file ./bin/usul_test
+# - ./bin/usul_test
+#
+# - cd ../
+# - mkdir release
+# - cd release
+# - cmake ../../ -DCMAKE_VERBOSE_MAKEFILE=ON -DCMAKE_BUILD_TYPE="Release"
+# - cmake --build .
+# - ls -al ./bin/usul_test
+# - file ./bin/usul_test
+# - ./bin/usul_test
