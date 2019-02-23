@@ -8,6 +8,7 @@
     "config": "del-cli build && make-dir build && cd build && cmake .. -DCMAKE_VERBOSE_MAKEFILE=OFF",
     "rebuild": "npm run config && npm run build",
     "test": "cd build/bin && usul_math_test --abort --use-colour=yes --durations=no",
+    "test-win": "cd build/bin/Debug && usul_math_test --abort --use-colour=yes --durations=no",
     "watch": "watch \"npm run clear && npm run build && npm run test\" ./ --filter=./watch_filter.js"
   },
   "repository": {
