@@ -25,4 +25,4 @@ endif()
 include_directories ( $ENV{CATCH2_INC_DIR} )
 
 # Also process the CMakeLists.txt files found in these directories.
-add_subdirectory ( Usul/Math )
+add_subdirectory ( Math )
