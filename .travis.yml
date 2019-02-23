@@ -29,7 +29,7 @@ compiler: gcc
 dist: xenial
 
 # We install things.
-# sudo: required
+sudo: required
 
 # Install what we need
 install:
