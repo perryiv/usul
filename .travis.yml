@@ -46,11 +46,11 @@ script:
 
 - export BOOST_INC_DIR=/usr/include
 - echo $BOOST_INC_DIR
-- ls $BOOST_INC_DIR
+- ls $BOOST_INC_DIR/boost
 
-- export BOOST_LIB_DIR=/usr/lib
+- export BOOST_LIB_DIR=/usr/lib64
 - echo $BOOST_LIB_DIR
-- ls $BOOST_LIB_DIR
+- ls $BOOST_LIB_DIR/libboost*
 
 - mkdir -p external/catch2
 - curl https://raw.githubusercontent.com/catchorg/Catch2/master/single_include/catch2/catch.hpp > external/catch2/catch.hpp
