@@ -33,7 +33,7 @@ sudo: required
 
 # Install what we need
 install:
-  - sudo apt-get install libboost-filesystem1.58.0
+  - sudo apt-get install libboost-all-dev
 
 # The sequence of commands that get executed.
 script:
@@ -44,10 +44,8 @@ script:
 - cmake -version
 - gcc --version
 
-# - aptitude search boost
-
 - sudo updatedb
-- locate libboost_filesystem
+- locate libboost
 
 - export BOOST_INC_DIR=/usr/include
 - echo $BOOST_INC_DIR
