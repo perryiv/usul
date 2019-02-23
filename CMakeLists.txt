@@ -29,7 +29,7 @@ project ( usul )
 set ( CMAKE_CXX_STANDARD 11 )
 
 # Define some variables that point to top-level directories.
-set ( USUL_INC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include )
+set ( USUL_INC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src )
 
 # This is where we want output files to go.
 set ( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib )
