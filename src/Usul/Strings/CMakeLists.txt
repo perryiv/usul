@@ -8,11 +8,13 @@
 
 ################################################################################
 #
-#  CMake file for the Usul libraries.
+#  CMake file for the Usul strings library.
 #
 ################################################################################
 
-# Also process the CMakeLists.txt files found in these directories.
-add_subdirectory ( Math )
-add_subdirectory ( Strings )
-add_subdirectory ( Tools )
+# The name of this library is usul_strings and it's a header-file-only library.
+add_library ( usul_strings INTERFACE )
+
+# Tell cmake that to use this library you need to include the directory
+# defined in USUL_INC_DIR, which was set in our top-level CMakeLists.txt file.
+target_include_directories ( usul_strings INTERFACE ${USUL_INC_DIR} )
