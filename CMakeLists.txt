@@ -29,7 +29,7 @@ project ( usul )
 set ( CMAKE_CXX_STANDARD 11 )
 
 # Define some variables that point to top-level directories.
-set ( USUL_INC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src )
+set ( USUL_INC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/source )
 
 # This is where we want output files to go.
 set ( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib )
@@ -40,5 +40,5 @@ set ( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin )
 add_compile_definitions ( $<$<CONFIG:Debug>:_DEBUG> )
 
 # Also process the CMakeLists.txt files found in these directories.
-add_subdirectory ( src/Usul )
+add_subdirectory ( source/Usul )
 add_subdirectory ( tests/Usul )
