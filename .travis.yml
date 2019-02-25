@@ -46,7 +46,7 @@ script:
 
 - export BOOST_INC_DIR=/usr/include
 - echo $BOOST_INC_DIR
-- ls -FCG $BOOST_INC_DIR/boost
+- ls $BOOST_INC_DIR/boost
 
 - export BOOST_LIB_DIR=/usr/lib/x86_64-linux-gnu
 - echo $BOOST_LIB_DIR
