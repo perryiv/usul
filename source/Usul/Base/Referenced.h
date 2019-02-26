@@ -19,7 +19,11 @@
 #include "Usul/Base/Typed.h"
 
 #ifdef USUL_USE_ATOMIC_REFERENCE_COUNTER
-#include <memory>
+# ifdef _WIN32
+#  include <atomic>
+# else
+#  include <memory>
+# endif
 #endif
 
 
