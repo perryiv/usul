@@ -16,6 +16,7 @@
 #include "Usul/Errors/Handler.h"
 #include "Usul/Tools/NoThrow.h"
 
+#include <functional>
 #include <sstream>
 #include <stdexcept>
 
