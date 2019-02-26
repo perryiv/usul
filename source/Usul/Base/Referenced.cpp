@@ -78,9 +78,9 @@ void Referenced::_deleteThis()
 
   catch ( ... )
   {
-    USUL_ASSERT ( 0 == 1078340966u ); // FYI
-    throw std::runtime_error ( Usul::Strings::format (
+    USUL_ERROR_HANDLER ( Usul::Strings::format (
       "Deleting this instance caused an unknown exception",
+      ", Message: ", e.what(),
       ", Address: ", self,
       ", Class: ", ( name ? name : "" ) ) );
   }

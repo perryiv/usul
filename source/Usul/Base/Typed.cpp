@@ -15,6 +15,7 @@
 
 #include "Usul/Base/Typed.h"
 
+
 namespace Usul {
 namespace Base {
 
