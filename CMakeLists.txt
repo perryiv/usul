@@ -55,6 +55,9 @@ endif()
 # For debug builds we want the _DEBUG preprocessor symbol to be defined.
 add_compile_definitions ( $<$<CONFIG:Debug>:_DEBUG> )
 
+# Everybody in the subdirectories will need to include files from here.
+include_directories ( ${USUL_INC_DIR} )
+
 # Also process the CMakeLists.txt files found in these directories.
-add_subdirectory ( source/Usul )
-add_subdirectory ( tests/Usul )
+add_subdirectory ( source )
+add_subdirectory ( tests )

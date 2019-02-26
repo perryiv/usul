@@ -26,21 +26,20 @@ include_directories ( $ENV{CATCH2_INC_DIR} )
 
 # Define a variable that holds all the source files.
 set ( SOURCE_FILES
-  ./Math/Base.cpp
-  ./Math/CloseFloat.cpp
-  ./Math/Functions.cpp
-  ./Math/Vector2.cpp
-  ./Math/Vector3.cpp
-  ./Math/Vector4.cpp
-  ./Strings/Format.cpp
-  ./Tools/Cast.cpp
-  ./Main.cpp
+  ./Usul/Math/Base.cpp
+  ./Usul/Math/CloseFloat.cpp
+  ./Usul/Math/Functions.cpp
+  ./Usul/Math/Vector2.cpp
+  ./Usul/Math/Vector3.cpp
+  ./Usul/Math/Vector4.cpp
+  ./Usul/Strings/Format.cpp
+  ./Usul/Tools/Cast.cpp
+  ./Usul/Main.cpp
 )
 
 # Make an executable.
 add_executable ( ${PROJECT_NAME}_test ${SOURCE_FILES} )
 
-# We're going to use these libraries.
-# CMake will automatically add -I, -L, and -D (etc) appropriately.
-target_link_libraries ( ${PROJECT_NAME}_test PRIVATE
-  usul_math usul_strings usul_tools )
+# Tell cmake we are going to use this library.
+# It will automatically add -I, -L, and -D (etc) appropriately.
+target_link_libraries ( ${PROJECT_NAME}_test PRIVATE usul )

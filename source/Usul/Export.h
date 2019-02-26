@@ -17,7 +17,7 @@
 #define _USUL_DLL_EXPORT_H_
 
 #ifdef _WIN32
-# ifdef _COMPILING_USUL
+# ifdef COMPILING_USUL
 #   define USUL_EXPORT __declspec ( dllexport ) // We are compiling this library so the classes are exported.
 # else
 #   define USUL_EXPORT __declspec ( dllimport ) // The classes will be imported into the client's code.
