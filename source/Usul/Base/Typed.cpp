@@ -9,29 +9,21 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-//  So that c-style casts are easy to find.
+//  Base class with virtual type-id member.
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef _USUL_CAST_H_
-#define _USUL_CAST_H_
+#include "Usul/Base/Typed.h"
+
+namespace Usul {
+namespace Base {
 
 
-namespace Usul
+const std::type_info & Typed::typeId() const
 {
-  namespace Tools
-  {
-    template < class ToType, class FromType >
-    inline ToType unsafeCast ( FromType from )
-    {
-      return ( ( ToType ) from );
-    };
-  }
+  return typeid ( *this );
 }
 
 
-#define USUL_UNSAFE_CAST(to_type,from_object)\
-  Usul::Tools::unsafeCast < to_type > ( from_object )
-
-
-#endif // _USUL_CAST_H_
+} // namespace Base
+} // namespace Usul

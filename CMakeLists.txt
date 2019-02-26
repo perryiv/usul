@@ -36,6 +36,22 @@ set ( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib )
 set ( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib )
 set ( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin )
 
+# Set the version.
+set ( USUL_VERSION_MAJOR 0 )
+set ( USUL_VERSION_MINOR 1 )
+set ( USUL_VERSION_PATCH 0 )
+configure_file (
+  ${CMAKE_CURRENT_SOURCE_DIR}/config/Version.h.in
+  ${USUL_INC_DIR}/Usul/Version.h
+)
+
+# Some options and their defaults.
+option ( USUL_USE_ATOMIC_REFERENCE_COUNTER
+  "Use std::atomic for the reference counter in Usul/Base/Referenced.cpp" ON )
+if ( USUL_USE_ATOMIC_REFERENCE_COUNTER )
+  add_compile_definitions ( USUL_USE_ATOMIC_REFERENCE_COUNTER )
+endif()
+
 # For debug builds we want the _DEBUG preprocessor symbol to be defined.
 add_compile_definitions ( $<$<CONFIG:Debug>:_DEBUG> )
 

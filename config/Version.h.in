@@ -20,9 +20,9 @@ namespace Usul
 {
   namespace Version
   {
-    const unsigned short MAJOR = 0;
-    const unsigned short MINOR = 1;
-    const unsigned short PATCH = 0;
+    const unsigned short MAJOR = @USUL_VERSION_MAJOR@;
+    const unsigned short MINOR = @USUL_VERSION_MINOR@;
+    const unsigned short PATCH = @USUL_VERSION_PATCH@;
   }
 }
 

@@ -8,16 +8,15 @@
 
 ################################################################################
 #
-#  CMake file for the Usul libraries.
+#  CMake file for the Usul errors library.
 #
 ################################################################################
 
-# Add the top-level include directory for usul.
-include_directories ( ${USUL_INC_DIR} )
+# The name of this library is usul_errors and it's a header-file-only library.
+add_library ( usul_errors SHARED
+  ./Handler.cpp
+)
 
-# Also process the CMakeLists.txt files found in these directories.
-add_subdirectory ( Base )
-add_subdirectory ( Errors )
-add_subdirectory ( Math )
-add_subdirectory ( Strings )
-add_subdirectory ( Tools )
+# Tell cmake that to use this library you need to include the directory
+# defined in USUL_INC_DIR, which was set in our top-level CMakeLists.txt file.
+target_include_directories ( usul_errors INTERFACE ${USUL_INC_DIR} )

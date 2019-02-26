@@ -1,0 +1,320 @@
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Copyright (c) 2019, Perry L Miller IV
+//  All rights reserved.
+//  MIT License: https://opensource.org/licenses/mit-license.html
+//
+///////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  A configurable smart pointer.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+#ifndef _USUL_POINTERS_SMART_POINTER_H_
+#define _USUL_POINTERS_SMART_POINTER_H_
+
+
+namespace Usul {
+namespace Pointers {
+
+
+template
+<
+  class T,
+  class Config_
+>
+struct SmartPointer
+{
+  /////////////////////////////////////////////////////////////////////////////
+  //
+  //  Useful typedefs.
+  //
+  /////////////////////////////////////////////////////////////////////////////
+
+  typedef Config_ Config;
+  typedef typename Config::AccessPolicy NullAccess;
+  typedef typename Config::AssignmentPolicy AssignmentPolicy;
+  typedef typename Config::ConstructorPolicy ConstructorPolicy;
+  typedef typename Config::ReferencePolicy ReferencePolicy;
+  typedef typename Config::DestructorPolicy DestructorPolicy;
+  typedef T element_type;
+  typedef SmartPointer < T, Config > ThisType;
+
+
+  /////////////////////////////////////////////////////////////////////////////
+  //
+  //  Default constructor. Needed for containers.
+  //
+  /////////////////////////////////////////////////////////////////////////////
+
+  SmartPointer() : _p ( nullptr )
+  {
+    ConstructorPolicy::check ( _p );
+  }
+
+
+  /////////////////////////////////////////////////////////////////////////////
+  //
+  //  Constructor.
+  //
+  /////////////////////////////////////////////////////////////////////////////
+
+  SmartPointer ( T *t ) : _p ( t )
+  {
+    ConstructorPolicy::check ( _p );
+    if ( _p )
+    {
+      ReferencePolicy::ref ( _p );
+    }
+  }
+
+
+  /////////////////////////////////////////////////////////////////////////////
+  //
+  //  Copy constructor.
+  //
+  /////////////////////////////////////////////////////////////////////////////
+
+  SmartPointer ( const ThisType &p ) : _p ( p.get() )
+  {
+    ConstructorPolicy::check ( _p );
+    if ( _p )
+    {
+      ReferencePolicy::ref ( _p );
+    }
+  }
+
+
+  /////////////////////////////////////////////////////////////////////////////
+  //
+  //  Destructor.
+  //
+  /////////////////////////////////////////////////////////////////////////////
+
+  ~SmartPointer()
+  {
+    DestructorPolicy::check ( _p );
+    if ( _p )
+    {
+      ReferencePolicy::unref ( _p );
+    }
+  }
+
+
+  /////////////////////////////////////////////////////////////////////////////
+  //
+  //  Get internal pointer.
+  //
+  /////////////////////////////////////////////////////////////////////////////
+
+  const T *get() const
+  {
+    NullAccess::check ( _p );
+    return _p;
+  }
+  T *get()
+  {
+    NullAccess::check ( _p );
+    return _p;
+  }
+
+
+  /////////////////////////////////////////////////////////////////////////////
+  //
+  //  Dereference.
+  //
+  /////////////////////////////////////////////////////////////////////////////
+
+  const T& operator * () const
+  {
+    return *(this->get());
+  }
+  T& operator * ()
+  {
+    return *(this->get());
+  }
+
+
+  /////////////////////////////////////////////////////////////////////////////
+  //
+  //  For pointer syntax.
+  //
+  /////////////////////////////////////////////////////////////////////////////
+
+  const T* operator -> () const
+  {
+    return this->get();
+  }
+  T* operator -> ()
+  {
+    return this->get();
+  }
+
+
+  /////////////////////////////////////////////////////////////////////////////
+  //
+  //  Is the internal pointer valid?
+  //
+  /////////////////////////////////////////////////////////////////////////////
+
+  bool valid() const
+  {
+    return ( nullptr != _p );
+  }
+
+
+  /////////////////////////////////////////////////////////////////////////////
+  //
+  //  Is the internal pointer null?
+  //
+  /////////////////////////////////////////////////////////////////////////////
+
+  bool null() const
+  {
+    return ( nullptr == _p );
+  }
+
+
+  /////////////////////////////////////////////////////////////////////////////
+  //
+  //  To permit "if ( !ptr )"
+  //
+  /////////////////////////////////////////////////////////////////////////////
+
+  bool operator ! ()
+  {
+    return this->null();
+  }
+
+
+  /////////////////////////////////////////////////////////////////////////////
+  //
+  //  Assignment.
+  //
+  /////////////////////////////////////////////////////////////////////////////
+
+  ThisType &operator = ( const ThisType &p )
+  {
+    this->_set ( p.get() );
+    return *this;
+  }
+  ThisType &operator = ( T *p )
+  {
+    this->_set ( p );
+    return *this;
+  }
+
+
+  /////////////////////////////////////////////////////////////////////////////
+  //
+  //  Equality.
+  //
+  /////////////////////////////////////////////////////////////////////////////
+
+  bool operator == ( const ThisType &p ) const
+  {
+    return _p == p.get();
+  }
+  bool operator == ( const T *p ) const
+  {
+    return _p == p;
+  }
+
+
+  /////////////////////////////////////////////////////////////////////////////
+  //
+  //  Inequality.
+  //
+  /////////////////////////////////////////////////////////////////////////////
+
+  bool operator != ( const ThisType &p ) const
+  {
+    return _p != p.get();
+  }
+  bool operator != ( const T *p ) const
+  {
+    return _p != p;
+  }
+
+
+  /////////////////////////////////////////////////////////////////////////////
+  //
+  //  Release control of the internal pointer and return it.
+  //  Use with caution.
+  //
+  /////////////////////////////////////////////////////////////////////////////
+
+  T* release()
+  {
+    // Save a pointer.
+    T* saved = _p;
+
+    // If we have a valid pointer...
+    if ( _p )
+    {
+      // Unreference it but make sure it is not deleted.
+      ReferencePolicy::unrefNoDelete ( _p );
+
+      // Make our internal pointer null;
+      _p = nullptr;
+    }
+
+    // Return the saved pointer.
+    return saved;
+  }
+
+protected:
+
+  /////////////////////////////////////////////////////////////////////////////
+  //
+  //  Set the internal pointer.
+  //
+  /////////////////////////////////////////////////////////////////////////////
+
+  void _set ( T *p )
+  {
+    // Check the policy.
+    AssignmentPolicy::check ( p );
+
+    // If the given pointer is the same address then just return.
+    if ( _p == p )
+    {
+      return;
+    }
+
+    // Make a copy of the current one.
+    T *old ( _p );
+
+    // Copy the given pointer.
+    _p = p;
+
+    // If the given pointer is not null then reference it.
+    if ( _p )
+    {
+      ReferencePolicy::ref ( _p );
+    }
+
+    // If the old one is not null then dereference it. Make sure we do this last
+    // because the given pointer "p" could be a child (indirect or direct) of
+    // "old". If we dereference "old" before we reference "p" then "p" may get
+    // deleted when it should not have.
+    if ( old )
+    {
+      ReferencePolicy::unref ( old );
+    }
+  }
+
+private:
+
+  T *_p;
+};
+
+
+} // namespace Pointers
+} // namespace Usul
+
+
+#endif // _USUL_POINTERS_SMART_POINTER_H_
