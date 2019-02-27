@@ -18,6 +18,7 @@
 #  https://stackoverflow.com/questions/2368811/how-to-set-warning-level-in-cmake/50882216
 #  https://docs.microsoft.com/en-us/cpp/build/reference/compiler-option-warning-level?view=vs-2017
 #  https://softwareengineering.stackexchange.com/questions/88532/whether-to-use-pedantic-flag-in-g-or-not
+#  https://stackoverflow.com/questions/4001736/whats-up-with-the-thousands-of-warnings-in-standard-headers-in-msvc-wall
 #
 ################################################################################
 
@@ -67,7 +68,7 @@ endif()
 option ( USUL_ENABLE_ALL_WARNINGS "Enable all warnings" ON )
 if ( USUL_ENABLE_ALL_WARNINGS )
   if ( MSVC )
-    add_compile_options ( /Wall )
+    add_compile_options ( /W4 )
   else()
     add_compile_options ( -Wall -Wextra -pedantic -pedantic-errors )
   endif()
