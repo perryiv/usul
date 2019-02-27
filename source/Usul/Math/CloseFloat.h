@@ -123,7 +123,7 @@ template < class FloatType_ > struct CloseFloat
 
   // Compare the two numbers.
   // This is an implementation of LomontCompare1 from [2] (see references above).
-  // The variable numAdjacentValues is known as "unites in last place" or ULP
+  // The variable numAdjacentValues is known as "units in last place" or ULP
   // in the literature.
   static bool compare ( FloatType a, FloatType b, UnsignedInteger numAdjacentValues )
   {
