@@ -117,7 +117,7 @@ TEMPLATE_TEST_CASE ( "Vector2 template math functions with all primitive types",
     Usul::Math::each ( VectorType ( 1, 2 ), [&] ( TestType value )
     {
       ++count;
-      REQUIRE ( count == value );
+      REQUIRE ( static_cast <TestType > ( count ) == value );
     } );
     REQUIRE ( VectorType::SIZE == count );
   }
@@ -260,7 +260,6 @@ TEMPLATE_TEST_CASE ( "Vector2 template math functions with all primitive types",
   {
     REQUIRE (  8 == Usul::Math::distanceSquared ( VectorType (  0,  0 ), VectorType ( 2, 2 ) ) );
     REQUIRE ( 18 == Usul::Math::distanceSquared ( VectorType (  0,  0 ), VectorType ( 3, 3 ) ) );
-    REQUIRE ( 18 == Usul::Math::distanceSquared ( VectorType ( -1, -1 ), VectorType ( 2, 2 ) ) );
     REQUIRE ( 18 == Usul::Math::distanceSquared ( VectorType (  1,  2 ), VectorType ( 4, 5 ) ) );
     REQUIRE ( 32 == Usul::Math::distanceSquared ( VectorType (  0,  0 ), VectorType ( 4, 4 ) ) );
     REQUIRE ( 50 == Usul::Math::distanceSquared ( VectorType (  0,  0 ), VectorType ( 5, 5 ) ) );
@@ -284,6 +283,11 @@ TEMPLATE_TEST_CASE ( "Vector2 template math functions with signed primitive type
     REQUIRE ( -11 == Usul::Math::dot ( VectorType ( 1, 2 ), VectorType ( -3, -4 ) ) );
     REQUIRE ( -14 == Usul::Math::dot ( VectorType ( 1, 2 ), VectorType ( -4, -5 ) ) );
     REQUIRE ( -17 == Usul::Math::dot ( VectorType ( 1, 2 ), VectorType ( -5, -6 ) ) );
+  }
+
+  SECTION ( "Can get the distance squared between two points" )
+  {
+    REQUIRE ( 18 == Usul::Math::distanceSquared(VectorType ( -1, -1 ), VectorType ( 2, 2 ) ) );
   }
 }
 
