@@ -145,15 +145,16 @@ TEMPLATE_TEST_CASE ( "Vector3 template math functions with all primitive types",
   SECTION ( "Can scale a vector" )
   {
     const VectorType a ( 1, 2, 3 );
+    const TestType scale ( static_cast < TestType > ( 10 ) );
 
     VectorType b;
-    Usul::Math::scale ( a, 10, b );
+    Usul::Math::scale ( a, scale, b );
 
     REQUIRE ( 10 == b[0] );
     REQUIRE ( 20 == b[1] );
     REQUIRE ( 30 == b[2] );
 
-    const VectorType c = Usul::Math::scale ( a, 10 );
+    const VectorType c = Usul::Math::scale ( a, scale );
 
     REQUIRE ( 10 == c[0] );
     REQUIRE ( 20 == c[1] );
@@ -246,15 +247,16 @@ TEMPLATE_TEST_CASE ( "Vector3 template math functions with all primitive types",
   SECTION ( "Can scale a vector" )
   {
     const VectorType a ( 1, 2, 3 );
+    const TestType scale ( static_cast < TestType > ( 10 ) );
 
     VectorType b;
-    Usul::Math::scale ( a, 10, b );
+    Usul::Math::scale ( a, scale, b );
 
     REQUIRE ( 10 == b[0] );
     REQUIRE ( 20 == b[1] );
     REQUIRE ( 30 == b[2] );
 
-    const VectorType c = Usul::Math::scale ( a, 10 );
+    const VectorType c = Usul::Math::scale ( a, scale );
 
     REQUIRE ( 10 == c[0] );
     REQUIRE ( 20 == c[1] );
@@ -283,7 +285,6 @@ TEMPLATE_TEST_CASE ( "Vector3 template math functions with all primitive types",
   {
     REQUIRE ( 12 == Usul::Math::distanceSquared ( VectorType (  0,  0,  0 ), VectorType ( 2, 2, 2 ) ) );
     REQUIRE ( 27 == Usul::Math::distanceSquared ( VectorType (  0,  0,  0 ), VectorType ( 3, 3, 3 ) ) );
-    REQUIRE ( 27 == Usul::Math::distanceSquared ( VectorType ( -1, -1, -1 ), VectorType ( 2, 2, 2 ) ) );
     REQUIRE ( 27 == Usul::Math::distanceSquared ( VectorType (  1,  2,  3 ), VectorType ( 4, 5, 6 ) ) );
     REQUIRE ( 48 == Usul::Math::distanceSquared ( VectorType (  0,  0,  0 ), VectorType ( 4, 4, 4 ) ) );
     REQUIRE ( 75 == Usul::Math::distanceSquared ( VectorType (  0,  0,  0 ), VectorType ( 5, 5, 5 ) ) );
@@ -317,6 +318,11 @@ TEMPLATE_TEST_CASE ( "Vector3 template math functions with signed primitive type
 
     const VectorType d = Usul::Math::cross ( a, b );
     REQUIRE ( true == Usul::Math::equal ( expected, d ) );
+  }
+
+  SECTION ( "Can get the distance squared between two points" )
+  {
+    REQUIRE ( 27 == Usul::Math::distanceSquared ( VectorType ( -1, -1, -1 ), VectorType ( 2, 2, 2 ) ) );
   }
 }
 

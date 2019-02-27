@@ -149,16 +149,17 @@ TEMPLATE_TEST_CASE ( "Vector4 template math functions with all primitive types",
   SECTION ( "Can scale a vector" )
   {
     const VectorType a ( 1, 2, 3, 4 );
+    const TestType scale ( static_cast < TestType > ( 10 ) );
 
     VectorType b;
-    Usul::Math::scale ( a, 10, b );
+    Usul::Math::scale ( a, scale, b );
 
     REQUIRE ( 10 == b[0] );
     REQUIRE ( 20 == b[1] );
     REQUIRE ( 30 == b[2] );
     REQUIRE ( 40 == b[3] );
 
-    const VectorType c = Usul::Math::scale ( a, 10 );
+    const VectorType c = Usul::Math::scale ( a, scale );
 
     REQUIRE ( 10 == c[0] );
     REQUIRE ( 20 == c[1] );
@@ -261,16 +262,17 @@ TEMPLATE_TEST_CASE ( "Vector4 template math functions with all primitive types",
   SECTION ( "Can scale a vector" )
   {
     const VectorType a ( 1, 2, 3, 4 );
+    const TestType scale ( static_cast < TestType > ( 10 ) );
 
     VectorType b;
-    Usul::Math::scale ( a, 10, b );
+    Usul::Math::scale ( a, scale, b );
 
     REQUIRE ( 10 == b[0] );
     REQUIRE ( 20 == b[1] );
     REQUIRE ( 30 == b[2] );
     REQUIRE ( 40 == b[3] );
 
-    const VectorType c = Usul::Math::scale ( a, 10 );
+    const VectorType c = Usul::Math::scale ( a, scale );
 
     REQUIRE ( 10 == c[0] );
     REQUIRE ( 20 == c[1] );
@@ -300,7 +302,6 @@ TEMPLATE_TEST_CASE ( "Vector4 template math functions with all primitive types",
   {
     REQUIRE (  16 == Usul::Math::distanceSquared ( VectorType (  0,  0,  0,  0 ), VectorType ( 2, 2, 2, 2 ) ) );
     REQUIRE (  36 == Usul::Math::distanceSquared ( VectorType (  0,  0,  0,  0 ), VectorType ( 3, 3, 3, 3 ) ) );
-    REQUIRE (  36 == Usul::Math::distanceSquared ( VectorType ( -1, -1, -1, -1 ), VectorType ( 2, 2, 2, 2 ) ) );
     REQUIRE (  36 == Usul::Math::distanceSquared ( VectorType (  1,  2,  3,  4 ), VectorType ( 4, 5, 6, 7 ) ) );
     REQUIRE (  64 == Usul::Math::distanceSquared ( VectorType (  0,  0,  0,  0 ), VectorType ( 4, 4, 4, 4 ) ) );
     REQUIRE ( 100 == Usul::Math::distanceSquared ( VectorType (  0,  0,  0,  0 ), VectorType ( 5, 5, 5, 5 ) ) );
@@ -317,6 +318,11 @@ TEMPLATE_TEST_CASE ( "Vector4 template math functions with signed primitive type
     REQUIRE ( -50 == Usul::Math::dot ( VectorType ( 1, 2, 3, 4 ), VectorType ( -3, -4, -5, -6 ) ) );
     REQUIRE ( -60 == Usul::Math::dot ( VectorType ( 1, 2, 3, 4 ), VectorType ( -4, -5, -6, -7 ) ) );
     REQUIRE ( -70 == Usul::Math::dot ( VectorType ( 1, 2, 3, 4 ), VectorType ( -5, -6, -7, -8 ) ) );
+  }
+
+  SECTION ( "Can get the distance squared between two points" )
+  {
+    REQUIRE (  36 == Usul::Math::distanceSquared ( VectorType ( -1, -1, -1, -1 ), VectorType ( 2, 2, 2, 2 ) ) );
   }
 }
 

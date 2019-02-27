@@ -142,14 +142,15 @@ TEMPLATE_TEST_CASE ( "Vector2 template math functions with all primitive types",
   SECTION ( "Can scale a vector" )
   {
     const VectorType a ( 1, 2 );
+    const TestType scale ( static_cast < TestType > ( 10 ) );
 
     VectorType b;
-    Usul::Math::scale ( a, 10, b );
+    Usul::Math::scale ( a, scale, b );
 
     REQUIRE ( 10 == b[0] );
     REQUIRE ( 20 == b[1] );
 
-    const VectorType c = Usul::Math::scale ( a, 10 );
+    const VectorType c = Usul::Math::scale ( a, scale );
 
     REQUIRE ( 10 == c[0] );
     REQUIRE ( 20 == c[1] );
@@ -232,14 +233,15 @@ TEMPLATE_TEST_CASE ( "Vector2 template math functions with all primitive types",
   SECTION ( "Can scale a vector" )
   {
     const VectorType a ( 1, 2 );
+    const TestType scale ( static_cast <  TestType> ( 10 ) );
 
     VectorType b;
-    Usul::Math::scale ( a, 10, b );
+    Usul::Math::scale ( a, scale, b );
 
     REQUIRE ( 10 == b[0] );
     REQUIRE ( 20 == b[1] );
 
-    const VectorType c = Usul::Math::scale ( a, 10 );
+    const VectorType c = Usul::Math::scale ( a, scale );
 
     REQUIRE ( 10 == c[0] );
     REQUIRE ( 20 == c[1] );
