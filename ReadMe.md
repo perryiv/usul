@@ -33,8 +33,7 @@ To configure, compile, and test, do this:
     cd build
     cmake ..
     cmake --build .
-    cd bin
-    ./usul_math_test
+    ./bin/usul_test
 
 ### Optional
 
