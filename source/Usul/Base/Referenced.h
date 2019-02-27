@@ -11,6 +11,10 @@
 //
 //  Reference-counting base class.
 //
+//  For discussion about disabling warning C4251 on Windows see:
+//  https://stackoverflow.com/questions/16419318/one-way-of-eliminating-c4251-warning-when-using-stl-classes-in-the-dll-interface
+//  https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-1-c4251?view=vs-2017
+//
 ///////////////////////////////////////////////////////////////////////////////
 
 #ifndef _USUL_REFERENCED_BASE_CLASS_H_
@@ -20,6 +24,7 @@
 
 #ifdef USUL_USE_ATOMIC_REFERENCE_COUNTER
 # ifdef _WIN32
+#  pragma warning ( disable : 4251 ) // Disable warning about exporting atomic.
 #  include <atomic>
 # else
 #  include <memory>
@@ -45,49 +50,26 @@ public:
 	virtual Usul::Interfaces::IUnknown *asUnknown();
 
   // Reference this instance.
-  void ref()
-  {
-    ++_refCount;
-  }
+  void ref();
 
   // Dereference this instance.
-  void unref ( bool allowDeletion = true )
-  {
-    if ( ( 0 == --_refCount ) && allowDeletion )
-    {
-      this->_deleteThis();
-    }
-  }
+  void unref ( bool allowDeletion = true );
 
   // Get the reference count.
-  CounterType getReferenceCount() const
-  {
-    return _refCount;
-  }
+  CounterType getReferenceCount() const;
 
 protected:
 
-  Referenced() : BaseClass(),
-    _refCount ( 0 )
-  {
-  }
-  Referenced ( const Referenced &r ) : BaseClass ( r ),
-    _refCount ( 0 )
-  {
-  }
-  Referenced &operator = ( const Referenced &r )
-  {
-    // We define this function to make sure the compiler does not.
-    // A compiler-generated operator would probably assign the reference count,
-    // which does not make any sense.
-    return *this;
-  }
+  Referenced();
+  Referenced ( const Referenced &r );
 
   virtual ~Referenced();
 
-  void _deleteThis();
+  Referenced &operator = ( const Referenced & );
 
 private:
+
+  void _deleteMe();
 
 #ifdef USUL_USE_ATOMIC_REFERENCE_COUNTER
   std::atomic < CounterType > _refCount;
