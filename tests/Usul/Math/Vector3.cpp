@@ -56,7 +56,7 @@ template < class ScalarType > inline void checkLength (
 {
   typedef typename Usul::Math::Vector3 < ScalarType > VectorType;
   REQUIRE ( len == Usul::Math::length ( VectorType ( v0, v1, v2 ) ) );
-};
+}
 
 
 ////////////////////////////////////////////////////////////////////////////////

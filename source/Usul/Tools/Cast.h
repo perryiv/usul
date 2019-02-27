@@ -25,7 +25,7 @@ namespace Usul
     inline ToType unsafeCast ( FromType from )
     {
       return ( ( ToType ) from );
-    };
+    }
   }
 }
 

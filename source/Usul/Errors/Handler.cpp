@@ -41,7 +41,7 @@ void defaultErrorCallback ( const std::string &message, const char *filename, un
   }
 
   throw std::runtime_error ( out.str() );
-};
+}
 
 
 ///////////////////////////////////////////////////////////////////////////////

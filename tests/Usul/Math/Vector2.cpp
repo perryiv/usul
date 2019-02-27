@@ -43,7 +43,7 @@ template < class ScalarType > inline void checkLength (
 {
   typedef typename Usul::Math::Vector2 < ScalarType > VectorType;
   REQUIRE ( len == Usul::Math::length ( VectorType ( v0, v1 ) ) );
-};
+}
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -57,7 +57,7 @@ inline void testAngle ( const VectorType &a, const VectorType &b,
   const typename VectorType::value_type &expected, unsigned int numDecimals )
 {
   REQUIRE ( expected == Usul::Math::trunc ( Usul::Math::radToDeg ( Usul::Math::angle ( a, b ) ), numDecimals ) );
-};
+}
 
 
 ////////////////////////////////////////////////////////////////////////////////
