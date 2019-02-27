@@ -16,6 +16,8 @@
 #  https://stackoverflow.com/questions/10851247/how-to-activate-c-11-in-cmake
 #  https://stackoverflow.com/questions/6594796/how-do-i-make-cmake-output-into-a-bin-dir
 #  https://stackoverflow.com/questions/2368811/how-to-set-warning-level-in-cmake/50882216
+#  https://docs.microsoft.com/en-us/cpp/build/reference/compiler-option-warning-level?view=vs-2017
+#  https://softwareengineering.stackexchange.com/questions/88532/whether-to-use-pedantic-flag-in-g-or-not
 #
 ################################################################################
 
@@ -26,8 +28,16 @@ cmake_minimum_required ( VERSION 3.12.0 )
 # The name of this project.
 project ( usul )
 
-# Use modern C++
-set ( CMAKE_CXX_STANDARD 11 )
+# Use this C++ standard unless the user specifies otherwise with:
+# cmake path/to/source/dir -DCMAKE_CXX_STANDARD=14
+if ( NOT DEFINED CMAKE_CXX_STANDARD )
+  set ( CMAKE_CXX_STANDARD 17 )
+endif()
+
+# Turn off compiler-specific extensions by default.
+if ( NOT DEFINED CMAKE_CXX_EXTENSIONS )
+  set ( CAMKE_CXX_EXTENSIONS OFF )
+endif()
 
 # Define some variables that point to top-level directories.
 set ( USUL_INC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/source )
@@ -53,14 +63,23 @@ if ( USUL_USE_ATOMIC_REFERENCE_COUNTER )
   add_compile_definitions ( USUL_USE_ATOMIC_REFERENCE_COUNTER )
 endif()
 
+# Does the user want all warnings?
+option ( USUL_ENABLE_ALL_WARNINGS "Enable all warnings" ON )
+if ( USUL_ENABLE_ALL_WARNINGS )
+  if ( MSVC )
+    add_compile_options ( /Wall )
+  else()
+    add_compile_options ( -Wall -Wextra -pedantic -pedantic-errors )
+  endif()
+endif()
+
 # Does the user want to treat warnings the same as errors?
-option ( USUL_TREAT_WARNINGS_LIKE_ERRORS
-  "Treat warnings the same as errors" ON )
+option ( USUL_TREAT_WARNINGS_LIKE_ERRORS "Treat warnings like errors" ON )
 if ( USUL_TREAT_WARNINGS_LIKE_ERRORS )
   if ( MSVC )
-    add_compile_options ( /W4 /WX )
+    add_compile_options ( /WX )
   else()
-    add_compile_options ( -Wall -Wextra -pedantic -Werror )
+    add_compile_options ( -Werror )
   endif()
 endif()
 
