@@ -120,7 +120,11 @@ TEMPLATE_TEST_CASE ( "Vector3 template math functions with all primitive types",
     Usul::Math::each ( VectorType ( 1, 2, 3 ), [&] ( TestType value )
     {
       ++count;
-      REQUIRE ( count == value );
+
+      // Need the static cast here to satisfy strict warnings.
+      // Not making count a TestType because I want to make sure
+      // a reliable interger type is being incremented.
+      REQUIRE ( ( static_cast < TestType > ( count ) ) == value );
     } );
     REQUIRE ( 3 == count );
   }
