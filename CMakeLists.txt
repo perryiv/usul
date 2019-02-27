@@ -15,6 +15,7 @@
 #  https://vicrucann.github.io/tutorials/cmake-qt-osg-1/
 #  https://stackoverflow.com/questions/10851247/how-to-activate-c-11-in-cmake
 #  https://stackoverflow.com/questions/6594796/how-do-i-make-cmake-output-into-a-bin-dir
+#  https://stackoverflow.com/questions/2368811/how-to-set-warning-level-in-cmake/50882216
 #
 ################################################################################
 
@@ -45,11 +46,22 @@ configure_file (
   ${USUL_INC_DIR}/Usul/Version.h
 )
 
-# Some options and their defaults.
+# Does the user want an atomic reference counter?
 option ( USUL_USE_ATOMIC_REFERENCE_COUNTER
   "Use std::atomic for the reference counter in Usul/Base/Referenced.cpp" ON )
 if ( USUL_USE_ATOMIC_REFERENCE_COUNTER )
   add_compile_definitions ( USUL_USE_ATOMIC_REFERENCE_COUNTER )
+endif()
+
+# Does the user want to treat warnings the same as errors?
+option ( USUL_TREAT_WARNINGS_LIKE_ERRORS
+  "Treat warnings the same as errors" ON )
+if ( USUL_TREAT_WARNINGS_LIKE_ERRORS )
+  if ( MSVC )
+    add_compile_options ( /W4 /WX )
+  else()
+    add_compile_options ( -Wall -Wextra -pedantic -Werror )
+  endif()
 endif()
 
 # For debug builds we want the _DEBUG preprocessor symbol to be defined.
