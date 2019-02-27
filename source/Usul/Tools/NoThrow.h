@@ -29,13 +29,13 @@ namespace Tools {
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-template < class F > void noThrow ( F function, const char *filename, unsigned int line )
+template < class F > void noThrow ( F function, const char *, unsigned int )
 {
   try
   {
     function();
   }
-  catch ( const std::exception &e )
+  catch ( const std::exception & )
   {
     // Eat it.
   }
