@@ -36,7 +36,7 @@ endif()
 
 # Turn off compiler-specific extensions by default.
 if ( NOT DEFINED CMAKE_CXX_EXTENSIONS )
-  set ( CAMKE_CXX_EXTENSIONS OFF )
+  set ( CMAKE_CXX_EXTENSIONS OFF )
 endif()
 
 # Define some variables that point to top-level directories.
