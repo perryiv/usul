@@ -35,6 +35,7 @@
 #include <cstdint>
 #include <cmath>
 // #include <iostream>
+#include <type_traits>
 
 
 namespace Usul {
@@ -112,6 +113,10 @@ template < class FloatType_ > struct CloseFloat
 	typedef FloatType second_argument_type;
 	typedef bool result_type;
 
+  // Make sure the sizes are correct.
+  static_assert ( sizeof ( FloatType ) == sizeof ( SignedInteger ) );
+  static_assert ( sizeof ( FloatType ) == sizeof ( UnsignedInteger ) );
+
   // Let the compiler make copy constructor and assignment operator.
   // Note: previous default of 10 was causing std::map::find to return false
   // but then std::map::insert would return an existing value, when this class
@@ -152,9 +157,25 @@ template < class FloatType_ > struct CloseFloat
     //   return a == b; // TODO: Make this a policy using a template argument.
     // }
 
+    // Temporarily disable the warning we get when compiling with -Wstrict-aliasing or -Wall.
+    // The static_assert (above) tells us that the two types are the same size,
+    // so this should be safe for our purposes.
+    // https://stackoverflow.com/questions/8824622/fix-for-dereferencing-type-punned-pointer-will-break-strict-aliasing
+    // https://gcc.gnu.org/onlinedocs/cpp/Common-Predefined-Macros.html#Common-Predefined-Macros
+    // https://github.com/libdynd/libdynd/issues/1326
+    #ifdef __GNUC__
+    # pragma GCC diagnostic push
+    # pragma GCC diagnostic ignored "-Wstrict-aliasing"
+    #endif
+
     // Interpret the memory as a signed integer.
     SignedInteger ia ( *( reinterpret_cast < SignedInteger * > ( &a ) ) );
     SignedInteger ib ( *( reinterpret_cast < SignedInteger * > ( &b ) ) );
+
+    // Put things back where we found them.
+    #ifdef __GNUC__
+    # pragma GCC diagnostic pop
+    #endif
 
     // std::cout << "ia = " << ia << "\nib = " << ib << std::endl;
 
