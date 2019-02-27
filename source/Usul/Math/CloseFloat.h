@@ -114,8 +114,8 @@ template < class FloatType_ > struct CloseFloat
 	typedef bool result_type;
 
   // Make sure the sizes are correct.
-  static_assert ( sizeof ( FloatType ) == sizeof ( SignedInteger ) );
-  static_assert ( sizeof ( FloatType ) == sizeof ( UnsignedInteger ) );
+  static_assert ( sizeof ( FloatType ) == sizeof ( SignedInteger   ), "Size of FloatType must be equal to size of SignedInteger" );
+  static_assert ( sizeof ( FloatType ) == sizeof ( UnsignedInteger ), "Size of FloatType must be equal to size of UnsignedInteger" );
 
   // Let the compiler make copy constructor and assignment operator.
   // Note: previous default of 10 was causing std::map::find to return false
