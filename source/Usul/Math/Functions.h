@@ -63,11 +63,11 @@ inline FloatType trunc ( const FloatType value, const UnsignedInteger numDecimal
 
 template < class ScalarType > inline ScalarType radToDeg ( const ScalarType angle )
 {
-  return ( static_cast < ScalarType > ( angle * Usul::Math::RAD_TO_DEG ) );
+  return ( angle * ( static_cast < ScalarType > ( Usul::Math::RAD_TO_DEG ) ) );
 }
 template < class ScalarType > inline ScalarType degToRad ( const ScalarType angle )
 {
-  return ( static_cast < ScalarType > ( angle * Usul::Math::DEG_TO_RAD ) );
+  return ( angle * ( static_cast < ScalarType > ( Usul::Math::DEG_TO_RAD ) ) );
 }
 
 
