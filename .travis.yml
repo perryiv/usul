@@ -43,6 +43,8 @@ script:
 - ls
 - cmake -version
 - gcc --version
+- git --version
+- git branch
 
 - export BOOST_INC_DIR=/usr/include
 - echo $BOOST_INC_DIR
