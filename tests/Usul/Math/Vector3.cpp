@@ -320,8 +320,6 @@ TEMPLATE_TEST_CASE ( "Vector3 template math functions with larger primitive type
   short, int, long, ( unsigned short ),
   ( unsigned int ), ( unsigned long ), float, double, ( long double ) )
 {
-  typedef typename Usul::Math::Vector3 < TestType > VectorType;
-
   SECTION ( "Can get the length" )
   {
     // Test all pythagorean quadruples.
@@ -365,9 +363,6 @@ TEMPLATE_TEST_CASE ( "Vector3 template math functions with floating point types"
       );
       const TestType len = static_cast < TestType > ( q[3] );
       REQUIRE ( len == Usul::Math::length ( a ) );
-
-      // Comparisons have to be the same type.
-      const TestType one = static_cast < TestType > ( 1 );
 
       // We want the original length.
       VectorType b;

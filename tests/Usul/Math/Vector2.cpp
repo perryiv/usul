@@ -302,8 +302,6 @@ TEMPLATE_TEST_CASE ( "Vector2 template math functions with larger primitive type
   short, int, long, ( unsigned short ),
   ( unsigned int ), ( unsigned long ), float, double, ( long double ) )
 {
-  typedef typename Usul::Math::Vector2 < TestType > VectorType;
-
   SECTION ( "Can get the length" )
   {
     // Test all pythagorean quadruples.
@@ -352,9 +350,6 @@ TEMPLATE_TEST_CASE ( "Vector2 template math functions with floating point types"
       );
       const TestType len = static_cast < TestType > ( q[2] );
       REQUIRE ( len == Usul::Math::length ( a ) );
-
-      // Comparisons have to be the same type.
-      const TestType one = static_cast < TestType > ( 1 );
 
       // We want the original length.
       VectorType b;
@@ -413,13 +408,13 @@ TEST_CASE ( "Angle between two vectors" )
       static_cast < TestType > ( 6.66665989 ), 8 );
   }
 
-  SECTION ( "Can get the angle between two vectors of long doubles" )
-  {
-    typedef long double TestType;
-    typedef typename Usul::Math::Vector2 < TestType > VectorType;
-
-    // Why doesn't this one work?
-    // testAngle ( VectorType ( 5, 24 ), VectorType ( 1, 3 ),
-    //   static_cast < TestType > ( 6.66665989 ), 8 );
-  }
+  // SECTION ( "Can get the angle between two vectors of long doubles" )
+  // {
+  //   typedef long double TestType;
+  //   typedef typename Usul::Math::Vector2 < TestType > VectorType;
+  //
+  //   // Why doesn't this one work?
+  //   testAngle ( VectorType ( 5, 24 ), VectorType ( 1, 3 ),
+  //     static_cast < TestType > ( 6.66665989 ), 8 );
+  // }
 }
