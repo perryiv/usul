@@ -25,10 +25,8 @@
 #ifdef USUL_USE_ATOMIC_REFERENCE_COUNTER
 # ifdef _WIN32
 #  pragma warning ( disable : 4251 ) // Disable warning about exporting atomic.
-#  include <atomic>
-# else
-#  include <memory>
 # endif
+# include <atomic>
 #endif
 
 

@@ -28,11 +28,6 @@ struct IUnknown
   // Smart-pointer definitions.
   USUL_DECLARE_QUERY_POINTERS ( IUnknown );
 
-  // Using built in C++ shared_ptr because of discussion about
-  // boost::intrusive_ptr and thread safety found here:
-  // https://stackoverflow.com/questions/13912286/intrusive-ptr-in-c11
-  // typedef std::shared_ptr < IUnknown > Ptr;
-
   // Id for this interface.
   enum { IID = 1075271105 };
 
