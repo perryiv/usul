@@ -14,9 +14,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "Usul/Errors/Handler.h"
-#include "Usul/Tools/NoThrow.h"
 
-#include <functional>
 #include <sstream>
 #include <stdexcept>
 
@@ -108,7 +106,20 @@ void Errors::handle ( const std::string &message, const char *filename, unsigned
     }
     else
     {
-      USUL_TOOLS_NO_THROW ( std::bind ( Details::_callback, message, filename, line ) );
+      // Do not use USUL_TOOLS_NO_THROW because it calls this
+      // function if there is an exception.
+      try
+      {
+        Details::_callback ( message, filename, line );
+      }
+      catch ( const std::exception & )
+      {
+        // TODO: Should we call printf ?
+      }
+      catch ( ... )
+      {
+        // TODO: Should we call printf ?
+      }
     }
   }
 }

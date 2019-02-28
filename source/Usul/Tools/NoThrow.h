@@ -16,6 +16,8 @@
 #ifndef _USUL_FUNCTIONS_NO_THROW_H_
 #define _USUL_FUNCTIONS_NO_THROW_H_
 
+#include "Usul/Errors//Handler.h"
+
 #include <stdexcept>
 
 
@@ -29,19 +31,23 @@ namespace Tools {
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-template < class F > void noThrow ( F function, const char *, unsigned int )
+template < class F > void noThrow ( F function, const char *filename, unsigned int line )
 {
+  // If there is an exception then we call the error handler.
+  // However, we prevent the error handler from throwing its own exception.
+  const bool allowThrow ( false );
+
   try
   {
     function();
   }
-  catch ( const std::exception & )
+  catch ( const std::exception &e )
   {
-    // Eat it.
+    Usul::Errors::handle ( e.what(), filename, line, allowThrow );
   }
   catch ( ... )
   {
-    // Eat it.
+    Usul::Errors::handle ( "Unknown exception caught", filename, line, allowThrow );
   }
 }
 
