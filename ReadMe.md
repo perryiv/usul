@@ -49,3 +49,13 @@ you can do this:
 If you want to automatically recompile when the source code changes, do this:
 
     npm run watch
+
+### Errors
+
+When this library encounters an error inside a destructor it writes information
+to stderr. When it encounters an error anywhere else it throws a standard
+exception.
+
+This seems to be a good balance between flexibility when handling errors,
+and keeping the various source files decoupled, especially the header-only
+source files.
