@@ -34,6 +34,7 @@ set ( SOURCE_FILES
   ./Usul/Math/Vector4.cpp
   ./Usul/Strings/Format.cpp
   ./Usul/Tools/Cast.cpp
+  ./Usul/Tools/NoThrow.cpp
   ./Usul/Main.cpp
 )
 
