@@ -31,8 +31,7 @@ struct USUL_EXPORT Typed
 
 protected:
 
-  // Make gcc happy.
-  virtual ~Typed(){}
+  virtual ~Typed();
 };
 
 

@@ -16,8 +16,9 @@
 #ifndef _USUL_FUNCTIONS_NO_THROW_H_
 #define _USUL_FUNCTIONS_NO_THROW_H_
 
-#include "Usul/Errors//Handler.h"
+#include "Usul/Strings/Format.h"
 
+#include <iostream>
 #include <stdexcept>
 
 
@@ -27,27 +28,36 @@ namespace Tools {
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-//  Convenience function for making non-throwing function call.
+//  Convenience function that prevents any exception from propagating.
 //
 ///////////////////////////////////////////////////////////////////////////////
 
 template < class F > void noThrow ( F function, const char *filename, unsigned int line )
 {
-  // If there is an exception then we call the error handler.
-  // However, we prevent the error handler from throwing its own exception.
-  const bool allowThrow ( false );
-
   try
   {
     function();
   }
+
+  // If the user wants to capture this error they can redirect stderr.
+  // We output one string because that works best when multi-threaded.
+
   catch ( const std::exception &e )
   {
-    Usul::Errors::handle ( e.what(), filename, line, allowThrow );
+    std::clog << ( Usul::Strings::format (
+      "Standard exception caught: ", e.what(),
+      ", File: ", filename,
+      ", Line: ", line
+    ) ) << std::endl;
   }
+
   catch ( ... )
   {
-    Usul::Errors::handle ( "Unknown exception caught", filename, line, allowThrow );
+    std::clog << ( Usul::Strings::format (
+      "Unknown exception caught",
+      ", File: ", filename,
+      ", Line: ", line
+    ) ) << std::endl;
   }
 }
 

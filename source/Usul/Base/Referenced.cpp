@@ -14,9 +14,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "Usul/Base/Referenced.h"
-#include "Usul/Errors/Handler.h"
 #include "Usul/Strings/Format.h"
 
+#include <iostream>
 
 namespace Usul {
 namespace Base {
@@ -54,8 +54,15 @@ Referenced::Referenced ( const Referenced &r ) : BaseClass ( r ),
 
 Referenced::~Referenced()
 {
-  // Should be true.
-  USUL_ERROR_CHECKER_NO_THROW ( 0 == _refCount );
+  if ( _refCount > 0 )
+  {
+    // We're inside of a destructor so we can't throw an exception.
+    // If the user wants to capture this error they can redirect stderr.
+    // We output one string because that works best when multi-threaded.
+    std::clog << Usul::Strings::format
+      ( "Deleting ", this, " with a reference count of ", _refCount )
+      << std::endl;
+  }
 }
 
 
@@ -133,8 +140,6 @@ Referenced::CounterType Referenced::getReferenceCount() const
 
 void Referenced::_deleteMe()
 {
-#ifdef _DEBUG
-
   const Referenced *self = nullptr;
   const char *name = nullptr;
 
@@ -145,28 +150,30 @@ void Referenced::_deleteMe()
     delete this;
   }
 
+  // We're not in a destructor so we coult throw an exception. However, given
+  // where this function gets called from it's probably best that we do not.
+  // If the user wants to capture this error they can redirect stderr.
+  // We output one string because that works best when multi-threaded.
+
   catch ( const std::exception &e )
   {
-    USUL_ERROR_HANDLER ( Usul::Strings::format (
-      "Deleting this instance caused a standard exception",
-      ", Message: ", e.what(),
-      ", Address: ", self,
-      ", Class: ", ( name ? name : "" ) ) );
+    std::clog << ( Usul::Strings::format (
+      "Deleting ", self, " caused a standard exception: ", e.what(),
+      ", Class: ", ( name ? name : "" ),
+      ", File: ", __FILE__,
+      ", Line: ", __LINE__
+    ) ) << std::endl;
   }
 
   catch ( ... )
   {
-    USUL_ERROR_HANDLER ( Usul::Strings::format (
-      "Deleting this instance caused an unknown exception",
-      ", Address: ", self,
-      ", Class: ", ( name ? name : "" ) ) );
+    std::clog << ( Usul::Strings::format (
+      "Deleting ", self, " caused an unknown exception",
+      ", Class: ", ( name ? name : "" ),
+      ", File: ", __FILE__,
+      ", Line: ", __LINE__
+    ) ) << std::endl;
   }
-
-#else
-
-  delete this;
-
-#endif
 }
 
 

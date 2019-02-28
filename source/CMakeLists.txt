@@ -19,7 +19,6 @@ add_compile_definitions ( COMPILING_USUL )
 set ( SOURCE_FILES
   ./Usul/Base/Referenced.cpp
   ./Usul/Base/Typed.cpp
-  ./Usul/Errors/Handler.cpp
 )
 
 # Make the add_library using the source files.
