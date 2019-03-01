@@ -18,8 +18,9 @@
 
 #include "Usul/Strings/Format.h"
 
-#include <iostream>
-#include <stdexcept>
+// Put these in the source files that actually use these macros.
+// #include <iostream>
+// #include <stdexcept>
 
 
 ///////////////////////////////////////////////////////////////////////////////
