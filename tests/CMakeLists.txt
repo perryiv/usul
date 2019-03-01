@@ -33,6 +33,7 @@ set ( SOURCE_FILES
   ./Helpers/Classes.cpp
   ./Helpers/Instances.cpp
   ./Usul/Base/Referenced.cpp
+  ./Usul/Errors/Check.cpp
   ./Usul/Math/Base.cpp
   ./Usul/Math/CloseFloat.cpp
   ./Usul/Math/Functions.cpp
