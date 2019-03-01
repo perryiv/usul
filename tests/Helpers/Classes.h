@@ -9,55 +9,54 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 //
-//  Test the cast function(s).
+//  Helper classes.
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "Usul/Tools/Cast.h"
+#ifndef _USUL_TEST_HELPER_CLASSES_H_
+#define _USUL_TEST_HELPER_CLASSES_H_
 
-#include "catch2/catch.hpp"
+#include "Usul/Base/Referenced.h"
+
+namespace Helpers {
 
 
 ////////////////////////////////////////////////////////////////////////////////
 //
-//  Some data types we use below.
+//  Class used in the test code.
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-struct A
+class ClassA : public Usul::Base::Referenced
 {
-  A() : a ( 10 ){}
-  int a;
+public:
+  typedef Usul::Base::Referenced BaseClass;
+  ClassA();
+  virtual ~ClassA();
+private:
+  ClassA ( const ClassA & );
+  ClassA &operator = ( const ClassA & );
 };
 
-struct B : public A
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//  Class used in the test code.
+//
+////////////////////////////////////////////////////////////////////////////////
+
+struct ClassB : public ClassA
 {
-  B() : A(), b ( 20 ){}
-  int b;
+  typedef ClassA BaseClass;
+  ClassB();
+  virtual ~ClassB();
+private:
+  ClassB ( const ClassB & );
+  ClassB &operator = ( const ClassB & );
 };
 
 
-////////////////////////////////////////////////////////////////////////////////
-//
-//  Test the cast function.
-//
-////////////////////////////////////////////////////////////////////////////////
+} // namespace Helpers
 
-TEST_CASE ( "Unsafe casting" )
-{
-  SECTION ( "Can unsafely cast between types" )
-  {
-    A *a1 = new A();
-    void *temp = USUL_UNSAFE_CAST ( A*, a1 );
-    A *a2  = USUL_UNSAFE_CAST ( A*, temp );
-    REQUIRE ( a1 == a2 );
-  }
 
-  SECTION ( "Can reinterpret cast between types" )
-  {
-    A *a1 = new A();
-    void *temp = reinterpret_cast < void * > ( a1 );
-    A *a2  = reinterpret_cast < A * > ( temp );
-    REQUIRE ( a1 == a2 );
-  }
-}
+#endif // _USUL_TEST_HELPER_CLASSES_H_

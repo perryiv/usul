@@ -3,6 +3,7 @@
 #
 #  Copyright (c) 2019, Perry L Miller IV
 #  All rights reserved.
+#  MIT License: https://opensource.org/licenses/mit-license.html
 #
 ################################################################################
 
@@ -24,8 +25,13 @@ endif()
 # Add the include directory for catch.
 include_directories ( $ENV{CATCH2_INC_DIR} )
 
+# Need to include files from this directory.
+include_directories ( ${CMAKE_CURRENT_SOURCE_DIR} )
+
 # Define a variable that holds all the source files.
 set ( SOURCE_FILES
+  ./Helpers/Classes.cpp
+  ./Helpers/Instances.cpp
   ./Usul/Base/Referenced.cpp
   ./Usul/Math/Base.cpp
   ./Usul/Math/CloseFloat.cpp
@@ -34,6 +40,7 @@ set ( SOURCE_FILES
   ./Usul/Math/Vector3.cpp
   ./Usul/Math/Vector4.cpp
   ./Usul/Strings/Format.cpp
+  ./Usul/Pointers/Functions.cpp
   ./Usul/Tools/Cast.cpp
   ./Usul/Tools/NoThrow.cpp
   ./Usul/Main.cpp

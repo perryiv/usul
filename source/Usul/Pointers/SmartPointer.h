@@ -24,7 +24,7 @@ namespace Pointers {
 template
 <
   class T,
-  class Config_
+  class ConfigType
 >
 struct SmartPointer
 {
@@ -34,13 +34,14 @@ struct SmartPointer
   //
   /////////////////////////////////////////////////////////////////////////////
 
-  typedef Config_ Config;
+  typedef ConfigType Config;
   typedef typename Config::AccessPolicy NullAccess;
   typedef typename Config::AssignmentPolicy AssignmentPolicy;
   typedef typename Config::ConstructorPolicy ConstructorPolicy;
   typedef typename Config::ReferencePolicy ReferencePolicy;
   typedef typename Config::DestructorPolicy DestructorPolicy;
-  typedef T element_type;
+  typedef T ValueType;
+  typedef ValueType element_type;
   typedef SmartPointer < T, Config > ThisType;
 
 
@@ -58,7 +59,7 @@ struct SmartPointer
 
   /////////////////////////////////////////////////////////////////////////////
   //
-  //  Constructor.
+  //  Constructor from raw pointer.
   //
   /////////////////////////////////////////////////////////////////////////////
 
@@ -74,11 +75,35 @@ struct SmartPointer
 
   /////////////////////////////////////////////////////////////////////////////
   //
+  //  Constructor from different smart-pointer type.
+  //
+  //  Had to pass a copy to get it to compile. Passing a copy is, in general,
+  //  a good thing, so keeping it this way.
+  //
+  //  Typical use is:
+  //
+  //    MyClass::RefPtr a ( new MyClass );
+  //    MyClass::ValidRefPtr b ( a );
+  //
+  /////////////////////////////////////////////////////////////////////////////
+
+  template < class P, class C > SmartPointer ( SmartPointer < P, C > p ) : _p ( p.get() )
+  {
+    ConstructorPolicy::check ( _p );
+    if ( _p )
+    {
+      ReferencePolicy::ref ( _p );
+    }
+  }
+
+
+  /////////////////////////////////////////////////////////////////////////////
+  //
   //  Copy constructor.
   //
   /////////////////////////////////////////////////////////////////////////////
 
-  SmartPointer ( const ThisType &p ) : _p ( p.get() )
+  SmartPointer ( const ThisType &p ) : _p ( p._p )
   {
     ConstructorPolicy::check ( _p );
     if ( _p )
@@ -168,42 +193,13 @@ struct SmartPointer
 
   /////////////////////////////////////////////////////////////////////////////
   //
-  //  Is the internal pointer null?
-  //
-  /////////////////////////////////////////////////////////////////////////////
-
-  bool null() const
-  {
-    return ( nullptr == _p );
-  }
-
-
-  /////////////////////////////////////////////////////////////////////////////
-  //
-  //  To permit "if ( !ptr )"
-  //
-  /////////////////////////////////////////////////////////////////////////////
-
-  bool operator ! ()
-  {
-    return this->null();
-  }
-
-
-  /////////////////////////////////////////////////////////////////////////////
-  //
-  //  Assignment.
+  //  Assignment. Note: no assignment to raw pointers.
   //
   /////////////////////////////////////////////////////////////////////////////
 
   ThisType &operator = ( const ThisType &p )
   {
-    this->_set ( p.get() );
-    return *this;
-  }
-  ThisType &operator = ( T *p )
-  {
-    this->_set ( p );
+    this->_set ( p._p );
     return *this;
   }
 
@@ -242,6 +238,18 @@ struct SmartPointer
 
   /////////////////////////////////////////////////////////////////////////////
   //
+  //  For sorting in containers.
+  //
+  /////////////////////////////////////////////////////////////////////////////
+
+  bool operator < ( const ThisType &p ) const
+  {
+    return _p < p.get();
+  }
+
+
+  /////////////////////////////////////////////////////////////////////////////
+  //
   //  Release control of the internal pointer and return it.
   //  Use with caution.
   //
@@ -256,7 +264,7 @@ struct SmartPointer
     if ( _p )
     {
       // Unreference it but make sure it is not deleted.
-      ReferencePolicy::unrefNoDelete ( _p );
+      ReferencePolicy::unref ( _p, false );
 
       // Make our internal pointer null;
       _p = nullptr;
@@ -307,7 +315,18 @@ protected:
     }
   }
 
+
 private:
+
+  // Assignment to raw pointers is not permitted.
+  ThisType &operator = ( T *p );
+
+  // Do not permit "if ( !ptr )"
+  bool operator ! ();
+
+  // No automatic casting.
+  operator T *();
+  operator const T *() const;
 
   T *_p;
 };
@@ -315,6 +334,25 @@ private:
 
 } // namespace Pointers
 } // namespace Usul
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  For compatibility with boost::bind.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+namespace boost
+{
+  template < class T, class C > const T *get_pointer ( const Usul::Pointers::SmartPointer < T, C > &p )
+  {
+    return p.get();
+  }
+  template < class T, class C > T *get_pointer ( Usul::Pointers::SmartPointer < T, C > &p )
+  {
+    return p.get();
+  }
+}
 
 
 #endif // _USUL_POINTERS_SMART_POINTER_H_

@@ -3,6 +3,7 @@
 #
 #  Copyright (c) 2019, Perry L Miller IV
 #  All rights reserved.
+#  MIT License: https://opensource.org/licenses/mit-license.html
 #
 ################################################################################
 
