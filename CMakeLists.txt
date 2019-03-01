@@ -60,9 +60,14 @@ configure_file (
 # Does the user want an atomic reference counter?
 option ( USUL_USE_ATOMIC_REFERENCE_COUNTER
   "Use std::atomic for the reference counter in Usul/Base/Referenced.cpp" ON )
-if ( USUL_USE_ATOMIC_REFERENCE_COUNTER )
-  add_compile_definitions ( USUL_USE_ATOMIC_REFERENCE_COUNTER )
-endif()
+
+set ( OPTION_NAME default_value CACHE BOOL "Some documentation for the option" )
+
+# Now that we have all the configuration options we can write the file.
+configure_file (
+  ${CMAKE_CURRENT_SOURCE_DIR}/config/Config.h.in
+  ${USUL_INC_DIR}/Usul/Config.h
+)
 
 # Does the user want all warnings?
 option ( USUL_ENABLE_ALL_WARNINGS "Enable all warnings" ON )

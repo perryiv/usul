@@ -16,6 +16,7 @@
 #ifndef _USUL_TYPED_BASE_CLASS_H_
 #define _USUL_TYPED_BASE_CLASS_H_
 
+#include "Usul/Config.h"
 #include "Usul/Export.h"
 
 #include <typeinfo>
