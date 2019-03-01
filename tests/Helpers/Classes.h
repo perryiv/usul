@@ -56,6 +56,30 @@ private:
 };
 
 
+////////////////////////////////////////////////////////////////////////////////
+//
+//  Class used in the test code.
+//
+////////////////////////////////////////////////////////////////////////////////
+
+struct ClassC : public ClassA
+{
+  typedef ClassA BaseClass;
+  ClassC() : _b ( new ClassB() )
+  {
+    _b->ref();
+  }
+  virtual ~ClassC()
+  {
+    _b->unref();
+  }
+private:
+  ClassC ( const ClassC & );
+  ClassC &operator = ( const ClassC & );
+  ClassB *_b;
+};
+
+
 } // namespace Helpers
 
 

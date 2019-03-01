@@ -75,4 +75,45 @@ TEST_CASE ( "Referenced base class" )
 
     REQUIRE ( 0 == Helpers::Instances::get().size() );
   }
+
+  SECTION ( "Can reference and dereference nested classes" )
+  {
+    Helpers::ClassC *c1 = new Helpers::ClassC;
+    Helpers::ClassC *c2 = new Helpers::ClassC;
+
+    // Each class contains one reference-counted class.
+    REQUIRE ( 4 == Helpers::Instances::get().size() );
+
+    REQUIRE ( 0 == c1->getReferenceCount() );
+    REQUIRE ( 0 == c2->getReferenceCount() );
+
+    c1->ref();
+    c2->ref();
+
+    REQUIRE ( 4 == Helpers::Instances::get().size() );
+
+    REQUIRE ( 1 == c1->getReferenceCount() );
+    REQUIRE ( 1 == c2->getReferenceCount() );
+
+    c1->ref();
+    c2->ref();
+
+    REQUIRE ( 4 == Helpers::Instances::get().size() );
+
+    REQUIRE ( 2 == c1->getReferenceCount() );
+    REQUIRE ( 2 == c2->getReferenceCount() );
+
+    c1->unref();
+    c2->unref();
+
+    REQUIRE ( 4 == Helpers::Instances::get().size() );
+
+    REQUIRE ( 1 == c1->getReferenceCount() );
+    REQUIRE ( 1 == c2->getReferenceCount() );
+
+    c1->unref();
+    c2->unref();
+
+    REQUIRE ( 0 == Helpers::Instances::get().size() );
+  }
 }

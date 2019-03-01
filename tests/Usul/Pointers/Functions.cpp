@@ -93,4 +93,45 @@ TEST_CASE ( "Safe referenced-counting functions" )
 
     REQUIRE ( 0 == Helpers::Instances::get().size() );
   }
+
+  SECTION ( "Can reference and dereference nested classes" )
+  {
+    Helpers::ClassC *c1 = new Helpers::ClassC;
+    Helpers::ClassC *c2 = new Helpers::ClassC;
+
+    // Each class contains one reference-counted class.
+    REQUIRE ( 4 == Helpers::Instances::get().size() );
+
+    REQUIRE ( 0 == c1->getReferenceCount() );
+    REQUIRE ( 0 == c2->getReferenceCount() );
+
+    Usul::Pointers::reference ( c1 );
+    Usul::Pointers::reference ( c2 );
+
+    REQUIRE ( 4 == Helpers::Instances::get().size() );
+
+    REQUIRE ( 1 == c1->getReferenceCount() );
+    REQUIRE ( 1 == c2->getReferenceCount() );
+
+    Usul::Pointers::reference ( c1 );
+    Usul::Pointers::reference ( c2 );
+
+    REQUIRE ( 4 == Helpers::Instances::get().size() );
+
+    REQUIRE ( 2 == c1->getReferenceCount() );
+    REQUIRE ( 2 == c2->getReferenceCount() );
+
+    Usul::Pointers::unreference ( c1 );
+    Usul::Pointers::unreference ( c2 );
+
+    REQUIRE ( 4 == Helpers::Instances::get().size() );
+
+    REQUIRE ( 1 == c1->getReferenceCount() );
+    REQUIRE ( 1 == c2->getReferenceCount() );
+
+    Usul::Pointers::unreference ( c1 );
+    Usul::Pointers::unreference ( c2 );
+
+    REQUIRE ( 0 == Helpers::Instances::get().size() );
+  }
 }

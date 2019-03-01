@@ -151,4 +151,61 @@ TEST_CASE ( "Intrusive pointer referenced-counting functions" )
 
     REQUIRE ( 0 == Helpers::Instances::get().size() );
   }
+
+  SECTION ( "Can reference and dereference nested classes" )
+  {
+    Helpers::ClassC *c1 = new Helpers::ClassC;
+    Helpers::ClassC *c2 = new Helpers::ClassC;
+
+    // Each class contains one reference-counted class.
+    REQUIRE ( 4 == Helpers::Instances::get().size() );
+
+    REQUIRE ( 0 == c1->getReferenceCount() );
+    REQUIRE ( 0 == c2->getReferenceCount() );
+
+    intrusive_ptr_add_ref ( c1 );
+    intrusive_ptr_add_ref ( c2 );
+
+    REQUIRE ( 4 == Helpers::Instances::get().size() );
+
+    REQUIRE ( 1 == c1->getReferenceCount() );
+    REQUIRE ( 1 == c2->getReferenceCount() );
+
+    intrusive_ptr_add_ref ( c1 );
+    intrusive_ptr_add_ref ( c2 );
+
+    REQUIRE ( 4 == Helpers::Instances::get().size() );
+
+    REQUIRE ( 2 == c1->getReferenceCount() );
+    REQUIRE ( 2 == c2->getReferenceCount() );
+
+    ptr_release_no_delete ( c1 );
+    ptr_release_no_delete ( c2 );
+
+    REQUIRE ( 4 == Helpers::Instances::get().size() );
+
+    REQUIRE ( 1 == c1->getReferenceCount() );
+    REQUIRE ( 1 == c2->getReferenceCount() );
+
+    ptr_release_no_delete ( c1 );
+    ptr_release_no_delete ( c2 );
+
+    REQUIRE ( 4 == Helpers::Instances::get().size() );
+
+    REQUIRE ( 0 == c1->getReferenceCount() );
+    REQUIRE ( 0 == c2->getReferenceCount() );
+
+    intrusive_ptr_add_ref ( c1 );
+    intrusive_ptr_add_ref ( c2 );
+
+    REQUIRE ( 4 == Helpers::Instances::get().size() );
+
+    REQUIRE ( 1 == c1->getReferenceCount() );
+    REQUIRE ( 1 == c2->getReferenceCount() );
+
+    intrusive_ptr_release ( c1 );
+    intrusive_ptr_release ( c2 );
+
+    REQUIRE ( 0 == Helpers::Instances::get().size() );
+  }
 }
