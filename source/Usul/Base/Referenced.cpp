@@ -28,7 +28,7 @@ namespace Base {
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-Referenced::Referenced() : BaseClass(),
+Referenced::Referenced() :
   _refCount ( 0 )
 {
 }
@@ -40,7 +40,7 @@ Referenced::Referenced() : BaseClass(),
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-Referenced::Referenced ( const Referenced &r ) : BaseClass ( r ),
+Referenced::Referenced ( const Referenced & ) :
   _refCount ( 0 )
 {
 }

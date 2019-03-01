@@ -20,7 +20,8 @@
 #ifndef _USUL_REFERENCED_BASE_CLASS_H_
 #define _USUL_REFERENCED_BASE_CLASS_H_
 
-#include "Usul/Base/Typed.h"
+#include "Usul/Config.h"
+#include "Usul/Export.h"
 
 #ifdef USUL_USE_ATOMIC_REFERENCE_COUNTER
 # ifdef _WIN32
@@ -37,11 +38,10 @@ namespace Usul {
 namespace Base {
 
 
-class USUL_EXPORT Referenced : public Typed
+class USUL_EXPORT Referenced
 {
 public:
 
-  typedef Typed BaseClass;
   typedef unsigned int CounterType;
 
 	// Get this referenced object as an IUnknown pointer, which may return null.

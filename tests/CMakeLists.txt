@@ -26,6 +26,7 @@ include_directories ( $ENV{CATCH2_INC_DIR} )
 
 # Define a variable that holds all the source files.
 set ( SOURCE_FILES
+  ./Usul/Base/Referenced.cpp
   ./Usul/Math/Base.cpp
   ./Usul/Math/CloseFloat.cpp
   ./Usul/Math/Functions.cpp

@@ -1,0 +1,94 @@
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//  Copyright (c) 2019, Perry L Miller IV
+//  All rights reserved.
+//
+////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//  Test the reference-counted base class.
+//
+////////////////////////////////////////////////////////////////////////////////
+
+#include "Usul/Base/Referenced.h"
+
+#include "catch2/catch.hpp"
+
+#include <set>
+
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//  Set of all referenced instances.
+//
+////////////////////////////////////////////////////////////////////////////////
+
+namespace Details
+{
+  typedef std::set < void * > Instances;
+  Instances instances;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//  Classes used in the test below.
+//
+////////////////////////////////////////////////////////////////////////////////
+
+class A : public Usul::Base::Referenced
+{
+public:
+  typedef Usul::Base::Referenced BaseClass;
+  A() : BaseClass()
+  {
+    Details::instances.insert ( this );
+  }
+  virtual ~A()
+  {
+    Details::instances.erase ( Details::instances.find ( this ) );
+  }
+};
+struct B : public A
+{
+  typedef A BaseClass;
+  B() : BaseClass()
+  {
+  }
+  virtual ~B()
+  {
+  }
+};
+
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//  Test the reference-counted base class.
+//
+////////////////////////////////////////////////////////////////////////////////
+
+TEST_CASE ( "Referenced base class" )
+{
+  SECTION ( "Can make referenced instances and have them delete themselves" )
+  {
+    {
+      A *a1 = new A;
+      A *ab = new B;
+      B *b1 = new B;
+
+      a1->ref();
+      ab->ref();
+      b1->ref();
+
+      REQUIRE ( 3 == Details::instances.size() );
+
+      a1->unref();
+      ab->unref();
+      b1->unref();
+    }
+
+    REQUIRE ( 0 ==  Details::instances.size() );
+  }
+}
