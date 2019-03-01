@@ -38,13 +38,13 @@ sudo: required
 # The sequence of commands that get executed.
 script:
 
-- whoami
-- pwd
-- ls
-- cmake -version
-- gcc --version
-- git --version
-- git branch
+# - whoami
+# - pwd
+# - ls
+# - cmake -version
+# - gcc --version
+# - git --version
+# - git branch
 
 # - export BOOST_INC_DIR=/usr/include
 # - echo $BOOST_INC_DIR
@@ -64,8 +64,8 @@ script:
 - cd build/debug
 - cmake ../../ -DCMAKE_VERBOSE_MAKEFILE=ON -DCMAKE_BUILD_TYPE="Debug"
 - cmake --build .
-- ls -al ./bin/usul_test
-- file ./bin/usul_test
+# - ls -al ./bin/usul_test
+# - file ./bin/usul_test
 - ./bin/usul_test
 
 - cd ../
@@ -73,6 +73,6 @@ script:
 - cd release
 - cmake ../../ -DCMAKE_VERBOSE_MAKEFILE=ON -DCMAKE_BUILD_TYPE="Release"
 - cmake --build .
-- ls -al ./bin/usul_test
-- file ./bin/usul_test
+# - ls -al ./bin/usul_test
+# - file ./bin/usul_test
 - ./bin/usul_test
