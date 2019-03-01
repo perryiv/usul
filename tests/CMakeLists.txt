@@ -42,6 +42,7 @@ set ( SOURCE_FILES
   ./Usul/Math/Vector4.cpp
   ./Usul/Strings/Format.cpp
   ./Usul/Pointers/Functions.cpp
+  ./Usul/Pointers/Intrusive.cpp
   ./Usul/Tools/Cast.cpp
   ./Usul/Tools/NoThrow.cpp
   ./Usul/Main.cpp

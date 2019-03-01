@@ -33,11 +33,41 @@ TEST_CASE ( "Referenced base class" )
     Helpers::ClassA *ab = new Helpers::ClassB;
     Helpers::ClassB *b1 = new Helpers::ClassB;
 
+    REQUIRE ( 3 == Helpers::Instances::get().size() );
+
+    REQUIRE ( 0 == a1->getReferenceCount() );
+    REQUIRE ( 0 == ab->getReferenceCount() );
+    REQUIRE ( 0 == b1->getReferenceCount() );
+
     a1->ref();
     ab->ref();
     b1->ref();
 
     REQUIRE ( 3 == Helpers::Instances::get().size() );
+
+    REQUIRE ( 1 == a1->getReferenceCount() );
+    REQUIRE ( 1 == ab->getReferenceCount() );
+    REQUIRE ( 1 == b1->getReferenceCount() );
+
+    a1->ref();
+    ab->ref();
+    b1->ref();
+
+    REQUIRE ( 3 == Helpers::Instances::get().size() );
+
+    REQUIRE ( 2 == a1->getReferenceCount() );
+    REQUIRE ( 2 == ab->getReferenceCount() );
+    REQUIRE ( 2 == b1->getReferenceCount() );
+
+    a1->unref();
+    ab->unref();
+    b1->unref();
+
+    REQUIRE ( 3 == Helpers::Instances::get().size() );
+
+    REQUIRE ( 1 == a1->getReferenceCount() );
+    REQUIRE ( 1 == ab->getReferenceCount() );
+    REQUIRE ( 1 == b1->getReferenceCount() );
 
     a1->unref();
     ab->unref();

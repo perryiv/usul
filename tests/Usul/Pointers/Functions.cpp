@@ -17,7 +17,6 @@
 #include "Helpers/Instances.h"
 
 #include "Usul/Pointers/Functions.h"
-#include "Usul/Base/Referenced.h"
 
 #include "catch2/catch.hpp"
 
@@ -28,7 +27,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-TEST_CASE ( "Save referenced-counting functions" )
+TEST_CASE ( "Safe referenced-counting functions" )
 {
   SECTION ( "Can safely reference and dereference instances" )
   {
@@ -39,6 +38,10 @@ TEST_CASE ( "Save referenced-counting functions" )
 
     REQUIRE ( 3 == Helpers::Instances::get().size() );
 
+    REQUIRE ( 0 == a1->getReferenceCount() );
+    REQUIRE ( 0 == ab->getReferenceCount() );
+    REQUIRE ( 0 == b1->getReferenceCount() );
+
     Usul::Pointers::reference ( a1 );
     Usul::Pointers::reference ( ab );
     Usul::Pointers::reference ( b1 );
@@ -46,19 +49,46 @@ TEST_CASE ( "Save referenced-counting functions" )
 
     REQUIRE ( 3 == Helpers::Instances::get().size() );
 
+    REQUIRE ( 1 == a1->getReferenceCount() );
+    REQUIRE ( 1 == ab->getReferenceCount() );
+    REQUIRE ( 1 == b1->getReferenceCount() );
+
+    Usul::Pointers::reference ( a1 );
+    Usul::Pointers::reference ( ab );
+    Usul::Pointers::reference ( b1 );
+    Usul::Pointers::reference ( b2 );
+
+    REQUIRE ( 3 == Helpers::Instances::get().size() );
+
+    REQUIRE ( 2 == a1->getReferenceCount() );
+    REQUIRE ( 2 == ab->getReferenceCount() );
+    REQUIRE ( 2 == b1->getReferenceCount() );
+
+    Usul::Pointers::unreference ( a1 );
+    Usul::Pointers::unreference ( ab );
+    Usul::Pointers::unreference ( b1 );
+    Usul::Pointers::unreference ( b2 );
+
+    REQUIRE ( 3 == Helpers::Instances::get().size() );
+
+    REQUIRE ( 1 == a1->getReferenceCount() );
+    REQUIRE ( 1 == ab->getReferenceCount() );
+    REQUIRE ( 1 == b1->getReferenceCount() );
+
     Usul::Pointers::unreference ( a1 );
     Usul::Pointers::unreference ( ab );
     Usul::Pointers::unreference ( b1 );
     Usul::Pointers::unreference ( b2 );
 
     REQUIRE ( 0 == Helpers::Instances::get().size() );
+  }
 
-    a1 = nullptr;
-    ab = nullptr;
-    b1 = nullptr;
+  SECTION ( "Can safely reference and dereference null" )
+  {
+    Helpers::ClassA *a1 = nullptr;
+    Helpers::ClassB *b1 = nullptr;
 
     Usul::Pointers::unreference ( a1 );
-    Usul::Pointers::unreference ( ab );
     Usul::Pointers::unreference ( b1 );
 
     REQUIRE ( 0 == Helpers::Instances::get().size() );
