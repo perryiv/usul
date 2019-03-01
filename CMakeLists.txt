@@ -61,7 +61,8 @@ configure_file (
 option ( USUL_USE_ATOMIC_REFERENCE_COUNTER
   "Use std::atomic for the reference counter in Usul/Base/Referenced.cpp" ON )
 
-set ( OPTION_NAME default_value CACHE BOOL "Some documentation for the option" )
+# Let the user change the plugin extension.
+set ( USUL_PLUGIN_EXTENSION "plug" CACHE STRING "File extension for plugins" )
 
 # Now that we have all the configuration options we can write the file.
 configure_file (

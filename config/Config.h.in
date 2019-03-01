@@ -35,8 +35,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#cmakedefine USUL_PLUGIN_EXTENSION_RELEASE "@USUL_PLUGIN_EXTENSION_RELEASE@"
-#cmakedefine USUL_PLUGIN_EXTENSION_DEBUG "@USUL_PLUGIN_EXTENSION_DEBUG@"
+#cmakedefine USUL_PLUGIN_EXTENSION "@USUL_PLUGIN_EXTENSION@"
 
 
 #endif // _USUL_CONFIG_H_
