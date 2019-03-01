@@ -17,6 +17,7 @@
 #include "Usul/Strings/Format.h"
 
 #include <iostream>
+#include <typeinfo>
 
 namespace Usul {
 namespace Base {
