@@ -71,13 +71,16 @@ configure_file (
   ${USUL_INC_DIR}/Usul/Config.h
 )
 
-# Does the user want all warnings?
-option ( USUL_ENABLE_ALL_WARNINGS "Enable all warnings" ON )
-if ( USUL_ENABLE_ALL_WARNINGS )
+# Does the user want strict warnings?
+# Note: The "-Wno-unused-local-typedef" says to allow unused typedefs, which
+# we need for the USUL_DEFINE_REF_POINTERS macro.
+# Without this the "-Wall" warns about them.
+option ( USUL_ENABLE_STRICT_WARNINGS "Enable strict warnings" ON )
+if ( USUL_ENABLE_STRICT_WARNINGS )
   if ( MSVC )
     add_compile_options ( /W4 )
   else()
-    add_compile_options ( -Wall -Wextra -pedantic -pedantic-errors )
+    add_compile_options ( -Wall -Wextra -pedantic -pedantic-errors -Wno-unused-local-typedef )
   endif()
 endif()
 

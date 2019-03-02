@@ -193,17 +193,17 @@ struct RefCountingNullAccessThrows
 ///////////////////////////////////////////////////////////////////////////////
 
 #define USUL_DEFINE_REF_POINTERS(class_name) \
-  [[maybe_unused]] typedef Usul::Pointers::SmartPointer < class_name, Usul::Pointers::Configs::RefCountingNullOk > RefPtr; \
-  [[maybe_unused]] typedef Usul::Pointers::SmartPointer < class_name, Usul::Pointers::Configs::RefCountingNullThrows > ValidRefPtr; \
-  [[maybe_unused]] typedef Usul::Pointers::SmartPointer < class_name, Usul::Pointers::Configs::RefCountingNullAccessThrows > ValidAccessRefPtr; \
-  [[maybe_unused]] typedef Usul::Pointers::SmartPointer < class_name, Usul::Pointers::Configs::NoDeleteRefCountingNullOk > NoDeleteRefPtr
+  typedef Usul::Pointers::SmartPointer < class_name, Usul::Pointers::Configs::RefCountingNullOk > RefPtr; \
+  typedef Usul::Pointers::SmartPointer < class_name, Usul::Pointers::Configs::RefCountingNullThrows > ValidRefPtr; \
+  typedef Usul::Pointers::SmartPointer < class_name, Usul::Pointers::Configs::RefCountingNullAccessThrows > ValidAccessRefPtr; \
+  typedef Usul::Pointers::SmartPointer < class_name, Usul::Pointers::Configs::NoDeleteRefCountingNullOk > NoDeleteRefPtr
 
 #define USUL_DEFINE_QUERY_POINTERS(class_name) \
   USUL_DEFINE_REF_POINTERS ( class_name ); \
-  [[maybe_unused]] typedef Usul::Pointers::QueryPointer < class_name, Usul::Pointers::Configs::RefCountingNullOk > QueryPtr; \
-  [[maybe_unused]] typedef Usul::Pointers::QueryPointer < class_name, Usul::Pointers::Configs::RefCountingNullThrows > ValidQueryPtr; \
-  [[maybe_unused]] typedef Usul::Pointers::QueryPointer < class_name, Usul::Pointers::Configs::RefCountingNullAccessThrows > ValidAccessQueryPtr; \
-  [[maybe_unused]] typedef Usul::Pointers::QueryPointer < class_name, Usul::Pointers::Configs::NoDeleteRefCountingNullOk > NoDeleteQueryPtr
+  typedef Usul::Pointers::QueryPointer < class_name, Usul::Pointers::Configs::RefCountingNullOk > QueryPtr; \
+  typedef Usul::Pointers::QueryPointer < class_name, Usul::Pointers::Configs::RefCountingNullThrows > ValidQueryPtr; \
+  typedef Usul::Pointers::QueryPointer < class_name, Usul::Pointers::Configs::RefCountingNullAccessThrows > ValidAccessQueryPtr; \
+  typedef Usul::Pointers::QueryPointer < class_name, Usul::Pointers::Configs::NoDeleteRefCountingNullOk > NoDeleteQueryPtr
 
 
 #endif // _USUL_POINTERS_DEFINITIONS_H_
