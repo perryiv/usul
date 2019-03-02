@@ -43,6 +43,9 @@ set ( SOURCE_FILES
   ./Usul/Strings/Format.cpp
   ./Usul/Pointers/Functions.cpp
   ./Usul/Pointers/Intrusive.cpp
+  ./Usul/Pointers/Pointers.cpp
+  # ./Usul/Pointers/QueryPointer.cpp
+  # ./Usul/Pointers/SmartPointer.cpp
   ./Usul/Tools/Cast.cpp
   ./Usul/Tools/NoThrow.cpp
   ./Usul/Main.cpp

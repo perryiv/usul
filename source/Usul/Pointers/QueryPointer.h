@@ -54,7 +54,7 @@ public:
   //
   /////////////////////////////////////////////////////////////////////////////
 
-  QueryPointer() : BaseClass ( 0x0 )
+  QueryPointer() : BaseClass ( nullptr )
   {
   }
 
@@ -67,7 +67,7 @@ public:
 
   template < class OldInterface_ > QueryPointer ( OldInterface_ *ptr ) :
     BaseClass ( static_cast<NewInterface *>
-      ( ( ptr ) ? ptr->queryInterface ( NewInterface::IID ) : 0x0 ) )
+      ( ( ptr ) ? ptr->queryInterface ( NewInterface::IID ) : nullptr ) )
   {
   }
 
@@ -81,7 +81,7 @@ public:
   template < class OldInterface_, class ConfigType_ >
   QueryPointer ( SmartPointer < OldInterface_, ConfigType_ > &ptr ) :
     BaseClass ( static_cast<NewInterface *>
-      ( ( ptr.valid() ) ? ptr->queryInterface ( NewInterface::IID ) : 0x0 ) )
+      ( ( ptr.valid() ) ? ptr->queryInterface ( NewInterface::IID ) : nullptr ) )
   {
   }
 
@@ -108,7 +108,7 @@ public:
   {
     // Set this instance from the result of the safe query (which may be null).
     BaseClass::operator = ( static_cast<NewInterface *>
-      ( ( ptr ) ? ptr->queryInterface ( NewInterface::IID ) : 0x0 ) );
+      ( ( ptr ) ? ptr->queryInterface ( NewInterface::IID ) : nullptr ) );
 
     return *this;
   }
@@ -126,7 +126,7 @@ public:
   {
     // Set this instance from the result of the safe query (which may be null).
     BaseClass::operator = ( static_cast<NewInterface *>
-      ( ( ptr ) ? ptr->queryInterface ( NewInterface::IID ) : 0x0 ) );
+      ( ( ptr ) ? ptr->queryInterface ( NewInterface::IID ) : nullptr ) );
 
     return *this;
   }

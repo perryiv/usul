@@ -40,10 +40,12 @@ inline void testAccessIndexRange ( const VectorType &vec )
     value += value; // Keep the compiler happy.
   }
 
-  // This should throw a standard exception.
   try
   {
+    // This should throw a standard exception.
     vec[size];
+
+    // Should not get to here.
     REQUIRE ( false );
   }
   catch ( const std::exception &e )
@@ -54,6 +56,7 @@ inline void testAccessIndexRange ( const VectorType &vec )
   }
   catch ( ... )
   {
+    // Should not get to here.
     REQUIRE ( false );
   }
 }
