@@ -40,7 +40,7 @@ struct Component1 : public Helpers::ClassA,
 protected:
   ~Component1() {}
 };
-USUL_IMPLEMENT_IUNKNOWN_MEMBERS ( Component1, Component1::BaseClass );
+USUL_IMPLEMENT_IUNKNOWN_MEMBERS ( Component1, Component1::BaseClass )
 Usul::Interfaces::IUnknown *Component1::queryInterface ( unsigned long iid )
 {
   switch ( iid )
@@ -64,7 +64,7 @@ struct Component2 : public Helpers::ClassA,
 protected:
   ~Component2() {}
 };
-USUL_IMPLEMENT_IUNKNOWN_MEMBERS ( Component2, Component2::BaseClass );
+USUL_IMPLEMENT_IUNKNOWN_MEMBERS ( Component2, Component2::BaseClass )
 Usul::Interfaces::IUnknown *Component2::queryInterface ( unsigned long iid )
 {
   switch ( iid )
@@ -90,7 +90,7 @@ struct Component3 : public Helpers::ClassA,
 protected:
   ~Component3() {}
 };
-USUL_IMPLEMENT_IUNKNOWN_MEMBERS ( Component3, Component3::BaseClass );
+USUL_IMPLEMENT_IUNKNOWN_MEMBERS ( Component3, Component3::BaseClass )
 Usul::Interfaces::IUnknown *Component3::queryInterface ( unsigned long iid )
 {
   switch ( iid )
