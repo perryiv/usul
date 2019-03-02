@@ -23,30 +23,37 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 //
+//  Classes used below.
+//
+////////////////////////////////////////////////////////////////////////////////
+
+struct RefCountedClass1 : public Helpers::ClassA
+{
+  typedef Helpers::ClassA BaseClass;
+  USUL_DEFINE_REF_POINTERS ( RefCountedClass1 );
+  RefCountedClass1() : BaseClass() {}
+protected:
+  ~RefCountedClass1() {}
+};
+
+struct RefCountedClass2 : public RefCountedClass1
+{
+  typedef RefCountedClass1 BaseClass;
+  USUL_DEFINE_REF_POINTERS ( RefCountedClass2 );
+  RefCountedClass2() : BaseClass() {}
+protected:
+  ~RefCountedClass2() {}
+};
+
+
+////////////////////////////////////////////////////////////////////////////////
+//
 //  Test the smart-pointers.
 //
 ////////////////////////////////////////////////////////////////////////////////
 
 TEST_CASE ( "All smart pointers" )
 {
-  struct RefCountedClass1 : public Helpers::ClassA
-  {
-    typedef Helpers::ClassA BaseClass;
-    USUL_DEFINE_REF_POINTERS ( RefCountedClass1 );
-    RefCountedClass1() : BaseClass() {}
-  protected:
-    ~RefCountedClass1() {}
-  };
-
-  struct RefCountedClass2 : public RefCountedClass1
-  {
-    typedef RefCountedClass1 BaseClass;
-    USUL_DEFINE_REF_POINTERS ( RefCountedClass2 );
-    RefCountedClass2() : BaseClass() {}
-  protected:
-    ~RefCountedClass2() {}
-  };
-
   SECTION ( "Can use the reference pointers" )
   {
     {
