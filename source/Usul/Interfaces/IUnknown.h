@@ -26,7 +26,7 @@ namespace Interfaces {
 struct IUnknown
 {
   // Smart-pointer definitions.
-  USUL_DECLARE_QUERY_POINTERS ( IUnknown );
+  USUL_DEFINE_QUERY_POINTERS ( IUnknown );
 
   // Id for this interface.
   enum { IID = 1075271105 };
