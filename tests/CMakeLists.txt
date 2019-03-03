@@ -53,6 +53,6 @@ set ( SOURCE_FILES
 # Make an executable.
 add_executable ( ${PROJECT_NAME}_test ${SOURCE_FILES} )
 
-# Tell cmake we are going to use this library.
+# Tell cmake we are going to use these libraries.
 # It will automatically add -I, -L, and -D (etc) appropriately.
-target_link_libraries ( ${PROJECT_NAME}_test PRIVATE usul )
+target_link_libraries ( ${PROJECT_NAME}_test PRIVATE usul ${CMAKE_DL_LIBS} )
