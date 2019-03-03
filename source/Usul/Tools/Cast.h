@@ -24,7 +24,20 @@ namespace Usul
     template < class ToType, class FromType >
     inline ToType unsafeCast ( FromType from )
     {
+      // Temporarily disable the warning we get when compiling with the
+      // pedantic flag. This happens with some versions of gcc.
+      #ifdef __GNUC__
+      # pragma GCC diagnostic push
+      # pragma GCC diagnostic ignored "-Wpedantic"
+      #endif
+
+      // Do the cast.
       return ( ( ToType ) from );
+
+      // Put things back where we found them.
+      #ifdef __GNUC__
+      # pragma GCC diagnostic pop
+      #endif
     }
   }
 }
