@@ -27,6 +27,8 @@
 # include <dlfcn.h>
 #endif
 
+#include <functional>
+
 typedef Usul::System::LastError LastError;
 
 namespace Usul {
