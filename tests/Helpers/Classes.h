@@ -34,8 +34,8 @@ public:
   ClassA();
   virtual ~ClassA();
 private:
-  ClassA ( const ClassA & );
-  ClassA &operator = ( const ClassA & );
+  ClassA ( const ClassA & ) = delete;
+  ClassA &operator = ( const ClassA & ) = delete;
 };
 
 
@@ -51,8 +51,8 @@ struct ClassB : public ClassA
   ClassB();
   virtual ~ClassB();
 private:
-  ClassB ( const ClassB & );
-  ClassB &operator = ( const ClassB & );
+  ClassB ( const ClassB & ) = delete;
+  ClassB &operator = ( const ClassB & ) = delete;
 };
 
 
@@ -74,8 +74,8 @@ struct ClassC : public ClassA
     _b->unref();
   }
 private:
-  ClassC ( const ClassC & );
-  ClassC &operator = ( const ClassC & );
+  ClassC ( const ClassC & ) = delete;
+  ClassC &operator = ( const ClassC & ) = delete;
   ClassB *_b;
 };
 

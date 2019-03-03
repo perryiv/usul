@@ -29,7 +29,7 @@ struct IUnknown
   USUL_DEFINE_QUERY_POINTERS ( IUnknown );
 
   // Id for this interface.
-  enum { IID = 1075271105 };
+  enum { IID = 1551585483 };
 
   // See if the interface is supported.
   virtual IUnknown *      queryInterface ( unsigned long iid ) = 0;

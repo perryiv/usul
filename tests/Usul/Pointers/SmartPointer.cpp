@@ -30,7 +30,7 @@
 struct RefCountedClass1 : public Helpers::ClassA
 {
   typedef Helpers::ClassA BaseClass;
-  USUL_DEFINE_REF_POINTERS ( RefCountedClass1 );
+  USUL_REFERENCED_CLASS ( RefCountedClass1 );
   RefCountedClass1() : BaseClass() {}
 protected:
   ~RefCountedClass1() {}
@@ -39,7 +39,7 @@ protected:
 struct RefCountedClass2 : public RefCountedClass1
 {
   typedef RefCountedClass1 BaseClass;
-  USUL_DEFINE_REF_POINTERS ( RefCountedClass2 );
+  USUL_REFERENCED_CLASS ( RefCountedClass2 );
   RefCountedClass2() : BaseClass() {}
 protected:
   ~RefCountedClass2() {}

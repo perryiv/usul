@@ -13,8 +13,8 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef _USUL_FUNCTIONS_NO_THROW_H_
-#define _USUL_FUNCTIONS_NO_THROW_H_
+#ifndef _USUL_TOOLS_NO_THROW_H_
+#define _USUL_TOOLS_NO_THROW_H_
 
 #include "Usul/Strings/Format.h"
 
@@ -32,11 +32,19 @@ namespace Tools {
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-template < class F > void noThrow ( F function, const char *filename, unsigned int line )
+template < class F > bool noThrow ( F function, const char *filename, unsigned int line, std::ostream *out = nullptr )
 {
+  // Set the output stream if we were not given one.
+  if ( nullptr == out )
+  {
+    out = &std::clog;
+  }
+
+  // Try to call the function. We return true if it worked.
   try
   {
     function();
+    return true;
   }
 
   // If the user wants to capture this error they can redirect stderr.
@@ -44,7 +52,7 @@ template < class F > void noThrow ( F function, const char *filename, unsigned i
 
   catch ( const std::exception &e )
   {
-    std::clog << ( Usul::Strings::format (
+    *out << ( Usul::Strings::format (
       "Standard exception caught: ", e.what(),
       ", File: ", filename,
       ", Line: ", line
@@ -53,12 +61,15 @@ template < class F > void noThrow ( F function, const char *filename, unsigned i
 
   catch ( ... )
   {
-    std::clog << ( Usul::Strings::format (
+    *out << ( Usul::Strings::format (
       "Unknown exception caught",
       ", File: ", filename,
       ", Line: ", line
     ) ) << std::endl;
   }
+
+  // If we get to here then it did not work.
+  return false;
 }
 
 
@@ -73,7 +84,7 @@ template < class F > void noThrow ( F function, const char *filename, unsigned i
 ///////////////////////////////////////////////////////////////////////////////
 
 #define USUL_TOOLS_NO_THROW(function) \
-  Usul::Tools::noThrow ( function, __FILE__, __LINE__ )
+  Usul::Tools::noThrow ( function, __FILE__, __LINE__, &std::clog )
 
 
-#endif // _USUL_FUNCTIONS_NO_THROW_H_
+#endif // _USUL_TOOLS_NO_THROW_H_

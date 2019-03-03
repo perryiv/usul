@@ -19,6 +19,9 @@ add_compile_definitions ( COMPILING_USUL )
 # Define a variable that holds all the source files.
 set ( SOURCE_FILES
   ./Usul/Base/Referenced.cpp
+  ./Usul/Plugins/Library.cpp
+  ./Usul/Plugins/Manager.cpp
+  ./Usul/System/LastError.cpp
 )
 
 # Make the add_library using the source files.

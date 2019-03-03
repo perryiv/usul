@@ -33,7 +33,7 @@ struct Component1 : public Helpers::ClassA,
   public Helpers::ITest1
 {
   typedef Helpers::ClassA BaseClass;
-  USUL_DEFINE_REF_POINTERS ( Component1 );
+  USUL_REFERENCED_CLASS ( Component1 );
   USUL_DECLARE_IUNKNOWN_MEMBERS;
   Component1() : BaseClass() {}
   virtual bool doTest1() { return true; }
@@ -57,7 +57,7 @@ struct Component2 : public Helpers::ClassA,
   public Helpers::ITest2
 {
   typedef Helpers::ClassA BaseClass;
-  USUL_DEFINE_REF_POINTERS ( Component2 );
+  USUL_REFERENCED_CLASS ( Component2 );
   USUL_DECLARE_IUNKNOWN_MEMBERS;
   Component2() : BaseClass() {}
   virtual bool doTest2() { return true; }
@@ -82,7 +82,7 @@ struct Component3 : public Helpers::ClassA,
   public Helpers::ITest2
 {
   typedef Helpers::ClassA BaseClass;
-  USUL_DEFINE_REF_POINTERS ( Component3 );
+  USUL_REFERENCED_CLASS ( Component3 );
   USUL_DECLARE_IUNKNOWN_MEMBERS;
   Component3() : BaseClass() {}
   virtual bool doTest1() { return true; }

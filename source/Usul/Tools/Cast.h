@@ -13,8 +13,8 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef _USUL_CAST_H_
-#define _USUL_CAST_H_
+#ifndef _USUL_TOOLS_UNSAFE_CAST_H_
+#define _USUL_TOOLS_UNSAFE_CAST_H_
 
 
 namespace Usul
@@ -34,4 +34,4 @@ namespace Usul
   Usul::Tools::unsafeCast < to_type > ( from_object )
 
 
-#endif // _USUL_CAST_H_
+#endif // _USUL_TOOLS_UNSAFE_CAST_H_
