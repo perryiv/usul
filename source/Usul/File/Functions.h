@@ -16,7 +16,7 @@
 #ifndef _USUL_FILE_FUNCTIONS_H_
 #define _USUL_FILE_FUNCTIONS_H_
 
-#include <cstdio>
+#include <fstream>
 
 namespace Usul {
 namespace File {
@@ -33,13 +33,8 @@ inline bool isReadable ( const std::string &name )
 {
   if ( !name.empty() )
   {
-    FILE *file = ::fopen ( name.c_str(), "r" );
-
-    if ( file )
-    {
-      ::fclose ( file );
-      return true;
-    }
+    std::ifstream file ( name.c_str() );
+    return file.good();
   }
 
   return false;
