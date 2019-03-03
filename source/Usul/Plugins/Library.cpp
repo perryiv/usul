@@ -15,6 +15,7 @@
 
 #include "Usul/Plugins/Library.h"
 #include "Usul/File/Functions.h"
+#include "Usul/Tools/Cast.h"
 #include "Usul/Tools/NoThrow.h"
 #include "Usul/Strings/Format.h"
 #include "Usul/System/LastError.h"
@@ -76,9 +77,10 @@ Library::Library ( const std::string &file ) : BaseClass(),
       ", System error message: ", LastError::message() ) );
   }
 
-  // Get the debug function. Note: at one time g++ did not allow a reinterpret_cast.
+  // Get the debug function. Note: some versions of g++ do not allow a
+  // reinterpret_cast when compiling with pedantic flag.
   typedef bool ( *DebugFunction )();
-  DebugFunction isDebugBuild ( reinterpret_cast < DebugFunction > ( this->getFunction ( "usul_is_debug_build" ) ) );
+  DebugFunction isDebugBuild ( Usul::Tools::unsafeCast < DebugFunction > ( this->getFunction ( "usul_is_debug_build" ) ) );
 
   // If we found it then use it.
   if ( nullptr != isDebugBuild )
@@ -96,7 +98,7 @@ Library::Library ( const std::string &file ) : BaseClass(),
 
   // Look for the function used to initialize a plugin.
   typedef void ( *Initialize )();
-  Initialize initialize ( reinterpret_cast < Initialize > ( this->getFunction ( "usul_plugin_initialize" ) ) );
+  Initialize initialize ( Usul::Tools::unsafeCast < Initialize > ( this->getFunction ( "usul_plugin_initialize" ) ) );
 
   // If we found it then call it.
   if ( nullptr != initialize )
@@ -136,7 +138,7 @@ void Library::_free()
   typedef void ( *Finalize )();
 
   // Look for the function to finalize a plugin before we delete _module.
-  Finalize finalize ( reinterpret_cast < Finalize > ( this->getFunction ( "usul_plugin_finalize" ) ) );
+  Finalize finalize ( Usul::Tools::unsafeCast < Finalize > ( this->getFunction ( "usul_plugin_finalize" ) ) );
 
   // If we found the finalize function then call it.
   if ( nullptr != finalize )
