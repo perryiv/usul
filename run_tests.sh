@@ -47,3 +47,6 @@ cmake --build .
 ls -al ./bin/usul_test
 file ./bin/usul_test
 ./bin/usul_test
+
+cd ../
+gcovr
