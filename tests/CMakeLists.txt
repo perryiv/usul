@@ -11,6 +11,9 @@
 #
 #  CMake file for the Usul test program.
 #
+#  Sources:
+#  https://stackoverflow.com/questions/16682606/how-to-resovle-gcov-init-undefined-reference-issue-when-link
+#
 ################################################################################
 
 # Make sure this environment variable is set.
