@@ -40,4 +40,4 @@ script:
 - ls $CATCH2_INC_DIR
 
 # Now we can run our script.
-- sh run_test.sh
+- sh run_tests.sh
