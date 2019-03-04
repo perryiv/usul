@@ -29,6 +29,13 @@ compiler: gcc
 # https://docs.travis-ci.com/user/languages/cpp/
 dist: xenial
 
+# We install things so we need sudo.
+sudo: required
+
+# Install what we need.
+install:
+- sudo pip install gcovr
+
 # The sequence of commands that get executed.
 script:
 
