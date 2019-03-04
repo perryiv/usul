@@ -30,6 +30,15 @@ cmake_minimum_required ( VERSION 3.12.0 )
 # The name of this project.
 project ( usul )
 
+# Are we using a familiar compiler?
+if ( ${CMAKE_CXX_COMPILER_ID} MATCHES MSVC|Intel )
+  set ( USING_MSVC_OR_INTEL ON )
+elseif ( ${CMAKE_CXX_COMPILER_ID} MATCHES GNU|Clang )
+  set ( USING_GCC_OR_CLANG ON )
+else()
+  message ( FATAL_ERROR "\nUnknown compiler: ${CMAKE_CXX_COMPILER_ID}"  )
+endif()
+
 # Use this C++ standard unless the user specifies otherwise with:
 # cmake path/to/source/dir -DCMAKE_CXX_STANDARD=14
 if ( NOT DEFINED CMAKE_CXX_STANDARD )
@@ -55,8 +64,7 @@ set ( USUL_VERSION_MINOR 1 )
 set ( USUL_VERSION_PATCH 0 )
 configure_file (
   ${CMAKE_CURRENT_SOURCE_DIR}/config/Version.h.in
-  ${USUL_INC_DIR}/Usul/Version.h
-)
+  ${USUL_INC_DIR}/Usul/Version.h )
 
 # Does the user want an atomic reference counter?
 option ( USUL_USE_ATOMIC_REFERENCE_COUNTER
@@ -76,13 +84,13 @@ set ( USUL_PLUGIN_EXTENSION "plug" CACHE STRING "File extension for plugins" )
 # Now that we have all the configuration options we can write the file.
 configure_file (
   ${CMAKE_CURRENT_SOURCE_DIR}/config/Config.h.in
-  ${USUL_INC_DIR}/Usul/Config.h
-)
+  ${USUL_INC_DIR}/Usul/Config.h )
 
 # Does the user want strict warnings?
 option ( USUL_ENABLE_STRICT_WARNINGS "Enable strict warnings" ON )
 if ( USUL_ENABLE_STRICT_WARNINGS )
-  if ( MSVC )
+  message ( "   -- Enabling strict warnings" )
+  if ( USING_MSVC_OR_INTEL )
     add_compile_options ( /W4 )
   else()
     add_compile_options ( -Wall -Wextra -pedantic -pedantic-errors )
@@ -92,9 +100,12 @@ endif()
 # Does the user want to treat warnings the same as errors?
 option ( USUL_TREAT_WARNINGS_LIKE_ERRORS "Treat warnings like errors" ON )
 if ( USUL_TREAT_WARNINGS_LIKE_ERRORS )
-  if ( MSVC )
+  message ( "   -- Treating warnings like errors" )
+  if ( USING_MSVC_OR_INTEL )
+    message ( "here 1" )
     add_compile_options ( /WX )
   else()
+    message ( "here 2" )
     add_compile_options ( -Werror )
   endif()
 endif()

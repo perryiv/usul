@@ -22,6 +22,18 @@ if ( NOT DEFINED ENV{CATCH2_INC_DIR} )
   )
 endif()
 
+# Does the user want to generate code coverage?
+option ( USUL_ENABLE_CODE_COVERAGE
+  "Generate test code coverage in supported configurations" OFF )
+if ( USUL_ENABLE_CODE_COVERAGE )
+  if ( USING_GCC_OR_CLANG )
+    message ( "   -- Generating test code coverage data" )
+    add_compile_options ( -fprofile-arcs -ftest-coverage )
+  else()
+    message ( "!! Test code coverage data not supported with current compiler" )
+  endif()
+endif()
+
 # Add the include directory for catch.
 include_directories ( $ENV{CATCH2_INC_DIR} )
 

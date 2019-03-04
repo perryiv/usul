@@ -29,51 +29,6 @@ compiler: gcc
 # https://docs.travis-ci.com/user/languages/cpp/
 dist: xenial
 
-# We install things.
-sudo: required
-
-# Install what we need
-# install:
-#   - sudo apt-get install libboost-filesystem-dev
-
 # The sequence of commands that get executed.
 script:
-
-# - whoami
-# - pwd
-# - ls
-# - cmake -version
-# - gcc --version
-# - git --version
-# - git branch
-
-# - export BOOST_INC_DIR=/usr/include
-# - echo $BOOST_INC_DIR
-# - ls $BOOST_INC_DIR/boost
-
-# - export BOOST_LIB_DIR=/usr/lib/x86_64-linux-gnu
-# - echo $BOOST_LIB_DIR
-# - ls $BOOST_LIB_DIR/libboost*
-
-- mkdir -p external/catch2
-- curl https://raw.githubusercontent.com/catchorg/Catch2/master/single_include/catch2/catch.hpp > external/catch2/catch.hpp
-- export CATCH2_INC_DIR=`pwd`/external
-- echo $CATCH2_INC_DIR
-- ls $CATCH2_INC_DIR
-
-- mkdir -p build/debug
-- cd build/debug
-- cmake ../../ -DCMAKE_VERBOSE_MAKEFILE=ON -DCMAKE_BUILD_TYPE="Debug"
-- cmake --build .
-# - ls -al ./bin/usul_test
-# - file ./bin/usul_test
-- ./bin/usul_test
-
-- cd ../
-- mkdir release
-- cd release
-- cmake ../../ -DCMAKE_VERBOSE_MAKEFILE=ON -DCMAKE_BUILD_TYPE="Release"
-- cmake --build .
-# - ls -al ./bin/usul_test
-# - file ./bin/usul_test
-- ./bin/usul_test
+- sh run_test.sh
