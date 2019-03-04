@@ -16,6 +16,9 @@
 # Exit immediately if one of the following commands do not return zero.
 set -e
 
+# Echo all the commands.
+set -x
+
 rm -rf build
 mkdir build
 cd build
@@ -31,6 +34,7 @@ file ./bin/usul_test
 ./bin/usul_test
 
 cd ../
+rm -rf build
 mkdir build
 cd build
 
