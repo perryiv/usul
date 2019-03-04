@@ -11,10 +11,18 @@
 #
 #  CMake file for the library.
 #
+#  Sources:
+#  https://stackoverflow.com/questions/5311515/gcc-fpic-option
+#
 ################################################################################
 
 # We are compling usul.
 add_compile_definitions ( COMPILING_USUL )
+
+# We want position independent code.
+if ( USING_GCC OR USING_CLANG )
+  add_compile_options ( -fPIC )
+endif()
 
 # Define a variable that holds all the source files.
 set ( SOURCE_FILES
