@@ -22,7 +22,7 @@
 # else
 #  define USUL_EXPORT __declspec ( dllimport ) // The classes will be imported into the client's code.
 # endif
-#else // _WIN32
+#else // Not _WIN32
 # define USUL_EXPORT
 #endif
 
