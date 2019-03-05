@@ -32,7 +32,7 @@ set ( SOURCE_FILES
   ./Usul/System/LastError.cpp
 )
 
-# Make the add_library using the source files.
+# Make the library using the source files.
 add_library ( ${PROJECT_NAME} SHARED ${SOURCE_FILES} )
 
 # Tell cmake that other projects that use this one will need
