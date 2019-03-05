@@ -18,8 +18,8 @@
 
 #include "Usul/Strings/Format.h"
 
-#include <iostream>
 #include <stdexcept>
+#include <iostream> // The macro below uses std::clog.
 
 
 namespace Usul {
@@ -32,14 +32,9 @@ namespace Tools {
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-template < class F > bool noThrow ( F function, const char *filename, unsigned int line, std::ostream *out = nullptr )
+template < class Function, class OutputStream >
+inline bool noThrow ( Function function, const char *filename, unsigned int line, OutputStream *out )
 {
-  // Set the output stream if we were not given one.
-  if ( nullptr == out )
-  {
-    out = &std::clog;
-  }
-
   // Try to call the function. We return true if it worked.
   try
   {
@@ -47,29 +42,49 @@ template < class F > bool noThrow ( F function, const char *filename, unsigned i
     return true;
   }
 
-  // If the user wants to capture this error they can redirect stderr.
+  // To capture this error pass an appropriate stream.
   // We output one string because that works best when multi-threaded.
 
   catch ( const std::exception &e )
   {
-    *out << ( Usul::Strings::format (
-      "Standard exception caught: ", e.what(),
-      ", File: ", filename,
-      ", Line: ", line
-    ) ) << std::endl;
+    if ( out )
+    {
+      *out << ( Usul::Strings::format (
+        "Standard exception caught: ", e.what(),
+        ", File: ", filename,
+        ", Line: ", line
+      ) ) << std::endl;
+    }
   }
 
   catch ( ... )
   {
-    *out << ( Usul::Strings::format (
-      "Unknown exception caught",
-      ", File: ", filename,
-      ", Line: ", line
-    ) ) << std::endl;
+    if ( out )
+    {
+      *out << ( Usul::Strings::format (
+        "Unknown exception caught",
+        ", File: ", filename,
+        ", Line: ", line
+      ) ) << std::endl;
+    }
   }
 
   // If we get to here then it did not work.
   return false;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Helping the compiler ...
+//
+///////////////////////////////////////////////////////////////////////////////
+
+template < class Function >
+inline bool noThrow ( Function function, const char *filename, unsigned int line )
+{
+  std::ostream *stream = nullptr;
+  return noThrow ( function, filename, line, stream );
 }
 
 
