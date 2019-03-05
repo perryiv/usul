@@ -16,14 +16,8 @@
 #
 ################################################################################
 
-# Make sure this environment variable is set.
-if ( NOT DEFINED ENV{CATCH2_INC_DIR} )
-  message ( FATAL_ERROR
-    "\nEnvironment variable CATCH2_INC_DIR is not set. "
-    "\nIt should point to a directory that contains these files:\n"
-    "https://github.com/catchorg/Catch2/tree/master/single_include/catch2"
-  )
-endif()
+# Let the user set the include path for Catch2.
+set ( CATCH2_INC_DIR $ENV{CATCH2_INC_DIR} CACHE STRING "Include path for Catch2 header file" )
 
 # Does the user want to generate code coverage?
 option ( USUL_ENABLE_CODE_COVERAGE
@@ -43,7 +37,7 @@ if ( USUL_ENABLE_CODE_COVERAGE )
 endif()
 
 # Add the include directory for catch.
-include_directories ( $ENV{CATCH2_INC_DIR} )
+include_directories ( ${CATCH2_INC_DIR} )
 
 # Need to include files from this directory.
 include_directories ( ${CMAKE_CURRENT_SOURCE_DIR} )
@@ -76,4 +70,4 @@ add_executable ( ${PROJECT_NAME}_test ${SOURCE_FILES} )
 
 # Tell cmake we are going to use these libraries.
 # It will automatically add -I, -L, and -D (etc) appropriately.
-target_link_libraries ( ${PROJECT_NAME}_test PRIVATE usul ${CMAKE_DL_LIBS} )
+target_link_libraries ( ${PROJECT_NAME}_test PRIVATE ${PROJECT_NAME} ${CMAKE_DL_LIBS} )
