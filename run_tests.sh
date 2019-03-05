@@ -31,7 +31,7 @@ cmake --build .
 
 ls -al ./bin/usul_test
 file ./bin/usul_test
-./bin/usul_test
+./bin/usul_test --abort --use-colour=yes --durations=no
 
 cd ../
 rm -rf build
@@ -46,7 +46,7 @@ cmake --build .
 
 ls -al ./bin/usul_test
 file ./bin/usul_test
-./bin/usul_test
+./bin/usul_test --abort --use-colour=yes --durations=no
 
 cd ../
 gcovr
