@@ -13,10 +13,13 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
+#include "Helpers/Instances.h"
+
 #define CATCH_CONFIG_RUNNER
 #include "catch2/catch.hpp"
 
 #include <iostream>
+#include <stdexcept>
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -32,6 +35,13 @@ int main ( int argc, char **argv )
   try
   {
     result = Catch::Session().run ( argc, argv );
+
+    if ( false == Helpers::Instances::get().empty() )
+    {
+      throw std::runtime_error ( "Instances remain in memory" );
+    }
+
+    Helpers::Instances::destroy();
   }
 
   catch ( const std::exception &e )

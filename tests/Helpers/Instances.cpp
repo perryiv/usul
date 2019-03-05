@@ -17,8 +17,6 @@
 
 #include "catch2/catch.hpp"
 
-#include <mutex>
-
 namespace Helpers {
 
 
@@ -30,7 +28,6 @@ namespace Helpers {
 
 namespace Details
 {
-  std::mutex _mutex;
   Instances *_singleton = nullptr;
 }
 
@@ -54,7 +51,6 @@ Instances::Instances() : _set()
 
 Instances::~Instances()
 {
-  REQUIRE ( _set.empty() );
 }
 
 
@@ -66,14 +62,25 @@ Instances::~Instances()
 
 Instances &Instances::get()
 {
-  std::lock_guard < std::mutex > lock ( Details::_mutex );
-
   if ( !Details::_singleton )
   {
     Details::_singleton = new Instances();
   }
-
   return *Details::_singleton;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//  Destroy the singleton.
+//
+////////////////////////////////////////////////////////////////////////////////
+
+void Instances::destroy()
+{
+  Instances *temp = Details::_singleton;
+  Details::_singleton = nullptr;
+  delete temp;
 }
 
 
