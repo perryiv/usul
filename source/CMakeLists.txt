@@ -20,9 +20,7 @@
 add_compile_definitions ( COMPILING_USUL )
 
 # We want position independent code.
-if ( USING_GCC OR USING_CLANG )
-  add_compile_options ( -fPIC )
-endif()
+set ( CMAKE_POSITION_INDEPENDENT_CODE ON )
 
 # Define a variable that holds all the source files.
 set ( SOURCE_FILES
@@ -38,3 +36,9 @@ add_library ( ${PROJECT_NAME} SHARED ${SOURCE_FILES} )
 # Tell cmake that other projects that use this one will need
 # the header files from USUL_INC_DIR.
 target_include_directories ( ${PROJECT_NAME} INTERFACE ${USUL_INC_DIR} )
+
+# Bake the version into the file name and create symlinks if appropriate.
+set_target_properties ( ${PROJECT_NAME} PROPERTIES
+  VERSION ${USUL_VERSION_STRING}
+  SOVERSION ${USUL_VERSION_MAJOR}
+)

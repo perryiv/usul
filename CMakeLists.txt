@@ -66,6 +66,7 @@ set ( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin )
 set ( USUL_VERSION_MAJOR 0 )
 set ( USUL_VERSION_MINOR 1 )
 set ( USUL_VERSION_PATCH 0 )
+set ( USUL_VERSION_STRING ${USUL_VERSION_MAJOR}.${USUL_VERSION_MINOR}.${USUL_VERSION_PATCH} )
 configure_file (
   ${CMAKE_CURRENT_SOURCE_DIR}/config/Version.h.in
   ${USUL_INC_DIR}/Usul/Version.h )
@@ -111,6 +112,9 @@ if ( USUL_TREAT_WARNINGS_LIKE_ERRORS )
     add_compile_options ( -Werror )
   endif()
 endif()
+
+# Let the user change the debug postfix.
+set ( CMAKE_DEBUG_POSTFIX "d" CACHE STRING "Postfix for debug libraries and executables" )
 
 # For debug builds we want the _DEBUG preprocessor symbol to be defined.
 add_compile_definitions ( $<$<CONFIG:Debug>:_DEBUG> )

@@ -63,10 +63,15 @@ set ( SOURCE_FILES
   ./Usul/Tools/NoThrow.cpp
   ./Usul/Tools/ScopedCall.cpp
   ./Usul/Main.cpp
+  ./Usul/Version.cpp
 )
 
 # Make an executable.
 add_executable ( ${PROJECT_NAME}_test ${SOURCE_FILES} )
+
+# Append a "d" to the file name if this is a debug build.
+# Unlike with the library files, this does not happen automatically.
+set_target_properties ( ${PROJECT_NAME}_test PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX} )
 
 # Tell cmake we are going to use these libraries.
 # It will automatically add -I, -L, and -D (etc) appropriately.
