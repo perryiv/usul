@@ -17,6 +17,8 @@
 
 #include "catch2/catch.hpp"
 
+#include <string>
+
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -29,5 +31,5 @@ TEST_CASE ( "Version should be correct" )
   REQUIRE ( Usul::Version::MAJOR == 0 );
   REQUIRE ( Usul::Version::MINOR == 1 );
   REQUIRE ( Usul::Version::PATCH == 0 );
-  REQUIRE ( Usul::Version::STRING == "0.1.0" );
+  REQUIRE ( std::string ( Usul::Version::STRING ) == std::string ( "0.1.0" ) );
 }
