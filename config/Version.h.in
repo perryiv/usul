@@ -19,6 +19,7 @@
 #ifndef _USUL_VERSION_H_
 #define _USUL_VERSION_H_
 
+
 namespace Usul
 {
   namespace Version
@@ -26,6 +27,7 @@ namespace Usul
     const unsigned short MAJOR = @USUL_VERSION_MAJOR@;
     const unsigned short MINOR = @USUL_VERSION_MINOR@;
     const unsigned short PATCH = @USUL_VERSION_PATCH@;
+    const char *STRING = "@USUL_VERSION_STRING@";
   }
 }
 
