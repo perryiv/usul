@@ -11,9 +11,6 @@
 #
 #  CMake file for the Usul test program.
 #
-#  Sources:
-#  https://stackoverflow.com/questions/16682606/how-to-resovle-gcov-init-undefined-reference-issue-when-link
-#
 ################################################################################
 
 # Let the user set the include path for Catch2.
@@ -23,16 +20,16 @@ set ( CATCH2_INC_DIR $ENV{CATCH2_INC_DIR} CACHE STRING "Include path for Catch2 
 option ( USUL_ENABLE_CODE_COVERAGE
   "Generate test code coverage in supported configurations" OFF )
 if ( USUL_ENABLE_CODE_COVERAGE )
-  if ( USING_GCC OR USING_CLANG )
+  if ( UNIX ) # True for Linux, Mac, and Cygwin.
     message ( "   -- Generating test code coverage data" )
     add_compile_options ( -fprofile-arcs -ftest-coverage )
-    if ( USING_GCC )
-      link_libraries ( gcov )
-    elseif ( USING_CLANG )
+    if ( "${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang" )
       add_link_options ( --coverage )
+    else() # GCC
+      link_libraries ( gcov )
     endif()
   else()
-    message ( "!! Test code coverage data not supported with current compiler" )
+    message ( WARNING "Test code coverage data not supported with current compiler" )
   endif()
 endif()
 
