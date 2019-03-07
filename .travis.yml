@@ -45,8 +45,6 @@ script:
 - mkdir -p external/catch2
 - curl https://raw.githubusercontent.com/catchorg/Catch2/master/single_include/catch2/catch.hpp > external/catch2/catch.hpp
 - export CATCH2_INC_DIR=`pwd`/external
-- echo $CATCH2_INC_DIR
-- ls $CATCH2_INC_DIR
 - popd
 
 # Now we can run our script.
