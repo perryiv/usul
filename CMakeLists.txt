@@ -47,10 +47,16 @@ endif()
 # Define some variables that point to top-level directories.
 set ( USUL_INC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/source )
 
-# This is where we want output files to go.
-set ( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib )
-set ( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib )
-set ( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin )
+# Set default output directories if none are given on command line.
+if ( NOT DEFINED CMAKE_ARCHIVE_OUTPUT_DIRECTORY AND DEFINED ENV{USUL_LIB_DIR} )
+  set ( CMAKE_ARCHIVE_OUTPUT_DIRECTORY $ENV{USUL_LIB_DIR} )
+endif()
+if ( NOT DEFINED CMAKE_LIBRARY_OUTPUT_DIRECTORY AND DEFINED ENV{USUL_LIB_DIR} )
+  set ( CMAKE_LIBRARY_OUTPUT_DIRECTORY $ENV{USUL_LIB_DIR} )
+endif()
+if ( NOT DEFINED CMAKE_RUNTIME_OUTPUT_DIRECTORY AND DEFINED ENV{USUL_BIN_DIR} )
+  set ( CMAKE_RUNTIME_OUTPUT_DIRECTORY $ENV{USUL_BIN_DIR} )
+endif()
 
 # Set the version.
 set ( USUL_VERSION_MAJOR 0 )
@@ -103,8 +109,10 @@ if ( USUL_TREAT_WARNINGS_LIKE_ERRORS )
   endif()
 endif()
 
-# Let the user change the debug postfix.
-set ( CMAKE_DEBUG_POSTFIX "d" CACHE STRING "Postfix for debug libraries and executables" )
+# Set default postfix if none was given on the command line.
+if ( NOT DEFINED CMAKE_DEBUG_POSTFIX )
+  set ( CMAKE_DEBUG_POSTFIX "d" )
+endif()
 
 # For debug builds we want the _DEBUG preprocessor symbol to be defined.
 add_compile_definitions ( $<$<CONFIG:Debug>:_DEBUG> )
