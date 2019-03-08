@@ -11,9 +11,6 @@
 #
 #  CMake file for the library.
 #
-#  Sources:
-#  https://stackoverflow.com/questions/5311515/gcc-fpic-option
-#
 ################################################################################
 
 # We are compling usul.
@@ -42,3 +39,10 @@ set_target_properties ( ${PROJECT_NAME} PROPERTIES
   VERSION ${USUL_VERSION_STRING}
   SOVERSION ${USUL_VERSION_MAJOR}
 )
+
+# Tell cmake how to install the headers and binaries if the user types
+# "make install" or compiles the Visual C++ INSTALL project. The default
+# directory prefix is /usr/local or "C:/Program Files", and can be changed
+# on the command line with -DCMAKE_INSTALL_PREFIX=/some/path.
+install ( TARGETS ${PROJECT_NAME} DESTINATION bin )
+install ( DIRECTORY ${USUL_INC_DIR}/Usul DESTINATION include FILES_MATCHING PATTERN "*.h" )
