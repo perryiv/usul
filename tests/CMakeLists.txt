@@ -14,7 +14,7 @@
 ################################################################################
 
 # Let the user set the include path for Catch2.
-set ( CATCH2_INC_DIR $ENV{CATCH2_INC_DIR} CACHE STRING "Include path for Catch2 header file" )
+set ( CATCH2_INC_DIR $ENV{CATCH2_INC_DIR} CACHE PATH "Include path for Catch2 header file" )
 
 # Does the user want to generate code coverage?
 option ( USUL_ENABLE_CODE_COVERAGE
