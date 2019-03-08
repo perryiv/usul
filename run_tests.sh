@@ -23,28 +23,27 @@ rm -rf build
 mkdir build
 cd build
 
-mkdir release
-cd release
-
-cmake ../.. \
+cmake .. \
   -DCMAKE_VERBOSE_MAKEFILE=ON \
   -DCMAKE_BUILD_TYPE="Release" \
   -DUSUL_ENABLE_CODE_COVERAGE=OFF
 cmake --build .
 
-${LOCAL_DEV_BIN_DIR}/usul_test --abort --use-colour=yes --durations=no
+${USUL_BIN_DIR}/usul_test --abort --use-colour=yes --durations=no
 
 cd ..
-mkdir debug
-cd debug
 
-cmake ../.. \
+rm -rf build
+mkdir build
+cd build
+
+cmake .. \
   -DCMAKE_VERBOSE_MAKEFILE=ON \
   -DCMAKE_BUILD_TYPE="Debug" \
   -DUSUL_ENABLE_CODE_COVERAGE=ON
 cmake --build .
 
-${LOCAL_DEV_BIN_DIR}/usul_testd --abort --use-colour=yes --durations=no
+${USUL_BIN_DIR}/usul_testd --abort --use-colour=yes --durations=no
 
-cd ../..
+cd ..
 gcovr
