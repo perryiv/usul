@@ -47,5 +47,11 @@ script:
 - export CATCH2_INC_DIR=`pwd`/external
 - popd
 
+# The binary output files go here.
+- pushd .
+- cd ..
+- export LOCAL_DEV_BIN_DIR=`pwd`/local_dev_output
+- popd
+
 # Now we can run our script.
 - sh run_tests.sh

@@ -32,7 +32,7 @@ cmake ../.. \
   -DUSUL_ENABLE_CODE_COVERAGE=OFF
 cmake --build .
 
-./bin/usul_test --abort --use-colour=yes --durations=no
+${LOCAL_DEV_BIN_DIR}/usul_test --abort --use-colour=yes --durations=no
 
 cd ..
 mkdir debug
@@ -44,7 +44,7 @@ cmake ../.. \
   -DUSUL_ENABLE_CODE_COVERAGE=ON
 cmake --build .
 
-./bin/usul_testd --abort --use-colour=yes --durations=no
+${LOCAL_DEV_BIN_DIR}/usul_testd --abort --use-colour=yes --durations=no
 
 cd ../..
 gcovr
