@@ -10,7 +10,7 @@
     "install-lib": "cd build && cmake --build . --target install",
     "install-lib-win": "cd build && cmake --build . --target INSTALL",
     "test": "cd ${USUL_BIN_DIR} && usul_test --abort --use-colour=yes --durations=no",
-    "test-win": "cd ${USUL_BIN_DIR} && usul_testd --abort --use-colour=yes --durations=no",
+    "test-win": "cd %USUL_BIN_DIR% && usul_testd --abort --use-colour=yes --durations=no",
     "watch": "watch \"npm run clear && npm run build && npm run test\" ./ --filter=./watch_filter.js",
     "watch-win": "watch \"npm run clear && npm run build && npm run test-win\" ./ --filter=./watch_filter.js"
   },
