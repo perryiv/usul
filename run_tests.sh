@@ -26,6 +26,7 @@ cd build
 cmake .. \
   -DCMAKE_VERBOSE_MAKEFILE=ON \
   -DCMAKE_BUILD_TYPE="Release" \
+  -DUSUL_BUILD_TESTS=ON \
   -DUSUL_ENABLE_CODE_COVERAGE=OFF
 cmake --build .
 
@@ -40,6 +41,7 @@ cd build
 cmake .. \
   -DCMAKE_VERBOSE_MAKEFILE=ON \
   -DCMAKE_BUILD_TYPE="Debug" \
+  -DUSUL_BUILD_TESTS=ON \
   -DUSUL_ENABLE_CODE_COVERAGE=ON
 cmake --build .
 
