@@ -109,6 +109,9 @@ if ( USUL_TREAT_WARNINGS_LIKE_ERRORS )
   endif()
 endif()
 
+# Does the user want to build the tests?
+option ( USUL_BUILD_TESTS "Build the tests" OFF )
+
 # Set default postfix if none was given on the command line.
 if ( NOT DEFINED CMAKE_DEBUG_POSTFIX )
   set ( CMAKE_DEBUG_POSTFIX "d" )
@@ -121,5 +124,7 @@ add_compile_definitions ( $<$<CONFIG:Debug>:_DEBUG> )
 include_directories ( ${USUL_INC_DIR} )
 
 # Also process the CMakeLists.txt files found in these directories.
-add_subdirectory ( source )
-add_subdirectory ( tests )
+add_subdirectory ( source ) # The library.
+if ( USUL_BUILD_TESTS )
+  add_subdirectory ( tests ) # The tests.
+endif()
