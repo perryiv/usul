@@ -28,11 +28,12 @@ set ( SOURCE_FILES
 )
 
 # Make the library using the source files.
+# Hey CMake, here is a library and all the stuff you need to know about it.
 add_library ( ${PROJECT_NAME} SHARED ${SOURCE_FILES} )
 
 # Tell cmake that other projects that use this one will need
 # the header files from USUL_INC_DIR.
-target_include_directories ( ${PROJECT_NAME} INTERFACE ${USUL_INC_DIR} )
+target_include_directories ( ${PROJECT_NAME} PUBLIC ${USUL_INC_DIR} )
 
 # Bake the version into the file name and create symlinks if appropriate.
 set_target_properties ( ${PROJECT_NAME} PROPERTIES

@@ -28,17 +28,17 @@ module.exports = function ( path )
     return false;
   }
 
-  path = path.split ( "/" ).pop();
+  const file = path.split ( "/" ).pop();
 
   // Reject these files.
-  if ( ( path == ".DS_Store" ) ||
-       ( path == ".travis.yml" ) ||
-       ( path == "Config.h" ) ||
-       ( path == "License.md" ) ||
-       ( path == "npm-shrinkwrap.json" ) ||
-       ( path == "ReadMe.md" ) ||
-       ( path == "Version.h" ) ||
-       ( path == "watch_filter.js" ) )
+  if ( ( file == ".DS_Store" ) ||
+       ( file == ".travis.yml" ) ||
+       ( file == "Config.h" ) ||
+       ( file == "License.md" ) ||
+       ( file == "npm-shrinkwrap.json" ) ||
+       ( file == "ReadMe.md" ) ||
+       ( file == "Version.h" ) ||
+       ( file == "watch_filter.js" ) )
   {
     return false;
   }
