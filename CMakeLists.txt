@@ -23,6 +23,7 @@
 #  http://cmake.3232098.n2.nabble.com/Directing-cmake-to-link-against-shared-object-with-debug-postfix-d-td7595338.html
 #  https://stackoverflow.com/questions/16682606/how-to-resovle-gcov-init-undefined-reference-issue-when-link
 #  https://cmake.org/cmake/help/v3.13/module/FindOpenSceneGraph.html?highlight=findopenscenegraph
+#  https://gitlab.kitware.com/cmake/community/wikis/doc/tutorials/How-to-create-a-ProjectConfig.cmake-file
 #
 ################################################################################
 
@@ -31,7 +32,7 @@
 cmake_minimum_required ( VERSION 3.12.0 )
 
 # The name of this project.
-project ( usul )
+project ( usul VERSION 0.1.0 )
 
 # Use this C++ standard unless the user specifies otherwise with:
 # cmake path/to/source/dir -DCMAKE_CXX_STANDARD=14
@@ -48,16 +49,19 @@ endif()
 set ( USUL_INC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/source )
 
 # Set default output directories if none are given on command line.
-include ( ${CMAKE_CURRENT_SOURCE_DIR}/cmake/output_dirs.cmake )
+# include ( ${CMAKE_CURRENT_SOURCE_DIR}/cmake/output_dirs.cmake )
 
 # Set the version.
-set ( USUL_VERSION_MAJOR 0 )
-set ( USUL_VERSION_MINOR 1 )
-set ( USUL_VERSION_PATCH 0 )
-set ( USUL_VERSION_STRING ${USUL_VERSION_MAJOR}.${USUL_VERSION_MINOR}.${USUL_VERSION_PATCH} )
 configure_file (
   ${CMAKE_CURRENT_SOURCE_DIR}/config/Version.h.in
   ${USUL_INC_DIR}/Usul/Version.h )
+
+# Define how things are installed.
+if ( WIN32 AND NOT CYGWIN )
+  set ( INSTALL_CMAKE_DIR CMake )
+else()
+  set ( INSTALL_CMAKE_DIR lib/CMake/${PROJECT_NAME} )
+endif()
 
 # Does the user want an atomic reference counter?
 option ( USUL_USE_ATOMIC_REFERENCE_COUNTER
@@ -113,10 +117,13 @@ endif()
 add_compile_definitions ( $<$<CONFIG:Debug>:_DEBUG> )
 
 # Everybody in the subdirectories will need to include files from here.
-include_directories ( ${USUL_INC_DIR} )
+# include_directories ( ${USUL_INC_DIR} )
 
 # Also process the CMakeLists.txt files found in these directories.
 add_subdirectory ( source ) # The library.
 if ( USUL_BUILD_TESTS )
   add_subdirectory ( tests ) # The tests.
 endif()
+
+# Configure how this project gets imported into other cmake projects.
+include ( ${CMAKE_CURRENT_SOURCE_DIR}/cmake/export.cmake )

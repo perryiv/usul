@@ -24,10 +24,10 @@ namespace Usul
 {
   namespace Version
   {
-    const unsigned short MAJOR = @USUL_VERSION_MAJOR@;
-    const unsigned short MINOR = @USUL_VERSION_MINOR@;
-    const unsigned short PATCH = @USUL_VERSION_PATCH@;
-    const char *STRING = "@USUL_VERSION_STRING@";
+    const unsigned short MAJOR = @PROJECT_VERSION_MAJOR@;
+    const unsigned short MINOR = @PROJECT_VERSION_MINOR@;
+    const unsigned short PATCH = @PROJECT_VERSION_PATCH@;
+    const char *STRING = "@PROJECT_VERSION@";
   }
 }
 

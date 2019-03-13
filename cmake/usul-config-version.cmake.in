@@ -1,0 +1,41 @@
+
+################################################################################
+#
+#  Copyright (c) 2019, Perry L Miller IV
+#  All rights reserved.
+#  MIT License: https://opensource.org/licenses/mit-license.html
+#
+################################################################################
+
+################################################################################
+#
+#  Check version compatability using Semantic Versioning convention.
+#  https://semver.org/
+#
+################################################################################
+
+# Define important variables.
+set ( PACKAGE_VERSION @PROJECT_VERSION@ )
+set ( PACKAGE_VERSION_MAJOR @PROJECT_VERSION_MAJOR@ )
+set ( PACKAGE_VERSION_MINOR @PROJECT_VERSION_MINOR@ )
+set ( PACKAGE_VERSION_PATCH @PROJECT_VERSION_PATCH@ )
+
+# Initialize.
+set ( PACKAGE_VERSION_COMPATIBLE TRUE )
+set ( PACKAGE_VERSION_EXACT FALSE )
+
+# Check for compatabile version.
+if ( DEFINED ${PACKAGE_FIND_VERSION} )
+  if ( NOT ${PACKAGE_VERSION_MAJOR} EQUAL ${PACKAGE_FIND_VERSION_MAJOR} )
+    set ( PACKAGE_VERSION_COMPATIBLE FALSE )
+  else()
+    if ( ${PACKAGE_VERSION_MINOR} LESS ${PACKAGE_FIND_VERSION_MINOR} )
+      set ( PACKAGE_VERSION_COMPATIBLE FALSE )
+    endif()
+  endif()
+
+  # Check for exact version match.
+  if ( ${PACKAGE_VERSION} VERSION_EQUAL ${PACKAGE_FIND_VERSION} )
+    set ( PACKAGE_VERSION_EXACT TRUE )
+  endif()
+endif()
