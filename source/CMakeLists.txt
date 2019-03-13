@@ -31,8 +31,7 @@ set ( SOURCE_FILES
 # Hey CMake, here is a library and all the stuff you need to know about it.
 add_library ( ${PROJECT_NAME} SHARED ${SOURCE_FILES} )
 
-# Tell cmake that other projects that use this one will need
-# the header files from USUL_INC_DIR.
+# Tell cmake that other projects that use this one will need our header files.
 target_include_directories (
   ${PROJECT_NAME} PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>

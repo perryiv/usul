@@ -16,21 +16,14 @@
 #
 ################################################################################
 
-
-# - Config file for the FooBar package
-# It defines the following variables
-#  USUL_INCLUDE_DIRS - include directories for FooBar
-#  USUL_LIBRARIES    - libraries to link against
-#  USUL_EXECUTABLE   - the bar executable
-
 # Compute paths
 get_filename_component ( USUL_CMAKE_DIR ${CMAKE_CURRENT_LIST_FILE} PATH )
 set ( USUL_INCLUDE_DIRS "@CONFIG_INCLUDE_DIRS@" )
 
-# Our library dependencies (contains definitions for IMPORTED targets)
+# TODO: Not sure what this does.
 if ( NOT TARGET usul AND NOT usul_BINARY_DIR )
   include ( ${USUL_CMAKE_DIR}/usul_targets.cmake )
 endif()
 
-# These are IMPORTED targets created by FooBarTargets.cmake
+# TODO: Not sure what this does.
 set ( USUL_LIBRARIES usul )
