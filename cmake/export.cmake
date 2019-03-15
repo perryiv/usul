@@ -13,6 +13,13 @@
 #
 ################################################################################
 
+# Define how things are installed.
+if ( WIN32 AND NOT CYGWIN )
+  set ( INSTALL_CMAKE_DIR CMake )
+else()
+  set ( INSTALL_CMAKE_DIR lib/CMake/${PROJECT_NAME} )
+endif()
+
 # Specify how things are exported.
 export ( TARGETS ${PROJECT_NAME}
   FILE ${PROJECT_BINARY_DIR}/${PROJECT_NAME}_targets.cmake

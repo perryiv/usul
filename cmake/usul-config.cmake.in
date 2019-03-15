@@ -20,10 +20,11 @@
 get_filename_component ( USUL_CMAKE_DIR ${CMAKE_CURRENT_LIST_FILE} PATH )
 set ( USUL_INCLUDE_DIRS "@CONFIG_INCLUDE_DIRS@" )
 
-# TODO: Not sure what this does.
+# Include this target cmake file if (and only if) the usul is not already defined.
 if ( NOT TARGET usul AND NOT usul_BINARY_DIR )
   include ( ${USUL_CMAKE_DIR}/usul_targets.cmake )
 endif()
 
-# TODO: Not sure what this does.
+# A way for projects using usul to easily link against all the libraries.
+# There is only one here, so it doesn't matter much.
 set ( USUL_LIBRARIES usul )

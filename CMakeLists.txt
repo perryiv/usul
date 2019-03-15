@@ -45,23 +45,14 @@ if ( NOT DEFINED CMAKE_CXX_EXTENSIONS )
   set ( CMAKE_CXX_EXTENSIONS OFF )
 endif()
 
-# Define some variables that point to top-level directories.
-set ( USUL_INC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/source )
-
-# Set default output directories if none are given on command line.
-# include ( ${CMAKE_CURRENT_SOURCE_DIR}/cmake/output_dirs.cmake )
+# A convenient variable for telling the compiler to use these header files.
+set ( USUL_CONFIG_DIR_INPUT ${CMAKE_CURRENT_SOURCE_DIR}/config )
+set ( USUL_CONFIG_DIR_OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/config )
 
 # Set the version.
 configure_file (
-  ${CMAKE_CURRENT_SOURCE_DIR}/config/Version.h.in
-  ${USUL_INC_DIR}/Usul/Version.h )
-
-# Define how things are installed.
-if ( WIN32 AND NOT CYGWIN )
-  set ( INSTALL_CMAKE_DIR CMake )
-else()
-  set ( INSTALL_CMAKE_DIR lib/CMake/${PROJECT_NAME} )
-endif()
+  ${USUL_CONFIG_DIR_INPUT}/Version.h.in
+  ${USUL_CONFIG_DIR_OUTPUT}/Usul/Version.h )
 
 # Does the user want an atomic reference counter?
 option ( USUL_USE_ATOMIC_REFERENCE_COUNTER
@@ -80,8 +71,15 @@ set ( USUL_PLUGIN_EXTENSION "plug" CACHE STRING "File extension for plugins" )
 
 # Now that we have all the configuration options we can write the file.
 configure_file (
-  ${CMAKE_CURRENT_SOURCE_DIR}/config/Config.h.in
-  ${USUL_INC_DIR}/Usul/Config.h )
+  ${USUL_CONFIG_DIR_INPUT}/Config.h.in
+  ${USUL_CONFIG_DIR_OUTPUT}/Usul/Config.h )
+
+# Install generated files wherever the user specified to install things.
+install (
+  DIRECTORY ${USUL_CONFIG_DIR_OUTPUT}/Usul
+  DESTINATION include
+  FILES_MATCHING PATTERN "*.h"
+)
 
 # Does the user want strict warnings?
 option ( USUL_ENABLE_STRICT_WARNINGS "Enable strict warnings" ON )
@@ -115,9 +113,6 @@ endif()
 
 # For debug builds we want the _DEBUG preprocessor symbol to be defined.
 add_compile_definitions ( $<$<CONFIG:Debug>:_DEBUG> )
-
-# Everybody in the subdirectories will need to include files from here.
-# include_directories ( ${USUL_INC_DIR} )
 
 # Also process the CMakeLists.txt files found in these directories.
 add_subdirectory ( source ) # The library.

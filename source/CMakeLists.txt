@@ -35,6 +35,7 @@ add_library ( ${PROJECT_NAME} SHARED ${SOURCE_FILES} )
 target_include_directories (
   ${PROJECT_NAME} PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+  $<BUILD_INTERFACE:${USUL_CONFIG_DIR_OUTPUT}>
   $<INSTALL_INTERFACE:include>
 )
 
@@ -57,6 +58,5 @@ install (
 )
 install (
   DIRECTORY Usul
-  DESTINATION include
-  FILES_MATCHING PATTERN "*.h"
+  DESTINATION include FILES_MATCHING PATTERN "*.h"
 )
