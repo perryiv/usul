@@ -193,13 +193,18 @@ struct SmartPointer
 
   /////////////////////////////////////////////////////////////////////////////
   //
-  //  Assignment. Note: no assignment to raw pointers.
+  //  Assignment.
   //
   /////////////////////////////////////////////////////////////////////////////
 
   ThisType &operator = ( const ThisType &p )
   {
     this->_set ( p._p );
+    return *this;
+  }
+  ThisType &operator = ( T *p )
+  {
+    this->_set ( p );
     return *this;
   }
 
@@ -317,9 +322,6 @@ protected:
 
 
 private:
-
-  // Assignment to raw pointers is not permitted.
-  ThisType &operator = ( T *p );
 
   // Do not permit "if ( !ptr )"
   bool operator ! ();
