@@ -79,7 +79,14 @@ struct RefCountingPolicy
       ptr->ref();
     }
   }
-  template < class T > static void unref ( T *ptr, bool allowDelete = true )
+  template < class T > static void unref ( T *ptr )
+  {
+    if ( ptr )
+    {
+      ptr->unref();
+    }
+  }
+  template < class T > static void unref ( T *ptr, bool allowDelete )
   {
     if ( ptr )
     {
@@ -99,8 +106,14 @@ struct NoDeleteRefCountingPolicy : public RefCountingPolicy
 {
   typedef RefCountingPolicy BaseClass;
 
+  template < class T > static void unref ( T *ptr )
+  {
+    // Always pass false.
+    BaseClass::unref ( ptr, false );
+  }
+
   // Need second argument to compile.
-  template < class T > static void unref ( T *ptr, bool allowDelete = false )
+  template < class T > static void unref ( T *ptr, bool allowDelete )
   {
     // Always set this to false. This way we use the variable and keep the
     // compiler happy when compiling with strict warnings.
