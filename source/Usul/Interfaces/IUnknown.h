@@ -18,6 +18,9 @@
 
 #include "Usul/Pointers/Pointers.h"
 
+#ifdef _WIN32
+# pragma warning ( disable : 4275 ) // Disable warning about dll interfaces.
+#endif
 
 namespace Usul {
 namespace Interfaces {
