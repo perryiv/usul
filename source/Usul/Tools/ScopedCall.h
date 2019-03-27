@@ -18,7 +18,8 @@
 
 #include "Usul/Tools/NoCopying.h"
 
-#include <memory>
+#include <functional>
+
 
 namespace Usul {
 namespace Tools {
@@ -32,57 +33,22 @@ namespace Tools {
 
 struct ScopedCall : public Usul::Tools::NoCopying
 {
-  typedef std::shared_ptr < ScopedCall > Ptr;
+  typedef std::function < void() > Fun;
 
-  ScopedCall()
+  ScopedCall ( const Fun &fun ) :
+    _fun ( fun )
   {
   }
 
-  virtual ~ScopedCall()
+  ~ScopedCall()
   {
+    _fun();
   }
+
+private:
+
+  Fun _fun;
 };
-
-
-///////////////////////////////////////////////////////////////////////////////
-//
-//  Calls the given function in the destructor.
-//
-///////////////////////////////////////////////////////////////////////////////
-
-namespace Details
-{
-  template < class Function >
-  struct TypedScopedCall : public ScopedCall
-  {
-    TypedScopedCall ( Function fun ) : ScopedCall(),
-      _fun ( fun )
-    {
-    }
-
-    virtual ~TypedScopedCall()
-    {
-      _fun();
-    }
-
-  private:
-
-    Function _fun;
-  };
-}
-
-
-///////////////////////////////////////////////////////////////////////////////
-//
-//  Helper function.
-//
-///////////////////////////////////////////////////////////////////////////////
-
-template < class Function >
-inline ScopedCall::Ptr makeScopedCall ( Function fun )
-{
-  return ScopedCall::Ptr ( new Details::TypedScopedCall < Function > ( fun ) );
-}
 
 
 } // namespace Tools
@@ -96,7 +62,7 @@ inline ScopedCall::Ptr makeScopedCall ( Function fun )
 ///////////////////////////////////////////////////////////////////////////////
 
 #define USUL_SCOPED_CALL(fun)\
-  Usul::Tools::ScopedCall::Ptr scoped_call_at_line_##__LINE__ ( Usul::Tools::makeScopedCall ( fun ) )
+  Usul::Tools::ScopedCall scoped_call_at_line_##__LINE__ ( fun )
 
 
 #endif // _USUL_TOOLS_SCOPED_CALL_H_

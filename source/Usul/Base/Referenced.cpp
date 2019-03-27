@@ -14,6 +14,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "Usul/Base/Referenced.h"
+#include "Usul/Interfaces/IUnknown.h"
 #include "Usul/Strings/Format.h"
 
 #include <iostream>
@@ -84,13 +85,25 @@ Referenced &Referenced::operator = ( const Referenced & )
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-//  Classes that inherit can overload and return an IUnknown.
+//  Get this referenced object as an IUnknown pointer, which may return null.
 //
 ///////////////////////////////////////////////////////////////////////////////
 
 Usul::Interfaces::IUnknown *Referenced::asUnknown()
 {
-	return nullptr;
+  return this->queryInterface ( Usul::Interfaces::IUnknown::IID );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Provided as a convenience for inheriting classes.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+Usul::Interfaces::IUnknown *Referenced::queryInterface ( unsigned long )
+{
+  return nullptr;
 }
 
 

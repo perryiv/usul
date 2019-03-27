@@ -45,11 +45,11 @@ Usul::Interfaces::IUnknown *Component1::queryInterface ( unsigned long iid )
 {
   switch ( iid )
   {
-  case Usul::Interfaces::IUnknown::IID:
-  case Helpers::ITest1::IID:
-    return static_cast < Helpers::ITest1 * > ( this );
-  default:
-    return nullptr;
+    case Usul::Interfaces::IUnknown::IID:
+    case Helpers::ITest1::IID:
+      return static_cast < Helpers::ITest1 * > ( this );
+    default:
+      return nullptr;
   }
 }
 
@@ -69,11 +69,11 @@ Usul::Interfaces::IUnknown *Component2::queryInterface ( unsigned long iid )
 {
   switch ( iid )
   {
-  case Usul::Interfaces::IUnknown::IID:
-  case Helpers::ITest2::IID:
-    return static_cast < Helpers::ITest2 * > ( this );
-  default:
-    return nullptr;
+    case Usul::Interfaces::IUnknown::IID:
+    case Helpers::ITest2::IID:
+      return static_cast < Helpers::ITest2 * > ( this );
+    default:
+      return nullptr;
   }
 }
 
@@ -95,13 +95,13 @@ Usul::Interfaces::IUnknown *Component3::queryInterface ( unsigned long iid )
 {
   switch ( iid )
   {
-  case Usul::Interfaces::IUnknown::IID:
-  case Helpers::ITest1::IID:
-    return static_cast < Helpers::ITest1 * > ( this );
-  case Helpers::ITest2::IID:
-    return static_cast < Helpers::ITest2 * > ( this );
-  default:
-    return nullptr;
+    case Usul::Interfaces::IUnknown::IID:
+    case Helpers::ITest1::IID:
+      return static_cast < Helpers::ITest1 * > ( this );
+    case Helpers::ITest2::IID:
+      return static_cast < Helpers::ITest2 * > ( this );
+    default:
+      return nullptr;
   }
 }
 

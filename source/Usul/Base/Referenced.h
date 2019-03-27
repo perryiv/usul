@@ -47,6 +47,9 @@ public:
 	// Get this referenced object as an IUnknown pointer, which may return null.
 	virtual Usul::Interfaces::IUnknown *asUnknown();
 
+  // Returns null. Provided as a convenience for inheriting classes.
+  virtual Usul::Interfaces::IUnknown *queryInterface ( unsigned long );
+
   // Reference this instance.
   void ref();
 
