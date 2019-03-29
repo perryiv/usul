@@ -66,9 +66,16 @@ template < class ScalarType > inline void checkLength (
 //
 ////////////////////////////////////////////////////////////////////////////////
 
+#ifdef __GNUC__
 TEMPLATE_TEST_CASE ( "Vector3 template math functions with all primitive types", "",
-  char, short, int, long, ( unsigned char ), ( unsigned short ),
-  ( unsigned int ), ( unsigned long ), float, double, ( long double ) )
+  int, long, ( unsigned int ), ( unsigned long ),
+  float, double, ( long double ) )
+#else
+TEMPLATE_TEST_CASE ( "Vector3 template math functions with all primitive types", "",
+  char, short, ( unsigned char ), ( unsigned short ),
+  int, long, ( unsigned int ), ( unsigned long ),
+  float, double, ( long double ) )
+#endif
 {
   typedef typename Usul::Math::Vector3 < TestType > VectorType;
 
@@ -292,8 +299,21 @@ TEMPLATE_TEST_CASE ( "Vector3 template math functions with all primitive types",
   }
 }
 
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//  Test the math functions.
+//
+////////////////////////////////////////////////////////////////////////////////
+
+#ifdef __GNUC__
 TEMPLATE_TEST_CASE ( "Vector3 template math functions with signed primitive types", "",
-  short, int, long, float, double, ( long double ) )
+  int, long, float, double, ( long double ) )
+#else
+TEMPLATE_TEST_CASE ( "Vector3 template math functions with signed primitive types", "",
+  short,
+  int, long, float, double, ( long double ) )
+#endif
 {
   typedef typename Usul::Math::Vector3 < TestType > VectorType;
 
@@ -327,9 +347,21 @@ TEMPLATE_TEST_CASE ( "Vector3 template math functions with signed primitive type
   }
 }
 
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//  Test the math functions.
+//
+////////////////////////////////////////////////////////////////////////////////
+
+#ifdef __GNUC__
 TEMPLATE_TEST_CASE ( "Vector3 template math functions with larger primitive types", "",
-  short, int, long, ( unsigned short ),
-  ( unsigned int ), ( unsigned long ), float, double, ( long double ) )
+  int, long, ( unsigned int ), ( unsigned long ), float, double, ( long double ) )
+#else
+TEMPLATE_TEST_CASE ( "Vector3 template math functions with larger primitive types", "",
+  short, ( unsigned short ),
+  int, long, ( unsigned int ), ( unsigned long ), float, double, ( long double ) )
+#endif
 {
   SECTION ( "Can get the length" )
   {
@@ -346,6 +378,13 @@ TEMPLATE_TEST_CASE ( "Vector3 template math functions with larger primitive type
     }
   }
 }
+
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//  Test the math functions.
+//
+////////////////////////////////////////////////////////////////////////////////
 
 TEMPLATE_TEST_CASE ( "Vector3 template math functions with floating point types", "",
   float, double, ( long double ) )

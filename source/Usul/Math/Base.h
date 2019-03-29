@@ -18,6 +18,7 @@
 #define _USUL_MATH_MISSING_BASIC_FUNCTION_H_
 
 #include <cmath>
+#include <type_traits>
 
 
 namespace Usul {
@@ -32,6 +33,8 @@ namespace Math {
 
 template < class T > inline T absolute ( T value )
 {
+  static_assert ( std::is_arithmetic < T >::value, "Not an arithmetic type" );
+  static_assert ( std::is_signed < T >::value, "Not a signed number" );
   return ( ( value < 0 ) ? ( -value ) : value );
 }
 template < class T > inline T abs ( T value )

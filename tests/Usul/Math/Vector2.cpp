@@ -67,9 +67,16 @@ inline void testAngle ( const VectorType &a, const VectorType &b,
 //
 ////////////////////////////////////////////////////////////////////////////////
 
+#ifdef __GNUC__
 TEMPLATE_TEST_CASE ( "Vector2 template math functions with all primitive types", "",
-  char, short, int, long, ( unsigned char ), ( unsigned short ),
-  ( unsigned int ), ( unsigned long ), float, double, ( long double ) )
+  int, long, ( unsigned int ), ( unsigned long ),
+  float, double, ( long double ) )
+#else
+TEMPLATE_TEST_CASE ( "Vector2 template math functions with all primitive types", "",
+  char, short, ( unsigned char ), ( unsigned short ),
+  int, long, ( unsigned int ), ( unsigned long ),
+  float, double, ( long double ) )
+#endif
 {
   typedef typename Usul::Math::Vector2 < TestType > VectorType;
 
@@ -280,8 +287,14 @@ TEMPLATE_TEST_CASE ( "Vector2 template math functions with all primitive types",
 //
 ////////////////////////////////////////////////////////////////////////////////
 
+#ifdef __GNUC__
 TEMPLATE_TEST_CASE ( "Vector2 template math functions with signed primitive types", "",
-  short, int, long, float, double, ( long double ) )
+  int, long, float, double, ( long double ) )
+#else
+TEMPLATE_TEST_CASE ( "Vector2 template math functions with signed primitive types", "",
+  short,
+  int, long, float, double, ( long double ) )
+#endif
 {
   typedef typename Usul::Math::Vector2 < TestType > VectorType;
 
@@ -305,9 +318,14 @@ TEMPLATE_TEST_CASE ( "Vector2 template math functions with signed primitive type
 //
 ////////////////////////////////////////////////////////////////////////////////
 
+#ifdef __GNUC__
 TEMPLATE_TEST_CASE ( "Vector2 template math functions with larger primitive types", "",
-  short, int, long, ( unsigned short ),
-  ( unsigned int ), ( unsigned long ), float, double, ( long double ) )
+  int, long, ( unsigned int ), ( unsigned long ), float, double, ( long double ) )
+#else
+TEMPLATE_TEST_CASE ( "Vector2 template math functions with larger primitive types", "",
+  short, ( unsigned short ),
+  int, long, ( unsigned int ), ( unsigned long ), float, double, ( long double ) )
+#endif
 {
   SECTION ( "Can get the length" )
   {

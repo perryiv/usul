@@ -39,23 +39,23 @@ template < class T > inline void testAbsoluteValue ( const T value )
 //
 ////////////////////////////////////////////////////////////////////////////////
 
+#ifdef __GNUC__
 TEMPLATE_TEST_CASE ( "Absolute value template function with signed types", "",
-  char,
-  short,
-  int,
-  long,
-  float,
-  double,
-  ( long double ) )
+  int, long, float, double, ( long double ) )
+#else
+TEMPLATE_TEST_CASE ( "Absolute value template function with signed types", "",
+  char, short,
+  int, long, float, double, ( long double ) )
+#endif
 {
+  // We use the numeric_limits class to get several numbers for each type.
   typedef std::numeric_limits < TestType > Limits;
 
   SECTION ( "Can get the absolute value" )
   {
-    // We use the numeric_limits class to get several numbers for each type.
-    testAbsoluteValue ( TestType ( 1 ) );
-    testAbsoluteValue ( TestType ( 10 ) );
-    testAbsoluteValue ( TestType ( 100 ) );
+    testAbsoluteValue ( static_cast < TestType > ( 1 ) );
+    testAbsoluteValue ( static_cast < TestType > ( 10 ) );
+    testAbsoluteValue ( static_cast < TestType > ( 100 ) );
     testAbsoluteValue ( Limits::max() );
     testAbsoluteValue ( Limits::epsilon() );
     testAbsoluteValue ( Limits::round_error() );
