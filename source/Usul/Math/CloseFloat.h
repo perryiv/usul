@@ -52,11 +52,11 @@ namespace Detail
 {
   inline std::int32_t handleTwosCompliment ( std::int32_t v )
   {
-    return ( ( v < 0 ) ? ( 0x80000000 - v ) : v );
+    return ( ( v < 0 ) ? ( static_cast < std::int32_t > ( 0x80000000 - ( static_cast < std::uint32_t > ( v ) ) ) ) : v );
   }
   inline std::int64_t handleTwosCompliment ( std::int64_t v )
   {
-    return ( ( v < 0 ) ? ( 0x8000000000000000ull - v ) : v );
+    return ( ( v < 0 ) ? ( static_cast < std::int64_t > ( 0x8000000000000000ull - ( static_cast < std::uint64_t > ( v ) ) ) ) : v );
   }
 }
 

@@ -27,15 +27,11 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-template < class FloatType, class UnsignedIntegerType >
-inline void isCloseFloat ( bool expected, FloatType a, FloatType b, UnsignedIntegerType numAdjacentValues )
+template < class FloatType >
+inline void isCloseFloat ( bool expected, FloatType a, FloatType b, unsigned int numAdjacentValues )
 {
   typedef std::numeric_limits < FloatType > FloatLimits;
-  typedef std::numeric_limits < UnsignedIntegerType > IntegerLimits;
-
   static_assert ( false == FloatLimits::is_integer, "Can not be an integer type" );
-  static_assert ( true == IntegerLimits::is_integer, "Has to be an integer type" );
-
   REQUIRE ( expected == Usul::Math::isCloseFloat ( a, b, numAdjacentValues ) );
 }
 
