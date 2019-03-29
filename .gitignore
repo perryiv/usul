@@ -9,5 +9,3 @@ node_modules
 external
 .vs
 CMakeSettings.json
-source/Usul/Config.h
-source/Usul/Version.h
