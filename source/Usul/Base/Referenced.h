@@ -24,12 +24,8 @@
 #include "Usul/Export.h"
 
 #ifdef USUL_USE_ATOMIC_REFERENCE_COUNTER
-# ifdef _WIN32
-#  pragma warning ( disable : 4251 ) // Disable warning about exporting atomic.
-# endif
 # include <atomic>
 #endif
-
 
 namespace Usul { namespace Interfaces { struct IUnknown; } }
 

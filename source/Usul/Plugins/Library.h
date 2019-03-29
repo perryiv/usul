@@ -45,10 +45,10 @@ public:
   Library ( const std::string &path );
 
   // Get the library's file name.
-  const std::string &   getFileName() const { return _file; }
+  const std::string &getFileName() const { return _file; }
 
   // Get a pointer to the function.
-  Function              getFunction ( const std::string &name ) const;
+  Function getFunction ( const std::string &name ) const;
 
 protected:
 
@@ -57,7 +57,7 @@ protected:
 
 private:
 
-  void                  _free();
+  void _free();
 
   ModuleHandle _module;
   const std::string _file;
