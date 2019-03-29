@@ -17,8 +17,6 @@
 #define _USUL_DLL_EXPORT_H_
 
 #ifdef _WIN32
-# pragma warning ( disable : 4251 ) // Disable warning about dll interfaces.
-# pragma warning ( disable : 4275 ) // This is the hammer, but is there a better way?
 # ifdef COMPILING_USUL
 #  define USUL_EXPORT __declspec ( dllexport ) // We are compiling this library so the classes are exported.
 # else

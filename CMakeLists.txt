@@ -69,6 +69,14 @@ option ( USUL_AUTO_DELETE_SINGLETON_PLUGIN_MANAGER
 # Let the user change the plugin extension.
 set ( USUL_PLUGIN_EXTENSION "plug" CACHE STRING "File extension for plugins" )
 
+# Does the user want o ignore these warning?
+if ( MSVC ) # Also true for Intel compiler. Means "looks like Visual C++".
+  option ( USUL_IGNORE_VCPP_WARNING_4251
+    "Use a pragma to ignore Visual C++ warning 4251" ON )
+  option ( USUL_IGNORE_VCPP_WARNING_4275
+    "Use a pragma to ignore Visual C++ warning 4275" ON )
+endif()
+
 # Now that we have all the configuration options we can write the file.
 configure_file (
   ${USUL_CONFIG_DIR_INPUT}/Config.h.in
