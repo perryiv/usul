@@ -353,7 +353,7 @@ namespace Detail
 ///////////////////////////////////////////////////////////////////////////////
 
 template < class VectorType >
-bool equal ( const VectorType &a, const VectorType &b )
+inline bool equal ( const VectorType &a, const VectorType &b )
 {
   typedef Detail::IsEqual < VectorType, VectorType::SIZE > IsEqual;
   return IsEqual::check ( a, b );
@@ -406,7 +406,7 @@ namespace Detail
 ///////////////////////////////////////////////////////////////////////////////
 
 template < class VectorType, class Fun >
-void each ( const VectorType &v, Fun f )
+inline void each ( const VectorType &v, Fun f )
 {
   typedef Detail::ForEach < VectorType, Fun, VectorType::SIZE > ForEach;
   ForEach::execute ( v, f );
