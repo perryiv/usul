@@ -16,6 +16,7 @@
 #include "Usul/Math/Functions.h"
 #include "Usul/Math/Line.h"
 #include "Usul/Math/Line3.h"
+#include "Usul/Math/Vector.h"
 
 #include "catch2/catch.hpp"
 
@@ -31,7 +32,7 @@ TEMPLATE_TEST_CASE ( "Line3 template math functions", "",
 {
   typedef typename Usul::Math::Line3 < TestType > LineType;
   typedef typename LineType::Point PointType;
-  // typedef typename LineType::Vec VecType;
+  typedef typename LineType::Vec VecType;
 
   SECTION ( "Default constructor works" )
   {
@@ -117,28 +118,58 @@ TEMPLATE_TEST_CASE ( "Line3 template math functions", "",
 
   SECTION ( "Setter functions work" )
   {
-    {
-      LineType a, b;
-      REQUIRE ( Usul::Math::equal ( a, b ) );
+    LineType a, b;
+    REQUIRE ( Usul::Math::equal ( a, b ) );
 
-      REQUIRE (  0 == a[0][0] );
-      REQUIRE (  0 == a[0][1] );
-      REQUIRE (  0 == a[0][2] );
+    REQUIRE (  0 == a[0][0] );
+    REQUIRE (  0 == a[0][1] );
+    REQUIRE (  0 == a[0][2] );
 
-      REQUIRE (  0 == a[1][0] );
-      REQUIRE (  0 == a[1][1] );
-      REQUIRE ( -1 == a[1][2] );
+    REQUIRE (  0 == a[1][0] );
+    REQUIRE (  0 == a[1][1] );
+    REQUIRE ( -1 == a[1][2] );
 
-      a.set ( LineType ( PointType ( 1, 2, 3 ), PointType ( 4, 5, 6 ) ) );
-      REQUIRE ( false == Usul::Math::equal ( a, b ) );
+    a.set ( LineType ( PointType ( 1, 2, 3 ), PointType ( 4, 5, 6 ) ) );
+    REQUIRE ( false == Usul::Math::equal ( a, b ) );
 
-      REQUIRE ( 1 == a[0][0] );
-      REQUIRE ( 2 == a[0][1] );
-      REQUIRE ( 3 == a[0][2] );
+    REQUIRE ( 1 == a[0][0] );
+    REQUIRE ( 2 == a[0][1] );
+    REQUIRE ( 3 == a[0][2] );
 
-      REQUIRE ( 4 == a[1][0] );
-      REQUIRE ( 5 == a[1][1] );
-      REQUIRE ( 6 == a[1][2] );
-    }
+    REQUIRE ( 4 == a[1][0] );
+    REQUIRE ( 5 == a[1][1] );
+    REQUIRE ( 6 == a[1][2] );
+  }
+
+  SECTION ( "Set the line from an origin and direction" )
+  {
+    LineType a;
+    Usul::Math::setFromOriginAndDirection ( a, PointType ( 1, 2, 3 ), VecType ( 1, 2, 3 ) );
+
+    LineType b ( PointType ( 1, 2, 3 ), PointType ( 2, 4, 6 ) );
+    REQUIRE ( Usul::Math::equal ( a, b ) );
+  }
+
+  SECTION ( "Return the origin" )
+  {
+    const PointType origin ( 1, 2, 3 );
+    LineType a ( origin, PointType ( 2, 4, 6 ) );
+    REQUIRE ( Usul::Math::equal ( origin, Usul::Math::getOrigin ( a ) ) );
+  }
+
+  SECTION ( "Return the direction vector" )
+  {
+    LineType a;
+    const PointType dir ( 2, 4, 6 );
+    Usul::Math::setFromOriginAndDirection ( a, PointType ( 1, 2, 3 ), dir );
+    REQUIRE ( Usul::Math::equal ( dir, Usul::Math::getDirection ( a ) ) );
+  }
+
+  SECTION ( "Return the unit direction vector" )
+  {
+    LineType a;
+    const PointType dir ( 1, 2, 3 );
+    Usul::Math::setFromOriginAndDirection ( a, PointType ( 1, 2, 3 ), dir );
+    REQUIRE ( Usul::Math::equal ( Usul::Math::normalize ( dir ), Usul::Math::getUnitDirection ( a ) ) );
   }
 }
