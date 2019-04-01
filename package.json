@@ -8,7 +8,7 @@
     "config-ninja":   "del-cli build/* && make-dir build && cd build && cmake .. -DCMAKE_VERBOSE_MAKEFILE=ON -DUSUL_BUILD_TESTS=ON -G Ninja",
     "config-vcpp":    "del-cli build/* && make-dir build && cd build && cmake .. -DCMAKE_VERBOSE_MAKEFILE=ON -DUSUL_BUILD_TESTS=ON -Ax64",
     "config-xcode":   "del-cli build/* && make-dir build && cd build && cmake .. -DCMAKE_VERBOSE_MAKEFILE=ON -DUSUL_BUILD_TESTS=ON -G Xcode",
-    "config-debug":   "del-cli build/* && make-dir build && cd build && cmake .. -DCMAKE_VERBOSE_MAKEFILE=ON -DUSUL_BUILD_TESTS=ON -DUSUL_ENABLE_CODE_COVERAGE=ON  -DCMAKE_BUILD_TYPE=Debug",
+    "config-debug":   "del-cli build/* && make-dir build && cd build && cmake .. -DCMAKE_VERBOSE_MAKEFILE=ON -DUSUL_BUILD_TESTS=ON -DUSUL_ENABLE_CODE_COVERAGE=OFF -DCMAKE_BUILD_TYPE=Debug",
     "config-release": "del-cli build/* && make-dir build && cd build && cmake .. -DCMAKE_VERBOSE_MAKEFILE=ON -DUSUL_BUILD_TESTS=ON -DUSUL_ENABLE_CODE_COVERAGE=OFF -DCMAKE_BUILD_TYPE=Release",
     "test-debug":     "cd ./build/tests && usul_testd --abort --use-colour=yes --durations=no",
     "test-release":   "cd ./build/tests && usul_test  --abort --use-colour=yes --durations=no",
