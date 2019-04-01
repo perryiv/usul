@@ -48,6 +48,8 @@ set ( SOURCE_FILES
   ./Usul/Math/Base.cpp
   ./Usul/Math/CloseFloat.cpp
   ./Usul/Math/Functions.cpp
+  ./Usul/Math/Line2.cpp
+  ./Usul/Math/Line3.cpp
   ./Usul/Math/Vector2.cpp
   ./Usul/Math/Vector3.cpp
   ./Usul/Math/Vector4.cpp
