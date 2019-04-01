@@ -215,10 +215,15 @@ TEMPLATE_TEST_CASE ( "Vector2 template math functions with all primitive types",
     REQUIRE ( 5 == c[0] );
     REQUIRE ( 7 == c[1] );
 
-    VectorType d = Usul::Math::add ( a, b );
+    const VectorType d = Usul::Math::add ( a, b );
 
     REQUIRE ( 5 == d[0] );
     REQUIRE ( 7 == d[1] );
+
+    const VectorType e = a + b;
+
+    REQUIRE ( 5 == e[0] );
+    REQUIRE ( 7 == e[1] );
   }
 
   SECTION ( "Can subtract two vectors" )
@@ -232,10 +237,15 @@ TEMPLATE_TEST_CASE ( "Vector2 template math functions with all primitive types",
     REQUIRE ( 3 == c[0] );
     REQUIRE ( 3 == c[1] );
 
-    VectorType d = Usul::Math::subtract ( a, b );
+    const VectorType d = Usul::Math::subtract ( a, b );
 
     REQUIRE ( 3 == d[0] );
     REQUIRE ( 3 == d[1] );
+
+    const VectorType e = a - b;
+
+    REQUIRE ( 3 == e[0] );
+    REQUIRE ( 3 == e[1] );
   }
 
   SECTION ( "Can scale a vector" )
@@ -253,6 +263,11 @@ TEMPLATE_TEST_CASE ( "Vector2 template math functions with all primitive types",
 
     REQUIRE ( 10 == c[0] );
     REQUIRE ( 20 == c[1] );
+
+    const VectorType d = a * scale;
+
+    REQUIRE ( 10 == d[0] );
+    REQUIRE ( 20 == d[1] );
   }
 
   SECTION ( "Can get the length" )

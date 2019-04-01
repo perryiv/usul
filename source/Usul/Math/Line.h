@@ -20,6 +20,8 @@
 #define _USUL_MATH_LINE_FUNCTIONS_H_
 
 #include "Usul/Math/Vector.h"
+#include "Usul/Math/Vector2.h"
+#include "Usul/Math/Vector3.h"
 
 
 namespace Usul {

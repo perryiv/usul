@@ -166,6 +166,81 @@ private:
 
 ///////////////////////////////////////////////////////////////////////////////
 //
+//  Add the two vectors.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+template < class T, class I >
+inline void add ( const Vector3 < T, I > &a, const Vector3 < T, I > &b, Vector3 < T, I > &c )
+{
+  c[0] = a[0] + b[0];
+  c[1] = a[1] + b[1];
+  c[2] = a[2] + b[2];
+}
+template < class T, class I >
+inline Vector3 < T, I > add ( const Vector3 < T, I > &a, const Vector3 < T, I > &b )
+{
+  return Vector3 < T, I > ( a[0] + b[0], a[1] + b[1], a[2] + b[2] );
+}
+template < class T, class I >
+inline Vector3 < T, I > operator + ( const Vector3 < T, I > &a, const Vector3 < T, I > &b )
+{
+  return add ( a, b );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Subtract the two vectors.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+template < class T, class I >
+inline void subtract ( const Vector3 < T, I > &a, const Vector3 < T, I > &b, Vector3 < T, I > &c )
+{
+  c[0] = a[0] - b[0];
+  c[1] = a[1] - b[1];
+  c[2] = a[2] - b[2];
+}
+template < class T, class I >
+inline Vector3 < T, I > subtract ( const Vector3 < T, I > &a, const Vector3 < T, I > &b )
+{
+  return Vector3 < T, I > ( a[0] - b[0], a[1] - b[1], a[2] - b[2] );
+}
+template < class T, class I >
+inline Vector3 < T, I > operator - ( const Vector3 < T, I > &a, const Vector3 < T, I > &b )
+{
+  return subtract ( a, b );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Scale the vector.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+template < class T, class I >
+inline void scale ( const Vector3 < T, I > &v, const T &s, Vector3 < T, I > &a )
+{
+  a[0] = v[0] * s;
+  a[1] = v[1] * s;
+  a[2] = v[2] * s;
+}
+template < class T, class I >
+inline Vector3 < T, I > scale ( const Vector3 < T, I > &v, const T &s )
+{
+  return Vector3 < T, I > ( v[0] * s, v[1] * s, v[2] * s );
+}
+template < class T, class I >
+inline Vector3 < T, I > operator * ( const Vector3 < T, I > &v, const T &s )
+{
+  return scale ( v, s );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
 //  Useful typedefs.
 //
 ///////////////////////////////////////////////////////////////////////////////

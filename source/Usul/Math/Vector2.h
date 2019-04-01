@@ -160,6 +160,78 @@ private:
 
 ///////////////////////////////////////////////////////////////////////////////
 //
+//  Add the two vectors.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+template < class T, class I >
+inline void add ( const Vector2 < T, I > &a, const Vector2 < T, I > &b, Vector2 < T, I > &c )
+{
+  c[0] = a[0] + b[0];
+  c[1] = a[1] + b[1];
+}
+template < class T, class I >
+inline Vector2 < T, I > add ( const Vector2 < T, I > &a, const Vector2 < T, I > &b )
+{
+  return Vector2 < T, I > ( a[0] + b[0], a[1] + b[1] );
+}
+template < class T, class I >
+inline Vector2 < T, I > operator + ( const Vector2 < T, I > &a, const Vector2 < T, I > &b )
+{
+  return add ( a, b );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Subtract the two vectors.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+template < class T, class I >
+inline void subtract ( const Vector2 < T, I > &a, const Vector2 < T, I > &b, Vector2 < T, I > &c )
+{
+  c[0] = a[0] - b[0];
+  c[1] = a[1] - b[1];
+}
+template < class T, class I >
+inline Vector2 < T, I > subtract ( const Vector2 < T, I > &a, const Vector2 < T, I > &b )
+{
+  return Vector2 < T, I > ( a[0] - b[0], a[1] - b[1] );
+}
+template < class T, class I >
+inline Vector2 < T, I > operator - ( const Vector2 < T, I > &a, const Vector2 < T, I > &b )
+{
+  return subtract ( a, b );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Scale the vector.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+template < class T, class I >
+inline void scale ( const Vector2 < T, I > &v, const T &s, Vector2 < T, I > &a )
+{
+  a[0] = v[0] * s;
+  a[1] = v[1] * s;
+}
+template < class T, class I >
+inline Vector2 < T, I > scale ( const Vector2 < T, I > &v, const T &s )
+{
+  return Vector2 < T, I > ( v[0] * s, v[1] * s );
+}
+template < class T, class I >
+inline Vector2 < T, I > operator * ( const Vector2 < T, I > &v, const T &s )
+{
+  return scale ( v, s );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
 //  Useful typedefs.
 //
 ///////////////////////////////////////////////////////////////////////////////
