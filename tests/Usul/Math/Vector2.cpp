@@ -181,27 +181,25 @@ TEMPLATE_TEST_CASE ( "Vector2 template math functions with all primitive types",
 
   SECTION ( "Setter functions work" )
   {
-    {
-      VectorType a;
+    VectorType a;
 
-      REQUIRE ( 0 == a[0] );
-      REQUIRE ( 0 == a[1] );
+    REQUIRE ( 0 == a[0] );
+    REQUIRE ( 0 == a[1] );
 
-      a.set ( VectorType ( 1, 2 ) );
+    a.set ( VectorType ( 1, 2 ) );
 
-      REQUIRE ( 1 == a[0] );
-      REQUIRE ( 2 == a[1] );
+    REQUIRE ( 1 == a[0] );
+    REQUIRE ( 2 == a[1] );
 
-      a.set ( { 4, 5 } );
+    a.set ( { 4, 5 } );
 
-      REQUIRE ( 4 == a[0] );
-      REQUIRE ( 5 == a[1] );
+    REQUIRE ( 4 == a[0] );
+    REQUIRE ( 5 == a[1] );
 
-      a.set ( 7, 8 );
+    a.set ( 7, 8 );
 
-      REQUIRE ( 7 == a[0] );
-      REQUIRE ( 8 == a[1] );
-    }
+    REQUIRE ( 7 == a[0] );
+    REQUIRE ( 8 == a[1] );
   }
 
   SECTION ( "Can add two vectors" )
@@ -270,14 +268,6 @@ TEMPLATE_TEST_CASE ( "Vector2 template math functions with all primitive types",
     REQUIRE ( 20 == d[1] );
   }
 
-  SECTION ( "Can get the length" )
-  {
-    checkLength ( 3,  4,  5 );
-    checkLength ( 5, 12, 13 );
-    checkLength ( 8, 15, 17 );
-    checkLength ( 7, 24, 25 );
-  }
-
   SECTION ( "Can get the dot product" )
   {
     REQUIRE ( 11 == Usul::Math::dot ( VectorType ( 1, 2 ), VectorType ( 3, 4 ) ) );
@@ -333,16 +323,20 @@ TEMPLATE_TEST_CASE ( "Vector2 template math functions with signed primitive type
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifdef __GNUC__
-TEMPLATE_TEST_CASE ( "Vector2 template math functions with larger primitive types", "",
-  int, long, ( unsigned int ), ( unsigned long ), float, double, ( long double ) )
-#else
-TEMPLATE_TEST_CASE ( "Vector2 template math functions with larger primitive types", "",
-  short, ( unsigned short ),
-  int, long, ( unsigned int ), ( unsigned long ), float, double, ( long double ) )
-#endif
+TEMPLATE_TEST_CASE ( "Vector2 template math functions with floating point types", "",
+  float, double, ( long double ) )
 {
+  typedef typename Usul::Math::Vector2 < TestType > VectorType;
+
   SECTION ( "Can get the length" )
+  {
+    checkLength < TestType > ( 3,  4,  5 );
+    checkLength < TestType > ( 5, 12, 13 );
+    checkLength < TestType > ( 8, 15, 17 );
+    checkLength < TestType > ( 7, 24, 25 );
+  }
+
+  SECTION ( "Can get the length of pythagorean quadruples" )
   {
     // Test all pythagorean quadruples.
     for ( unsigned int i = 0; i < numPythagoreanTriples; ++i )
@@ -355,19 +349,6 @@ TEMPLATE_TEST_CASE ( "Vector2 template math functions with larger primitive type
       );
     }
   }
-}
-
-
-////////////////////////////////////////////////////////////////////////////////
-//
-//  Test the math functions.
-//
-////////////////////////////////////////////////////////////////////////////////
-
-TEMPLATE_TEST_CASE ( "Vector2 template math functions with floating point types", "",
-  float, double, ( long double ) )
-{
-  typedef typename Usul::Math::Vector2 < TestType > VectorType;
 
   SECTION ( "Can normalize" )
   {

@@ -241,6 +241,95 @@ inline Vector3 < T, I > operator * ( const Vector3 < T, I > &v, const T &s )
 
 ///////////////////////////////////////////////////////////////////////////////
 //
+//  Call the given function for each value.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+template < class T, class I, class Fun >
+inline void each ( const Vector3 < T, I > &v, Fun f )
+{
+  f ( v[0] );
+  f ( v[1] );
+  f ( v[2] );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  See if they are equal.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+template < class T, class I >
+inline bool equal ( const Vector3 < T, I > &a, const Vector3 < T, I > &b )
+{
+  return (
+    ( a[0] == b[0] ) &&
+    ( a[1] == b[1] ) &&
+    ( a[2] == b[2] ) );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Return the dot product.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+template < class T, class I >
+inline T dot ( const Vector3 < T, I > &a, const Vector3 < T, I > &b )
+{
+  return (
+    ( a[0] * b[0] ) +
+    ( a[1] * b[1] ) +
+    ( a[2] * b[2] ) );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Return the length.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+template < class T, class I >
+inline T length ( const Vector3 < T, I > &v )
+{
+  return std::sqrt ( dot ( v, v ) );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Normalize the vector.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+template < class T, class I >
+inline void normalize ( const Vector3 < T, I > &v, Vector3 < T, I > &n, T *originalLength = nullptr )
+{
+  const T currentLength ( length ( v ) );
+  const T invLength ( static_cast < T > ( 1 ) / currentLength );
+
+  if ( originalLength )
+  {
+    *originalLength = currentLength;
+  }
+
+  n[0] = v[0] * invLength;
+  n[1] = v[1] * invLength;
+  n[2] = v[2] * invLength;
+}
+template < class T, class I >
+inline Vector3 < T, I > normalize ( const Vector3 < T, I > &v )
+{
+  const T invLength ( static_cast < T > ( 1 ) / length ( v ) );
+  return Vector3 < T, I > ( v[0] * invLength, v[1] * invLength, v[2] * invLength );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
 //  Useful typedefs.
 //
 ///////////////////////////////////////////////////////////////////////////////

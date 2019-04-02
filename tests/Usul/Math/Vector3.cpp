@@ -187,31 +187,29 @@ TEMPLATE_TEST_CASE ( "Vector3 template math functions with all primitive types",
 
   SECTION ( "Setter functions work" )
   {
-    {
-      VectorType a;
+    VectorType a;
 
-      REQUIRE ( 0 == a[0] );
-      REQUIRE ( 0 == a[1] );
-      REQUIRE ( 0 == a[2] );
+    REQUIRE ( 0 == a[0] );
+    REQUIRE ( 0 == a[1] );
+    REQUIRE ( 0 == a[2] );
 
-      a.set ( VectorType ( 1, 2, 3 ) );
+    a.set ( VectorType ( 1, 2, 3 ) );
 
-      REQUIRE ( 1 == a[0] );
-      REQUIRE ( 2 == a[1] );
-      REQUIRE ( 3 == a[2] );
+    REQUIRE ( 1 == a[0] );
+    REQUIRE ( 2 == a[1] );
+    REQUIRE ( 3 == a[2] );
 
-      a.set ( { 4, 5, 6 } );
+    a.set ( { 4, 5, 6 } );
 
-      REQUIRE ( 4 == a[0] );
-      REQUIRE ( 5 == a[1] );
-      REQUIRE ( 6 == a[2] );
+    REQUIRE ( 4 == a[0] );
+    REQUIRE ( 5 == a[1] );
+    REQUIRE ( 6 == a[2] );
 
-      a.set ( 7, 8, 9 );
+    a.set ( 7, 8, 9 );
 
-      REQUIRE ( 7 == a[0] );
-      REQUIRE ( 8 == a[1] );
-      REQUIRE ( 9 == a[2] );
-    }
+    REQUIRE ( 7 == a[0] );
+    REQUIRE ( 8 == a[1] );
+    REQUIRE ( 9 == a[2] );
   }
 
   SECTION ( "Can add two vectors" )
@@ -289,17 +287,6 @@ TEMPLATE_TEST_CASE ( "Vector3 template math functions with all primitive types",
     REQUIRE ( 30 == d[2] );
   }
 
-  SECTION ( "Can get the length" )
-  {
-    // 3-4-5 right triangle.
-    checkLength (  3,  4,  0,  5 );
-    checkLength (  5, 12,  0, 13 );
-    checkLength (  8, 15,  0, 17 );
-
-    // One pythagorean quadruple.
-    checkLength ( 1, 2, 2, 3 );
-  }
-
   SECTION ( "Can get the dot product" )
   {
     REQUIRE ( 26 == Usul::Math::dot ( VectorType ( 1, 2, 3 ), VectorType ( 3, 4, 5 ) ) );
@@ -372,16 +359,23 @@ TEMPLATE_TEST_CASE ( "Vector3 template math functions with signed primitive type
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifdef __GNUC__
-TEMPLATE_TEST_CASE ( "Vector3 template math functions with larger primitive types", "",
-  int, long, ( unsigned int ), ( unsigned long ), float, double, ( long double ) )
-#else
-TEMPLATE_TEST_CASE ( "Vector3 template math functions with larger primitive types", "",
-  short, ( unsigned short ),
-  int, long, ( unsigned int ), ( unsigned long ), float, double, ( long double ) )
-#endif
+TEMPLATE_TEST_CASE ( "Vector3 template math functions with floating point types", "",
+  float, double, ( long double ) )
 {
+  typedef typename Usul::Math::Vector3 < TestType > VectorType;
+
   SECTION ( "Can get the length" )
+  {
+    // 3-4-5 right triangle.
+    checkLength < TestType > (  3,  4,  0,  5 );
+    checkLength < TestType > (  5, 12,  0, 13 );
+    checkLength < TestType > (  8, 15,  0, 17 );
+
+    // One pythagorean quadruple.
+    checkLength < TestType > ( 1, 2, 2, 3 );
+  }
+
+  SECTION ( "Can get the length of pythagorean quadruples" )
   {
     // Test all pythagorean quadruples.
     for ( unsigned int i = 0; i < numPythagoreanQuadruples; ++i )
@@ -395,19 +389,6 @@ TEMPLATE_TEST_CASE ( "Vector3 template math functions with larger primitive type
       );
     }
   }
-}
-
-
-////////////////////////////////////////////////////////////////////////////////
-//
-//  Test the math functions.
-//
-////////////////////////////////////////////////////////////////////////////////
-
-TEMPLATE_TEST_CASE ( "Vector3 template math functions with floating point types", "",
-  float, double, ( long double ) )
-{
-  typedef typename Usul::Math::Vector3 < TestType > VectorType;
 
   SECTION ( "Can normalize" )
   {
