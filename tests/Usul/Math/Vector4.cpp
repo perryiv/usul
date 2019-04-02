@@ -14,7 +14,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "Usul/Math/Functions.h"
-#include "Usul/Math/Vector.h"
 #include "Usul/Math/Vector4.h"
 
 #include "catch2/catch.hpp"

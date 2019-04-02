@@ -16,7 +16,6 @@
 #include "Usul/Math/Functions.h"
 #include "Usul/Math/Line.h"
 #include "Usul/Math/Line3.h"
-#include "Usul/Math/Vector.h"
 
 #include "catch2/catch.hpp"
 

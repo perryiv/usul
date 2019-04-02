@@ -345,6 +345,53 @@ inline Vector4 < T, I > normalize ( const Vector4 < T, I > &v )
 
 ///////////////////////////////////////////////////////////////////////////////
 //
+//  Return the angle between the two vectors.
+//  theta = acos ( A dot B / |A||B| )
+//
+///////////////////////////////////////////////////////////////////////////////
+
+template < class T, class I >
+inline T angle ( const Vector4 < T, I > &a, const Vector4 < T, I > &b )
+{
+  const T AdotB ( dot ( a, b ) );
+  const T lengthA ( length ( a ) );
+  const T lengthB ( length ( b ) );
+  return std::acos ( AdotB / ( lengthA * lengthB ) );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Return the square of the distance between the two points.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+template < class T, class I >
+static T distanceSquared ( const Vector4 < T, I > &a, const Vector4 < T, I > &b )
+{
+  return (
+    ( ( a[0] - b[0] ) * ( a[0] - b[0] ) ) +
+    ( ( a[1] - b[1] ) * ( a[1] - b[1] ) ) +
+    ( ( a[2] - b[2] ) * ( a[2] - b[2] ) ) +
+    ( ( a[3] - b[3] ) * ( a[3] - b[3] ) ) );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Return the distance between the two points.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+template < class T, class I >
+inline T distance ( const Vector4 < T, I > &a, const Vector4 < T, I > &b )
+{
+  return std::sqrt ( distanceSquared ( a, b ) );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
 //  Useful typedefs.
 //
 ///////////////////////////////////////////////////////////////////////////////

@@ -18,6 +18,8 @@
 
 #include "Usul/Math/ErrorChecker.h"
 
+#include <cmath>
+
 
 namespace Usul {
 namespace Math {
@@ -325,6 +327,75 @@ inline Vector3 < T, I > normalize ( const Vector3 < T, I > &v )
 {
   const T invLength ( static_cast < T > ( 1 ) / length ( v ) );
   return Vector3 < T, I > ( v[0] * invLength, v[1] * invLength, v[2] * invLength );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Return the angle between the two vectors.
+//  theta = acos ( A dot B / |A||B| )
+//
+///////////////////////////////////////////////////////////////////////////////
+
+template < class T, class I >
+inline T angle ( const Vector3 < T, I > &a, const Vector3 < T, I > &b )
+{
+  const T AdotB ( dot ( a, b ) );
+  const T lengthA ( length ( a ) );
+  const T lengthB ( length ( b ) );
+  return std::acos ( AdotB / ( lengthA * lengthB ) );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Return the square of the distance between the two points.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+template < class T, class I >
+static T distanceSquared ( const Vector3 < T, I > &a, const Vector3 < T, I > &b )
+{
+  return (
+    ( ( a[0] - b[0] ) * ( a[0] - b[0] ) ) +
+    ( ( a[1] - b[1] ) * ( a[1] - b[1] ) ) +
+    ( ( a[2] - b[2] ) * ( a[2] - b[2] ) ) );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Return the distance between the two points.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+template < class T, class I >
+inline T distance ( const Vector3 < T, I > &a, const Vector3 < T, I > &b )
+{
+  return std::sqrt ( distanceSquared ( a, b ) );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Return the cross-product.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+template < class T, class I >
+inline void cross ( const Vector3 < T, I > &a, const Vector3 < T, I > &b, Vector3 < T, I > &c )
+{
+  c[0] = ( a[1] * b[2] ) - ( a[2] * b[1] );
+  c[1] = ( a[2] * b[0] ) - ( a[0] * b[2] );
+  c[2] = ( a[0] * b[1] ) - ( a[1] * b[0] );
+}
+template < class T, class I >
+inline Vector3 < T, I > cross ( const Vector3 < T, I > &a, const Vector3 < T, I > &b )
+{
+  return Vector3 < T, I > (
+    ( a[1] * b[2] ) - ( a[2] * b[1] ),
+    ( a[2] * b[0] ) - ( a[0] * b[2] ),
+    ( a[0] * b[1] ) - ( a[1] * b[0] ) );
 }
 
 
