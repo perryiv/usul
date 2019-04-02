@@ -14,7 +14,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "Usul/Math/Functions.h"
-#include "Usul/Math/Line.h"
 #include "Usul/Math/Line3.h"
 
 #include "catch2/catch.hpp"
@@ -143,7 +142,7 @@ TEMPLATE_TEST_CASE ( "Line3 template math functions", "",
   SECTION ( "Set the line from an origin and direction" )
   {
     LineType a;
-    Usul::Math::setFromOriginAndDirection ( a, PointType ( 1, 2, 3 ), VecType ( 1, 2, 3 ) );
+    a.setFromOriginAndDirection ( PointType ( 1, 2, 3 ), VecType ( 1, 2, 3 ) );
 
     LineType b ( PointType ( 1, 2, 3 ), PointType ( 2, 4, 6 ) );
     REQUIRE ( Usul::Math::equal ( a, b ) );
@@ -153,22 +152,22 @@ TEMPLATE_TEST_CASE ( "Line3 template math functions", "",
   {
     const PointType origin ( 1, 2, 3 );
     LineType a ( origin, PointType ( 2, 4, 6 ) );
-    REQUIRE ( Usul::Math::equal ( origin, Usul::Math::getOrigin ( a ) ) );
+    REQUIRE ( Usul::Math::equal ( origin, a.getOrigin() ) );
   }
 
   SECTION ( "Return the direction vector" )
   {
     LineType a;
     const PointType dir ( 2, 4, 6 );
-    Usul::Math::setFromOriginAndDirection ( a, PointType ( 1, 2, 3 ), dir );
-    REQUIRE ( Usul::Math::equal ( dir, Usul::Math::getDirection ( a ) ) );
+    a.setFromOriginAndDirection ( PointType ( 1, 2, 3 ), dir );
+    REQUIRE ( Usul::Math::equal ( dir, a.getDirection() ) );
   }
 
   SECTION ( "Return the unit direction vector" )
   {
     LineType a;
     const PointType dir ( 1, 2, 3 );
-    Usul::Math::setFromOriginAndDirection ( a, PointType ( 1, 2, 3 ), dir );
-    REQUIRE ( Usul::Math::equal ( Usul::Math::normalize ( dir ), Usul::Math::getUnitDirection ( a ) ) );
+    a.setFromOriginAndDirection ( PointType ( 1, 2, 3 ), dir );
+    REQUIRE ( Usul::Math::equal ( Usul::Math::normalize ( dir ), a.getUnitDirection() ) );
   }
 }
