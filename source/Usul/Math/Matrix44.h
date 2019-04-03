@@ -434,10 +434,10 @@ inline void multiply ( const Matrix44 < T, I > &m, const Vector4 < T, I > &a, Ve
   //  m20 m21 m22 m23   z
   //  m30 m31 m32 m33   w
 
-  ba[0] = ( ma[ 0] * x ) + ( ma[ 4] * y ) + ( ma[ 8] * z ) + ( ma[12] * w );
-  ba[1] = ( ma[ 1] * x ) + ( ma[ 5] * y ) + ( ma[ 9] * z ) + ( ma[13] * w );
-  ba[2] = ( ma[ 2] * x ) + ( ma[ 6] * y ) + ( ma[10] * z ) + ( ma[14] * w );
-  ba[3] = ( ma[ 3] * x ) + ( ma[ 7] * y ) + ( ma[11] * z ) + ( ma[15] * w );
+  ba[0] = ( ma[R0C0] * x ) + ( ma[R0C1] * y ) + ( ma[R0C2] * z ) + ( ma[R0C3] * w );
+  ba[1] = ( ma[R1C0] * x ) + ( ma[R1C1] * y ) + ( ma[R1C2] * z ) + ( ma[R1C3] * w );
+  ba[2] = ( ma[R2C0] * x ) + ( ma[R2C1] * y ) + ( ma[R2C2] * z ) + ( ma[R2C3] * w );
+  ba[3] = ( ma[R3C0] * x ) + ( ma[R3C1] * y ) + ( ma[R3C2] * z ) + ( ma[R3C3] * w );
 }
 template < class T, class I >
 inline Matrix44 < T, I > multiply ( const Matrix44 < T, I > &m, const Vector4 < T, I > &a )
