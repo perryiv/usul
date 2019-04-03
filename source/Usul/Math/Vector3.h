@@ -64,11 +64,14 @@ public:
   //
   /////////////////////////////////////////////////////////////////////////////
 
-  Vector3()
+  Vector3 ( bool initialize = true )
   {
-    _v[0] = T();
-    _v[1] = T();
-    _v[2] = T();
+    if ( initialize )
+    {
+      _v[0] = T();
+      _v[1] = T();
+      _v[2] = T();
+    }
   }
 
 
@@ -158,6 +161,16 @@ public:
     USUL_CHECK_INDEX_RANGE ( ThisType::SIZE, i );
     return _v[i];
   }
+
+
+  /////////////////////////////////////////////////////////////////////////////
+  //
+  //  Get the internal array. Use with caution.
+  //
+  /////////////////////////////////////////////////////////////////////////////
+
+  const T *get() const { return _v; }
+  T *      get()       { return _v; }
 
 
 private:

@@ -97,7 +97,8 @@ TEMPLATE_TEST_CASE ( "Line3 template math functions", "",
   SECTION ( "Assigning is making a copy" )
   {
     LineType a ( PointType ( 1, 2, 3 ), PointType ( 4, 5, 6 ) );
-    const LineType b = a; // Assignment operator.
+    LineType b;
+    b = a; // Assignment operator.
 
     // Should be the same.
     REQUIRE ( a[0][0] == b[0][0] );

@@ -175,7 +175,8 @@ TEMPLATE_TEST_CASE ( "Vector4 template math functions with all primitive types",
   SECTION ( "Assigning is making a copy" )
   {
     VectorType a ( 1, 2, 3, 4 );
-    const VectorType b = a; // Assignment operator.
+    VectorType b;
+    b = a; // Assignment operator.
 
     // Should be the same.
     REQUIRE ( a[0] == b[0] );

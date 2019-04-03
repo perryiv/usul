@@ -50,6 +50,7 @@ set ( SOURCE_FILES
   ./Usul/Math/Functions.cpp
   ./Usul/Math/Line2.cpp
   ./Usul/Math/Line3.cpp
+  ./Usul/Math/Matrix44.cpp
   ./Usul/Math/Vector2.cpp
   ./Usul/Math/Vector3.cpp
   ./Usul/Math/Vector4.cpp
