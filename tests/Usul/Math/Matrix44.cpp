@@ -97,6 +97,13 @@ TEMPLATE_TEST_CASE ( "Matrix44 template math functions", "",
     30, 31, 32, 33
   } );
 
+  const std::vector < TestType > MATRIX_C_TRANSPOSED ( {
+     0, 10, 20, 30,
+     1, 11, 21, 31,
+     2, 12, 22, 32,
+     3, 13, 23, 33
+  } );
+
   // Used www.wolframalpha.com with this input:
   // { { 1, 0, 0, 1 }, { 0, 2, 0, 0 }, { 0, 1, 3, 0 }, { 0, 0, 0, 4 } }
   // { { 5, 0, 3, 0 }, { 0, 6, 0, 0 }, { 0, 0, 7, 0 }, { 1, 0, 0, 8 } }
@@ -177,6 +184,21 @@ TEMPLATE_TEST_CASE ( "Matrix44 template math functions", "",
 
     a.set ( &MATRIX_B[0] );
     Details::compareMatrices ( a, MATRIX_B );
+  }
+
+  SECTION ( "Transposing works" )
+  {
+    {
+      const MatrixType a ( &MATRIX_C[0] );
+      MatrixType b;
+      Usul::Math::transpose ( a, b );
+      Details::compareMatrices ( b, MATRIX_C_TRANSPOSED );
+    }
+    {
+      const MatrixType a ( &MATRIX_C[0] );
+      const MatrixType b = Usul::Math::transpose ( a );
+      Details::compareMatrices ( b, MATRIX_C_TRANSPOSED );
+    }
   }
 
   SECTION ( "Can multiply two matrices" )

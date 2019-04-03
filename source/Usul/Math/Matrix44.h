@@ -71,12 +71,7 @@ public:
 
   /////////////////////////////////////////////////////////////////////////////
   //
-  //  Enumerations, some to help with indices.
-  //
-  //    0  4   8  12
-  //    1  5   9  13
-  //    2  6  10  14
-  //    3  7  11  15
+  //  Enumerations.
   //
   /////////////////////////////////////////////////////////////////////////////
 
@@ -144,25 +139,10 @@ public:
 
   void set ( const T m[SIZE] )
   {
-    _m[R0C0] = m[R0C0];
-    _m[R0C1] = m[R0C1];
-    _m[R0C2] = m[R0C2];
-    _m[R0C3] = m[R0C3];
-
-    _m[R1C0] = m[R1C0];
-    _m[R1C1] = m[R1C1];
-    _m[R1C2] = m[R1C2];
-    _m[R1C3] = m[R1C3];
-
-    _m[R2C0] = m[R2C0];
-    _m[R2C1] = m[R2C1];
-    _m[R2C2] = m[R2C2];
-    _m[R2C3] = m[R2C3];
-
-    _m[R3C0] = m[R3C0];
-    _m[R3C1] = m[R3C1];
-    _m[R3C2] = m[R3C2];
-    _m[R3C3] = m[R3C3];
+    _m[R0C0] = m[R0C0]; _m[R0C1] = m[R0C1]; _m[R0C2] = m[R0C2]; _m[R0C3] = m[R0C3];
+    _m[R1C0] = m[R1C0]; _m[R1C1] = m[R1C1]; _m[R1C2] = m[R1C2]; _m[R1C3] = m[R1C3];
+    _m[R2C0] = m[R2C0]; _m[R2C1] = m[R2C1]; _m[R2C2] = m[R2C2]; _m[R2C3] = m[R2C3];
+    _m[R3C0] = m[R3C0]; _m[R3C1] = m[R3C1]; _m[R3C2] = m[R3C2]; _m[R3C3] = m[R3C3];
   }
 
 
@@ -250,25 +230,10 @@ private:
 template < class T, class I, class Fun >
 inline void each ( const Matrix44 < T, I > &m, Fun f )
 {
-  f ( m[ 0] );
-  f ( m[ 1] );
-  f ( m[ 2] );
-  f ( m[ 3] );
-
-  f ( m[ 4] );
-  f ( m[ 5] );
-  f ( m[ 6] );
-  f ( m[ 7] );
-
-  f ( m[ 8] );
-  f ( m[ 9] );
-  f ( m[10] );
-  f ( m[11] );
-
-  f ( m[12] );
-  f ( m[13] );
-  f ( m[14] );
-  f ( m[15] );
+  f ( m[ 0] ); f ( m[ 1] ); f ( m[ 2] ); f ( m[ 3] );
+  f ( m[ 4] ); f ( m[ 5] ); f ( m[ 6] ); f ( m[ 7] );
+  f ( m[ 8] ); f ( m[ 9] ); f ( m[10] ); f ( m[11] );
+  f ( m[12] ); f ( m[13] ); f ( m[14] ); f ( m[15] );
 }
 
 
@@ -282,22 +247,38 @@ template < class T, class I >
 inline bool equal ( const Matrix44 < T, I > &a, const Matrix44 < T, I > &b )
 {
   return (
-    ( a[ 0] == b[ 0] ) &&
-    ( a[ 1] == b[ 1] ) &&
-    ( a[ 2] == b[ 2] ) &&
-    ( a[ 3] == b[ 3] ) &&
-    ( a[ 4] == b[ 4] ) &&
-    ( a[ 5] == b[ 5] ) &&
-    ( a[ 6] == b[ 6] ) &&
-    ( a[ 7] == b[ 7] ) &&
-    ( a[ 8] == b[ 8] ) &&
-    ( a[ 9] == b[ 9] ) &&
-    ( a[10] == b[10] ) &&
-    ( a[11] == b[11] ) &&
-    ( a[12] == b[12] ) &&
-    ( a[13] == b[13] ) &&
-    ( a[14] == b[14] ) &&
-    ( a[15] == b[15] ) );
+    ( a[ 0] == b[ 0] ) && ( a[ 1] == b[ 1] ) && ( a[ 2] == b[ 2] ) && ( a[ 3] == b[ 3] ) &&
+    ( a[ 4] == b[ 4] ) && ( a[ 5] == b[ 5] ) && ( a[ 6] == b[ 6] ) && ( a[ 7] == b[ 7] ) &&
+    ( a[ 8] == b[ 8] ) && ( a[ 9] == b[ 9] ) && ( a[10] == b[10] ) && ( a[11] == b[11] ) &&
+    ( a[12] == b[12] ) && ( a[13] == b[13] ) && ( a[14] == b[14] ) && ( a[15] == b[15] ) );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Transpose the matrix.
+//  https://github.com/toji/gl-matrix
+//
+///////////////////////////////////////////////////////////////////////////////
+
+template < class T, class I >
+inline void transpose ( const Matrix44 < T, I > &a, Matrix44 < T, I > &b )
+{
+  // Get the raw arrays for speed.
+  const T *aa ( a.get() );
+  T *ba ( b.get() );
+
+  ba[R0C0] = aa[R0C0]; ba[R0C1] = aa[R1C0]; ba[R0C2] = aa[R2C0]; ba[R0C3] = aa[R3C0];
+  ba[R1C0] = aa[R0C1]; ba[R1C1] = aa[R1C1]; ba[R1C2] = aa[R2C1]; ba[R1C3] = aa[R3C1];
+  ba[R2C0] = aa[R0C2]; ba[R2C1] = aa[R1C2]; ba[R2C2] = aa[R2C2]; ba[R2C3] = aa[R3C2];
+  ba[R3C0] = aa[R0C3]; ba[R3C1] = aa[R1C3]; ba[R3C2] = aa[R2C3]; ba[R3C3] = aa[R3C3];
+}
+template < class T, class I >
+inline Matrix44 < T, I > transpose ( const Matrix44 < T, I > &a )
+{
+  Matrix44 < T, I > b ( false ); // Do not initialize it to identity.
+  transpose ( a, b );
+  return b;
 }
 
 
