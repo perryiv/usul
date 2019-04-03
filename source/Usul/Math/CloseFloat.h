@@ -122,7 +122,7 @@ template < class FloatType_ > struct CloseFloat
   // but then std::map::insert would return an existing value, when this class
   // was used with LessVector as the map's comparison predicate. Not exactly
   // sure why but tightening up the specified difference made the problem go away.
-  explicit CloseFloat ( unsigned int numAdjacentValues ) : _numAdjacentValues ( numAdjacentValues )
+  CloseFloat ( unsigned int numAdjacentValues ) : _numAdjacentValues ( numAdjacentValues )
   {
   }
 
