@@ -92,9 +92,9 @@ TEMPLATE_TEST_CASE ( "Matrix44 template math functions", "",
 
   const std::vector < TestType > MATRIX_C ( {
      0,  1,  2,  3,
-    10, 11, 12, 12,
-    20, 21, 22, 22,
-    30, 31, 32, 32
+    10, 11, 12, 13,
+    20, 21, 22, 23,
+    30, 31, 32, 33
   } );
 
   // Used www.wolframalpha.com with this input:
@@ -108,12 +108,12 @@ TEMPLATE_TEST_CASE ( "Matrix44 template math functions", "",
   } );
 
   // Used www.wolframalpha.com with this input:
-  // { { 0, 1, 2, 3 }, { 10, 11, 12, 12 }, { 20, 21, 22, 22 }, { 30, 31, 32, 32 } }
+  // { { 0, 1, 2, 3 }, { 10, 11, 12, 13 }, { 20, 21, 22, 23 }, { 30, 31, 32, 33 } }
   const std::vector < TestType > MATRIX_C_X_C ( {
-     140,  146,  152,  152,
-     710,  755,  800,  810,
-    1310, 1395, 1480, 1500,
-    1910, 2035, 2160, 2190
+     140,  146,  152,  158,
+     740,  786,  832,  878,
+    1340, 1426, 1512, 1598,
+    1940, 2066, 2192, 2318
   } );
 
   SECTION ( "Default constructor works" )

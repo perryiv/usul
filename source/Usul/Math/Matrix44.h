@@ -429,6 +429,11 @@ inline void multiply ( const Matrix44 < T, I > &m, const Vector4 < T, I > &a, Ve
   const T z ( aa[2] );
   const T w ( aa[3] );
 
+  //  m00 m01 m02 m03   x
+  //  m10 m11 m12 m13 * y
+  //  m20 m21 m22 m23   z
+  //  m30 m31 m32 m33   w
+
   ba[0] = ( ma[ 0] * x ) + ( ma[ 4] * y ) + ( ma[ 8] * z ) + ( ma[12] * w );
   ba[1] = ( ma[ 1] * x ) + ( ma[ 5] * y ) + ( ma[ 9] * z ) + ( ma[13] * w );
   ba[2] = ( ma[ 2] * x ) + ( ma[ 6] * y ) + ( ma[10] * z ) + ( ma[14] * w );
