@@ -16,9 +16,11 @@
 #include "Usul/Math/Matrix44.h"
 #include "Usul/Math/Vector4.h"
 #include "Usul/Math/Vector3.h"
+#include "Usul/Strings/Format.h"
 
 #include "catch2/catch.hpp"
 
+#include <string>
 #include <vector>
 
 
@@ -83,11 +85,25 @@ TEMPLATE_TEST_CASE ( "Matrix44 template math functions", "",
     0, 0, 0, 4
   } );
 
+  const std::vector < TestType > MATRIX_A_INVERSE ( {
+    1,  0,         0,         -0.25f,
+    0,  0.5f,      0,          0,
+    0, -1.0f/6.0f, 1.0f/3.0f,  0,
+    0,  0,         0,          0.25f
+  } );
+
   const std::vector < TestType > MATRIX_B ( {
     5, 0, 3, 0,
     0, 6, 0, 0,
     0, 0, 7, 0,
     1, 0, 0, 8
+  } );
+
+  const std::vector < TestType > MATRIX_B_INVERSE ( {
+     0.2f,   0,         -3.0f/35.0f,  0,
+     0,      1.0f/6.0f,  0,           0,
+     0,      0,          1.0f/7.0f,   0,
+    -0.025f, 0,          3.0f/280.0f, 0.125f
   } );
 
   const std::vector < TestType > MATRIX_C ( {
@@ -198,6 +214,45 @@ TEMPLATE_TEST_CASE ( "Matrix44 template math functions", "",
       const MatrixType a ( &MATRIX_C[0] );
       const MatrixType b = Usul::Math::transpose ( a );
       Details::compareMatrices ( b, MATRIX_C_TRANSPOSED );
+    }
+  }
+
+  SECTION ( "Can get the determinant" )
+  {
+    {
+      const MatrixType a ( &MATRIX_A[0] );
+      const TestType det = Usul::Math::determinant ( a );
+      REQUIRE ( 24 == det );
+    }
+    {
+      const MatrixType a ( &MATRIX_B[0] );
+      const TestType det = Usul::Math::determinant ( a );
+      REQUIRE ( 1680 == det );
+    }
+    {
+      const MatrixType a ( &MATRIX_C[0] );
+      const TestType det = Usul::Math::determinant ( a );
+      REQUIRE ( 0 == det );
+    }
+  }
+
+  SECTION ( "Can get the inverse" )
+  {
+    {
+      const MatrixType a ( &MATRIX_A[0] );
+      MatrixType b;
+      REQUIRE ( true == Usul::Math::inverse ( a, b ) );
+      const std::string actual ( Usul::Strings::formatMatrix44 ( b ) );
+      const std::string expect ( Usul::Strings::formatMatrix44 ( MatrixType ( &MATRIX_A_INVERSE[0] ) ) );
+      REQUIRE ( expect == actual );
+    }
+    {
+      const MatrixType a ( &MATRIX_B[0] );
+      MatrixType b;
+      REQUIRE ( true == Usul::Math::inverse ( a, b ) );
+      const std::string actual ( Usul::Strings::formatMatrix44 ( b ) );
+      const std::string expect ( Usul::Strings::formatMatrix44 ( MatrixType ( &MATRIX_B_INVERSE[0] ) ) );
+      REQUIRE ( expect == actual );
     }
   }
 
