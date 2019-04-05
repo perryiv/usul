@@ -16,8 +16,10 @@
 #ifndef _USUL_MATH_LINE_3D_H_
 #define _USUL_MATH_LINE_3D_H_
 
-#include "Usul/Math/ErrorChecker.h"
+#include "Usul/Errors/Check.h"
 #include "Usul/Math/Vector3.h"
+
+#include <stdexcept>
 
 
 namespace Usul {
@@ -167,12 +169,12 @@ public:
 
   Point &operator [] ( size_type i )
   {
-    USUL_CHECK_INDEX_RANGE ( 2, i );
+    USUL_CHECK_INDEX_RANGE ( 2, i, "Index out of range in Line3 [] operator" );
     return ( ( 0 == i ) ? _p0 : _p1 );
   }
   const Point &operator [] ( size_type i ) const
   {
-    USUL_CHECK_INDEX_RANGE ( 2, i );
+    USUL_CHECK_INDEX_RANGE ( 2, i, "Index out of range in Line3 [] operator" );
     return ( ( 0 == i ) ? _p0 : _p1 );
   }
 

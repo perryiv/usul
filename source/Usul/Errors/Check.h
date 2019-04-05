@@ -16,9 +16,8 @@
 #ifndef _USUL_ERRORS_CHECK_H_
 #define _USUL_ERRORS_CHECK_H_
 
-#include "Usul/Strings/Format.h"
-
 // Put these in the source files that actually use these macros.
+// #include "Usul/Strings/Format.h"
 // #include <iostream>
 // #include <stdexcept>
 
@@ -29,14 +28,11 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#define USUL_CHECK_INDEX_RANGE(size,index) \
+#define USUL_CHECK_INDEX_RANGE(size,index,message) \
 { \
   if ( ( index < 0 ) || ( index >= size ) ) \
   { \
-    throw std::out_of_range ( Usul::Strings::format ( "Index out of range", \
-      ", File: ", __FILE__, \
-      ", Line: ", __LINE__ \
-    ) ); \
+    throw std::out_of_range ( message ); \
   } \
 }
 

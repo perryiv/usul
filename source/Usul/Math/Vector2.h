@@ -16,9 +16,10 @@
 #ifndef _USUL_MATH_VECTOR_2D_H_
 #define _USUL_MATH_VECTOR_2D_H_
 
-#include "Usul/Math/ErrorChecker.h"
+#include "Usul/Errors/Check.h"
 
 #include <cmath>
+#include <stdexcept>
 
 
 namespace Usul {
@@ -147,12 +148,12 @@ public:
 
   T &operator [] ( size_type i )
   {
-    USUL_CHECK_INDEX_RANGE ( ThisType::SIZE, i );
+    USUL_CHECK_INDEX_RANGE ( ThisType::SIZE, i, "Index out of range in Vector2 [] operator" );
     return _v[i];
   }
   const T &operator [] ( size_type i ) const
   {
-    USUL_CHECK_INDEX_RANGE ( ThisType::SIZE, i );
+    USUL_CHECK_INDEX_RANGE ( ThisType::SIZE, i, "Index out of range in Vector2 [] operator" );
     return _v[i];
   }
 
