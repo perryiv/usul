@@ -9,44 +9,50 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-//  A 4x4 matrix class that uses a 1D array of 16.
-//  The matrix is stored row-major as follows:
+//  A 4x4 matrix class that uses a 1D array of length 16.
+//  The matrix is represented column-major:
 //
-//    [ 0,  1,  2,  3,
-//      4,  5,  6,  7,
-//      8,  9, 10, 11,
-//     12, 13, 14, 15 ]
+//    0,  4,  8, 12,
+//    1,  5,  9, 13,
+//    2,  6, 10, 14,
+//    3,  7, 11, 15
+//
+//  In the internal 1D array, indices 0-3 are interpreted as the first column,
+//  not the first row.
 //
 ///////////////////////////////////////////////////////////////////////////////
 
 #ifndef _USUL_MATH_4_BY_4_MATRIX_CLASS_H_
 #define _USUL_MATH_4_BY_4_MATRIX_CLASS_H_
 
-#include "Usul/Math/ErrorChecker.h"
+#include "Usul/Errors/Check.h"
 #include "Usul/Math/Vector3.h"
 #include "Usul/Math/Vector4.h"
 
-// For readability below.
-#define R0C0  0
-#define R0C1  1
-#define R0C2  2
-#define R0C3  3
-#define R1C0  4
-#define R1C1  5
-#define R1C2  6
-#define R1C3  7
-#define R2C0  8
-#define R2C1  9
-#define R2C2 10
-#define R2C3 11
-#define R3C0 12
-#define R3C1 13
-#define R3C2 14
-#define R3C3 15
+#include <stdexcept>
 
 
 namespace Usul {
 namespace Math {
+
+
+// For readability below.
+const unsigned int R0C0 (  0 );
+const unsigned int R1C0 (  1 );
+const unsigned int R2C0 (  2 );
+const unsigned int R3C0 (  3 );
+const unsigned int R0C1 (  4 );
+const unsigned int R1C1 (  5 );
+const unsigned int R2C1 (  6 );
+const unsigned int R3C1 (  7 );
+const unsigned int R0C2 (  8 );
+const unsigned int R1C2 (  9 );
+const unsigned int R2C2 ( 10 );
+const unsigned int R3C2 ( 11 );
+const unsigned int R0C3 ( 12 );
+const unsigned int R1C3 ( 13 );
+const unsigned int R2C3 ( 14 );
+const unsigned int R3C3 ( 15 );
 
 
 template
@@ -121,6 +127,24 @@ public:
 
   /////////////////////////////////////////////////////////////////////////////
   //
+  //  Constructor.
+  //
+  /////////////////////////////////////////////////////////////////////////////
+
+  Matrix44 ( T m00, T m01, T m02, T m03,
+             T m10, T m11, T m12, T m13,
+             T m20, T m21, T m22, T m23,
+             T m30, T m31, T m32, T m33 )
+  {
+    this->set ( m00, m01, m02, m03,
+                m10, m11, m12, m13,
+                m20, m21, m22, m23,
+                m30, m31, m32, m33 );
+  }
+
+
+  /////////////////////////////////////////////////////////////////////////////
+  //
   //  Copy constructor.
   //
   /////////////////////////////////////////////////////////////////////////////
@@ -139,10 +163,40 @@ public:
 
   void set ( const T m[SIZE] )
   {
-    _m[R0C0] = m[R0C0]; _m[R0C1] = m[R0C1]; _m[R0C2] = m[R0C2]; _m[R0C3] = m[R0C3];
-    _m[R1C0] = m[R1C0]; _m[R1C1] = m[R1C1]; _m[R1C2] = m[R1C2]; _m[R1C3] = m[R1C3];
-    _m[R2C0] = m[R2C0]; _m[R2C1] = m[R2C1]; _m[R2C2] = m[R2C2]; _m[R2C3] = m[R2C3];
-    _m[R3C0] = m[R3C0]; _m[R3C1] = m[R3C1]; _m[R3C2] = m[R3C2]; _m[R3C3] = m[R3C3];
+    _m[ 0] = m[ 0];
+    _m[ 1] = m[ 1];
+    _m[ 2] = m[ 2];
+    _m[ 3] = m[ 3];
+    _m[ 4] = m[ 4];
+    _m[ 5] = m[ 5];
+    _m[ 6] = m[ 6];
+    _m[ 7] = m[ 7];
+    _m[ 8] = m[ 8];
+    _m[ 9] = m[ 9];
+    _m[10] = m[10];
+    _m[11] = m[11];
+    _m[12] = m[12];
+    _m[13] = m[13];
+    _m[14] = m[14];
+    _m[15] = m[15];
+  }
+
+
+  /////////////////////////////////////////////////////////////////////////////
+  //
+  //  Set the value.
+  //
+  /////////////////////////////////////////////////////////////////////////////
+
+  void set ( T m00, T m01, T m02, T m03,
+             T m10, T m11, T m12, T m13,
+             T m20, T m21, T m22, T m23,
+             T m30, T m31, T m32, T m33 )
+  {
+    _m[R0C0] = m00; _m[R0C1] = m01; _m[R0C2] = m02; _m[R0C3] = m03;
+    _m[R1C0] = m10; _m[R1C1] = m11; _m[R1C2] = m12; _m[R1C3] = m13;
+    _m[R2C0] = m20; _m[R2C1] = m21; _m[R2C2] = m22; _m[R2C3] = m23;
+    _m[R3C0] = m30; _m[R3C1] = m31; _m[R3C2] = m32; _m[R3C3] = m33;
   }
 
 
@@ -166,12 +220,12 @@ public:
 
   T &operator [] ( size_type i )
   {
-    USUL_CHECK_INDEX_RANGE ( ThisType::SIZE, i );
+    USUL_CHECK_INDEX_RANGE ( ThisType::SIZE, i, "Index out of range in Matrix44 [] operator" );
     return _m[i];
   }
   const T &operator [] ( size_type i ) const
   {
-    USUL_CHECK_INDEX_RANGE ( ThisType::SIZE, i );
+    USUL_CHECK_INDEX_RANGE ( ThisType::SIZE, i, "Index out of range in Matrix44 [] operator" );
     return _m[i];
   }
 
@@ -185,21 +239,21 @@ public:
 
   T &operator () ( size_type i, size_type j )
   {
-    USUL_CHECK_INDEX_RANGE ( ThisType::DIMENSION, i );
-    USUL_CHECK_INDEX_RANGE ( ThisType::DIMENSION, j );
+    USUL_CHECK_INDEX_RANGE ( ThisType::DIMENSION, i, "Index out of range in Matrix44 () operator" );
+    USUL_CHECK_INDEX_RANGE ( ThisType::DIMENSION, j, "Index out of range in Matrix44 () operator" );
 
-    const size_type index ( i * ThisType::DIMENSION + j );
-    USUL_CHECK_INDEX_RANGE ( ThisType::SIZE, index );
+    const size_type index ( j * ThisType::DIMENSION + i );
+    USUL_CHECK_INDEX_RANGE ( ThisType::SIZE, index, "Index out of range in Matrix44 () operator" );
 
     return _m[index];
   }
   const T &operator () ( size_type i, size_type j ) const
   {
-    USUL_CHECK_INDEX_RANGE ( ThisType::DIMENSION, i );
-    USUL_CHECK_INDEX_RANGE ( ThisType::DIMENSION, j );
+    USUL_CHECK_INDEX_RANGE ( ThisType::DIMENSION, i, "Index out of range in Matrix44 () operator" );
+    USUL_CHECK_INDEX_RANGE ( ThisType::DIMENSION, j, "Index out of range in Matrix44 () operator" );
 
-    const size_type index ( i * ThisType::DIMENSION + j );
-    USUL_CHECK_INDEX_RANGE ( ThisType::SIZE, index );
+    const size_type index ( j * ThisType::DIMENSION + i );
+    USUL_CHECK_INDEX_RANGE ( ThisType::SIZE, index, "Index out of range in Matrix44 () operator" );
 
     return _m[index];
   }
@@ -230,10 +284,10 @@ private:
 template < class T, class I, class Fun >
 inline void each ( const Matrix44 < T, I > &m, Fun f )
 {
-  f ( m[ 0] ); f ( m[ 1] ); f ( m[ 2] ); f ( m[ 3] );
-  f ( m[ 4] ); f ( m[ 5] ); f ( m[ 6] ); f ( m[ 7] );
-  f ( m[ 8] ); f ( m[ 9] ); f ( m[10] ); f ( m[11] );
-  f ( m[12] ); f ( m[13] ); f ( m[14] ); f ( m[15] );
+  f ( m[R0C0] ); f ( m[R0C1] ); f ( m[R0C2] ); f ( m[R0C3] );
+  f ( m[R1C0] ); f ( m[R1C1] ); f ( m[R1C2] ); f ( m[R1C3] );
+  f ( m[R2C0] ); f ( m[R2C1] ); f ( m[R2C2] ); f ( m[R2C3] );
+  f ( m[R3C0] ); f ( m[R3C1] ); f ( m[R3C2] ); f ( m[R3C3] );
 }
 
 
@@ -247,10 +301,10 @@ template < class T, class I >
 inline bool equal ( const Matrix44 < T, I > &a, const Matrix44 < T, I > &b )
 {
   return (
-    ( a[ 0] == b[ 0] ) && ( a[ 1] == b[ 1] ) && ( a[ 2] == b[ 2] ) && ( a[ 3] == b[ 3] ) &&
-    ( a[ 4] == b[ 4] ) && ( a[ 5] == b[ 5] ) && ( a[ 6] == b[ 6] ) && ( a[ 7] == b[ 7] ) &&
-    ( a[ 8] == b[ 8] ) && ( a[ 9] == b[ 9] ) && ( a[10] == b[10] ) && ( a[11] == b[11] ) &&
-    ( a[12] == b[12] ) && ( a[13] == b[13] ) && ( a[14] == b[14] ) && ( a[15] == b[15] ) );
+    ( a[R0C0] == b[R0C0] ) && ( a[R0C1] == b[R0C1] ) && ( a[R0C2] == b[R0C2] ) && ( a[R0C3] == b[R0C3] ) &&
+    ( a[R1C0] == b[R1C0] ) && ( a[R1C1] == b[R1C1] ) && ( a[R1C2] == b[R1C2] ) && ( a[R1C3] == b[R1C3] ) &&
+    ( a[R2C0] == b[R2C0] ) && ( a[R2C1] == b[R2C1] ) && ( a[R2C2] == b[R2C2] ) && ( a[R2C3] == b[R2C3] ) &&
+    ( a[R3C0] == b[R3C0] ) && ( a[R3C1] == b[R3C1] ) && ( a[R3C2] == b[R3C2] ) && ( a[R3C3] == b[R3C3] ) );
 }
 
 
@@ -278,6 +332,70 @@ inline Matrix44 < T, I > transpose ( const Matrix44 < T, I > &a )
 {
   Matrix44 < T, I > b ( false ); // Do not initialize it to identity.
   transpose ( a, b );
+  return b;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Make a translation matrix.
+//  https://github.com/toji/gl-matrix
+//
+///////////////////////////////////////////////////////////////////////////////
+
+template < class T, class I >
+inline void translate ( const Matrix44 < T, I > &a, const Vector3 < T, I > &v, Matrix44 < T, I > &b )
+{
+  // Get the raw arrays for speed.
+  const T *aa ( a.get() );
+  const T *va ( v.get() );
+  T *ba ( b.get() );
+
+  // For speed.
+  const T x ( va[0] );
+  const T y ( va[1] );
+  const T z ( va[2] );
+
+  const T a00 ( aa[R0C0] );
+  const T a10 ( aa[R1C0] );
+  const T a20 ( aa[R2C0] );
+  const T a30 ( aa[R3C0] );
+
+  const T a01 ( aa[R0C1] );
+  const T a11 ( aa[R1C1] );
+  const T a21 ( aa[R2C1] );
+  const T a31 ( aa[R3C1] );
+
+  const T a02 ( aa[R0C2] );
+  const T a12 ( aa[R1C2] );
+  const T a22 ( aa[R2C2] );
+  const T a32 ( aa[R3C2] );
+
+  ba[R0C0] = a00;
+  ba[R1C0] = a10;
+  ba[R2C0] = a20;
+  ba[R3C0] = a30;
+
+  ba[R0C1] = a01;
+  ba[R1C1] = a11;
+  ba[R2C1] = a21;
+  ba[R3C1] = a31;
+
+  ba[R0C2] = a02;
+  ba[R1C2] = a12;
+  ba[R2C2] = a22;
+  ba[R3C2] = a32;
+
+  ba[R0C3] = ( a00 * x ) + ( a01 * y ) + ( a02 * z ) + aa[R0C3];
+  ba[R1C3] = ( a10 * x ) + ( a11 * y ) + ( a12 * z ) + aa[R1C3];
+  ba[R2C3] = ( a20 * x ) + ( a21 * y ) + ( a22 * z ) + aa[R2C3];
+  ba[R3C3] = ( a30 * x ) + ( a31 * y ) + ( a32 * z ) + aa[R3C3];
+}
+template < class T, class I >
+inline Matrix44 < T, I > translate ( const Matrix44 < T, I > &a, const Vector3 < T, I > &v )
+{
+  Matrix44 < T, I > b ( false ); // Do not initialize it to identity.
+  translate ( a, v, b );
   return b;
 }
 
@@ -314,25 +432,25 @@ inline void multiply ( const Matrix44 < T, I > &a, const Matrix44 < T, I > &b, M
   //  a20 a21 a22 a23   b20 b21 b22 b23
   //  a30 a31 a32 a33   b30 b31 b32 b33
 
-  ca[R0C0] = a00 * b00 + a01 * b10 + a02 * b20 + a03 * b30;
-  ca[R0C1] = a00 * b01 + a01 * b11 + a02 * b21 + a03 * b31;
-  ca[R0C2] = a00 * b02 + a01 * b12 + a02 * b22 + a03 * b32;
-  ca[R0C3] = a00 * b03 + a01 * b13 + a02 * b23 + a03 * b33;
+  ca[R0C0] = ( a00 * b00 ) + ( a01 * b10 ) + ( a02 * b20 ) + ( a03 * b30 );
+  ca[R0C1] = ( a00 * b01 ) + ( a01 * b11 ) + ( a02 * b21 ) + ( a03 * b31 );
+  ca[R0C2] = ( a00 * b02 ) + ( a01 * b12 ) + ( a02 * b22 ) + ( a03 * b32 );
+  ca[R0C3] = ( a00 * b03 ) + ( a01 * b13 ) + ( a02 * b23 ) + ( a03 * b33 );
 
-  ca[R1C0] = a10 * b00 + a11 * b10 + a12 * b20 + a13 * b30;
-  ca[R1C1] = a10 * b01 + a11 * b11 + a12 * b21 + a13 * b31;
-  ca[R1C2] = a10 * b02 + a11 * b12 + a12 * b22 + a13 * b32;
-  ca[R1C3] = a10 * b03 + a11 * b13 + a12 * b23 + a13 * b33;
+  ca[R1C0] = ( a10 * b00 ) + ( a11 * b10 ) + ( a12 * b20 ) + ( a13 * b30 );
+  ca[R1C1] = ( a10 * b01 ) + ( a11 * b11 ) + ( a12 * b21 ) + ( a13 * b31 );
+  ca[R1C2] = ( a10 * b02 ) + ( a11 * b12 ) + ( a12 * b22 ) + ( a13 * b32 );
+  ca[R1C3] = ( a10 * b03 ) + ( a11 * b13 ) + ( a12 * b23 ) + ( a13 * b33 );
 
-  ca[R2C0] = a20 * b00 + a21 * b10 + a22 * b20 + a23 * b30;
-  ca[R2C1] = a20 * b01 + a21 * b11 + a22 * b21 + a23 * b31;
-  ca[R2C2] = a20 * b02 + a21 * b12 + a22 * b22 + a23 * b32;
-  ca[R2C3] = a20 * b03 + a21 * b13 + a22 * b23 + a23 * b33;
+  ca[R2C0] = ( a20 * b00 ) + ( a21 * b10 ) + ( a22 * b20 ) + ( a23 * b30 );
+  ca[R2C1] = ( a20 * b01 ) + ( a21 * b11 ) + ( a22 * b21 ) + ( a23 * b31 );
+  ca[R2C2] = ( a20 * b02 ) + ( a21 * b12 ) + ( a22 * b22 ) + ( a23 * b32 );
+  ca[R2C3] = ( a20 * b03 ) + ( a21 * b13 ) + ( a22 * b23 ) + ( a23 * b33 );
 
-  ca[R3C0] = a30 * b00 + a31 * b10 + a32 * b20 + a33 * b30;
-  ca[R3C1] = a30 * b01 + a31 * b11 + a32 * b21 + a33 * b31;
-  ca[R3C2] = a30 * b02 + a31 * b12 + a32 * b22 + a33 * b32;
-  ca[R3C3] = a30 * b03 + a31 * b13 + a32 * b23 + a33 * b33;
+  ca[R3C0] = ( a30 * b00 ) + ( a31 * b10 ) + ( a32 * b20 ) + ( a33 * b30 );
+  ca[R3C1] = ( a30 * b01 ) + ( a31 * b11 ) + ( a32 * b21 ) + ( a33 * b31 );
+  ca[R3C2] = ( a30 * b02 ) + ( a31 * b12 ) + ( a32 * b22 ) + ( a33 * b32 );
+  ca[R3C3] = ( a30 * b03 ) + ( a31 * b13 ) + ( a32 * b23 ) + ( a33 * b33 );
 }
 template < class T, class I >
 inline Matrix44 < T, I > multiply ( const Matrix44 < T, I > &a, const Matrix44 < T, I > &b )
@@ -372,19 +490,23 @@ inline void multiply ( const Matrix44 < T, I > &m, const Vector3 < T, I > &a, Ve
   //  m20 m21 m22 m23   z
   //  m30 m31 m32 m33   1
 
-  ba[0] = ( ma[R0C0] * x ) + ( ma[R0C1] * y ) + ( ma[R0C2] * z ) + ( ma[R0C3] );
-  ba[1] = ( ma[R1C0] * x ) + ( ma[R1C1] * y ) + ( ma[R1C2] * z ) + ( ma[R1C3] );
-  ba[2] = ( ma[R2C0] * x ) + ( ma[R2C1] * y ) + ( ma[R2C2] * z ) + ( ma[R2C3] );
+  const T w ( ( ma[R3C0] * x ) + ( ma[R3C1] * y ) + ( ma[R3C2] * z ) + ( ma[R3C3] ) );
+  const T one ( static_cast < T > ( 1 ) );
+  const T iw ( one / w );
+
+  ba[0] = ( ( ma[R0C0] * x ) + ( ma[R0C1] * y ) + ( ma[R0C2] * z ) + ( ma[R0C3] ) ) * iw;
+  ba[1] = ( ( ma[R1C0] * x ) + ( ma[R1C1] * y ) + ( ma[R1C2] * z ) + ( ma[R1C3] ) ) * iw;
+  ba[2] = ( ( ma[R2C0] * x ) + ( ma[R2C1] * y ) + ( ma[R2C2] * z ) + ( ma[R2C3] ) ) * iw;
 }
 template < class T, class I >
-inline Matrix44 < T, I > multiply ( const Matrix44 < T, I > &m, const Vector3 < T, I > &a )
+inline Vector3 < T, I > multiply ( const Matrix44 < T, I > &m, const Vector3 < T, I > &a )
 {
   Vector3 < T, I > b ( false ); // Do not initialize.
   multiply ( m, a, b );
   return b;
 }
 template < class T, class I >
-inline Matrix44 < T, I > operator * ( const Matrix44 < T, I > &m, const Vector3 < T, I > &a )
+inline Vector3 < T, I > operator * ( const Matrix44 < T, I > &m, const Vector3 < T, I > &a )
 {
   return multiply ( m, a );
 }
@@ -421,14 +543,14 @@ inline void multiply ( const Matrix44 < T, I > &m, const Vector4 < T, I > &a, Ve
   ba[3] = ( ma[R3C0] * x ) + ( ma[R3C1] * y ) + ( ma[R3C2] * z ) + ( ma[R3C3] * w );
 }
 template < class T, class I >
-inline Matrix44 < T, I > multiply ( const Matrix44 < T, I > &m, const Vector4 < T, I > &a )
+inline Vector4 < T, I > multiply ( const Matrix44 < T, I > &m, const Vector4 < T, I > &a )
 {
   Vector4 < T, I > b ( false ); // Do not initialize.
   multiply ( m, a, b );
   return b;
 }
 template < class T, class I >
-inline Matrix44 < T, I > operator * ( const Matrix44 < T, I > &m, const Vector4 < T, I > &a )
+inline Vector4 < T, I > operator * ( const Matrix44 < T, I > &m, const Vector4 < T, I > &a )
 {
   return multiply ( m, a );
 }
@@ -554,22 +676,22 @@ typedef Matrix44 < long double    > Matrix44ld;
 
 
 // Clean up.
-#undef R0C0
-#undef R1C0
-#undef R2C0
-#undef R3C0
-#undef R0C1
-#undef R1C1
-#undef R2C1
-#undef R3C1
-#undef R0C2
-#undef R1C2
-#undef R2C2
-#undef R3C2
-#undef R0C3
-#undef R1C3
-#undef R2C3
-#undef R3C3
+// #undef R0C0
+// #undef R1C0
+// #undef R2C0
+// #undef R3C0
+// #undef R0C1
+// #undef R1C1
+// #undef R2C1
+// #undef R3C1
+// #undef R0C2
+// #undef R1C2
+// #undef R2C2
+// #undef R3C2
+// #undef R0C3
+// #undef R1C3
+// #undef R2C3
+// #undef R3C3
 
 
 #endif // _USUL_MATH_4_BY_4_MATRIX_CLASS_H_
