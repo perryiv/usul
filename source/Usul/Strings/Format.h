@@ -253,17 +253,17 @@ inline std::string format ( const T1 &t1, const T2 &t2, const T3 &t3, const T4 &
   out << t1 << t2 << t3 << t4 << t5 << t6 << t7 << t8 << t9 << t10 << t11 << t12 << t13 << t14 << t15 << t16 << t17 << t18 << t19 << t20 << t21 << t22 << t23 << t24 << t25 << t26 << t27 << t28 << t29 << t30 << t31 << t32;
   return out.str();
 }
-template < class T > inline std::string formatVector4 ( const T &v )
+template < class T > inline std::string formatVector2 ( const T &v )
 {
-  return format ( v[0], ", ", v[1], ", ", v[2], ", ", v[3] );
+  return format ( v[0], ", ", v[1] );
 }
 template < class T > inline std::string formatVector3 ( const T &v )
 {
   return format ( v[0], ", ", v[1], ", ", v[2] );
 }
-template < class T > inline std::string formatVector2 ( const T &v )
+template < class T > inline std::string formatVector4 ( const T &v )
 {
-  return format ( v[0], ", ", v[1] );
+  return format ( v[0], ", ", v[1], ", ", v[2], ", ", v[3] );
 }
 template < class T > inline std::string formatMatrix44 ( const T &m )
 {
