@@ -299,7 +299,7 @@ TEMPLATE_TEST_CASE ( "Matrix44 template math functions", "",
     {
       REQUIRE ( std::string ( e.what() ) == "Index out of range in Matrix44 [] operator" );
     }
-    catch ( const std::exception &e )
+    catch ( const std::exception & )
     {
       REQUIRE ( false ); // Should not be here.
     }
@@ -317,7 +317,7 @@ TEMPLATE_TEST_CASE ( "Matrix44 template math functions", "",
     {
       REQUIRE ( std::string ( e.what() ) == "Index out of range in Matrix44 () operator" );
     }
-    catch ( const std::exception &e )
+    catch ( const std::exception & )
     {
       REQUIRE ( false ); // Should not be here.
     }
