@@ -39,6 +39,19 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 //
+//  Handle no message
+//
+///////////////////////////////////////////////////////////////////////////////
+
+#ifdef _WIN32
+# define USUL_GET_MESSAGE_OR_DEFAULT(message) ( message ? message : "Expression is false" )
+#else
+# define USUL_GET_MESSAGE_OR_DEFAULT(message) ( ( nullptr != message ) ? message : "Expression is false" )
+#endif
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
 //  Throw an exception if the expression is false.
 //
 ///////////////////////////////////////////////////////////////////////////////
@@ -47,7 +60,7 @@
   if ( false == expression ) \
   { \
     throw std::runtime_error ( Usul::Strings::format ( \
-      ( message ? message : "Expression is false" ), \
+      USUL_GET_MESSAGE_OR_DEFAULT ( message ), \
       ", File: ", __FILE__, \
       ", Line: ", __LINE__ \
     ) ); \
@@ -64,7 +77,7 @@
 if ( false == expression ) \
 { \
   std::clog << ( Usul::Strings::format ( \
-    ( message ? message : "Expression is false" ), \
+    USUL_GET_MESSAGE_OR_DEFAULT ( message ), \
     ", File: ", __FILE__, \
     ", Line: ", __LINE__ \
   ) ) << std::endl; \
