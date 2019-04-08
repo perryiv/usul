@@ -47,7 +47,7 @@
   if ( false == expression ) \
   { \
     throw std::runtime_error ( Usul::Strings::format ( \
-      ( ( nullptr != message ) ? ( message ) : ( "Expression is false" ) ), \
+      ( message ? message : "Expression is false" ), \
       ", File: ", __FILE__, \
       ", Line: ", __LINE__ \
     ) ); \
@@ -64,7 +64,7 @@
 if ( false == expression ) \
 { \
   std::clog << ( Usul::Strings::format ( \
-    ( ( nullptr != message ) ? ( message ) : ( "Expression is false" ) ), \
+    ( message ? message : "Expression is false" ), \
     ", File: ", __FILE__, \
     ", Line: ", __LINE__ \
   ) ) << std::endl; \
