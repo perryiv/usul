@@ -43,10 +43,11 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#define USUL_CHECK_AND_THROW(expression) \
+#define USUL_CHECK_AND_THROW(expression,message) \
   if ( false == expression ) \
   { \
-    throw std::runtime_error ( Usul::Strings::format ( "Expression is false", \
+    throw std::runtime_error ( Usul::Strings::format ( \
+      ( ( nullptr != message ) ? ( message ) : ( "Expression is false" ) ), \
       ", File: ", __FILE__, \
       ", Line: ", __LINE__ \
     ) ); \
@@ -59,10 +60,11 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#define USUL_CHECK_AND_LOG(expression)\
+#define USUL_CHECK_AND_LOG(expression,message)\
 if ( false == expression ) \
 { \
-  std::clog << ( Usul::Strings::format ( "Expression is false", \
+  std::clog << ( Usul::Strings::format ( \
+    ( ( nullptr != message ) ? ( message ) : ( "Expression is false" ) ), \
     ", File: ", __FILE__, \
     ", Line: ", __LINE__ \
   ) ) << std::endl; \

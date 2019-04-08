@@ -16,12 +16,10 @@
 #ifndef _USUL_MATH_3D_FUNCTIONS_H_
 #define _USUL_MATH_3D_FUNCTIONS_H_
 
-#include "Usul/Math/Matrix44.h"
-#include "Usul/Math/Vector4.h"
-#include "Usul/Math/Vector3.h"
-#include "Usul/Math/Vector2.h"
+#include "Usul/Math/Line3.h"
+#include "Usul/Math/Matrix44.h" // For Usul::Math::inverse
+#include "Usul/Math/Vector3.h"  // For Vector3
 
-#include <algorithm>
 #include <type_traits>
 
 
@@ -36,21 +34,21 @@ namespace Math {
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-template < class T, class I >
+template < class Vec3, class Vec4, class Matrix >
 inline bool unProject (
-  const Usul::Math::Vector3 < T, I > &screen,
-  const Usul::Math::Matrix44 < T, I > &viewMatrix,
-  const Usul::Math::Matrix44 < T, I > &projMatrix,
-  const Usul::Math::Vector4 < T, I > &viewport,
-  Usul::Math::Vector3 < T, I > &point )
+  const Vec3 &screen,
+  const Matrix &viewMatrix,
+  const Matrix &projMatrix,
+  const Vec4 &viewport,
+  Vec3 &point )
 {
-  // Make sure we're working with a floating point number type.
-  static_assert ( std::is_floating_point < T >::value, "Not a floating-point number type" );
+  // Make sure they all have the same value type.
+  typedef typename Matrix::value_type Number;
+  static_assert ( std::is_same < Number, typename Vec3::value_type >::value, "Not the same value type" );
+  static_assert ( std::is_same < Number, typename Vec4::value_type >::value, "Not the same value type" );
 
-  // Typedefs.
-  typedef Usul::Math::Matrix44 < T, I > Matrix;
-  typedef Usul::Math::Vector4 < T, I > Vec4;
-  typedef T Number;
+  // Make sure we're working with a floating point number type.
+  static_assert ( std::is_floating_point < Number >::value, "Not a floating-point number type" );
 
   // Keep the compiler happy.
   const Number zero ( static_cast < Number > ( 0 ) );
@@ -86,7 +84,7 @@ inline bool unProject (
   }
 
   // Shortcut.
-  const T ib3 = one / b[3];
+  const Number ib3 = one / b[3];
 
   // Write to the answer.
   point[0] = b[0] * ib3;
@@ -104,23 +102,27 @@ inline bool unProject (
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-template < class T, class I >
+template < class Number, class Vec4, class Matrix, class Line3 >
 inline bool makeLine (
-  const T &x, const T &y,
-  const Usul::Math::Matrix44 < T, I > &viewMatrix,
-  const Usul::Math::Matrix44 < T, I > &projMatrix,
-  const Usul::Math::Vector4 < T, I > &viewport,
-  Usul::Math::Line3 < T, I > &line )
+  const Number &x, const Number &y,
+  const Matrix &viewMatrix,
+  const Matrix &projMatrix,
+  const Vec4 &viewport,
+  Line3 &line )
 {
+  // Make sure they all have the same value type.
+  static_assert ( std::is_same < Number, typename Vec4::value_type >::value, "Not the same value type" );
+  static_assert ( std::is_same < Number, typename Line3::value_type >::value, "Not the same value type" );
+  static_assert ( std::is_same < Number, typename Matrix::value_type >::value, "Not the same value type" );
+
   // Make sure we're working with a floating point number type.
-  static_assert ( std::is_floating_point < T >::value, "Not a floating-point number type" );
+  static_assert ( std::is_floating_point < Number >::value, "Not a floating-point number type" );
 
   // Typedefs.
-  typedef Usul::Math::Vector3 < T, I > Vec3;
-  typedef T Number;
+  typedef Usul::Math::Vector3 < Number > Vec3;
 
   // Keep the compiler happy.
-  const Number one  ( static_cast < Number > ( 1 ) );
+  const Number one ( static_cast < Number > ( 1 ) );
 
   // Get the 3D point on the near plane.
   Vec3 nearPoint;

@@ -168,6 +168,16 @@ public:
   T *      get()       { return _v; }
 
 
+  /////////////////////////////////////////////////////////////////////////////
+  //
+  //  Added for compatability reasons.
+  //
+  /////////////////////////////////////////////////////////////////////////////
+
+  const T *ptr() const { return this->get(); }
+  T *      ptr()       { return this->get(); }
+
+
 private:
 
   T _v[SIZE];

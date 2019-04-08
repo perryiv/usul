@@ -283,6 +283,16 @@ public:
   T *      get()       { return _m; }
 
 
+  /////////////////////////////////////////////////////////////////////////////
+  //
+  //  Added for compatability reasons.
+  //
+  /////////////////////////////////////////////////////////////////////////////
+
+  const T *ptr() const { return this->get(); }
+  T *      ptr()       { return this->get(); }
+
+
 private:
 
   T _m[SIZE];
