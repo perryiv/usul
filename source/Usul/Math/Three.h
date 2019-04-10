@@ -17,8 +17,7 @@
 #define _USUL_MATH_3D_FUNCTIONS_H_
 
 #include "Usul/Math/Line3.h"
-#include "Usul/Math/Matrix44.h" // For Usul::Math::inverse
-#include "Usul/Math/Vector3.h"  // For Vector3
+#include "Usul/Math/Vector3.h" // For Vector3
 
 #include <type_traits>
 
@@ -75,7 +74,7 @@ inline bool unProject (
   }
 
   // Transform the 4D point.
-  const Vec4 b = im * a;
+  const Vec4 b = Usul::Math::multiply ( im, a );
 
   // Make sure it worked.
   if ( zero == b[3] )
@@ -93,7 +92,7 @@ inline bool unProject (
 
   // It worked.
   return true;
-};
+}
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -143,7 +142,7 @@ inline bool makeLine (
 
   // It worked.
   return true;
-};
+}
 
 
 } // namespace Math
