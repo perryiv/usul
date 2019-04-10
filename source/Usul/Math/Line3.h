@@ -44,8 +44,9 @@ public:
   typedef T value_type;
   typedef IndexType size_type;
   typedef Line3 < T, IndexType > ThisType;
-  typedef Usul::Math::Vector3 < T > Vec;
+  typedef Usul::Math::Vector3 < T, IndexType > Vec;
   typedef Vec Point;
+  typedef Vec vec_type;
 
 
   /////////////////////////////////////////////////////////////////////////////
@@ -158,6 +159,22 @@ public:
   Point getUnitDirection() const
   {
     return Usul::Math::normalize ( this->getDirection() );
+  }
+
+
+  /////////////////////////////////////////////////////////////////////////////
+  //
+  //  Get the start and end of the line.
+  //
+  /////////////////////////////////////////////////////////////////////////////
+
+  const Point &start() const
+  {
+    return _p0;
+  }
+  const Point &end() const
+  {
+    return _p1;
   }
 
 
