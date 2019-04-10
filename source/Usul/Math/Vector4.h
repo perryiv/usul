@@ -416,6 +416,32 @@ inline T distance ( const Vector4 < T, I > &a, const Vector4 < T, I > &b )
 
 ///////////////////////////////////////////////////////////////////////////////
 //
+//  Return the linear interpolation between the two given vectors.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+template < class T, class I >
+inline void lerp ( const Vector4 < T, I > &a, const Vector4 < T, I > &b, const T &u, Vector4 < T, I > &c )
+{
+  c[0] = ( a[0] + u * ( b[0] - a[0] ) );
+  c[1] = ( a[1] + u * ( b[1] - a[1] ) );
+  c[2] = ( a[2] + u * ( b[2] - a[2] ) );
+  c[3] = ( a[3] + u * ( b[3] - a[3] ) );
+}
+template < class T, class I >
+inline Vector4 < T, I > lerp ( const Vector4 < T, I > &a, const Vector4 < T, I > &b, const T &u )
+{
+  return Vector4 < T, I > (
+    ( a[0] + u * ( b[0] - a[0] ) ),
+    ( a[1] + u * ( b[1] - a[1] ) ),
+    ( a[2] + u * ( b[2] - a[2] ) ),
+    ( a[3] + u * ( b[3] - a[3] ) )
+  );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
 //  Useful typedefs.
 //
 ///////////////////////////////////////////////////////////////////////////////

@@ -425,6 +425,30 @@ inline Vector3 < T, I > cross ( const Vector3 < T, I > &a, const Vector3 < T, I 
 
 ///////////////////////////////////////////////////////////////////////////////
 //
+//  Return the linear interpolation between the two given vectors.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+template < class T, class I >
+inline void lerp ( const Vector3 < T, I > &a, const Vector3 < T, I > &b, const T &u, Vector3 < T, I > &c )
+{
+  c[0] = ( a[0] + u * ( b[0] - a[0] ) );
+  c[1] = ( a[1] + u * ( b[1] - a[1] ) );
+  c[2] = ( a[2] + u * ( b[2] - a[2] ) );
+}
+template < class T, class I >
+inline Vector3 < T, I > lerp ( const Vector3 < T, I > &a, const Vector3 < T, I > &b, const T &u )
+{
+  return Vector3 < T, I > (
+    ( a[0] + u * ( b[0] - a[0] ) ),
+    ( a[1] + u * ( b[1] - a[1] ) ),
+    ( a[2] + u * ( b[2] - a[2] ) )
+  );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
 //  Useful typedefs.
 //
 ///////////////////////////////////////////////////////////////////////////////
