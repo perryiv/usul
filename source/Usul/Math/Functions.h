@@ -19,6 +19,7 @@
 #include "Usul/Math/Constants.h"
 
 #include <cmath>
+#include <type_traits>
 
 
 namespace Usul {
@@ -69,6 +70,45 @@ template < class ScalarType > inline ScalarType degToRad ( const ScalarType angl
 {
   return ( angle * ( static_cast < ScalarType > ( Usul::Math::DEG_TO_RAD ) ) );
 }
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Return e^(-u)
+//
+///////////////////////////////////////////////////////////////////////////////
+
+template < class T >
+inline T decay ( T u )
+{
+  static_assert ( std::is_floating_point < T >::value, "Not a floating point type" );
+
+  // Keep the compiler happy.
+  const T zero   ( static_cast < T > (  0 ) );
+  const T one    ( static_cast < T > (  1 ) );
+  const T three  ( static_cast < T > (  3 ) );
+  const T six    ( static_cast < T > (  6 ) );
+  const T twenty ( static_cast < T > ( 20 ) );
+
+  // Handle when input is out of range.
+  if ( u < zero )
+  {
+    return zero;
+  }
+  if ( u > one )
+  {
+    return one;
+  }
+
+  // See http://www.wolframalpha.com/input/?i=y%3De^-x
+  u *= six;
+  u -= three;
+  u = std::exp ( -u );
+  u /= twenty;
+
+  // Return modified value.
+  return u;
+};
 
 
 } // namespace Math
