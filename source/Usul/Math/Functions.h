@@ -108,7 +108,7 @@ inline T decay ( T u )
 
   // Return modified value.
   return u;
-};
+}
 
 
 } // namespace Math
