@@ -676,6 +676,38 @@ inline bool inverse ( const Matrix44 < T, I > &a, Matrix44 < T, I > &b )
 
 ///////////////////////////////////////////////////////////////////////////////
 //
+//  Get the rotation portion of the given matrix.
+//  https://github.com/toji/gl-matrix
+//
+///////////////////////////////////////////////////////////////////////////////
+
+template < class T, class I >
+inline void rotation ( const Matrix44 < T, I > &m, Matrix44 < T, I > &r )
+{
+  // Get the raw arrays for speed.
+  const T *ma ( m.get() );
+  T *ra ( r.get() );
+
+  // Make the compiler happy.
+  const T zero ( static_cast < T > ( 0 ) );
+  const T one  ( static_cast < T > ( 1 ) );
+
+  ra[R0C0] = ma[R0C0]; ra[R0C1] = ma[R0C1]; ra[R0C2] = ma[R0C2]; ra[R0C3] = zero;
+  ra[R1C0] = ma[R1C0]; ra[R1C1] = ma[R1C1]; ra[R1C2] = ma[R1C2]; ra[R1C3] = zero;
+  ra[R2C0] = ma[R2C0]; ra[R2C1] = ma[R2C1]; ra[R2C2] = ma[R2C2]; ra[R2C3] = zero;
+  ra[R3C0] = ma[R3C0]; ra[R3C1] = ma[R3C1]; ra[R3C2] = ma[R3C2]; ra[R3C3] = one;
+}
+template < class T, class I >
+inline Matrix44 < T, I > rotation ( const Matrix44 < T, I > &m )
+{
+  Matrix44 < T, I > r ( false ); // Do not initialize.
+  rotation ( m, r );
+  return r;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
 //  Useful typedefs.
 //
 ///////////////////////////////////////////////////////////////////////////////
