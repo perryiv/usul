@@ -34,7 +34,6 @@
 
 #include <cstdint>
 #include <cmath>
-// #include <iostream>
 #include <type_traits>
 
 
@@ -215,7 +214,7 @@ protected:
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-//  Helper function.
+//  Helper functions.
 //
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -224,6 +223,16 @@ bool isCloseFloat ( FloatType a, FloatType b, UnsignedIntegerType numAdjacentVal
 {
   typedef CloseFloat < FloatType > CloseFloatType;
   return CloseFloatType::compare ( a, b, numAdjacentValues );
+}
+template < class FloatType  >
+bool isCloseFloat ( FloatType a, FloatType b, int numAdjacentValues )
+{
+  typedef CloseFloat < FloatType > CloseFloatType;
+  typedef typename CloseFloatType::UnsignedInteger UnsignedInteger;
+  return ( ( numAdjacentValues >= 0 ) ?
+    CloseFloatType::compare ( a, b, static_cast < UnsignedInteger > ( numAdjacentValues ) ) :
+    false
+  );
 }
 
 
