@@ -45,7 +45,7 @@ cmake .. \
   -DUSUL_ENABLE_CODE_COVERAGE=ON
 cmake --build .
 
-tests/usul_testd --abort --use-colour=yes --durations=no
+tests/usul_test_d --abort --use-colour=yes --durations=no
 
 cd ..
 gcovr

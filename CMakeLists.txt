@@ -116,7 +116,7 @@ option ( USUL_BUILD_TESTS "Build the tests" OFF )
 
 # Set default postfix if none was given on the command line.
 if ( NOT DEFINED CMAKE_DEBUG_POSTFIX )
-  set ( CMAKE_DEBUG_POSTFIX "d" )
+  set ( CMAKE_DEBUG_POSTFIX "_d" )
 endif()
 
 # For debug builds we want the _DEBUG preprocessor symbol to be defined.
