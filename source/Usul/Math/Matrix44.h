@@ -719,14 +719,23 @@ inline bool isFinite ( const Matrix44 < T, I > &m )
   // Get the raw array for speed.
   const T *ma ( m.get() );
 
-  // Shortcut.
-  const auto f = std::isfinite < T >;
-
   return (
-    f ( ma[R0C0] ) && f ( ma[R0C1] ) && f ( ma[R0C2] ) && f ( ma[R0C3] ) &&
-    f ( ma[R1C0] ) && f ( ma[R1C1] ) && f ( ma[R1C2] ) && f ( ma[R1C3] ) &&
-    f ( ma[R2C0] ) && f ( ma[R2C1] ) && f ( ma[R2C2] ) && f ( ma[R2C3] ) &&
-    f ( ma[R3C0] ) && f ( ma[R3C1] ) && f ( ma[R3C2] ) && f ( ma[R3C3] )
+    std::isfinite ( ma[R0C0] ) &&
+    std::isfinite ( ma[R0C1] ) &&
+    std::isfinite ( ma[R0C2] ) &&
+    std::isfinite ( ma[R0C3] ) &&
+    std::isfinite ( ma[R1C0] ) &&
+    std::isfinite ( ma[R1C1] ) &&
+    std::isfinite ( ma[R1C2] ) &&
+    std::isfinite ( ma[R1C3] ) &&
+    std::isfinite ( ma[R2C0] ) &&
+    std::isfinite ( ma[R2C1] ) &&
+    std::isfinite ( ma[R2C2] ) &&
+    std::isfinite ( ma[R2C3] ) &&
+    std::isfinite ( ma[R3C0] ) &&
+    std::isfinite ( ma[R3C1] ) &&
+    std::isfinite ( ma[R3C2] ) &&
+    std::isfinite ( ma[R3C3] )
   );
 }
 

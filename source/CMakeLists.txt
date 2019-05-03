@@ -39,6 +39,11 @@ target_include_directories (
   $<INSTALL_INTERFACE:include>
 )
 
+# CMake will automatically add -I, -L, and -D (etc) appropriately.
+if ( UNIX )
+  target_link_libraries ( ${PROJECT_NAME} PUBLIC dl )
+endif()
+
 # Bake the version into the file name and create symlinks if appropriate.
 set_target_properties ( ${PROJECT_NAME} PROPERTIES
   VERSION ${PROJECT_VERSION}
