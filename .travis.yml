@@ -27,7 +27,7 @@ compiler: gcc
 # We use the add_compile_definitions command in a CMakeLists.txt file.
 # https://cmake.org/cmake/help/v3.12/release/3.12.html
 # https://docs.travis-ci.com/user/languages/cpp/
-dist: xenial
+dist: gcc:7
 
 # We install things so we need sudo.
 sudo: required
