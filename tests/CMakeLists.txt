@@ -62,6 +62,7 @@ set ( SOURCE_FILES
   ./Usul/Pointers/SmartPointer.cpp
   ./Usul/Tools/Cast.cpp
   ./Usul/Tools/NoThrow.cpp
+  ./Usul/Tools/Properties.cpp
   ./Usul/Tools/ScopedCall.cpp
   ./Usul/Main.cpp
   ./Usul/Version.cpp
