@@ -21,10 +21,6 @@
 
 #include "catch2/catch.hpp"
 
-#include <map>
-#include <string>
-#include <variant>
-
 namespace Math = Usul::Math;
 namespace Properties = Usul::Tools::Properties;
 
@@ -37,18 +33,7 @@ namespace Properties = Usul::Tools::Properties;
 
 TEST_CASE ( "Properties" )
 {
-  typedef std::variant <
-    char, int, long,
-    unsigned char, unsigned int, unsigned long,
-    float, double,
-    std::string,
-    Usul::Math::Vec2d, Usul::Math::Vec2f,
-    Usul::Math::Vec3d, Usul::Math::Vec3f,
-    Usul::Math::Vec4d, Usul::Math::Vec4f,
-    Usul::Math::Matrix44d, Usul::Math::Matrix44f
-  > Variant;
-
-  typedef std::map < std::string, Variant > Map;
+  typedef Properties::MapType Map;
 
   const Math::Matrix44d md1 (
     0.0, 1.0, 2.0, 3.0,

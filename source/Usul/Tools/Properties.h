@@ -18,15 +18,25 @@
 
 #include "Usul/Tools/NoCopying.h"
 
+#include <any>
+#include <map>
 #include <stdexcept>
 #include <string>
 #include <type_traits>
-#include <variant>
 
 
 namespace Usul {
 namespace Tools {
 namespace Properties {
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  The container of properties.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+typedef std::map < std::string, std::any > MapType;
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -63,7 +73,16 @@ inline bool has ( const MapType &container, const std::string &name )
     return false;
   }
 
-  return std::holds_alternative < ValueType > ( i->second );
+  try
+  {
+    std::any_cast < ValueType > ( i->second );
+    return true;
+  }
+
+  catch ( ... )
+  {
+    return false;
+  }
 }
 
 
@@ -86,12 +105,15 @@ inline ValueType get ( const MapType &container, const std::string &name, ValueT
     return defaultValue;
   }
 
-  if ( std::holds_alternative < ValueType > ( i->second ) )
+  try
   {
-    return std::get < ValueType > ( i->second );
+    return std::any_cast < ValueType > ( i->second );
   }
 
-  return defaultValue;
+  catch ( ... )
+  {
+    return defaultValue;
+  }
 }
 
 
@@ -114,12 +136,15 @@ inline ValueType require ( const MapType &container, const std::string &name )
     throw std::runtime_error ( "Property '" + name + "' not found in container" );
   }
 
-  if ( std::holds_alternative < ValueType > ( i->second ) )
+  try
   {
-    return std::get < ValueType > ( i->second );
+    return std::any_cast < ValueType > ( i->second );
   }
 
-  throw std::runtime_error ( "Property '" + name + "' is the wrong type" );
+  catch ( ... )
+  {
+    throw std::runtime_error ( "Property '" + name + "' is the wrong type" );
+  }
 }
 
 
