@@ -149,4 +149,42 @@ TEST_CASE ( "Properties" )
     REQUIRE ( Math::equal (  md1, Properties::get ( properties, "matrix",  md2 ) ) );
     REQUIRE ( 1.0 == Properties::get ( properties, "radius",  2.0 ) );
   }
+
+  SECTION ( "Should throw" )
+  {
+    try
+    {
+      Properties::require < Math::Vec3f > ( Map(), "center" );
+      REQUIRE ( false ); // Should not get to this line.
+    }
+    catch ( const std::exception &e )
+    {
+      // We should be here because of the exception.
+      REQUIRE ( std::string ( e.what() ) == std::string ( "Property 'center' not found in container" ) );
+    }
+
+    try
+    {
+      Properties::require < Math::Vec3f > ( properties, "center" );
+      REQUIRE ( false ); // Should not get to this line.
+    }
+    catch ( const std::exception &e )
+    {
+      // We should be here because of the exception.
+      REQUIRE ( std::string ( e.what() ) == std::string ( "Property 'center' is the wrong type" ) );
+    }
+  }
+
+  SECTION ( "Should not throw" )
+  {
+    try
+    {
+      REQUIRE ( Math::equal ( v3d1, Properties::require < Math::Vec3d > ( properties, "center" ) ) );
+      REQUIRE ( true ); // We should be here.
+    }
+    catch ( ... )
+    {
+      REQUIRE ( false ); // Should not get to this line.
+    }
+  }
 }
