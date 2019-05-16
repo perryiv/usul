@@ -114,17 +114,20 @@ TEST_CASE ( "Properties" )
     REQUIRE ( Math::equal ( v4f2, Properties::get ( properties, "center", v4f2 ) ) );
     REQUIRE ( Math::equal ( v4d2, Properties::get ( properties, "center", v4d2 ) ) );
     REQUIRE ( Math::equal (  md2, Properties::get ( properties, "center",  md2 ) ) );
+    REQUIRE ( Math::equal (  md2, Properties::get ( Map(),      "center",  md2 ) ) );
 
     REQUIRE ( Math::equal ( v3f2, Properties::get ( properties, "color", v3f2 ) ) );
     REQUIRE ( Math::equal ( v3d2, Properties::get ( properties, "color", v3d2 ) ) );
     REQUIRE ( Math::equal ( v4d2, Properties::get ( properties, "color", v4d2 ) ) );
     REQUIRE ( Math::equal (  md2, Properties::get ( properties, "color",  md2 ) ) );
+    REQUIRE ( Math::equal (  md2, Properties::get ( Map(),      "color",  md2 ) ) );
 
     REQUIRE ( 1.0f == Properties::get ( properties, "radius", 1.0f ) );
     REQUIRE ( 1L   == Properties::get ( properties, "radius", 1L   ) );
 
     REQUIRE ( Math::equal (  mf2, Properties::get ( properties, "matrix",  mf2 ) ) );
     REQUIRE ( Math::equal ( v3f2, Properties::get ( properties, "matrix", v3f2 ) ) );
+    REQUIRE ( Math::equal ( v3f2, Properties::get ( Map(),      "matrix", v3f2 ) ) );
   }
 
   SECTION ( "Should not return default" )
