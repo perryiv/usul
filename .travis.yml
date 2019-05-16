@@ -13,24 +13,33 @@
 #
 #  These references helped:
 #  https://docs.travis-ci.com/user/languages/cpp/
+#  https://cmake.org/cmake/help/v3.12/release/3.12.html
 #  https://github.com/richelbilderbeek/travis_cpp_tutorial/blob/master/.travis.yml
+#  https://stackoverflow.com/questions/41916656/how-to-use-travis-ci-to-build-modern-c-using-modern-cmake
 #
 ################################################################################
-
-# We're compiling C++ code.
-language: cpp
-
-# For now we're only using this compiler.
-compiler: gcc
 
 # This flavor of linux comes with the version of cmake and gcc we need.
 # We use the add_compile_definitions command in a CMakeLists.txt file.
 # https://cmake.org/cmake/help/v3.12/release/3.12.html
 # https://docs.travis-ci.com/user/languages/cpp/
-dist: gcc:7
+dist: xenial
+
+# We're compiling C++ code.
+language: cpp
 
 # We install things so we need sudo.
 sudo: required
+
+# We need gcc version 7 because we are using C++17 features.
+# https://stackoverflow.com/questions/41916656/how-to-use-travis-ci-to-build-modern-c-using-modern-cmake
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - gcc-7
+      - g++-7
 
 # Install what we need.
 install:
@@ -38,6 +47,10 @@ install:
 
 # The sequence of commands that get executed.
 script:
+
+# Use the new gcc installed above:
+- export CC=gcc-7
+- export CXX=g++-7
 
 # Set up Catch2 one level up so that gcovr does not analyze it too.
 - pushd .
