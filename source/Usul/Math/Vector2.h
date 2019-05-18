@@ -19,7 +19,9 @@
 #include "Usul/Errors/Check.h"
 
 #include <cmath>
+#include <cstdlib>
 #include <stdexcept>
+#include <type_traits>
 
 
 namespace Usul {
@@ -425,6 +427,27 @@ inline bool isFinite ( const Vector2 < T, I > &v )
     std::isfinite ( va[1] )
   );
 }
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Generate a vector with random numbers between the given range.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+template < class T, class I >
+inline void random ( Vector2 < T, I > &v, const T &mn = 0, const T &mx = 1 )
+{
+  // Make sure we're working with a floating point number type.
+  static_assert ( std::is_floating_point < T >::value, "Not a floating-point number type" );
+
+  // Shortcut.
+  const T randMax = static_cast < T > ( RAND_MAX );
+
+  // Assign random numbers in the range.
+  v[0] = ( mn + ( ( static_cast < T > ( std::rand() ) / randMax ) * ( mx - mn ) ) );
+  v[1] = ( mn + ( ( static_cast < T > ( std::rand() ) / randMax ) * ( mx - mn ) ) );
+};
 
 
 ///////////////////////////////////////////////////////////////////////////////
