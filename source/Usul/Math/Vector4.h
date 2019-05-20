@@ -483,7 +483,7 @@ inline void random ( Vector4 < T, I > &v, const T &mn = 0, const T &mx = 1 )
   v[1] = ( mn + ( ( static_cast < T > ( std::rand() ) / randMax ) * ( mx - mn ) ) );
   v[2] = ( mn + ( ( static_cast < T > ( std::rand() ) / randMax ) * ( mx - mn ) ) );
   v[3] = ( mn + ( ( static_cast < T > ( std::rand() ) / randMax ) * ( mx - mn ) ) );
-};
+}
 
 
 ///////////////////////////////////////////////////////////////////////////////
