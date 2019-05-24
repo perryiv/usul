@@ -75,7 +75,18 @@ inline bool has ( const MapType &container, const std::string &name )
 
   try
   {
+    // Visual C++ does not like the unused value returned by the cast.
+    #ifdef _WIN32
+    # pragma warning ( push )
+    # pragma warning ( disable : 4834 )
+    #endif
+
     std::any_cast < ValueType > ( i->second );
+
+    #ifdef _WIN32
+    # pragma warning ( pop )
+    #endif
+
     return true;
   }
 
