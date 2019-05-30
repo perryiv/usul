@@ -43,11 +43,11 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifdef _WIN32
-# define USUL_GET_MESSAGE_OR_DEFAULT(message) ( message ? message : "Expression is false" )
-#else
-# define USUL_GET_MESSAGE_OR_DEFAULT(message) ( ( nullptr != message ) ? message : "Expression is false" )
-#endif
+#define USUL_GET_MESSAGE_OR_DEFAULT(message) ( \
+  std::string ( message ).empty() ? \
+  std::string ( "Expression is false" ) : \
+  std::string ( message ) \
+)
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -57,7 +57,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #define USUL_CHECK_AND_THROW(expression,message) \
-  if ( false == expression ) \
+  if ( false == ( expression ) ) \
   { \
     throw std::runtime_error ( Usul::Strings::format ( \
       USUL_GET_MESSAGE_OR_DEFAULT ( message ), \
@@ -74,7 +74,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #define USUL_CHECK_AND_LOG(expression,message)\
-if ( false == expression ) \
+if ( false == ( expression ) ) \
 { \
   std::clog << ( Usul::Strings::format ( \
     USUL_GET_MESSAGE_OR_DEFAULT ( message ), \
