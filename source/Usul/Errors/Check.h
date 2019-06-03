@@ -83,6 +83,13 @@ if ( false == ( expression ) ) \
   ) ) << std::endl; \
 }
 
+#ifdef _DEBUG
+#define USUL_CHECK_AND_LOG_DEBUG(expression,message) \
+  USUL_CHECK_AND_LOG ( expression, message )
+#else
+#define USUL_CHECK_AND_LOG_DEBUG(expression,message)
+#endif
+
 
 ///////////////////////////////////////////////////////////////////////////////
 //
