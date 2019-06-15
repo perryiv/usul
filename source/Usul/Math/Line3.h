@@ -17,6 +17,7 @@
 #define _USUL_MATH_LINE_3D_H_
 
 #include "Usul/Errors/Check.h"
+#include "Usul/Math/Matrix44.h"
 #include "Usul/Math/Vector3.h"
 
 #include <stdexcept>
@@ -235,6 +236,30 @@ inline bool equal ( const Line3 < T > &a, const Line3 < T > &b )
 {
   typedef Line3 < T > LineType;
   return ( LineType::equal ( a, b ) );
+}
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+//  Transform the line.
+//
+/////////////////////////////////////////////////////////////////////////////
+
+template < class T, class I >
+inline void transform ( const Matrix44 < T, I > &m, const Line3 < T > &a, Line3 < T > &b )
+{
+  b.set (
+    Usul::Math::multiply ( m, a.start() ),
+    Usul::Math::multiply ( m, a.end() )
+  );
+}
+template < class T, class I >
+inline Line3 < T > transform ( const Matrix44 < T, I > &m, const Line3 < T > &a )
+{
+  return Line3 < T > (
+    Usul::Math::multiply ( m, a.start() ),
+    Usul::Math::multiply ( m, a.end() )
+  );
 }
 
 
