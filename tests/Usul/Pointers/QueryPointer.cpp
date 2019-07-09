@@ -36,7 +36,7 @@ struct Component1 : public Helpers::ClassA,
   USUL_REFERENCED_CLASS ( Component1 );
   USUL_DECLARE_IUNKNOWN_MEMBERS;
   Component1() : BaseClass() {}
-  virtual bool doTest1() { return true; }
+  virtual bool doTest1() override { return true; }
 protected:
   ~Component1() {}
 };
@@ -60,7 +60,7 @@ struct Component2 : public Helpers::ClassA,
   USUL_REFERENCED_CLASS ( Component2 );
   USUL_DECLARE_IUNKNOWN_MEMBERS;
   Component2() : BaseClass() {}
-  virtual bool doTest2() { return true; }
+  virtual bool doTest2() override { return true; }
 protected:
   ~Component2() {}
 };
@@ -85,8 +85,8 @@ struct Component3 : public Helpers::ClassA,
   USUL_REFERENCED_CLASS ( Component3 );
   USUL_DECLARE_IUNKNOWN_MEMBERS;
   Component3() : BaseClass() {}
-  virtual bool doTest1() { return true; }
-  virtual bool doTest2() { return true; }
+  virtual bool doTest1() override { return true; }
+  virtual bool doTest2() override { return true; }
 protected:
   ~Component3() {}
 };

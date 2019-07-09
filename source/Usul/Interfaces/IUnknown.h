@@ -56,9 +56,9 @@ protected:
 ///////////////////////////////////////////////////////////////////////////////
 
 #define USUL_DECLARE_IUNKNOWN_MEMBERS \
-  virtual Usul::Interfaces::IUnknown *  queryInterface ( unsigned long iid ); \
-  virtual void                          ref(); \
-  virtual void                          unref ( bool allowDeletion = true )
+  virtual Usul::Interfaces::IUnknown *  queryInterface ( unsigned long iid ) override; \
+  virtual void                          ref() override; \
+  virtual void                          unref ( bool allowDeletion = true ) override
 
 
 ///////////////////////////////////////////////////////////////////////////////
