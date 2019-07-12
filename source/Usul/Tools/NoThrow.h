@@ -102,4 +102,35 @@ inline bool noThrow ( Function function, const char *filename, unsigned int line
   Usul::Tools::noThrow ( function, __FILE__, __LINE__, &std::clog )
 
 
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Macro used to catch all exceptions and log them.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+#define USUL_TOOLS_CATCH_AND_LOG(stream) \
+  catch ( const std::exception &e ) \
+  { \
+    if ( stream ) \
+    { \
+      *stream << ( Usul::Strings::format ( \
+        "Standard exception caught: ", e.what(), \
+        ", File: ", __FILE__, \
+        ", Line: ", __LINE__ \
+      ) ) << std::endl; \
+    } \
+  } \
+  catch ( ... ) \
+  { \
+    if ( stream ) \
+    { \
+      *stream << ( Usul::Strings::format ( \
+        "Unknown exception caught", \
+        ", File: ", __FILE__, \
+        ", Line: ", __LINE__ \
+      ) ) << std::endl; \
+    } \
+  } \
+
+
 #endif // _USUL_TOOLS_NO_THROW_H_
