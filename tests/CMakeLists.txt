@@ -78,4 +78,4 @@ set_target_properties ( ${PROJECT_NAME}_test PROPERTIES DEBUG_POSTFIX ${CMAKE_DE
 
 # Tell cmake we are going to use these libraries.
 # It will automatically add -I, -L, and -D (etc) appropriately.
-target_link_libraries ( ${PROJECT_NAME}_test PRIVATE ${PROJECT_NAME} ${CMAKE_DL_LIBS} )
+target_link_libraries ( ${PROJECT_NAME}_test PRIVATE ${PROJECT_NAME} ${CMAKE_DL_LIBS} Catch2::Catch2 )
