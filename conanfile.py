@@ -6,7 +6,7 @@ intel = python_requires("intel_helper/0.0.0@vaone-dev/master")
 
 class Usul(intel.ConanFile):
     name = "usul"
-    version = "0.1.0"
+    version = "1.0.1"
     settings = "os", "arch", "compiler", "build_type"
     options = {"shared": [True, False], "build_tests": [True, False]}
     default_options = {"shared": True, "build_tests": False}
