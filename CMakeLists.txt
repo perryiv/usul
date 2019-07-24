@@ -32,7 +32,12 @@
 cmake_minimum_required ( VERSION 3.12.0 )
 
 # The name of this project.
-project ( usul VERSION 1.0.1 )
+project ( usul VERSION 1.0.1 LANGUAGES CXX )
+
+# Default to building usul as a shared library
+if ( NOT DEFINED BUILD_SHARED_LIBS )
+  set ( BUILD_SHARED_LIBS ON )
+endif()
 
 # Use this C++ standard unless the user specifies otherwise with:
 # cmake path/to/source/dir -DCMAKE_CXX_STANDARD=14
@@ -44,6 +49,9 @@ endif()
 if ( NOT DEFINED CMAKE_CXX_EXTENSIONS )
   set ( CMAKE_CXX_EXTENSIONS OFF )
 endif()
+
+set ( CMAKE_CXX_VISIBILITY_PRESET hidden )
+set ( CMAKE_VISIBILITY_INLINES_HIDDEN ON )
 
 # A convenient variable for telling the compiler to use these header files.
 set ( USUL_CONFIG_DIR_INPUT ${CMAKE_CURRENT_SOURCE_DIR}/config )

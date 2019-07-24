@@ -13,9 +13,6 @@
 #
 ################################################################################
 
-# We are compling usul.
-add_compile_definitions ( COMPILING_USUL )
-
 # We want position independent code.
 set ( CMAKE_POSITION_INDEPENDENT_CODE ON )
 
@@ -29,7 +26,14 @@ set ( SOURCE_FILES
 
 # Make the library using the source files.
 # Hey CMake, here is a library and all the stuff you need to know about it.
-add_library ( ${PROJECT_NAME} SHARED ${SOURCE_FILES} )
+add_library ( ${PROJECT_NAME} ${SOURCE_FILES} )
+
+# We are compling usul.
+target_compile_definitions ( ${PROJECT_NAME} PRIVATE COMPILING_USUL )
+
+if ( NOT BUILD_SHARED_LIBS )
+  target_compile_definitions ( ${PROJECT_NAME} PUBLIC USUL_STATIC_DEFINE )
+endif()
 
 # Tell cmake that other projects that use this one will need our header files.
 target_include_directories (
