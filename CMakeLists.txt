@@ -50,8 +50,12 @@ if ( NOT DEFINED CMAKE_CXX_EXTENSIONS )
   set ( CMAKE_CXX_EXTENSIONS OFF )
 endif()
 
-set ( CMAKE_CXX_VISIBILITY_PRESET hidden )
-set ( CMAKE_VISIBILITY_INLINES_HIDDEN ON )
+# Make default __attribute__ visibility hidden not public to hide non-exported symbols.
+# It is not working on Mac so we disable it.
+if ( NOT APPLE )
+  set ( CMAKE_CXX_VISIBILITY_PRESET hidden )
+  set ( CMAKE_VISIBILITY_INLINES_HIDDEN ON )
+endif()
 
 # A convenient variable for telling the compiler to use these header files.
 set ( USUL_CONFIG_DIR_INPUT ${CMAKE_CURRENT_SOURCE_DIR}/config )
