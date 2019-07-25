@@ -15,9 +15,9 @@
 
 # Define how things are installed.
 if ( WIN32 AND NOT CYGWIN )
-  set ( INSTALL_CMAKE_DIR CMake )
+  set ( INSTALL_CMAKE_DIR cmake )
 else()
-  set ( INSTALL_CMAKE_DIR lib/CMake/${PROJECT_NAME} )
+  set ( INSTALL_CMAKE_DIR lib/cmake/${PROJECT_NAME} )
 endif()
 
 # Specify how things are exported.
