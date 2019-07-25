@@ -1,0 +1,10 @@
+include: https://gitlab.esi-group.com/VAOne-conan/ci/raw/master/package.yml
+
+variables:
+  CONAN_SOURCE_FOLDER: ""
+
+.conan_deploy:
+  only:
+    refs:
+      - master
+      - develop

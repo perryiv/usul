@@ -55,9 +55,13 @@ script:
 # Set up Catch2 one level up so that gcovr does not analyze it too.
 - pushd .
 - cd ..
-- mkdir -p external/catch2
-- curl https://raw.githubusercontent.com/catchorg/Catch2/master/single_include/catch2/catch.hpp > external/catch2/catch.hpp
-- export CATCH2_INC_DIR=`pwd`/external
+- export Catch2_ROOT="$(pwd)/Catch2"
+- curl -L# https://github.com/catchorg/Catch2/archive/v2.9.1.tar.gz | tar xz
+- cd Catch2-2.9.1
+- mkdir build
+- cd build
+- cmake ../ -DCMAKE_VERBOSE_MAKEFILE=ON -DBUILD_TESTING=OFF -DCATCH_INSTALL_DOCS=OFF -DCATCH_INSTALL_HELPERS=OFF -DCMAKE_INSTALL_PREFIX="${Catch2_ROOT}"
+- cmake --build . --target install
 - popd
 
 # Now we can run our script.

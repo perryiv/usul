@@ -13,9 +13,6 @@
 #
 ################################################################################
 
-# Let the user set the include path for Catch2.
-set ( CATCH2_INC_DIR $ENV{CATCH2_INC_DIR} CACHE PATH "Include path for Catch2 header file" )
-
 # Does the user want to generate code coverage?
 option ( USUL_ENABLE_CODE_COVERAGE
   "Generate test code coverage in supported configurations" OFF )
@@ -32,9 +29,6 @@ if ( USUL_ENABLE_CODE_COVERAGE )
     message ( WARNING "Test code coverage data not supported with current compiler" )
   endif()
 endif()
-
-# Add the include directory for catch.
-include_directories ( ${CATCH2_INC_DIR} )
 
 # Need to include files from this directory.
 include_directories ( ${CMAKE_CURRENT_SOURCE_DIR} )
@@ -78,4 +72,4 @@ set_target_properties ( ${PROJECT_NAME}_test PROPERTIES DEBUG_POSTFIX ${CMAKE_DE
 
 # Tell cmake we are going to use these libraries.
 # It will automatically add -I, -L, and -D (etc) appropriately.
-target_link_libraries ( ${PROJECT_NAME}_test PRIVATE ${PROJECT_NAME} ${CMAKE_DL_LIBS} )
+target_link_libraries ( ${PROJECT_NAME}_test PRIVATE ${PROJECT_NAME} ${CMAKE_DL_LIBS} Catch2::Catch2 )
