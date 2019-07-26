@@ -28,6 +28,54 @@ namespace Tools {
 
 ///////////////////////////////////////////////////////////////////////////////
 //
+//  Helper function for logging a standard exception.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+namespace Details
+{
+  template < class OutputStream >
+  inline void logStandardException ( const std::exception &e, const char *filename, unsigned int line, OutputStream *out )
+  {
+    if ( out )
+    {
+      // We output one string because that works best when multi-threaded.
+      *out << ( Usul::Strings::format (
+        "Standard exception caught: ", e.what(),
+        ", File: ", filename,
+        ", Line: ", line
+      ) ) << std::endl;
+    }
+  }
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Helper function for logging an unknown exception.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+namespace Details
+{
+  template < class OutputStream >
+  inline void logUnknownException ( const char *filename, unsigned int line, OutputStream *out )
+  {
+    if ( out )
+    {
+      // We output one string because that works best when multi-threaded.
+      *out << ( Usul::Strings::format (
+        "Unknown exception caught",
+        ", File: ", filename,
+        ", Line: ", line
+      ) ) << std::endl;
+    }
+  }
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
 //  Convenience function that prevents any exception from propagating.
 //
 ///////////////////////////////////////////////////////////////////////////////
@@ -47,26 +95,12 @@ inline bool noThrow ( Function function, const char *filename, unsigned int line
 
   catch ( const std::exception &e )
   {
-    if ( out )
-    {
-      *out << ( Usul::Strings::format (
-        "Standard exception caught: ", e.what(),
-        ", File: ", filename,
-        ", Line: ", line
-      ) ) << std::endl;
-    }
+    Details::logStandardException ( e, filename, line, out );
   }
 
   catch ( ... )
   {
-    if ( out )
-    {
-      *out << ( Usul::Strings::format (
-        "Unknown exception caught",
-        ", File: ", filename,
-        ", Line: ", line
-      ) ) << std::endl;
-    }
+    Details::logUnknownException ( filename, line, out );
   }
 
   // If we get to here then it did not work.
@@ -111,26 +145,12 @@ inline bool noThrow ( Function function, const char *filename, unsigned int line
 #define USUL_TOOLS_CATCH_AND_LOG(stream) \
   catch ( const std::exception &e ) \
   { \
-    if ( stream ) \
-    { \
-      *stream << ( Usul::Strings::format ( \
-        "Standard exception caught: ", e.what(), \
-        ", File: ", __FILE__, \
-        ", Line: ", __LINE__ \
-      ) ) << std::endl; \
-    } \
+    Usul::Tools::Details::logStandardException ( e, __FILE__, __LINE__, stream ); \
   } \
   catch ( ... ) \
   { \
-    if ( stream ) \
-    { \
-      *stream << ( Usul::Strings::format ( \
-        "Unknown exception caught", \
-        ", File: ", __FILE__, \
-        ", Line: ", __LINE__ \
-      ) ) << std::endl; \
-    } \
-  } \
+    Usul::Tools::Details::logUnknownException ( __FILE__, __LINE__, stream ); \
+  }
 
 
 #endif // _USUL_TOOLS_NO_THROW_H_
