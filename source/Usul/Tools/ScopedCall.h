@@ -16,6 +16,7 @@
 #ifndef _USUL_TOOLS_SCOPED_CALL_H_
 #define _USUL_TOOLS_SCOPED_CALL_H_
 
+#include "Usul/Macros/TokenAppend.h"
 #include "Usul/Tools/NoCopying.h"
 
 #include <functional>
@@ -49,9 +50,9 @@ private:
 } // namespace Usul
 
 
-// Helper macro.
+// This is the helper macro to use in your code.
 #define USUL_SCOPED_CALL(fun)\
-  Usul::Tools::ScopedCall scoped_call_at_line_##__LINE__ ( fun )
+  Usul::Tools::ScopedCall USUL_TOKEN_APPEND ( scoped_call_at_line_, __LINE__ ) ( fun )
 
 
 #endif // _USUL_TOOLS_SCOPED_CALL_H_
