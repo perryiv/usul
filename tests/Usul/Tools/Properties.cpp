@@ -14,7 +14,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "Usul/Math/Matrix44.h"
-#include "Usul/Math/Vector2.h"
 #include "Usul/Math/Vector3.h"
 #include "Usul/Math/Vector4.h"
 #include "Usul/Tools/Properties.h"
@@ -65,7 +64,10 @@ TEST_CASE ( "Properties" )
   const Map properties = {
     { "center", v3d1 },
     { "color", v4f1 },
-    { "radius", 1.0 },
+    { "radiusd", 1.0 },
+    { "radiusf", 1.0f },
+    { "radiusi", 1 },
+    { "radiusu", 1u },
     { "matrix", md1 }
   };
 
@@ -73,7 +75,10 @@ TEST_CASE ( "Properties" )
   {
     REQUIRE (  true == Properties::has ( properties, "center" ) );
     REQUIRE (  true == Properties::has ( properties, "color" ) );
-    REQUIRE (  true == Properties::has ( properties, "radius" ) );
+    REQUIRE (  true == Properties::has ( properties, "radiusd" ) );
+    REQUIRE (  true == Properties::has ( properties, "radiusf" ) );
+    REQUIRE (  true == Properties::has ( properties, "radiusi" ) );
+    REQUIRE (  true == Properties::has ( properties, "radiusu" ) );
     REQUIRE (  true == Properties::has ( properties, "matrix" ) );
 
     REQUIRE ( false == Properties::has ( properties, "corner" ) );
@@ -89,9 +94,25 @@ TEST_CASE ( "Properties" )
     REQUIRE ( false == Properties::has < Math::Vec4d > ( properties, "color" ) );
     REQUIRE ( false == Properties::has < float       > ( properties, "color" ) );
 
-    REQUIRE (  true == Properties::has < double > ( properties, "radius" ) );
-    REQUIRE ( false == Properties::has < float  > ( properties, "radius" ) );
-    REQUIRE ( false == Properties::has < int    > ( properties, "radius" ) );
+    REQUIRE (  true == Properties::has < double       > ( properties, "radiusd" ) );
+    REQUIRE ( false == Properties::has < float        > ( properties, "radiusd" ) );
+    REQUIRE ( false == Properties::has < int          > ( properties, "radiusd" ) );
+    REQUIRE ( false == Properties::has < unsigned int > ( properties, "radiusd" ) );
+
+    REQUIRE ( false == Properties::has < double       > ( properties, "radiusf" ) );
+    REQUIRE (  true == Properties::has < float        > ( properties, "radiusf" ) );
+    REQUIRE ( false == Properties::has < int          > ( properties, "radiusf" ) );
+    REQUIRE ( false == Properties::has < unsigned int > ( properties, "radiusf" ) );
+
+    REQUIRE ( false == Properties::has < double       > ( properties, "radiusi" ) );
+    REQUIRE ( false == Properties::has < float        > ( properties, "radiusi" ) );
+    REQUIRE (  true == Properties::has < int          > ( properties, "radiusi" ) );
+    REQUIRE ( false == Properties::has < unsigned int > ( properties, "radiusi" ) );
+
+    REQUIRE ( false == Properties::has < double       > ( properties, "radiusu" ) );
+    REQUIRE ( false == Properties::has < float        > ( properties, "radiusu" ) );
+    REQUIRE ( false == Properties::has < int          > ( properties, "radiusu" ) );
+    REQUIRE (  true == Properties::has < unsigned int > ( properties, "radiusu" ) );
 
     REQUIRE (  true == Properties::has < Math::Matrix44d > ( properties, "matrix" ) );
     REQUIRE ( false == Properties::has < Math::Matrix44f > ( properties, "matrix" ) );
@@ -122,8 +143,8 @@ TEST_CASE ( "Properties" )
     REQUIRE ( Math::equal (  md2, Properties::get ( properties, "color",  md2 ) ) );
     REQUIRE ( Math::equal (  md2, Properties::get ( Map(),      "color",  md2 ) ) );
 
-    REQUIRE ( 1.0f == Properties::get ( properties, "radius", 1.0f ) );
-    REQUIRE ( 1L   == Properties::get ( properties, "radius", 1L   ) );
+    REQUIRE ( 1.0f == Properties::get ( properties, "radiusd", 1.0f ) );
+    REQUIRE ( 1L   == Properties::get ( properties, "radiusd", 1L   ) );
 
     REQUIRE ( Math::equal (  mf2, Properties::get ( properties, "matrix",  mf2 ) ) );
     REQUIRE ( Math::equal ( v3f2, Properties::get ( properties, "matrix", v3f2 ) ) );
@@ -135,7 +156,7 @@ TEST_CASE ( "Properties" )
     REQUIRE ( Math::equal ( v3d1, Properties::get ( properties, "center", v3d2 ) ) );
     REQUIRE ( Math::equal ( v4f1, Properties::get ( properties, "color",  v4f2 ) ) );
     REQUIRE ( Math::equal (  md1, Properties::get ( properties, "matrix",  md2 ) ) );
-    REQUIRE ( 1.0 == Properties::get ( properties, "radius",  2.0 ) );
+    REQUIRE ( 1.0 == Properties::get ( properties, "radiusd",  2.0 ) );
   }
 
   SECTION ( "Should throw" )
