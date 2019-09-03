@@ -21,6 +21,8 @@ set ( SOURCE_FILES
   ./Usul/Base/Referenced.cpp
   ./Usul/Plugins/Library.cpp
   ./Usul/Plugins/Manager.cpp
+  ./Usul/Properties/Map.cpp
+  ./Usul/Properties/Object.cpp
   ./Usul/System/LastError.cpp
 )
 
