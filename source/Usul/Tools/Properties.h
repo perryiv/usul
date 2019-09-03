@@ -90,7 +90,7 @@ inline bool has ( const MapType &container, const std::string &name )
     return true;
   }
 
-  catch ( ... )
+  catch ( const std::bad_any_cast & )
   {
     return false;
   }
@@ -121,7 +121,7 @@ inline ValueType get ( const MapType &container, const std::string &name, ValueT
     return std::any_cast < ValueType > ( i->second );
   }
 
-  catch ( ... )
+  catch ( const std::bad_any_cast & )
   {
     return defaultValue;
   }
@@ -152,7 +152,7 @@ inline ValueType require ( const MapType &container, const std::string &name )
     return std::any_cast < ValueType > ( i->second );
   }
 
-  catch ( ... )
+  catch ( const std::bad_any_cast & )
   {
     throw std::runtime_error ( "Property '" + name + "' is the wrong type" );
   }
