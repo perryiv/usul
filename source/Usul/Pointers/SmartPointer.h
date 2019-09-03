@@ -215,13 +215,21 @@ struct SmartPointer
   //
   /////////////////////////////////////////////////////////////////////////////
 
+  bool equal ( const ThisType &p ) const
+  {
+    return _p == p._p; // Do not use get() because it may throw.
+  }
+  bool equal ( const T *p ) const
+  {
+    return _p == p;
+  }
   bool operator == ( const ThisType &p ) const
   {
-    return _p == p.get();
+    return this->equal ( p );
   }
   bool operator == ( const T *p ) const
   {
-    return _p == p;
+    return this->equal ( p );
   }
 
 
@@ -233,11 +241,11 @@ struct SmartPointer
 
   bool operator != ( const ThisType &p ) const
   {
-    return _p != p.get();
+    return !this->equal ( p );
   }
   bool operator != ( const T *p ) const
   {
-    return _p != p;
+    return !this->equal ( p );
   }
 
 
@@ -249,7 +257,7 @@ struct SmartPointer
 
   bool operator < ( const ThisType &p ) const
   {
-    return _p < p.get();
+    return _p < p._p; // Do not use get() because it may throw.
   }
 
 
