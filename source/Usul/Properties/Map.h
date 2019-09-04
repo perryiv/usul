@@ -19,6 +19,7 @@
 #include "Usul/Properties/Property.h"
 #include "Usul/Strings/Format.h"
 
+#include <cstddef>
 #include <map>
 #include <stdexcept>
 #include <string>
@@ -49,19 +50,28 @@ public:
   // Use reference counting.
   virtual ~Map();
 
+  // Clear the map.
+  void clear();
+
   // Is the map empty?
   bool empty() const { return _values.empty(); }
+
+  // Erase the value.
+  void erase ( const std::string &name );
 
   // Get the value.
   template < class T >
   const T &get ( const std::string &name, const T &defaultValue ) const;
 
-  // Get the internal values.
-  const Values &getValues() const { return _values; }
+  // Is there a property with this name?
+  bool has ( const std::string &name ) const;
 
   // Insert the value.
   template < class T >
   void insert ( const std::string &name, const T &value );
+  void insert ( const std::string &name, const std::string &value );
+  void insert ( const std::string &name, const char *value );
+  void insert ( const std::string &name, std::nullptr_t value );
 
   // Get the value or throw an exception.
   template < class T >
@@ -73,6 +83,12 @@ public:
   // Insert or update the value.
   template < class T >
   void update ( const std::string &name, const T &value );
+  void update ( const std::string &name, const std::string &value );
+  void update ( const std::string &name, const char *value );
+  void update ( const std::string &name, std::nullptr_t value );
+
+  // Get the internal values.
+  const Values &values() const { return _values; }
 
 protected:
 
@@ -96,7 +112,7 @@ private:
 
 inline bool equal ( const Map &a, const Map &b )
 {
-  return ( a.getValues() == b.getValues() );
+  return ( a.values() == b.values() );
 }
 inline bool operator == ( const Map &a, const Map &b )
 {

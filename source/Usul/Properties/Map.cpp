@@ -103,5 +103,85 @@ Map::Object *Map::_getObject ( const std::string &name )
 }
 
 
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Clear the map.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+void Map::clear()
+{
+  _values.clear();
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Erase the property.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+void Map::erase ( const std::string &name )
+{
+  Values::iterator i = _values.find ( name );
+  if ( _values.end() != i )
+  {
+    _values.erase ( i );
+  }
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Is there a property with this name?
+//
+///////////////////////////////////////////////////////////////////////////////
+
+bool Map::has ( const std::string &name ) const
+{
+  return ( _values.end() != _values.find ( name ) );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Insert the value.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+void Map::insert ( const std::string &name, const std::string &value )
+{
+  this->insert < std::string > ( name, value );
+}
+void Map::insert ( const std::string &name, const char *value )
+{
+  this->insert ( name, std::string ( value ) );
+}
+void Map::insert ( const std::string &name, std::nullptr_t value )
+{
+  this->insert < std::nullptr_t > ( name, value );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Insert or update the value.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+void Map::update ( const std::string &name, const std::string &value )
+{
+  this->update < std::string > ( name, value );
+}
+void Map::update ( const std::string &name, const char *value )
+{
+  this->update ( name, std::string ( value ) );
+}
+void Map::update ( const std::string &name, std::nullptr_t value )
+{
+  this->update < std::nullptr_t > ( name, value );
+}
+
+
 } // namespace Properties
 } // namespace Usul

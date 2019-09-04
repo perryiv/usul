@@ -73,7 +73,7 @@ TEST_CASE ( "Property Functions" )
   {
     const Map a;
     const Map b ( a );
-    const Map c ( a.getValues() );
+    const Map c ( a.values() );
     const Map d ( COMMON_CONSTRUCTOR_ARGUMENTS );
   }
 
@@ -81,7 +81,7 @@ TEST_CASE ( "Property Functions" )
   {
     const Map a;
     const Map b = a;
-    const Map c = a.getValues();
+    const Map c = a.values();
     const Map d = { COMMON_CONSTRUCTOR_ARGUMENTS };
   }
 
@@ -141,6 +141,14 @@ TEST_CASE ( "Property Functions" )
     REQUIRE ( Math::equal ( v3f1, a.get < Math::Vec3f     > ( "v3f1", v3f2 ) ) );
     REQUIRE ( Math::equal ( v4d1, a.get < Math::Vec4d     > ( "v4d1", v4d2 ) ) );
     REQUIRE ( Math::equal ( v4f1, a.get < Math::Vec4f     > ( "v4f1", v4f2 ) ) );
+
+    a.insert ( "empty string", "" );
+    REQUIRE ( true == a.has ( "empty string" ) );
+    REQUIRE ( "" == a.get < std::string > ( "empty string", "not empty" ) );
+
+    a.insert ( "nullptr", nullptr );
+    REQUIRE ( true == a.has ( "nullptr" ) );
+    REQUIRE ( nullptr == a.require < std::nullptr_t > ( "nullptr" ) );
   }
 
   SECTION ( "Second insertion should fail" )
@@ -163,6 +171,62 @@ TEST_CASE ( "Property Functions" )
 
     a.update ( "p1", 20 );
     REQUIRE ( 20 == a.get < int > ( "p1", 100 ) );
+
+    a.update ( "p1", "p1" );
+    REQUIRE ( "p1" == a.get < std::string > ( "p1", "p1" ) );
+  }
+
+  SECTION ( "Can clear the map" )
+  {
+    Map a;
+
+    REQUIRE ( 0 == a.size() );
+
+    a.insert ( "p1", "hi" );
+    a.insert ( "p2", 100  );
+
+    REQUIRE ( 2 == a.size() );
+
+    a.clear();
+
+    REQUIRE ( 0 == a.size() );
+  }
+
+  SECTION ( "Can erase properties" )
+  {
+    Map a;
+
+    a.insert ( "p1", "hi" );
+    a.insert ( "p2", 100  );
+    a.insert ( "p3", 1.0  );
+    a.insert ( "p4", 42   );
+    REQUIRE ( 4 == a.size() );
+
+    REQUIRE (  true == a.has ( "p1" ) );
+    REQUIRE (  true == a.has ( "p2" ) );
+    REQUIRE (  true == a.has ( "p3" ) );
+    REQUIRE (  true == a.has ( "p4" ) );
+    REQUIRE ( false == a.has ( "p5" ) );
+
+    a.erase ( "p1" );
+    REQUIRE ( 3 == a.size() );
+    REQUIRE ( false == a.has ( "p1" ) );
+
+    a.erase ( "wrong name" );
+    REQUIRE ( 3 == a.size() );
+    REQUIRE ( false == a.has ( "wrong name" ) );
+
+    a.erase ( "p2" );
+    REQUIRE ( 2 == a.size() );
+    REQUIRE ( false == a.has ( "p2" ) );
+
+    a.erase ( "p3" );
+    REQUIRE ( 1 == a.size() );
+    REQUIRE ( false == a.has ( "p3" ) );
+
+    a.erase ( "p4" );
+    REQUIRE ( 0 == a.size() );
+    REQUIRE ( false == a.has ( "p4" ) );
   }
 
   SECTION ( "Can insert and require properties" )
@@ -173,11 +237,13 @@ TEST_CASE ( "Property Functions" )
     a.insert ( "1f", 1.0f );
     a.insert ( "1i", 1 );
     a.insert ( "1u", 1u );
+    a.insert ( "p1", "p1" );
 
     REQUIRE ( 1.0  == a.require < double       > ( "1d" ) );
     REQUIRE ( 1.0f == a.require < float        > ( "1f" ) );
     REQUIRE ( 1    == a.require < int          > ( "1i" ) );
     REQUIRE ( 1u   == a.require < unsigned int > ( "1u" ) );
+    REQUIRE ( "p1" == a.require < std::string  > ( "p1" ) );
 
     a.insert ( "md1", md1 );
     a.insert ( "v3d1", v3d1 );
