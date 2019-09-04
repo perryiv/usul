@@ -116,7 +116,7 @@ TEST_CASE ( "Property Functions" )
     REQUIRE ( Usul::Properties::equal ( c, d ) );
   }
 
-  SECTION ( "Can insert properties" )
+  SECTION ( "Can insert and get properties" )
   {
     Map a;
 
@@ -125,10 +125,10 @@ TEST_CASE ( "Property Functions" )
     a.insert ( "1i", 1 );
     a.insert ( "1u", 1u );
 
-    REQUIRE ( 1.0  == a.get < double       > ( "1d",   2.0  ) );
-    REQUIRE ( 1.0f == a.get < float        > ( "1f",   2.0f ) );
-    REQUIRE ( 1    == a.get < int          > ( "1i",   2    ) );
-    REQUIRE ( 1u   == a.get < unsigned int > ( "1u",   2u   ) );
+    REQUIRE ( 1.0  == a.get < double       > ( "1d", 2.0  ) );
+    REQUIRE ( 1.0f == a.get < float        > ( "1f", 2.0f ) );
+    REQUIRE ( 1    == a.get < int          > ( "1i", 2    ) );
+    REQUIRE ( 1u   == a.get < unsigned int > ( "1u", 2u   ) );
 
     a.insert ( "md1", md1 );
     a.insert ( "v3d1", v3d1 );
@@ -143,12 +143,105 @@ TEST_CASE ( "Property Functions" )
     REQUIRE ( Math::equal ( v4f1, a.get < Math::Vec4f     > ( "v4f1", v4f2 ) ) );
   }
 
-  // Test require too
+  SECTION ( "Second insertion should fail" )
+  {
+    Map a;
 
-  // SECTION ( "Can update properties" )
-  // {
-  //   Map a;
-  //   a.update ( "p1", 1.0 );
-  //   REQUIRE ( 1.0 == a.getValue < double > ( "p1" ) );
-  // }
+    a.insert ( "p1", 10 );
+    REQUIRE ( 10 == a.get < int > ( "p1", 100 ) );
+
+    a.insert ( "p1", 20 );
+    REQUIRE ( 10 == a.get < int > ( "p1", 100 ) );
+  }
+
+  SECTION ( "Can update properties" )
+  {
+    Map a;
+
+    a.update ( "p1", 10 );
+    REQUIRE ( 10 == a.get < int > ( "p1", 100 ) );
+
+    a.update ( "p1", 20 );
+    REQUIRE ( 20 == a.get < int > ( "p1", 100 ) );
+  }
+
+  SECTION ( "Can insert and require properties" )
+  {
+    Map a;
+
+    a.insert ( "1d", 1.0 );
+    a.insert ( "1f", 1.0f );
+    a.insert ( "1i", 1 );
+    a.insert ( "1u", 1u );
+
+    REQUIRE ( 1.0  == a.require < double       > ( "1d" ) );
+    REQUIRE ( 1.0f == a.require < float        > ( "1f" ) );
+    REQUIRE ( 1    == a.require < int          > ( "1i" ) );
+    REQUIRE ( 1u   == a.require < unsigned int > ( "1u" ) );
+
+    a.insert ( "md1", md1 );
+    a.insert ( "v3d1", v3d1 );
+    a.insert ( "v3f1", v3f1 );
+    a.insert ( "v4d1", v4d1 );
+    a.insert ( "v4f1", v4f1 );
+
+    REQUIRE ( Math::equal ( md1,  a.require < Math::Matrix44d > ( "md1"  ) ) );
+    REQUIRE ( Math::equal ( v3d1, a.require < Math::Vec3d     > ( "v3d1" ) ) );
+    REQUIRE ( Math::equal ( v3f1, a.require < Math::Vec3f     > ( "v3f1" ) ) );
+    REQUIRE ( Math::equal ( v4d1, a.require < Math::Vec4d     > ( "v4d1" ) ) );
+    REQUIRE ( Math::equal ( v4f1, a.require < Math::Vec4f     > ( "v4f1" ) ) );
+  }
+
+  SECTION ( "Get default value when appropriate" )
+  {
+    Map a;
+
+    REQUIRE ( 12.34 == a.get < double > ( "p1", 12.34 ) );
+
+    a.insert ( "1d", 1.0 );
+    a.insert ( "1f", 1.0f );
+    a.insert ( "1i", 1 );
+    a.insert ( "1u", 1u );
+
+    REQUIRE ( 12.34 == a.get < double > ( "p1", 12.34 ) );
+
+    REQUIRE (  1.0  == a.get < double       > ( "1d", 2.0  ) );
+    REQUIRE (  2.0f == a.get < float        > ( "1d", 2.0f ) );
+    REQUIRE (  2    == a.get < int          > ( "1d", 2    ) );
+    REQUIRE (  2u   == a.get < unsigned int > ( "1d", 2u   ) );
+  }
+
+  SECTION ( "Should throw" )
+  {
+    try
+    {
+      Map a;
+      a.insert ( "p1", 123.456 );
+
+      a.require < double > ( "p1" );
+      REQUIRE ( true ); // Should get to this line.
+
+      a.require < float > ( "p1" );
+      REQUIRE ( false ); // Should not get to this line.
+    }
+    catch ( const std::exception &e )
+    {
+      // We should be here because of the exception.
+      REQUIRE ( std::string ( e.what() ) == std::string ( "Property 'p1' is not the required type" ) );
+    }
+
+    try
+    {
+      Map a;
+      a.insert ( "p1", 123.456 );
+
+      a.require < double > ( "p2" );
+      REQUIRE ( false ); // Should not get to this line.
+    }
+    catch ( const std::exception &e )
+    {
+      // We should be here because of the exception.
+      REQUIRE ( std::string ( e.what() ) == std::string ( "Property 'p2' is not in the map" ) );
+    }
+  }
 }
