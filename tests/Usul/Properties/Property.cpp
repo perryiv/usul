@@ -13,6 +13,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
+#include "Usul/Math/Functions.h"
 #include "Usul/Math/Matrix44.h"
 #include "Usul/Math/Vector3.h"
 #include "Usul/Math/Vector4.h"
@@ -22,6 +23,7 @@
 
 namespace Math = Usul::Math;
 namespace Properties = Usul::Properties;
+typedef unsigned int uint;
 
 #define COMMON_CONSTRUCTOR_ARGUMENTS { \
   { "center", Properties::make ( v3d1 ) }, \
@@ -125,10 +127,10 @@ TEST_CASE ( "Property Functions" )
     a.insert ( "1i", 1 );
     a.insert ( "1u", 1u );
 
-    REQUIRE ( 1.0  == a.get < double       > ( "1d", 2.0  ) );
-    REQUIRE ( 1.0f == a.get < float        > ( "1f", 2.0f ) );
-    REQUIRE ( 1    == a.get < int          > ( "1i", 2    ) );
-    REQUIRE ( 1u   == a.get < unsigned int > ( "1u", 2u   ) );
+    REQUIRE ( 1.0  == a.get < double > ( "1d", 2.0  ) );
+    REQUIRE ( 1.0f == a.get < float  > ( "1f", 2.0f ) );
+    REQUIRE ( 1    == a.get < int    > ( "1i", 2    ) );
+    REQUIRE ( 1u   == a.get < uint   > ( "1u", 2u   ) );
 
     a.insert ( "md1", md1 );
     a.insert ( "v3d1", v3d1 );
@@ -174,6 +176,32 @@ TEST_CASE ( "Property Functions" )
 
     a.update ( "p1", "p1" );
     REQUIRE ( "p1" == a.get < std::string > ( "p1", "p1" ) );
+  }
+
+  SECTION ( "Getting properties can convert them to similar type" )
+  {
+    Map a;
+
+    a.insert ( "p1", 1.0 );
+    REQUIRE ( 1.0  == Properties::get < double > ( a, "p1", 2.0  ) );
+    REQUIRE ( 1.0f == Properties::get < float  > ( a, "p1", 2.0f ) );
+    REQUIRE ( 1    == Properties::get < int    > ( a, "p1", 2    ) );
+    REQUIRE ( 1u   == Properties::get < uint   > ( a, "p1", 2u   ) );
+
+    a.insert ( "p2", 1.1f );
+    REQUIRE ( 1.1  == Math::round ( Properties::get < double > ( a, "p2", 2.0  ), 1 ) );
+    REQUIRE ( 1.1f == Math::round ( Properties::get < float  > ( a, "p2", 2.0f ), 1 ) );
+    REQUIRE ( 1    == Properties::get < int  > ( a, "p2", 2  ) ); // Truncated by static_cast
+    REQUIRE ( 1u   == Properties::get < uint > ( a, "p2", 2u ) ); // Truncated by static_cast
+
+    a.insert ( "p3", 1u );
+    REQUIRE ( 1.0  == Properties::get < double > ( a, "p3", 2.0  ) );
+    REQUIRE ( 1.0f == Properties::get < float  > ( a, "p3", 2.0f ) );
+    REQUIRE ( 1    == Properties::get < int    > ( a, "p3", 2  ) );
+    REQUIRE ( 1u   == Properties::get < uint   > ( a, "p3", 2u ) );
+
+    a.insert ( "p4", "hi" );
+    REQUIRE ( "hi" == Properties::get < std::string > ( a, "p4", "low" ) );
   }
 
   SECTION ( "Can clear the map" )
@@ -239,10 +267,10 @@ TEST_CASE ( "Property Functions" )
     a.insert ( "1u", 1u );
     a.insert ( "p1", "p1" );
 
-    REQUIRE ( 1.0  == a.require < double       > ( "1d" ) );
-    REQUIRE ( 1.0f == a.require < float        > ( "1f" ) );
-    REQUIRE ( 1    == a.require < int          > ( "1i" ) );
-    REQUIRE ( 1u   == a.require < unsigned int > ( "1u" ) );
+    REQUIRE ( 1.0  == a.require < double > ( "1d" ) );
+    REQUIRE ( 1.0f == a.require < float  > ( "1f" ) );
+    REQUIRE ( 1    == a.require < int    > ( "1i" ) );
+    REQUIRE ( 1u   == a.require < uint   > ( "1u" ) );
     REQUIRE ( "p1" == a.require < std::string  > ( "p1" ) );
 
     a.insert ( "md1", md1 );
@@ -271,10 +299,10 @@ TEST_CASE ( "Property Functions" )
 
     REQUIRE ( 12.34 == a.get < double > ( "p1", 12.34 ) );
 
-    REQUIRE (  1.0  == a.get < double       > ( "1d", 2.0  ) );
-    REQUIRE (  2.0f == a.get < float        > ( "1d", 2.0f ) );
-    REQUIRE (  2    == a.get < int          > ( "1d", 2    ) );
-    REQUIRE (  2u   == a.get < unsigned int > ( "1d", 2u   ) );
+    REQUIRE (  1.0  == a.get < double > ( "1d", 2.0  ) );
+    REQUIRE (  2.0f == a.get < float  > ( "1d", 2.0f ) );
+    REQUIRE (  2    == a.get < int    > ( "1d", 2    ) );
+    REQUIRE (  2u   == a.get < uint   > ( "1d", 2u   ) );
   }
 
   SECTION ( "Should throw" )

@@ -91,14 +91,9 @@ void Map::_destroyMap()
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-const Map::Object *Map::_getObject ( const std::string &name ) const
+const Map::Object *Map::object ( const std::string &name ) const
 {
   Values::const_iterator i = _values.find ( name );
-  return ( ( _values.end() == i ) ? nullptr : i->second.get() );
-}
-Map::Object *Map::_getObject ( const std::string &name )
-{
-  Values::iterator i = _values.find ( name );
   return ( ( _values.end() == i ) ? nullptr : i->second.get() );
 }
 

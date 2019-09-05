@@ -63,7 +63,9 @@ public:
   template < class T >
   const T &get ( const std::string &name, const T &defaultValue ) const;
 
-  // Is there a property with this name?
+  // Is there a property with this name and (optionally) type?
+  template < class T >
+  bool has ( const std::string &name ) const;
   bool has ( const std::string &name ) const;
 
   // Insert the value.
@@ -72,6 +74,9 @@ public:
   void insert ( const std::string &name, const std::string &value );
   void insert ( const std::string &name, const char *value );
   void insert ( const std::string &name, std::nullptr_t value );
+
+  // Get the property object.
+  const Object *object ( const std::string &name ) const;
 
   // Get the value or throw an exception.
   template < class T >
@@ -89,12 +94,6 @@ public:
 
   // Get the internal values.
   const Values &values() const { return _values; }
-
-protected:
-
-  // Get the property object.
-  const Object *_getObject ( const std::string &name ) const;
-  Object *      _getObject ( const std::string &name );
 
 private:
 
@@ -133,7 +132,7 @@ inline bool operator != ( const Map &a, const Map &b )
 template < class T >
 const T &Map::get ( const std::string &name, const T &defaultValue ) const
 {
-  const Object *obj = this->_getObject ( name );
+  const Object *obj = this->object ( name );
   if ( nullptr == obj )
   {
     return defaultValue;
@@ -173,7 +172,7 @@ void Map::insert ( const std::string &name, const T &value )
 template < class T >
 const T &Map::require ( const std::string &name ) const
 {
-  const Object *obj = this->_getObject ( name );
+  const Object *obj = this->object ( name );
   if ( nullptr == obj )
   {
     throw std::runtime_error ( Usul::Strings::format ( "Property '", name, "' is not in the map" ) );
@@ -201,6 +200,142 @@ void Map::update ( const std::string &name, const T &value )
 {
   _values[name] = Usul::Properties::make ( value );
 }
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Macros used below.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+#define USUL_PROPERTIES_MAP_CONVERT(from_type,to_type) \
+{ \
+  typedef Property < from_type > PropertyType; \
+  const PropertyType *prop = dynamic_cast < const PropertyType * > ( obj ); \
+  if ( nullptr != prop ) \
+  { \
+    return static_cast < to_type > ( prop->getValue() ); \
+  } \
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Helper classes.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+namespace Details
+{
+  template < class T > struct Getter
+  {
+    static T get ( const Map &m, const std::string &name, const T &defaultValue )
+    {
+      const Object *obj = m.object ( name );
+      if ( nullptr == obj )
+      {
+        return defaultValue;
+      }
+
+      USUL_PROPERTIES_MAP_CONVERT ( double,         T );
+      USUL_PROPERTIES_MAP_CONVERT ( float,          T );
+      USUL_PROPERTIES_MAP_CONVERT ( short,          T );
+      USUL_PROPERTIES_MAP_CONVERT ( int,            T );
+      USUL_PROPERTIES_MAP_CONVERT ( long,           T );
+      USUL_PROPERTIES_MAP_CONVERT ( unsigned short, T );
+      USUL_PROPERTIES_MAP_CONVERT ( unsigned int,   T );
+      USUL_PROPERTIES_MAP_CONVERT ( unsigned long,  T );
+
+      return defaultValue;
+    }
+  };
+  template <> struct Getter < std::string >
+  {
+    static std::string get ( const Map &m, const std::string &name, const std::string &defaultValue )
+    {
+      return m.get < std::string > ( name, defaultValue );
+    }
+  };
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Non-member function for getting a property and converting it to the
+//  correct type if needed.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+template < class T >
+inline T get ( const Map &m, const std::string &name, const T &defaultValue )
+{
+  typedef Details::Getter < T > Getter;
+  return Getter::get ( m, name, defaultValue );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Helper classes.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+namespace Details
+{
+  template < class T > struct Require
+  {
+    static T get ( const Map &m, const std::string &name )
+    {
+      const Object *obj = m.object ( name );
+      if ( nullptr == obj )
+      {
+        throw std::runtime_error ( Usul::Strings::format ( "Property '", name, "' is not in the map" ) );
+      }
+
+      USUL_PROPERTIES_MAP_CONVERT ( double,         T );
+      USUL_PROPERTIES_MAP_CONVERT ( float,          T );
+      USUL_PROPERTIES_MAP_CONVERT ( short,          T );
+      USUL_PROPERTIES_MAP_CONVERT ( int,            T );
+      USUL_PROPERTIES_MAP_CONVERT ( long,           T );
+      USUL_PROPERTIES_MAP_CONVERT ( unsigned short, T );
+      USUL_PROPERTIES_MAP_CONVERT ( unsigned int,   T );
+      USUL_PROPERTIES_MAP_CONVERT ( unsigned long,  T );
+
+      throw std::runtime_error ( Usul::Strings::format ( "Property '", name, "' is an unknown type" ) );
+    }
+  };
+  template <> struct Require < std::string >
+  {
+    static std::string get ( const Map &m, const std::string &name )
+    {
+      return m.require < std::string > ( name );
+    }
+  };
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Non-member functions for requiring a property and converting it to the
+//  correct type if needed.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+template < class T >
+inline T require ( const Map &m, const std::string &name )
+{
+  typedef Details::Require < T > Require;
+  return Require::get ( m, name );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Clean up macros.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+#undef USUL_PROPERTIES_MAP_CONVERT
 
 
 } // namespace Properties
