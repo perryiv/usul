@@ -57,7 +57,7 @@ public:
   bool empty() const { return _values.empty(); }
 
   // Erase the value.
-  void erase ( const std::string &name );
+  bool erase ( const std::string &name );
 
   // Get the value.
   template < class T >
@@ -221,7 +221,7 @@ void Map::update ( const std::string &name, const T &value )
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-//  Helper classes.
+//  Template helper class with specializations. Add more as needed.
 //
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -276,7 +276,7 @@ inline T get ( const Map &m, const std::string &name, const T &defaultValue )
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-//  Helper classes.
+//  Template helper class with specializations. Add more as needed.
 //
 ///////////////////////////////////////////////////////////////////////////////
 

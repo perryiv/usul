@@ -116,13 +116,15 @@ void Map::clear()
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-void Map::erase ( const std::string &name )
+bool Map::erase ( const std::string &name )
 {
   Values::iterator i = _values.find ( name );
   if ( _values.end() != i )
   {
     _values.erase ( i );
+    return true;
   }
+  return false;
 }
 
 
