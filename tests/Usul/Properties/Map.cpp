@@ -15,9 +15,11 @@
 
 #include "Usul/Math/Functions.h"
 #include "Usul/Math/Matrix44.h"
-#include "Usul/Math/Vector3.h"
-#include "Usul/Math/Vector4.h"
 #include "Usul/Properties/Map.h"
+#include "Usul/Properties/Matrix44.h"
+#include "Usul/Properties/Vector2.h"
+#include "Usul/Properties/Vector3.h"
+#include "Usul/Properties/Vector4.h"
 
 #include "catch2/catch.hpp"
 
@@ -202,6 +204,9 @@ TEST_CASE ( "Property Functions" )
 
     a.insert ( "p4", "hi" );
     REQUIRE ( "hi" == Properties::get < std::string > ( a, "p4", "low" ) );
+
+    a.insert ( "p5", Math::Vec3d ( 1, 2, 3 ) );
+    REQUIRE ( true == Math::equal ( Math::Vec3d ( 1, 2, 3 ), Properties::get < Math::Vec3d > ( a, "p5", Math::Vec3d ( 10, 20, 30 ) ) ) );
   }
 
   SECTION ( "Can clear the map" )

@@ -207,11 +207,11 @@ void Map::update ( const std::string &name, const T &value )
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-//  Macros used below.
+//  Macro used below.
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#define USUL_PROPERTIES_MAP_CONVERT(from_type,to_type) \
+#define USUL_PROPERTIES_MAP_CONVERT_NUMBER(from_type,to_type) \
 { \
   typedef Property < from_type > PropertyType; \
   const PropertyType *prop = dynamic_cast < const PropertyType * > ( obj ); \
@@ -241,14 +241,14 @@ namespace Details
         return defaultValue;
       }
 
-      USUL_PROPERTIES_MAP_CONVERT ( double,         T );
-      USUL_PROPERTIES_MAP_CONVERT ( float,          T );
-      USUL_PROPERTIES_MAP_CONVERT ( short,          T );
-      USUL_PROPERTIES_MAP_CONVERT ( int,            T );
-      USUL_PROPERTIES_MAP_CONVERT ( long,           T );
-      USUL_PROPERTIES_MAP_CONVERT ( unsigned short, T );
-      USUL_PROPERTIES_MAP_CONVERT ( unsigned int,   T );
-      USUL_PROPERTIES_MAP_CONVERT ( unsigned long,  T );
+      USUL_PROPERTIES_MAP_CONVERT_NUMBER ( double,         T );
+      USUL_PROPERTIES_MAP_CONVERT_NUMBER ( float,          T );
+      USUL_PROPERTIES_MAP_CONVERT_NUMBER ( short,          T );
+      USUL_PROPERTIES_MAP_CONVERT_NUMBER ( int,            T );
+      USUL_PROPERTIES_MAP_CONVERT_NUMBER ( long,           T );
+      USUL_PROPERTIES_MAP_CONVERT_NUMBER ( unsigned short, T );
+      USUL_PROPERTIES_MAP_CONVERT_NUMBER ( unsigned int,   T );
+      USUL_PROPERTIES_MAP_CONVERT_NUMBER ( unsigned long,  T );
 
       return defaultValue;
     }
@@ -304,14 +304,14 @@ namespace Details
         throw std::runtime_error ( Usul::Strings::format ( "Property '", name, "' is not in the map" ) );
       }
 
-      USUL_PROPERTIES_MAP_CONVERT ( double,         T );
-      USUL_PROPERTIES_MAP_CONVERT ( float,          T );
-      USUL_PROPERTIES_MAP_CONVERT ( short,          T );
-      USUL_PROPERTIES_MAP_CONVERT ( int,            T );
-      USUL_PROPERTIES_MAP_CONVERT ( long,           T );
-      USUL_PROPERTIES_MAP_CONVERT ( unsigned short, T );
-      USUL_PROPERTIES_MAP_CONVERT ( unsigned int,   T );
-      USUL_PROPERTIES_MAP_CONVERT ( unsigned long,  T );
+      USUL_PROPERTIES_MAP_CONVERT_NUMBER ( double,         T );
+      USUL_PROPERTIES_MAP_CONVERT_NUMBER ( float,          T );
+      USUL_PROPERTIES_MAP_CONVERT_NUMBER ( short,          T );
+      USUL_PROPERTIES_MAP_CONVERT_NUMBER ( int,            T );
+      USUL_PROPERTIES_MAP_CONVERT_NUMBER ( long,           T );
+      USUL_PROPERTIES_MAP_CONVERT_NUMBER ( unsigned short, T );
+      USUL_PROPERTIES_MAP_CONVERT_NUMBER ( unsigned int,   T );
+      USUL_PROPERTIES_MAP_CONVERT_NUMBER ( unsigned long,  T );
 
       throw std::runtime_error ( Usul::Strings::format ( "Property '", name, "' is an unknown type" ) );
     }
@@ -383,15 +383,6 @@ inline std::string type ( Map &m, const std::string &name )
 {
   return m.type ( name );
 }
-
-
-///////////////////////////////////////////////////////////////////////////////
-//
-//  Clean up macros.
-//
-///////////////////////////////////////////////////////////////////////////////
-
-#undef USUL_PROPERTIES_MAP_CONVERT
 
 
 } // namespace Properties

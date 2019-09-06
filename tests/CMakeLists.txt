@@ -56,7 +56,7 @@ set ( SOURCE_FILES
   ./Usul/Pointers/Intrusive.cpp
   ./Usul/Pointers/QueryPointer.cpp
   ./Usul/Pointers/SmartPointer.cpp
-  ./Usul/Properties/Property.cpp
+  ./Usul/Properties/Map.cpp
   ./Usul/Tools/Cast.cpp
   ./Usul/Tools/NoThrow.cpp
   ./Usul/Tools/Properties.cpp
