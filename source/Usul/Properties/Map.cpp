@@ -180,5 +180,29 @@ void Map::update ( const std::string &name, std::nullptr_t value )
 }
 
 
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Get the type of the property.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+std::string Map::type ( const std::string &key ) const
+{
+  const Object *obj = this->object ( key );
+
+  if ( nullptr != obj )
+  {
+    const std::type_info &info = obj->getTypeInfo();
+    const char *name = info.name();
+    if ( nullptr != name )
+    {
+      return std::string ( name );
+    }
+  }
+
+  return std::string();
+}
+
+
 } // namespace Properties
 } // namespace Usul

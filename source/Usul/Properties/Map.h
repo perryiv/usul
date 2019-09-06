@@ -85,6 +85,9 @@ public:
   // Return the size of the map.
   size_type size() const { return _values.size(); }
 
+  // Get the type of the property.
+  std::string type ( const std::string &name ) const;
+
   // Insert or update the value.
   template < class T >
   void update ( const std::string &name, const T &value );
@@ -222,6 +225,7 @@ void Map::update ( const std::string &name, const T &value )
 ///////////////////////////////////////////////////////////////////////////////
 //
 //  Template helper class with specializations. Add more as needed.
+//  https://www.learncpp.com/cpp-tutorial/13-8-partial-template-specialization-for-pointers/
 //
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -247,6 +251,13 @@ namespace Details
       USUL_PROPERTIES_MAP_CONVERT ( unsigned long,  T );
 
       return defaultValue;
+    }
+  };
+  template < typename T > struct Getter < T * >
+  {
+    static T *get ( const Map &m, const std::string &name, T *defaultValue )
+    {
+      return m.get < T * > ( name, defaultValue );
     }
   };
   template <> struct Getter < std::string >
@@ -277,6 +288,7 @@ inline T get ( const Map &m, const std::string &name, const T &defaultValue )
 ///////////////////////////////////////////////////////////////////////////////
 //
 //  Template helper class with specializations. Add more as needed.
+//  https://www.learncpp.com/cpp-tutorial/13-8-partial-template-specialization-for-pointers/
 //
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -304,6 +316,13 @@ namespace Details
       throw std::runtime_error ( Usul::Strings::format ( "Property '", name, "' is an unknown type" ) );
     }
   };
+  template < typename T > struct Require < T * >
+  {
+    static T *get ( const Map &m, const std::string &name )
+    {
+      return m.require < T * > ( name );
+    }
+  };
   template <> struct Require < std::string >
   {
     static std::string get ( const Map &m, const std::string &name )
@@ -326,6 +345,43 @@ inline T require ( const Map &m, const std::string &name )
 {
   typedef Details::Require < T > Require;
   return Require::get ( m, name );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Set the property.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+template < class T >
+inline void set ( Map &m, const std::string &name, const T &value )
+{
+  m.update < T > ( name, value );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  See if the property exists.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+inline bool has ( Map &m, const std::string &name )
+{
+  return m.has ( name );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Get the type of the property.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+inline std::string type ( Map &m, const std::string &name )
+{
+  return m.type ( name );
 }
 
 

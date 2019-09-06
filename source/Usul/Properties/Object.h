@@ -20,6 +20,8 @@
 #include "Usul/Pointers/Pointers.h"
 #include "Usul/Tools/NoCopying.h"
 
+#include <typeinfo>
+
 
 namespace Usul {
 namespace Properties {
@@ -35,6 +37,9 @@ public:
 
   // Smart-pointer definitions.
   USUL_DEFINE_REF_POINTERS ( Object );
+
+  // Return the type info of the value.
+  virtual const std::type_info &getTypeInfo() const = 0;
 
 protected:
 

@@ -47,6 +47,9 @@ public:
     static_assert ( std::is_copy_constructible < ValueType >::value, "Value type is not copy-constructible" );
   }
 
+  // Return the type info of the value.
+  virtual const std::type_info &getTypeInfo() const override { return typeid ( ValueType ); }
+
   // Get the value.
   const ValueType &getValue() const { return _value; }
 
