@@ -36,7 +36,7 @@ public:
   typedef Usul::Base::Referenced BaseClass;
 
   // Smart-pointer definitions.
-  USUL_DEFINE_REF_POINTERS ( Object );
+  USUL_REFERENCED_CLASS ( Object );
 
   // Return the type info of the value.
   virtual const std::type_info &getTypeInfo() const = 0;

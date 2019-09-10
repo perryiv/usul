@@ -37,7 +37,7 @@ public:
   typedef Property < ValueType > ThisType;
 
   // Smart-pointer definitions.
-  USUL_DEFINE_REF_POINTERS ( Property );
+  USUL_REFERENCED_CLASS ( Property );
 
   // Constructor.
   Property ( const ValueType &value ) :
