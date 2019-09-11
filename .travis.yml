@@ -62,10 +62,6 @@ script:
 - cd build
 - cmake ../ -DCMAKE_VERBOSE_MAKEFILE=ON -DBUILD_TESTING=OFF -DCATCH_INSTALL_DOCS=OFF -DCATCH_INSTALL_HELPERS=OFF -DCMAKE_INSTALL_PREFIX="${Catch2_ROOT}"
 - cmake --build . --target install
-- ls
-- ls Catch2
-- ls ..
-- ls ../Catch2
 - popd
 
 # Now we can run our script.
