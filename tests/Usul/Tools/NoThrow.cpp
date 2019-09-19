@@ -56,24 +56,24 @@ TEST_CASE ( "No-throw wrapper function" )
     try
     {
       // test when the function throws.
-      USUL_TOOLS_NO_THROW ( throwStandardException );
-      USUL_TOOLS_NO_THROW ( throwCustomException );
-      USUL_TOOLS_NO_THROW ( throwNumber );
-      USUL_TOOLS_NO_THROW ( []()
+      USUL_TOOLS_NO_THROW ( 1568933700, throwStandardException );
+      USUL_TOOLS_NO_THROW ( 1568933701, throwCustomException );
+      USUL_TOOLS_NO_THROW ( 1568933702, throwNumber );
+      USUL_TOOLS_NO_THROW ( 1568933703, [] ()
       {
         throw std::string ( "This is a string" );
       } );
 
       // Have to do this to test other streams, as well as no stream.
       std::ostringstream out;
-      Usul::Tools::noThrow ( throwNumber, __FILE__, __LINE__, &out );
-      Usul::Tools::noThrow ( throwNumber, __FILE__, __LINE__, &std::cout );
-      Usul::Tools::noThrow ( throwNumber, __FILE__, __LINE__, &std::cerr );
-      Usul::Tools::noThrow ( throwNumber, __FILE__, __LINE__, &std::clog );
-      Usul::Tools::noThrow ( throwNumber, __FILE__, __LINE__ );
+      Usul::Tools::noThrow ( 1568933704, throwNumber, &out );
+      Usul::Tools::noThrow ( 1568933705, throwNumber, &std::cout );
+      Usul::Tools::noThrow ( 1568933706, throwNumber, &std::cerr );
+      Usul::Tools::noThrow ( 1568933707, throwNumber, &std::clog );
+      Usul::Tools::noThrow ( 1568933708, throwNumber );
 
       // Test when the function does not throw.
-      USUL_TOOLS_NO_THROW ( []()
+      USUL_TOOLS_NO_THROW ( 1568933709, [] ()
       {
         std::cout << "This function does not throw" << std::endl;
       } );

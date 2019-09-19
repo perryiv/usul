@@ -51,7 +51,7 @@ Map::Map ( const Map::Values &values ) :
 
 Map::~Map()
 {
-  USUL_TOOLS_NO_THROW ( std::bind ( &Map::_destroyMap, this ) );
+  USUL_TOOLS_NO_THROW ( 1568933604, std::bind ( &Map::_destroyMap, this ) );
 }
 
 

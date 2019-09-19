@@ -174,8 +174,7 @@ void Referenced::_deleteMe()
     std::clog << ( Usul::Strings::format (
       "Deleting ", self, " caused a standard exception: ", e.what(),
       ", Class: ", ( name ? name : "" ),
-      ", File: ", __FILE__,
-      ", Line: ", __LINE__
+      ", ID: ", 1568933858
     ) ) << std::endl;
   }
 
@@ -184,8 +183,7 @@ void Referenced::_deleteMe()
     std::clog << ( Usul::Strings::format (
       "Deleting ", self, " caused an unknown exception",
       ", Class: ", ( name ? name : "" ),
-      ", File: ", __FILE__,
-      ", Line: ", __LINE__
+      ", ID: ", 1568933859
     ) ) << std::endl;
   }
 }

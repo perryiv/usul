@@ -116,7 +116,7 @@ Library::Library ( const std::string &file ) : BaseClass(),
 
 Library::~Library()
 {
-  USUL_TOOLS_NO_THROW ( std::bind ( &Library::_free, this ) );
+  USUL_TOOLS_NO_THROW ( 1568933600, std::bind ( &Library::_free, this ) );
 }
 
 

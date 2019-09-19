@@ -123,7 +123,7 @@ Manager::Manager() :
 
 Manager::~Manager()
 {
-  USUL_TOOLS_NO_THROW ( std::bind ( &Manager::_destroy, this ) );
+  USUL_TOOLS_NO_THROW ( 1568933601, std::bind ( &Manager::_destroy, this ) );
 }
 
 
@@ -237,7 +237,7 @@ void Manager::removeAll ( std::ostream *out )
     IUnknown::RefPtr plugin ( *i );
 
     // Finalize it. Don't let this throw because we need to keep looping.
-    USUL_TOOLS_NO_THROW ( std::bind ( &Details::finalizePlugin, plugin, out ) );
+    USUL_TOOLS_NO_THROW ( 1568933602, std::bind ( &Details::finalizePlugin, plugin, out ) );
   }
 
   // Do this now rather than wait for the destructor.
@@ -279,7 +279,7 @@ void Manager::unloadAll ( std::ostream *out )
     Library::RefPtr library ( *i );
 
     // Finalize it. Don't let this throw because we need to keep looping.
-    USUL_TOOLS_NO_THROW ( std::bind ( &Details::finalizeLibrary, library, out ) );
+    USUL_TOOLS_NO_THROW ( 1568933603, std::bind ( &Details::finalizeLibrary, library, out ) );
   }
 
   // Do this now rather than wait for the destructor.

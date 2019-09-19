@@ -34,16 +34,16 @@ namespace Tools {
 
 namespace Details
 {
-  template < class OutputStream >
-  inline void logStandardException ( const std::exception &e, const char *filename, unsigned int line, OutputStream *out )
+  template < class IdType, class OutputStream >
+  inline void logStandardException ( const std::exception &e, IdType id, OutputStream *out )
   {
     if ( out )
     {
       // We output one string because that works best when multi-threaded.
       *out << ( Usul::Strings::format (
-        "Standard exception caught: ", e.what(),
-        ", File: ", filename,
-        ", Line: ", line
+        "Standard exception caught",
+        ", ID: ", id,
+        ", ", e.what()
       ) ) << std::endl;
     }
   }
@@ -58,16 +58,15 @@ namespace Details
 
 namespace Details
 {
-  template < class OutputStream >
-  inline void logUnknownException ( const char *filename, unsigned int line, OutputStream *out )
+  template < class IdType, class OutputStream >
+  inline void logUnknownException ( IdType id, OutputStream *out )
   {
     if ( out )
     {
       // We output one string because that works best when multi-threaded.
       *out << ( Usul::Strings::format (
         "Unknown exception caught",
-        ", File: ", filename,
-        ", Line: ", line
+        ", ID: ", id
       ) ) << std::endl;
     }
   }
@@ -80,8 +79,8 @@ namespace Details
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-template < class Function, class OutputStream >
-inline bool noThrow ( Function function, const char *filename, unsigned int line, OutputStream *out )
+template < class IdType, class Function, class OutputStream >
+inline bool noThrow ( IdType id, Function function, OutputStream *out )
 {
   // Try to call the function. We return true if it worked.
   try
@@ -95,12 +94,12 @@ inline bool noThrow ( Function function, const char *filename, unsigned int line
 
   catch ( const std::exception &e )
   {
-    Details::logStandardException ( e, filename, line, out );
+    Details::logStandardException ( e, id, out );
   }
 
   catch ( ... )
   {
-    Details::logUnknownException ( filename, line, out );
+    Details::logUnknownException ( id, out );
   }
 
   // If we get to here then it did not work.
@@ -114,11 +113,11 @@ inline bool noThrow ( Function function, const char *filename, unsigned int line
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-template < class Function >
-inline bool noThrow ( Function function, const char *filename, unsigned int line )
+template < class IdType, class Function >
+inline bool noThrow ( IdType id, Function function )
 {
   std::ostream *stream = nullptr;
-  return noThrow ( function, filename, line, stream );
+  return noThrow ( id, function, stream );
 }
 
 
@@ -128,12 +127,12 @@ inline bool noThrow ( Function function, const char *filename, unsigned int line
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-//  Convenience macro that adds the file name and line number.
+//  Convenience macro.
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#define USUL_TOOLS_NO_THROW(function) \
-  Usul::Tools::noThrow ( function, __FILE__, __LINE__, &std::clog )
+#define USUL_TOOLS_NO_THROW(id,function) \
+  Usul::Tools::noThrow ( id, function, &std::clog )
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -142,14 +141,14 @@ inline bool noThrow ( Function function, const char *filename, unsigned int line
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#define USUL_TOOLS_CATCH_AND_LOG(stream) \
+#define USUL_TOOLS_CATCH_AND_LOG(id,stream) \
   catch ( const std::exception &e ) \
   { \
-    Usul::Tools::Details::logStandardException ( e, __FILE__, __LINE__, stream ); \
+    Usul::Tools::Details::logStandardException ( e, id, stream ); \
   } \
   catch ( ... ) \
   { \
-    Usul::Tools::Details::logUnknownException ( __FILE__, __LINE__, stream ); \
+    Usul::Tools::Details::logUnknownException ( id, stream ); \
   }
 
 

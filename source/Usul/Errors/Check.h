@@ -61,8 +61,7 @@
   { \
     throw std::runtime_error ( Usul::Strings::format ( \
       USUL_GET_MESSAGE_OR_DEFAULT ( message ), \
-      ", File: ", __FILE__, \
-      ", Line: ", __LINE__ \
+      ", ID: ", 1568933930 \
     ) ); \
   }
 
@@ -78,8 +77,7 @@ if ( false == ( expression ) ) \
 { \
   std::clog << ( Usul::Strings::format ( \
     USUL_GET_MESSAGE_OR_DEFAULT ( message ), \
-    ", File: ", __FILE__, \
-    ", Line: ", __LINE__ \
+    ", ID: ", 1568933931 \
   ) ) << std::endl; \
 }
 
