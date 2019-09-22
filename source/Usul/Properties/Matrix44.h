@@ -69,7 +69,7 @@ namespace Details {
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-template <> struct Getter < Usul::Math::Matrix44d >
+template <> struct Getter < false, Usul::Math::Matrix44d >
 {
   static Usul::Math::Matrix44d get ( const Map &m, const std::string &name, const Usul::Math::Matrix44d &defaultValue )
   {
@@ -85,7 +85,7 @@ template <> struct Getter < Usul::Math::Matrix44d >
     return defaultValue;
   }
 };
-template <> struct Getter < Usul::Math::Matrix44f >
+template <> struct Getter < false, Usul::Math::Matrix44f >
 {
   static Usul::Math::Matrix44f get ( const Map &m, const std::string &name, const Usul::Math::Matrix44f &defaultValue )
   {
@@ -109,7 +109,7 @@ template <> struct Getter < Usul::Math::Matrix44f >
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-template <> struct Require < Usul::Math::Matrix44d >
+template <> struct Require < false, Usul::Math::Matrix44d >
 {
   static Usul::Math::Matrix44d get ( const Map &m, const std::string &name )
   {
@@ -125,7 +125,7 @@ template <> struct Require < Usul::Math::Matrix44d >
     throw std::runtime_error ( Usul::Strings::format ( "Property '", name, "' is not the required type" ) );
   }
 };
-template <> struct Require < Usul::Math::Matrix44f >
+template <> struct Require < false, Usul::Math::Matrix44f >
 {
   static Usul::Math::Matrix44f get ( const Map &m, const std::string &name )
   {

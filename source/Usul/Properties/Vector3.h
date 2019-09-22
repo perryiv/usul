@@ -56,7 +56,7 @@ namespace Details {
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-template <> struct Getter < Usul::Math::Vec3d >
+template <> struct Getter < false, Usul::Math::Vec3d >
 {
   static Usul::Math::Vec3d get ( const Map &m, const std::string &name, const Usul::Math::Vec3d &defaultValue )
   {
@@ -72,7 +72,7 @@ template <> struct Getter < Usul::Math::Vec3d >
     return defaultValue;
   }
 };
-template <> struct Getter < Usul::Math::Vec3f >
+template <> struct Getter < false, Usul::Math::Vec3f >
 {
   static Usul::Math::Vec3f get ( const Map &m, const std::string &name, const Usul::Math::Vec3f &defaultValue )
   {
@@ -96,7 +96,7 @@ template <> struct Getter < Usul::Math::Vec3f >
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-template <> struct Require < Usul::Math::Vec3d >
+template <> struct Require < false, Usul::Math::Vec3d >
 {
   static Usul::Math::Vec3d get ( const Map &m, const std::string &name )
   {
@@ -112,7 +112,7 @@ template <> struct Require < Usul::Math::Vec3d >
     throw std::runtime_error ( Usul::Strings::format ( "Property '", name, "' is not the required type" ) );
   }
 };
-template <> struct Require < Usul::Math::Vec3f >
+template <> struct Require < false, Usul::Math::Vec3f >
 {
   static Usul::Math::Vec3f get ( const Map &m, const std::string &name )
   {

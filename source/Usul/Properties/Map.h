@@ -231,10 +231,13 @@ void Map::update ( const std::string &name, const T &value )
 
 namespace Details
 {
-  template < class T > struct Getter
+  template < bool arithmetic, class T > struct Getter;
+  template < class T > struct Getter < true, T >
   {
     static T get ( const Map &m, const std::string &name, const T &defaultValue )
     {
+      static_assert ( std::is_arithmetic < T > ::value, "Not an arithmetic type" );
+
       const Object *obj = m.object ( name );
       if ( nullptr == obj )
       {
@@ -253,14 +256,21 @@ namespace Details
       return defaultValue;
     }
   };
-  template < typename T > struct Getter < T * >
+  template < class T > struct Getter < false, T >
+  {
+    static const T &get ( const Map &m, const std::string &name, T &defaultValue )
+    {
+      return m.get < T > ( name, defaultValue );
+    }
+  };
+  template < typename T > struct Getter < false, T * >
   {
     static T *get ( const Map &m, const std::string &name, T *defaultValue )
     {
       return m.get < T * > ( name, defaultValue );
     }
   };
-  template <> struct Getter < std::string >
+  template <> struct Getter < false, std::string >
   {
     static std::string get ( const Map &m, const std::string &name, const std::string &defaultValue )
     {
@@ -280,7 +290,8 @@ namespace Details
 template < class T >
 inline T get ( const Map &m, const std::string &name, const T &defaultValue )
 {
-  typedef Details::Getter < T > Getter;
+  const bool arithmetic = std::is_arithmetic < T > ::value;
+  typedef Details::Getter < arithmetic, T > Getter;
   return Getter::get ( m, name, defaultValue );
 }
 
@@ -294,10 +305,13 @@ inline T get ( const Map &m, const std::string &name, const T &defaultValue )
 
 namespace Details
 {
-  template < class T > struct Require
+  template < bool arithmetic, class T > struct Require;
+  template < class T > struct Require < true, T >
   {
     static T get ( const Map &m, const std::string &name )
     {
+      static_assert ( std::is_arithmetic < T > ::value, "Not an arithmetic type" );
+
       const Object *obj = m.object ( name );
       if ( nullptr == obj )
       {
@@ -316,14 +330,21 @@ namespace Details
       throw std::runtime_error ( Usul::Strings::format ( "Property '", name, "' is an unknown type" ) );
     }
   };
-  template < typename T > struct Require < T * >
+  template < class T > struct Require < false, T >
+  {
+    static const T &get ( const Map &m, const std::string &name )
+    {
+      return m.require < T > ( name );
+    }
+  };
+  template < typename T > struct Require < false, T * >
   {
     static T *get ( const Map &m, const std::string &name )
     {
       return m.require < T * > ( name );
     }
   };
-  template <> struct Require < std::string >
+  template <> struct Require < false, std::string >
   {
     static std::string get ( const Map &m, const std::string &name )
     {
@@ -343,7 +364,8 @@ namespace Details
 template < class T >
 inline T require ( const Map &m, const std::string &name )
 {
-  typedef Details::Require < T > Require;
+  const bool arithmetic = std::is_arithmetic < T > ::value;
+  typedef Details::Require < arithmetic, T > Require;
   return Require::get ( m, name );
 }
 
