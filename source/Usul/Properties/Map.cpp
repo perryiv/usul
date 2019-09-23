@@ -204,5 +204,51 @@ std::string Map::type ( const std::string &key ) const
 }
 
 
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Return the names.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+void Map::names ( Strings &s ) const
+{
+  typedef Values::const_iterator Itr;
+  for ( Itr i = _values.begin(); i != _values.end(); ++i )
+  {
+    s.push_back ( i->first );
+  }
+}
+Map::Strings Map::names() const
+{
+  Strings s;
+  s.reserve ( _values.size() );
+  this->names ( s );
+  return s;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Merge the properties.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+void Map::merge ( const Map &source )
+{
+  this->merge ( source.values() );
+}
+void Map::merge ( const Map::Values &source )
+{
+  typedef Map::Values::const_iterator Itr;
+  typedef Map::Values::key_type Key;
+
+  for ( Itr i = source.begin(); i != source.end(); ++i )
+  {
+    const Key &key = i->first;
+    _values[key] = i->second;
+  }
+}
+
+
 } // namespace Properties
 } // namespace Usul

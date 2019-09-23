@@ -23,6 +23,7 @@
 #include <map>
 #include <stdexcept>
 #include <string>
+#include <vector>
 
 
 namespace Usul {
@@ -37,6 +38,7 @@ public:
   typedef Usul::Properties::Object Object;
   typedef std::map < std::string, Object::RefPtr > Values;
   typedef Values::size_type size_type;
+  typedef std::vector < std::string > Strings;
 
   // Constructors
   Map();
@@ -74,6 +76,14 @@ public:
   void insert ( const std::string &name, const std::string &value );
   void insert ( const std::string &name, const char *value );
   void insert ( const std::string &name, std::nullptr_t value );
+
+  // Merge the properties.
+  void merge ( const Map & );
+  void merge ( const Map::Values & );
+
+  // Return the names.
+  void    names ( Strings & ) const;
+  Strings names() const;
 
   // Get the property object.
   const Object *object ( const std::string &name ) const;
@@ -389,7 +399,7 @@ inline void set ( Map &m, const std::string &name, const T &value )
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-inline bool has ( Map &m, const std::string &name )
+inline bool has ( const Map &m, const std::string &name )
 {
   return m.has ( name );
 }
@@ -401,9 +411,53 @@ inline bool has ( Map &m, const std::string &name )
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-inline std::string type ( Map &m, const std::string &name )
+inline std::string type ( const Map &m, const std::string &name )
 {
   return m.type ( name );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Merge the property maps.
+//  Add new combinations as needed.
+//  TODO: Figure out how to make this a template.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+inline Map::Values merge ( const Map &source1, const Map &source2 )
+{
+  // Make a new map.
+  Map target;
+
+  // Merge in the properties from the two sources.
+  target.merge ( source1 );
+  target.merge ( source2 );
+
+  // Return the values to support assignment to either values or a map.
+  // See constructors and assignment operators above for why this works.
+  return target.values();
+}
+inline Map::Values merge ( const Map &source1, const Map::Values &source2 )
+{
+  Map target;
+  target.merge ( source1 );
+  target.merge ( source2 );
+  return target.values();
+}
+inline Map::Values merge ( const Map::Values &source1, const Map &source2 )
+{
+  Map target;
+  target.merge ( source1 );
+  target.merge ( source2 );
+  return target.values();
+}
+inline Map::Values merge ( const Map::Values &source1, const Map::Values &source2 )
+{
+  Map target;
+  target.merge ( source1 );
+  target.merge ( source2 );
+  return target.values();
 }
 
 
