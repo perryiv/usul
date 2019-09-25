@@ -9,12 +9,12 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-//  Functions for working with a map of any type.
+//  Functions for working with a map of std::any.
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef _USUL_TOOLS_PROPERTIES_H_
-#define _USUL_TOOLS_PROPERTIES_H_
+#ifndef _USUL_TOOLS_ANY_H_
+#define _USUL_TOOLS_ANY_H_
 
 #include "Usul/Tools/NoCopying.h"
 
@@ -27,7 +27,7 @@
 
 namespace Usul {
 namespace Tools {
-namespace Properties {
+namespace Any {
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -159,9 +159,9 @@ inline ValueType require ( const MapType &container, const std::string &name )
 }
 
 
-} // namespace Properties
+} // namespace Any
 } // namespace Tools
 } // namespace Usul
 
 
-#endif // _USUL_TOOLS_PROPERTIES_H_
+#endif // _USUL_TOOLS_ANY_H_
