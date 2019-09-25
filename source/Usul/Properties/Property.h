@@ -83,4 +83,18 @@ static Usul::Properties::Object *make ( const T &value )
 } // namespace Usul
 
 
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Wrapper function for brevity.
+//  It's a macro because there may be name clashing if "mp" already exists.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+#define USUL_DEFINE_MAKE_PROPERTY_FUNCTION_SHORTCUT \
+  template < class T > inline Usul::Properties::Object *mp ( const T &value ) \
+  { \
+    return Usul::Properties::make ( value ); \
+  }
+
+
 #endif // _USUL_PROPERTIES_PROPERTY_H_
