@@ -23,7 +23,7 @@
 
 #include "catch2/catch.hpp"
 
-USUL_DEFINE_MAKE_PROPERTY_FUNCTION_SHORTCUT; // mp
+USUL_DEFINE_MAKE_PROPERTY_FUNCTION_SHORTCUT // mp
 
 namespace Math = Usul::Math;
 namespace Properties = Usul::Properties;
