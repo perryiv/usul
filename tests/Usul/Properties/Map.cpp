@@ -23,6 +23,8 @@
 
 #include "catch2/catch.hpp"
 
+USUL_DEFINE_MAKE_PROPERTY_FUNCTION_SHORTCUT; // mp
+
 namespace Math = Usul::Math;
 namespace Properties = Usul::Properties;
 typedef unsigned int uint;
@@ -347,12 +349,12 @@ TEST_CASE ( "Property Functions" )
   SECTION ( "Can pass properties to constructor" )
   {
     const Map a ( {
-      { "1", Usul::Properties::make ( 1 ) },
-      { "2", Usul::Properties::make ( 2.0 ) },
-      { "3", Usul::Properties::make ( 3.0f ) },
-      { "4", Usul::Properties::make ( 4u ) },
-      { "5", Usul::Properties::make ( std::string ( "five" ) ) }, // Not sure why we have to wrap with a string.
-      { "6", Usul::Properties::make ( Math::Vec3d ( 1, 2, 3 ) ) }
+      { "1", mp ( 1 ) },
+      { "2", mp ( 2.0 ) },
+      { "3", mp ( 3.0f ) },
+      { "4", mp ( 4u ) },
+      { "5", mp ( std::string ( "five" ) ) }, // Not sure why we have to wrap with a string.
+      { "6", mp ( Math::Vec3d ( 1, 2, 3 ) ) }
     } );
 
     REQUIRE ( 1      == a.require < int          > ( "1" ) );
@@ -366,10 +368,10 @@ TEST_CASE ( "Property Functions" )
   SECTION ( "Can get property names" )
   {
     const Map a ( {
-      { "1", Usul::Properties::make ( 1 ) },
-      { "2", Usul::Properties::make ( 2 ) },
-      { "3", Usul::Properties::make ( 3 ) },
-      { "4", Usul::Properties::make ( 4 ) }
+      { "1", mp ( 1 ) },
+      { "2", mp ( 2 ) },
+      { "3", mp ( 3 ) },
+      { "4", mp ( 4 ) }
     } );
 
     REQUIRE ( Map::Strings ( { "1", "2", "3", "4" } ) == a.names() );
@@ -378,15 +380,15 @@ TEST_CASE ( "Property Functions" )
   SECTION ( "Can merge property maps" )
   {
     const Map a ( {
-      { "1", Usul::Properties::make ( 1 ) },
-      { "2", Usul::Properties::make ( 2 ) },
-      { "3", Usul::Properties::make ( 3 ) }
+      { "1", mp ( 1 ) },
+      { "2", mp ( 2 ) },
+      { "3", mp ( 3 ) }
     } );
 
     const Map b ( {
-      { "3", Usul::Properties::make ( std::string ( "three" ) ) },
-      { "4", Usul::Properties::make ( 4 ) },
-      { "5", Usul::Properties::make ( 5 ) }
+      { "3", mp ( std::string ( "three" ) ) },
+      { "4", mp ( 4 ) },
+      { "5", mp ( 5 ) }
     } );
 
     const Map c = Usul::Properties::merge ( a, b );
@@ -403,15 +405,15 @@ TEST_CASE ( "Property Functions" )
   SECTION ( "Can merge properties directly" )
   {
     const Map a ( {
-      { "1", Usul::Properties::make ( 1 ) },
-      { "2", Usul::Properties::make ( 2 ) },
-      { "3", Usul::Properties::make ( 3 ) }
+      { "1", mp ( 1 ) },
+      { "2", mp ( 2 ) },
+      { "3", mp ( 3 ) }
     } );
 
     const Map b = Usul::Properties::merge ( a, {
-      { "3", Usul::Properties::make ( std::string ( "three" ) ) },
-      { "4", Usul::Properties::make ( 4 ) },
-      { "5", Usul::Properties::make ( 5 ) }
+      { "3", mp ( std::string ( "three" ) ) },
+      { "4", mp ( 4 ) },
+      { "5", mp ( 5 ) }
     } );
 
     REQUIRE ( Map::Strings ( { "1", "2", "3", "4", "5" } ) == b.names() );
