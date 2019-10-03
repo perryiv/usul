@@ -6,12 +6,12 @@ intel = python_requires("intel_helper/0.0.0@vaone-dev/master")
 
 class Usul(intel.ConanFile):
     name = "usul"
-    version = "2.0.0"
+    version = "3.0.0"
     settings = "os", "arch", "compiler", "build_type"
     options = {"shared": [True, False], "build_tests": [True, False]}
     default_options = {"shared": True, "build_tests": False}
     no_copy_source = True
-    scm = {"type": "git", "url": "auto"}
+    scm = {"type": "git", "url": "auto", "revision": "auto"}
 
     def build_requirements(self):
         if self.options.build_tests:
