@@ -102,7 +102,7 @@ public:
   //
   /////////////////////////////////////////////////////////////////////////////
 
-  Matrix44 ( bool initialize = true )
+  constexpr Matrix44 ( bool initialize = true )
   {
     if ( initialize )
     {
