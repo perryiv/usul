@@ -67,7 +67,7 @@ public:
   //
   /////////////////////////////////////////////////////////////////////////////
 
-  Vector4 ( bool initialize = true )
+  constexpr Vector4 ( bool initialize = true )
   {
     if ( initialize )
     {
@@ -85,7 +85,7 @@ public:
   //
   /////////////////////////////////////////////////////////////////////////////
 
-  explicit Vector4 ( const T v[SIZE] )
+  constexpr explicit Vector4 ( const T v[SIZE] )
   {
     _v[0] = v[0];
     _v[1] = v[1];
@@ -100,7 +100,7 @@ public:
   //
   /////////////////////////////////////////////////////////////////////////////
 
-  Vector4 ( T v0, T v1, T v2, T v3 )
+  constexpr Vector4 ( T v0, T v1, T v2, T v3 )
   {
     _v[0] = v0;
     _v[1] = v1;

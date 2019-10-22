@@ -52,7 +52,7 @@ public:
   //
   /////////////////////////////////////////////////////////////////////////////
 
-  Sphere() :
+  constexpr Sphere() :
     _center ( 0,  0,  0 ),
     _radius ( 1 )
   {
@@ -65,7 +65,7 @@ public:
   //
   /////////////////////////////////////////////////////////////////////////////
 
-  Sphere ( const Point &center, const T &radius ) :
+  constexpr Sphere ( const Point &center, const T &radius ) :
     _center ( center ),
     _radius ( radius )
   {

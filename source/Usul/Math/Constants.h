@@ -22,17 +22,17 @@ namespace Math {
 
 
 // Unit conversions.
-const double RAD_TO_DEG   ( 57.295779513082320876798161804285 );
-const double DEG_TO_RAD   ( 0.017453292519943295769236905555556 );
+constexpr double RAD_TO_DEG   ( 57.295779513082320876798161804285 );
+constexpr double DEG_TO_RAD   ( 0.017453292519943295769236905555556 );
 
 // Trig.
-const double PI           ( 3.141592653589793238462643 );
-const double PI_OVER_2    ( Usul::Math::PI / 2.0 );
+constexpr double PI           ( 3.141592653589793238462643 );
+constexpr double PI_OVER_2    ( Usul::Math::PI / 2.0 );
 
 // Square root.
-const double SQRT_2       ( 1.41421356237309504880 );
-const double SQRT_3       ( 1.73205080757 );
-const double INV_SQRT_2   ( 0.70710678118654752440 );
+constexpr double SQRT_2       ( 1.41421356237309504880 );
+constexpr double SQRT_3       ( 1.73205080757 );
+constexpr double INV_SQRT_2   ( 0.70710678118654752440 );
 
 
 } // namespace Math
