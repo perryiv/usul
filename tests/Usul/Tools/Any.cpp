@@ -41,25 +41,15 @@ TEST_CASE ( "Usul::Tools::Any" )
     3.0, 4.0, 5.0, 6.0
   );
   const Math::Matrix44d md2;
-  const Math::Matrix44f mf1 (
-    0.0f, 1.0f, 2.0f, 3.0f,
-    1.0f, 2.0f, 3.0f, 4.0f,
-    2.0f, 3.0f, 4.0f, 5.0f,
-    3.0f, 4.0f, 5.0f, 6.0f
-  );
   const Math::Matrix44f mf2;
 
   const Math::Vec3d v3d1 ( 0.1, 0.2, 0.3 );
   const Math::Vec3d v3d2 ( 1.0, 2.0, 3.0 );
-
-  const Math::Vec3f v3f1 ( 0.1f, 0.2f, 0.3f );
   const Math::Vec3f v3f2 ( 1.0f, 2.0f, 3.0f );
-
-  const Math::Vec4d v4d1 ( 0.5, 0.5, 0.5, 1.0 );
-  const Math::Vec4d v4d2 ( 1.0, 2.0, 3.0, 1.0 );
 
   const Math::Vec4f v4f1 ( 0.5f, 0.5f, 0.5f, 1.0f );
   const Math::Vec4f v4f2 ( 1.0f, 2.0f, 3.0f, 1.0f );
+  const Math::Vec4d v4d2 ( 1.0, 2.0, 3.0, 1.0 );
 
   const Map properties = {
     { "center", v3d1 },

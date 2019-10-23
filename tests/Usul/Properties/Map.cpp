@@ -137,12 +137,14 @@ TEST_CASE ( "Property Functions" )
     REQUIRE ( 1u   == a.get < uint   > ( "1u", 2u   ) );
 
     a.insert ( "md1", md1 );
+    a.insert ( "mf1", mf1 );
     a.insert ( "v3d1", v3d1 );
     a.insert ( "v3f1", v3f1 );
     a.insert ( "v4d1", v4d1 );
     a.insert ( "v4f1", v4f1 );
 
     REQUIRE ( Math::equal ( md1,  a.get < Math::Matrix44d > ( "md1",  md2  ) ) );
+    REQUIRE ( Math::equal ( mf1,  a.get < Math::Matrix44f > ( "mf1",  mf2  ) ) );
     REQUIRE ( Math::equal ( v3d1, a.get < Math::Vec3d     > ( "v3d1", v3d2 ) ) );
     REQUIRE ( Math::equal ( v3f1, a.get < Math::Vec3f     > ( "v3f1", v3f2 ) ) );
     REQUIRE ( Math::equal ( v4d1, a.get < Math::Vec4d     > ( "v4d1", v4d2 ) ) );

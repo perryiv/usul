@@ -67,13 +67,8 @@ public:
   //
   /////////////////////////////////////////////////////////////////////////////
 
-  constexpr Vector2 ( bool initialize = true )
+  constexpr Vector2() : _v { T(), T() }
   {
-    if ( initialize )
-    {
-      _v[0] = T();
-      _v[1] = T();
-    }
   }
 
 
@@ -83,10 +78,9 @@ public:
   //
   /////////////////////////////////////////////////////////////////////////////
 
-  constexpr explicit Vector2 ( const T v[SIZE] )
+  constexpr explicit Vector2 ( const T v[SIZE] ) :
+    _v { v[0], v[1] }
   {
-    _v[0] = v[0];
-    _v[1] = v[1];
   }
 
 
@@ -96,10 +90,9 @@ public:
   //
   /////////////////////////////////////////////////////////////////////////////
 
-  constexpr Vector2 ( T v0, T v1 )
+  constexpr Vector2 ( T v0, T v1 ) :
+    _v { v0, v1 }
   {
-    _v[0] = v0;
-    _v[1] = v1;
   }
 
 

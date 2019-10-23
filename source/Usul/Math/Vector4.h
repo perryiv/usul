@@ -67,15 +67,8 @@ public:
   //
   /////////////////////////////////////////////////////////////////////////////
 
-  constexpr Vector4 ( bool initialize = true )
+  constexpr Vector4() : _v { T(), T(), T(), T() }
   {
-    if ( initialize )
-    {
-      _v[0] = T();
-      _v[1] = T();
-      _v[2] = T();
-      _v[3] = T();
-    }
   }
 
 
@@ -85,12 +78,9 @@ public:
   //
   /////////////////////////////////////////////////////////////////////////////
 
-  constexpr explicit Vector4 ( const T v[SIZE] )
+  constexpr explicit Vector4 ( const T v[SIZE] ) :
+    _v { v[0], v[1], v[2], v[3] }
   {
-    _v[0] = v[0];
-    _v[1] = v[1];
-    _v[2] = v[2];
-    _v[3] = v[3];
   }
 
 
@@ -100,12 +90,9 @@ public:
   //
   /////////////////////////////////////////////////////////////////////////////
 
-  constexpr Vector4 ( T v0, T v1, T v2, T v3 )
+  constexpr Vector4 ( T v0, T v1, T v2, T v3 ) :
+    _v { v0, v1, v2, v3 }
   {
-    _v[0] = v0;
-    _v[1] = v1;
-    _v[2] = v2;
-    _v[3] = v3;
   }
 
 

@@ -23,22 +23,22 @@
 #include <string>
 
 // For readability below.
-const unsigned int R0C0 ( Usul::Math::R0C0 );
-const unsigned int R1C0 ( Usul::Math::R1C0 );
-const unsigned int R2C0 ( Usul::Math::R2C0 );
-const unsigned int R3C0 ( Usul::Math::R3C0 );
-const unsigned int R0C1 ( Usul::Math::R0C1 );
-const unsigned int R1C1 ( Usul::Math::R1C1 );
-const unsigned int R2C1 ( Usul::Math::R2C1 );
-const unsigned int R3C1 ( Usul::Math::R3C1 );
-const unsigned int R0C2 ( Usul::Math::R0C2 );
-const unsigned int R1C2 ( Usul::Math::R1C2 );
-const unsigned int R2C2 ( Usul::Math::R2C2 );
-const unsigned int R3C2 ( Usul::Math::R3C2 );
-const unsigned int R0C3 ( Usul::Math::R0C3 );
-const unsigned int R1C3 ( Usul::Math::R1C3 );
-const unsigned int R2C3 ( Usul::Math::R2C3 );
-const unsigned int R3C3 ( Usul::Math::R3C3 );
+constexpr unsigned int R0C0 = Usul::Math::R0C0;
+constexpr unsigned int R1C0 = Usul::Math::R1C0;
+constexpr unsigned int R2C0 = Usul::Math::R2C0;
+constexpr unsigned int R3C0 = Usul::Math::R3C0;
+constexpr unsigned int R0C1 = Usul::Math::R0C1;
+constexpr unsigned int R1C1 = Usul::Math::R1C1;
+constexpr unsigned int R2C1 = Usul::Math::R2C1;
+constexpr unsigned int R3C1 = Usul::Math::R3C1;
+constexpr unsigned int R0C2 = Usul::Math::R0C2;
+constexpr unsigned int R1C2 = Usul::Math::R1C2;
+constexpr unsigned int R2C2 = Usul::Math::R2C2;
+constexpr unsigned int R3C2 = Usul::Math::R3C2;
+constexpr unsigned int R0C3 = Usul::Math::R0C3;
+constexpr unsigned int R1C3 = Usul::Math::R1C3;
+constexpr unsigned int R2C3 = Usul::Math::R2C3;
+constexpr unsigned int R3C3 = Usul::Math::R3C3;
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -450,7 +450,6 @@ TEMPLATE_TEST_CASE ( "Matrix44 template math functions", "",
 
   SECTION ( "Can multiply matrix times 3D vector" )
   {
-    const MatrixType mi ( IDENTITY );
     const MatrixType ma ( MATRIX_A );
     const MatrixType mb ( MATRIX_B );
     const MatrixType mc ( MATRIX_C );
@@ -500,7 +499,6 @@ TEMPLATE_TEST_CASE ( "Matrix44 template math functions", "",
 
   SECTION ( "Can multiply matrix times 4D vector" )
   {
-    const MatrixType mi ( IDENTITY );
     const MatrixType ma ( MATRIX_A );
     const MatrixType mb ( MATRIX_B );
     const MatrixType mc ( MATRIX_C );

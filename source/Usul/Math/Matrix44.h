@@ -38,22 +38,22 @@ namespace Math {
 
 
 // For readability below.
-const unsigned int R0C0 (  0 );
-const unsigned int R1C0 (  1 );
-const unsigned int R2C0 (  2 );
-const unsigned int R3C0 (  3 );
-const unsigned int R0C1 (  4 );
-const unsigned int R1C1 (  5 );
-const unsigned int R2C1 (  6 );
-const unsigned int R3C1 (  7 );
-const unsigned int R0C2 (  8 );
-const unsigned int R1C2 (  9 );
-const unsigned int R2C2 ( 10 );
-const unsigned int R3C2 ( 11 );
-const unsigned int R0C3 ( 12 );
-const unsigned int R1C3 ( 13 );
-const unsigned int R2C3 ( 14 );
-const unsigned int R3C3 ( 15 );
+constexpr unsigned int R0C0 =  0;
+constexpr unsigned int R1C0 =  1;
+constexpr unsigned int R2C0 =  2;
+constexpr unsigned int R3C0 =  3;
+constexpr unsigned int R0C1 =  4;
+constexpr unsigned int R1C1 =  5;
+constexpr unsigned int R2C1 =  6;
+constexpr unsigned int R3C1 =  7;
+constexpr unsigned int R0C2 =  8;
+constexpr unsigned int R1C2 =  9;
+constexpr unsigned int R2C2 = 10;
+constexpr unsigned int R3C2 = 11;
+constexpr unsigned int R0C3 = 12;
+constexpr unsigned int R1C3 = 13;
+constexpr unsigned int R2C3 = 14;
+constexpr unsigned int R3C3 = 15;
 
 
 template
@@ -102,15 +102,12 @@ public:
   //
   /////////////////////////////////////////////////////////////////////////////
 
-  constexpr Matrix44 ( bool initialize = true )
+  constexpr Matrix44() : _m {
+    1, 0, 0, 0,
+    0, 1, 0, 0,
+    0, 0, 1, 0,
+    0, 0, 0, 1 }
   {
-    if ( initialize )
-    {
-      _m[R0C0] = 1; _m[R0C1] = 0; _m[R0C2] = 0; _m[R0C3] = 0;
-      _m[R1C0] = 0; _m[R1C1] = 1; _m[R1C2] = 0; _m[R1C3] = 0;
-      _m[R2C0] = 0; _m[R2C1] = 0; _m[R2C2] = 1; _m[R2C3] = 0;
-      _m[R3C0] = 0; _m[R3C1] = 0; _m[R3C2] = 0; _m[R3C3] = 1;
-    }
   }
 
 
@@ -120,9 +117,12 @@ public:
   //
   /////////////////////////////////////////////////////////////////////////////
 
-  constexpr explicit Matrix44 ( const T m[SIZE] )
+  constexpr explicit Matrix44 ( const T m[SIZE] ) : _m {
+    m[ 0], m[ 1], m[ 2], m[ 3],
+    m[ 4], m[ 5], m[ 6], m[ 7],
+    m[ 8], m[ 9], m[10], m[11],
+    m[12], m[13], m[14], m[15] }
   {
-    this->set ( m );
   }
 
 
@@ -136,13 +136,12 @@ public:
     T m00, T m01, T m02, T m03,
     T m10, T m11, T m12, T m13,
     T m20, T m21, T m22, T m23,
-    T m30, T m31, T m32, T m33 )
+    T m30, T m31, T m32, T m33 ) : _m {
+      m00, m10, m20, m30,
+      m01, m11, m21, m31, // Note: it looks like a transpose
+      m02, m12, m22, m32, // here but it is not.
+      m03, m13, m23, m33 }
   {
-    this->set (
-      m00, m01, m02, m03,
-      m10, m11, m12, m13,
-      m20, m21, m22, m23,
-      m30, m31, m32, m33 );
   }
 
 
@@ -152,9 +151,12 @@ public:
   //
   /////////////////////////////////////////////////////////////////////////////
 
-  Matrix44 ( const ThisType &m )
+  constexpr Matrix44 ( const ThisType &m ) : _m {
+    m._m[ 0], m._m[ 1], m._m[ 2], m._m[ 3],
+    m._m[ 4], m._m[ 5], m._m[ 6], m._m[ 7],
+    m._m[ 8], m._m[ 9], m._m[10], m._m[11],
+    m._m[12], m._m[13], m._m[14], m._m[15] }
   {
-    this->set ( m );
   }
 
 
@@ -357,7 +359,7 @@ inline void transpose ( const Matrix44 < T, I > &a, Matrix44 < T, I > &b )
 template < class T, class I >
 inline Matrix44 < T, I > transpose ( const Matrix44 < T, I > &a )
 {
-  Matrix44 < T, I > b ( false ); // Do not initialize it to identity.
+  Matrix44 < T, I > b;
   transpose ( a, b );
   return b;
 }
@@ -421,7 +423,7 @@ inline void translate ( const Matrix44 < T, I > &a, const Vector3 < T, I > &v, M
 template < class T, class I >
 inline Matrix44 < T, I > translate ( const Matrix44 < T, I > &a, const Vector3 < T, I > &v )
 {
-  Matrix44 < T, I > b ( false ); // Do not initialize it to identity.
+  Matrix44 < T, I > b;
   translate ( a, v, b );
   return b;
 }
@@ -482,7 +484,7 @@ inline void multiply ( const Matrix44 < T, I > &a, const Matrix44 < T, I > &b, M
 template < class T, class I >
 inline Matrix44 < T, I > multiply ( const Matrix44 < T, I > &a, const Matrix44 < T, I > &b )
 {
-  Matrix44 < T, I > c ( false ); // Do not initialize it to identity.
+  Matrix44 < T, I > c;
   multiply ( a, b, c );
   return c;
 }
@@ -528,7 +530,7 @@ inline void multiply ( const Matrix44 < T, I > &m, const Vector3 < T, I > &a, Ve
 template < class T, class I >
 inline Vector3 < T, I > multiply ( const Matrix44 < T, I > &m, const Vector3 < T, I > &a )
 {
-  Vector3 < T, I > b ( false ); // Do not initialize.
+  Vector3 < T, I > b;
   multiply ( m, a, b );
   return b;
 }
@@ -572,7 +574,7 @@ inline void multiply ( const Matrix44 < T, I > &m, const Vector4 < T, I > &a, Ve
 template < class T, class I >
 inline Vector4 < T, I > multiply ( const Matrix44 < T, I > &m, const Vector4 < T, I > &a )
 {
-  Vector4 < T, I > b ( false ); // Do not initialize.
+  Vector4 < T, I > b;
   multiply ( m, a, b );
   return b;
 }
@@ -703,7 +705,7 @@ inline void rotation ( const Matrix44 < T, I > &m, Matrix44 < T, I > &r )
 template < class T, class I >
 inline Matrix44 < T, I > rotation ( const Matrix44 < T, I > &m )
 {
-  Matrix44 < T, I > r ( false ); // Do not initialize.
+  Matrix44 < T, I > r;
   rotation ( m, r );
   return r;
 }
