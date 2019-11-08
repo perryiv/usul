@@ -9,20 +9,11 @@ It also takes into consideration the first attempt at a re-write found
 
 ### Dependencies
 
-As of now Usul is a library of header files with zero dependencies.
-If you're just going to use Usul in your project then there is nothing to do.
-
-However, if you're going to build the test programs then you will need:
-
-- [CMake](https://cmake.org/) to generate the build files, and
-- [Catch2](https://github.com/catchorg/Catch2) to compile against.
-
-Download the Catch2 repository and set one environment variable. In a `tcsh`
-it will look like this:
-
-    setenv CATCH2_INC_DIR Catch2/single_include/catch2
-
-Adjust accordingly for other platforms and shells.
+Many header files can be used without ever compiling the library.
+However, if you're going to build the library you will need
+[CMake](https://cmake.org/).
+Building the test program requires
+[Catch2](https://github.com/catchorg/Catch2).
 
 ### Testing
 
@@ -35,26 +26,11 @@ To configure, compile, and test, do this:
     cmake --build .
     ./bin/usul_test
 
-### Optional
-
-If you have a recent version of [Node.js](https://nodejs.org/) and `npm`
-you can do this:
-
-    cd usul
-    npm install
-    npm run config
-    npm run build
-    npm run test
-
-If you want to automatically recompile when the source code changes, do this:
-
-    npm run watch
-
 ### Errors
 
 When this library encounters an error inside a destructor it writes information
-to stderr. When it encounters an error anywhere else it throws a standard
-exception.
+to stderr. When it encounters an error (just about) anywhere else it throws a
+standard exception.
 
 This seems to be a good balance between flexibility when handling errors,
 and keeping the various source files decoupled, especially the header-only
