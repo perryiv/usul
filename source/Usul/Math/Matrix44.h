@@ -724,23 +724,61 @@ inline bool isFinite ( const Matrix44 < T, I > &m )
   const T *ma ( m.get() );
 
   return (
-    std::isfinite ( ma[R0C0] ) &&
-    std::isfinite ( ma[R0C1] ) &&
-    std::isfinite ( ma[R0C2] ) &&
-    std::isfinite ( ma[R0C3] ) &&
-    std::isfinite ( ma[R1C0] ) &&
-    std::isfinite ( ma[R1C1] ) &&
-    std::isfinite ( ma[R1C2] ) &&
-    std::isfinite ( ma[R1C3] ) &&
-    std::isfinite ( ma[R2C0] ) &&
-    std::isfinite ( ma[R2C1] ) &&
-    std::isfinite ( ma[R2C2] ) &&
-    std::isfinite ( ma[R2C3] ) &&
-    std::isfinite ( ma[R3C0] ) &&
-    std::isfinite ( ma[R3C1] ) &&
-    std::isfinite ( ma[R3C2] ) &&
-    std::isfinite ( ma[R3C3] )
+    std::isfinite ( ma[ 0] ) &&
+    std::isfinite ( ma[ 1] ) &&
+    std::isfinite ( ma[ 2] ) &&
+    std::isfinite ( ma[ 3] ) &&
+    std::isfinite ( ma[ 4] ) &&
+    std::isfinite ( ma[ 5] ) &&
+    std::isfinite ( ma[ 6] ) &&
+    std::isfinite ( ma[ 7] ) &&
+    std::isfinite ( ma[ 8] ) &&
+    std::isfinite ( ma[ 9] ) &&
+    std::isfinite ( ma[10] ) &&
+    std::isfinite ( ma[11] ) &&
+    std::isfinite ( ma[12] ) &&
+    std::isfinite ( ma[13] ) &&
+    std::isfinite ( ma[14] ) &&
+    std::isfinite ( ma[15] )
   );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Generate a matrix with random numbers between the given range.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+template < class T, class I >
+inline void random ( Matrix44 < T, I > &v, const T &mn = 0, const T &mx = 1 )
+{
+  // Make sure we're working with a floating point number type.
+  static_assert ( std::is_floating_point < T >::value, "Not a floating-point number type" );
+
+  // Shortcut.
+  const T randMax = static_cast < T > ( RAND_MAX );
+
+  // Assign random numbers in the range.
+  v[ 0] = ( mn + ( ( static_cast < T > ( std::rand() ) / randMax ) * ( mx - mn ) ) );
+  v[ 1] = ( mn + ( ( static_cast < T > ( std::rand() ) / randMax ) * ( mx - mn ) ) );
+  v[ 2] = ( mn + ( ( static_cast < T > ( std::rand() ) / randMax ) * ( mx - mn ) ) );
+  v[ 3] = ( mn + ( ( static_cast < T > ( std::rand() ) / randMax ) * ( mx - mn ) ) );
+
+  v[ 4] = ( mn + ( ( static_cast < T > ( std::rand() ) / randMax ) * ( mx - mn ) ) );
+  v[ 5] = ( mn + ( ( static_cast < T > ( std::rand() ) / randMax ) * ( mx - mn ) ) );
+  v[ 6] = ( mn + ( ( static_cast < T > ( std::rand() ) / randMax ) * ( mx - mn ) ) );
+  v[ 7] = ( mn + ( ( static_cast < T > ( std::rand() ) / randMax ) * ( mx - mn ) ) );
+
+  v[ 8] = ( mn + ( ( static_cast < T > ( std::rand() ) / randMax ) * ( mx - mn ) ) );
+  v[ 9] = ( mn + ( ( static_cast < T > ( std::rand() ) / randMax ) * ( mx - mn ) ) );
+  v[10] = ( mn + ( ( static_cast < T > ( std::rand() ) / randMax ) * ( mx - mn ) ) );
+  v[11] = ( mn + ( ( static_cast < T > ( std::rand() ) / randMax ) * ( mx - mn ) ) );
+
+  v[12] = ( mn + ( ( static_cast < T > ( std::rand() ) / randMax ) * ( mx - mn ) ) );
+  v[13] = ( mn + ( ( static_cast < T > ( std::rand() ) / randMax ) * ( mx - mn ) ) );
+  v[14] = ( mn + ( ( static_cast < T > ( std::rand() ) / randMax ) * ( mx - mn ) ) );
+  v[15] = ( mn + ( ( static_cast < T > ( std::rand() ) / randMax ) * ( mx - mn ) ) );
 }
 
 
