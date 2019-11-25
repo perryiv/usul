@@ -12,6 +12,7 @@ class Usul(intel.ConanFile):
     default_options = {"shared": True, "build_tests": False}
     no_copy_source = True
     scm = {"type": "git", "url": "auto", "revision": "auto"}
+    revision_mode = "scm"
 
     def build_requirements(self):
         if self.options.build_tests:
