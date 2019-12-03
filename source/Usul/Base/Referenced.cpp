@@ -164,7 +164,7 @@ void Referenced::_deleteMe()
     delete this;
   }
 
-  // We're not in a destructor so we coult throw an exception. However, given
+  // We're not in a destructor so we could throw an exception. However, given
   // where this function gets called from it's probably best that we do not.
   // If the user wants to capture this error they can redirect stderr.
   // We output one string because that works best when multi-threaded.
