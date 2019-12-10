@@ -94,12 +94,22 @@ configure_file (
   ${USUL_CONFIG_DIR_INPUT}/Config.h.in
   ${USUL_CONFIG_DIR_OUTPUT}/Usul/Config.h )
 
-# Install generated files wherever the user specified to install things.
-install (
-  DIRECTORY ${USUL_CONFIG_DIR_OUTPUT}/Usul
-  DESTINATION include
-  FILES_MATCHING PATTERN "*.h"
-)
+# Does the user want to be able to install usul
+if ( "${CMAKE_PROJECT_NAME}" STREQUAL "${PROJECT_NAME}" )
+  set ( ${PROJECT_NAME}_INSTALL_DEFAULT ON )
+else()
+  set ( ${PROJECT_NAME}_INSTALL_DEFAULT OFF )
+endif()
+option ( ${PROJECT_NAME}_INSTALL "Able to install ${PROJECT_NAME}" ${${PROJECT_NAME}_INSTALL_DEFAULT} )
+
+if ( ${PROJECT_NAME}_INSTALL )
+  # Install generated files wherever the user specified to install things.
+  install (
+    DIRECTORY ${USUL_CONFIG_DIR_OUTPUT}/Usul
+    DESTINATION include
+    FILES_MATCHING PATTERN "*.h"
+  )
+endif()
 
 # Does the user want strict warnings?
 option ( USUL_ENABLE_STRICT_WARNINGS "Enable strict warnings" ON )
