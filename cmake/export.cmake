@@ -51,15 +51,17 @@ configure_file (
   ${PROJECT_BINARY_DIR}/${PROJECT_NAME}-config-version.cmake @ONLY
 )
 
-# Install the config files that cmake will use when another project uses this one.
-install ( FILES
-  ${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}-config.cmake
-  ${PROJECT_BINARY_DIR}/${PROJECT_NAME}-config-version.cmake
-  DESTINATION ${INSTALL_CMAKE_DIR}
-)
+if ( ${PROJECT_NAME}_INSTALL )
+  # Install the config files that cmake will use when another project uses this one.
+  install ( FILES
+    ${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}-config.cmake
+    ${PROJECT_BINARY_DIR}/${PROJECT_NAME}-config-version.cmake
+    DESTINATION ${INSTALL_CMAKE_DIR}
+  )
 
-# Install the export target files that cmake will use when another project uses this one.
-install (
-  EXPORT ${PROJECT_NAME}_targets
-  DESTINATION ${INSTALL_CMAKE_DIR}
-)
+  # Install the export target files that cmake will use when another project uses this one.
+  install (
+    EXPORT ${PROJECT_NAME}_targets
+    DESTINATION ${INSTALL_CMAKE_DIR}
+  )
+endif()
