@@ -28,6 +28,7 @@ constexpr double DEG_TO_RAD   ( 0.017453292519943295769236905555556 );
 // Trig.
 constexpr double PI           ( 3.141592653589793238462643 );
 constexpr double PI_OVER_2    ( Usul::Math::PI / 2.0 );
+constexpr double TWO_PI       ( Usul::Math::PI * 2.0 );
 
 // Square root.
 constexpr double SQRT_2       ( 1.41421356237309504880 );
