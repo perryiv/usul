@@ -681,6 +681,90 @@ inline bool inverse ( const Matrix44 < T, I > &a, Matrix44 < T, I > &b )
 
 ///////////////////////////////////////////////////////////////////////////////
 //
+//  Rotate the matrix by the given angle about the given axis.
+//  https://github.com/toji/gl-matrix
+//
+///////////////////////////////////////////////////////////////////////////////
+
+template < class T, class I >
+inline bool rotate ( const Matrix44 < T, I > &m, const Vector3 < T, I > &axis, const T &angle, Matrix44 < T, I > &answer )
+{
+  // Shortcuts.
+  constexpr T zero = static_cast < T > ( 0 );
+  constexpr T one  = static_cast < T > ( 1 );
+
+  // Handle zero-length axis vectors.
+  const T len = Usul::Math::length ( axis );
+  if ( zero == len )
+  {
+    return false;
+  }
+
+  // Shortcuts.
+  T x = axis[0];
+  T y = axis[1];
+  T z = axis[2];
+
+  // Normalize if we have to.
+  if ( one != len )
+  {
+    const T invLen = one / len;
+    x *= invLen;
+    y *= invLen;
+    z *= invLen;
+  }
+
+  // Do some trig.
+  const T s = std::sin ( angle );
+  const T c = std::cos ( angle );
+  const T t = one - c;
+
+  // Shortcuts.
+  const T a00 = m[ 0], a01 = m[ 1], a02 = m[ 2], a03 = m[ 3];
+  const T a10 = m[ 4], a11 = m[ 5], a12 = m[ 6], a13 = m[ 7];
+  const T a20 = m[ 8], a21 = m[ 9], a22 = m[10], a23 = m[11];
+
+  // More shortcuts.
+  const T b00 = x * x * t + c,     b01 = y * x * t + z * s, b02 = z * x * t - y * s;
+  const T b10 = x * y * t - z * s, b11 = y * y * t + c,     b12 = z * y * t + x * s;
+  const T b20 = x * z * t + y * s, b21 = y * z * t - x * s, b22 = z * z * t + c;
+
+  // These elements just get copied over.
+  answer[R0C3] = m[R0C3];
+  answer[R1C3] = m[R1C3];
+  answer[R2C3] = m[R2C3];
+  answer[R3C3] = m[R3C3];
+
+  // Calculate the remaining elements.
+  answer[R0C0] = a00 * b00 + a10 * b01 + a20 * b02;
+  answer[R1C0] = a01 * b00 + a11 * b01 + a21 * b02;
+  answer[R2C0] = a02 * b00 + a12 * b01 + a22 * b02;
+  answer[R3C0] = a03 * b00 + a13 * b01 + a23 * b02;
+
+  answer[R0C1] = a00 * b10 + a10 * b11 + a20 * b12;
+  answer[R1C1] = a01 * b10 + a11 * b11 + a21 * b12;
+  answer[R2C1] = a02 * b10 + a12 * b11 + a22 * b12;
+  answer[R3C1] = a03 * b10 + a13 * b11 + a23 * b12;
+
+  answer[R0C2] = a00 * b20 + a10 * b21 + a20 * b22;
+  answer[R1C2] = a01 * b20 + a11 * b21 + a21 * b22;
+  answer[R2C2] = a02 * b20 + a12 * b21 + a22 * b22;
+  answer[R3C2] = a03 * b20 + a13 * b21 + a23 * b22;
+
+  // It worked.
+  return true;
+}
+template < class T, class I >
+inline Matrix44 < T, I > rotate ( const Matrix44 < T, I > &m, const Vector3 < T, I > &axis, const T &angle )
+{
+  Matrix44 < T, I > answer;
+  rotate ( m, axis, angle, answer );
+  return answer;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
 //  Get the rotation portion of the given matrix.
 //  https://github.com/toji/gl-matrix
 //

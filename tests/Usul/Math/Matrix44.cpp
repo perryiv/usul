@@ -13,6 +13,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
+#include "Usul/Math/Constants.h"
 #include "Usul/Math/Matrix44.h"
 #include "Usul/Math/Vector4.h"
 #include "Usul/Math/Vector3.h"
@@ -539,5 +540,33 @@ TEMPLATE_TEST_CASE ( "Matrix44 template math functions", "",
       REQUIRE ( Usul::Math::equal ( vb, Usul::Math::multiply ( mc, va ) ) );
       REQUIRE ( Usul::Math::equal ( vb, mc * va ) );
     }
+  }
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//  Test the math functions.
+//
+////////////////////////////////////////////////////////////////////////////////
+
+TEMPLATE_TEST_CASE ( "Matrix44 functions for float and double", "", float, double )
+{
+  typedef TestType T;
+  typedef std::numeric_limits < T > Limits;
+  typedef typename Usul::Math::Matrix44 < T > MatrixType;
+  typedef typename Usul::Math::Vector3  < T > Vector3Type;
+
+  static_assert ( false == Limits::is_integer );
+  constexpr TestType tol = Limits::epsilon();
+
+  SECTION ( "Can rotate a matrix" )
+  {
+    const MatrixType m = Usul::Math::rotate ( MatrixType(), Vector3Type ( 1, 0, 0 ), static_cast < TestType > ( Usul::Math::PI_OVER_2 ) );
+    const Vector3Type v = Usul::Math::multiply ( m, Vector3Type ( 0, 1, 0 ) );
+
+    REQUIRE ( std::abs ( v[0] - 0 ) < tol );
+    REQUIRE ( std::abs ( v[1] - 0 ) < tol );
+    REQUIRE ( std::abs ( v[2] - 1 ) < tol );
   }
 }
