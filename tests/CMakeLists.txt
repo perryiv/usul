@@ -37,6 +37,7 @@ include_directories ( ${CMAKE_CURRENT_SOURCE_DIR} )
 set ( SOURCE_FILES
   ./Helpers/Classes.cpp
   ./Helpers/Instances.cpp
+  ./Usul/Algorithms/Revolution.cpp
   ./Usul/Base/Referenced.cpp
   ./Usul/Bits/Bits.cpp
   ./Usul/Errors/Check.cpp
