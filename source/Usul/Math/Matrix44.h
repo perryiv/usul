@@ -510,6 +510,7 @@ inline void multiply ( const Matrix44 < T, I > &m, const Vector3 < T, I > &a, Ve
   const T *aa ( a.get() );
   T *ba ( b.get() );
 
+  // For speed, and in case a and b are the same memory.
   const T x ( aa[0] );
   const T y ( aa[1] );
   const T z ( aa[2] );
@@ -556,6 +557,7 @@ inline void multiply ( const Matrix44 < T, I > &m, const Vector4 < T, I > &a, Ve
   const T *aa ( a.get() );
   T *ba ( b.get() );
 
+  // For speed, and in case a and b are the same memory.
   const T x ( aa[0] );
   const T y ( aa[1] );
   const T z ( aa[2] );
@@ -758,7 +760,10 @@ template < class T, class I >
 inline Matrix44 < T, I > rotate ( const Matrix44 < T, I > &m, const Vector3 < T, I > &axis, const T &angle )
 {
   Matrix44 < T, I > answer;
-  rotate ( m, axis, angle, answer );
+  if ( false == rotate ( m, axis, angle, answer ) )
+  {
+    throw std::runtime_error ( "Could not rotate matrix" );
+  }
   return answer;
 }
 
