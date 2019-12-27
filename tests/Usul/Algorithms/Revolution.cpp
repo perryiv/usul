@@ -15,6 +15,7 @@
 
 #include "Usul/Algorithms/Revolution.h"
 #include "Usul/Math/Constants.h"
+#include "Usul/Math/Matrix44.h"
 #include "Usul/Math/Vector3.h"
 
 #include "catch2/catch.hpp"
@@ -30,6 +31,7 @@ TEMPLATE_TEST_CASE ( "Functions for surface-of-revolution", "",
   float, double, ( long double ) )
 {
   namespace Revolution = Usul::Algorithms::Revolution;
+  // typedef Usul::Math::Matrix44 < TestType > Matrix44;
   typedef Usul::Math::Vector3 < TestType > Vec3;
   typedef std::vector < Vec3 > Points;
   typedef std::vector < Vec3 > Normals;
@@ -39,18 +41,24 @@ TEMPLATE_TEST_CASE ( "Functions for surface-of-revolution", "",
   {
     // These are the input.
     const Vec3 axis ( 1, 0, 0 );
-    const Points curve {
+    const Points curvePoints {
       Vec3 ( 0, 1, 0 ),
       Vec3 ( 1, 1, 0 ),
       Vec3 ( 2, 1, 0 ),
       Vec3 ( 3, 1, 0 ),
       Vec3 ( 4, 1, 0 )
     };
-    const unsigned int numPointsAxial = static_cast < unsigned int > ( curve.size() );
+    const Points curveNormals {
+      Vec3 ( 0, 1, 0 ),
+      Vec3 ( 0, 1, 0 ),
+      Vec3 ( 0, 1, 0 ),
+      Vec3 ( 0, 1, 0 ),
+      Vec3 ( 0, 1, 0 ),
+    };
+    const unsigned int numPointsAxial = static_cast < unsigned int > ( curvePoints.size() );
     const unsigned int numPointsRadial = 5;
     const TestType startAngle = 0;
     const TestType endAngle = static_cast < TestType > ( Usul::Math::TWO_PI );
-    const bool triStrips = false; // We want triangles.
 
     // These are the output.
     Points points;
@@ -59,8 +67,8 @@ TEMPLATE_TEST_CASE ( "Functions for surface-of-revolution", "",
 
     // Generate the data.
     Revolution::generate (
-      axis, curve, numPointsRadial, startAngle, endAngle,
-      triStrips, points, normals, indices
+      axis, curvePoints, curveNormals, numPointsRadial, startAngle, endAngle,
+      points, normals, indices
     );
 
     // Needed below.
@@ -70,7 +78,7 @@ TEMPLATE_TEST_CASE ( "Functions for surface-of-revolution", "",
 
     // Should be true.
     REQUIRE ( totalNumPoints == points.size()  );
-    // REQUIRE ( totalNumPoints == normals.size() );
+    REQUIRE ( totalNumPoints == normals.size() );
     REQUIRE ( ( 3 * numTriangles ) == indices.size() );
   }
 }
