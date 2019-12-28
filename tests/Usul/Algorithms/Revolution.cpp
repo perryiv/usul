@@ -15,7 +15,6 @@
 
 #include "Usul/Algorithms/Revolution.h"
 #include "Usul/Math/Constants.h"
-#include "Usul/Math/Matrix44.h"
 #include "Usul/Math/Vector3.h"
 
 #include "catch2/catch.hpp"
@@ -31,7 +30,6 @@ TEMPLATE_TEST_CASE ( "Functions for surface-of-revolution", "",
   float, double, ( long double ) )
 {
   namespace Revolution = Usul::Algorithms::Revolution;
-  // typedef Usul::Math::Matrix44 < TestType > Matrix44;
   typedef Usul::Math::Vector3 < TestType > Vec3;
   typedef std::vector < Vec3 > Points;
   typedef std::vector < Vec3 > Normals;
