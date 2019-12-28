@@ -118,4 +118,63 @@ TEMPLATE_TEST_CASE ( "Functions for a sequence", "", float, double )
     Details::isEqualString ( b[3][1], SC ( -5 ) );
     Details::isEqualString ( b[3][2], SC (  4 ) );
   }
+
+  SECTION ( "Can normalize a sequence of vec3 into a new sequence" )
+  {
+    const Sequence a ( {
+      { Vec3 ( SC ( 2 ), SC ( 0 ), SC ( 0 ) ) },
+      { Vec3 ( SC ( 0 ), SC ( 2 ), SC ( 0 ) ) },
+      { Vec3 ( SC ( 0 ), SC ( 0 ), SC ( 2 ) ) },
+      { Vec3 ( SC ( 1 ), SC ( 1 ), SC ( 1 ) ) }
+    } );
+    Sequence b;
+
+    Usul::Math::normalize ( a, b );
+
+    Details::isEqualString ( b[0][0], SC ( 1 ) );
+    Details::isEqualString ( b[0][1], SC ( 0 ) );
+    Details::isEqualString ( b[0][2], SC ( 0 ) );
+
+    Details::isEqualString ( b[1][0], SC ( 0 ) );
+    Details::isEqualString ( b[1][1], SC ( 1 ) );
+    Details::isEqualString ( b[1][2], SC ( 0 ) );
+
+    Details::isEqualString ( b[2][0], SC ( 0 ) );
+    Details::isEqualString ( b[2][1], SC ( 0 ) );
+    Details::isEqualString ( b[2][2], SC ( 1 ) );
+
+    const TestType oneOverSquareRootOfThree = SC ( 1 ) / SC ( std::pow ( SC ( 3 ), SC ( 0.5 ) ) );
+    Details::isEqualString ( b[3][0], oneOverSquareRootOfThree );
+    Details::isEqualString ( b[3][1], oneOverSquareRootOfThree );
+    Details::isEqualString ( b[3][2], oneOverSquareRootOfThree );
+  }
+
+  SECTION ( "Can normalize a sequence of vec3 in place" )
+  {
+    Sequence b ( {
+      { Vec3 ( SC ( 2 ), SC ( 0 ), SC ( 0 ) ) },
+      { Vec3 ( SC ( 0 ), SC ( 2 ), SC ( 0 ) ) },
+      { Vec3 ( SC ( 0 ), SC ( 0 ), SC ( 2 ) ) },
+      { Vec3 ( SC ( 1 ), SC ( 1 ), SC ( 1 ) ) }
+    } );
+
+    Usul::Math::normalize ( b );
+
+    Details::isEqualString ( b[0][0], SC ( 1 ) );
+    Details::isEqualString ( b[0][1], SC ( 0 ) );
+    Details::isEqualString ( b[0][2], SC ( 0 ) );
+
+    Details::isEqualString ( b[1][0], SC ( 0 ) );
+    Details::isEqualString ( b[1][1], SC ( 1 ) );
+    Details::isEqualString ( b[1][2], SC ( 0 ) );
+
+    Details::isEqualString ( b[2][0], SC ( 0 ) );
+    Details::isEqualString ( b[2][1], SC ( 0 ) );
+    Details::isEqualString ( b[2][2], SC ( 1 ) );
+
+    const TestType oneOverSquareRootOfThree = SC ( 1 ) / SC ( std::pow ( SC ( 3 ), SC ( 0.5 ) ) );
+    Details::isEqualString ( b[3][0], oneOverSquareRootOfThree );
+    Details::isEqualString ( b[3][1], oneOverSquareRootOfThree );
+    Details::isEqualString ( b[3][2], oneOverSquareRootOfThree );
+  }
 }
