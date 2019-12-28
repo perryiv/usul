@@ -155,7 +155,7 @@ inline void generate (
   for ( UnsignedInteger i = 1; i < numPointsRadial; ++i )
   {
     // Figure out the angle we're at and the corresponding rotation matrix.
-    const RealNumber u = ( static_cast < RealNumber > ( i ) / ( numPointsRadial - 1 ) );
+    const RealNumber u = ( static_cast < RealNumber > ( i ) / static_cast < RealNumber > ( numPointsRadial - 1 ) );
     const RealNumber angle = startAngle + ( u * deltaAngle );
     const Matrix44 matrix = Usul::Math::rotate ( identity, axis, angle );
 
