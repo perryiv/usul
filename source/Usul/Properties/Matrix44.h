@@ -18,6 +18,7 @@
 
 #include "Usul/Math/Matrix44.h"
 #include "Usul/Properties/Map.h"
+#include "Usul/Traits/Matrix44.h"
 
 
 namespace Usul {
@@ -29,18 +30,27 @@ namespace Details {
 //
 //  Macro used below.
 //
+//  Using raw pointer below because not all matrix types have the necessary
+//  overloaded bracket operator.
+//
+//  Using Usul::Traits::Matrix44 should establish (at compile time) that we
+//  can use the pointer safely with indices in the range [0,15].
+//
 ///////////////////////////////////////////////////////////////////////////////
 
 #define USUL_PROPERTIES_MAP_CONVERT_MATRIX_44(from_type,to_type) \
 { \
   typedef from_type ::value_type from_value_type; \
   typedef to_type ::value_type to_value_type; \
-  static_assert ( std::is_arithmetic < from_value_type >::value, "From value is not a number type" ); \
+  static_assert ( Usul::Traits::Matrix44 < from_type   >::VALUE, "From type is not a matrix" ); \
+  static_assert ( Usul::Traits::Matrix44 < to_type     >::VALUE,   "To type is not a matrix" ); \
+  static_assert ( std::is_arithmetic < from_value_type >::value, "From value type is not a number" ); \
+  static_assert ( std::is_arithmetic < to_value_type   >::value,   "To value type is not a number" ); \
   typedef Property < from_type > PropertyType; \
   const PropertyType *prop = dynamic_cast < const PropertyType * > ( obj ); \
   if ( nullptr != prop ) \
   { \
-    const from_type &value = prop->getValue(); \
+    const from_value_type *value = prop->getValue().ptr(); \
     return to_type ( \
       static_cast < to_value_type > ( value[ 0] ), \
       static_cast < to_value_type > ( value[ 1] ), \
