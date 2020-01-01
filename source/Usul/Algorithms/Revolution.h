@@ -117,10 +117,6 @@ inline void generate (
   // Typedefs.
   typedef Usul::Math::Matrix44 < RealNumber > Matrix44;
   typedef Usul::Math::Vector3 < RealNumber > Vec3;
-  // typedef typename CurvePoints::value_type CurvePoint;
-  // typedef typename CurveNormals::value_type CurveNormal;
-  // typedef typename SurfacePoints::value_type SurfacePoint;
-  // typedef typename SurfaceNormals::value_type SurfaceNormal;
   typedef typename SurfaceIndices::value_type SurfaceIndex;
 
   // Shortcuts.
@@ -131,6 +127,7 @@ inline void generate (
   // Check.
   USUL_CHECK_AND_THROW ( ( curvePoints.size() >= 2 ), "Fewer than 2 curve points" );
   USUL_CHECK_AND_THROW ( ( curvePoints.size() == curveNormals.size() ), "Inconsistent number of curve and normal points" );
+  USUL_CHECK_AND_THROW ( ( numPointsRadial >= 2 ), "Fewer than 2 radial points" );
   USUL_CHECK_AND_THROW ( ( endAngle > startAngle ), "The end angle is not smaller than the start angle" );
   USUL_CHECK_AND_THROW ( ( false == ( ( zero == dir[0] ) && ( zero == dir[1] ) && ( zero == dir[2] ) ) ), "Zero vector given for axis" );
 
