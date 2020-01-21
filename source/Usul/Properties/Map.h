@@ -257,12 +257,15 @@ namespace Details
 
       USUL_PROPERTIES_MAP_CONVERT_NUMBER ( double,         T );
       USUL_PROPERTIES_MAP_CONVERT_NUMBER ( float,          T );
-      USUL_PROPERTIES_MAP_CONVERT_NUMBER ( short,          T );
       USUL_PROPERTIES_MAP_CONVERT_NUMBER ( int,            T );
       USUL_PROPERTIES_MAP_CONVERT_NUMBER ( long,           T );
-      USUL_PROPERTIES_MAP_CONVERT_NUMBER ( unsigned short, T );
+      USUL_PROPERTIES_MAP_CONVERT_NUMBER ( short,          T );
+      USUL_PROPERTIES_MAP_CONVERT_NUMBER ( char,           T );
       USUL_PROPERTIES_MAP_CONVERT_NUMBER ( unsigned int,   T );
       USUL_PROPERTIES_MAP_CONVERT_NUMBER ( unsigned long,  T );
+      USUL_PROPERTIES_MAP_CONVERT_NUMBER ( unsigned short, T );
+      USUL_PROPERTIES_MAP_CONVERT_NUMBER ( unsigned char,  T );
+      USUL_PROPERTIES_MAP_CONVERT_NUMBER ( bool,           T );
 
       return defaultValue;
     }
@@ -331,12 +334,15 @@ namespace Details
 
       USUL_PROPERTIES_MAP_CONVERT_NUMBER ( double,         T );
       USUL_PROPERTIES_MAP_CONVERT_NUMBER ( float,          T );
-      USUL_PROPERTIES_MAP_CONVERT_NUMBER ( short,          T );
       USUL_PROPERTIES_MAP_CONVERT_NUMBER ( int,            T );
       USUL_PROPERTIES_MAP_CONVERT_NUMBER ( long,           T );
-      USUL_PROPERTIES_MAP_CONVERT_NUMBER ( unsigned short, T );
+      USUL_PROPERTIES_MAP_CONVERT_NUMBER ( short,          T );
+      USUL_PROPERTIES_MAP_CONVERT_NUMBER ( char,           T );
       USUL_PROPERTIES_MAP_CONVERT_NUMBER ( unsigned int,   T );
       USUL_PROPERTIES_MAP_CONVERT_NUMBER ( unsigned long,  T );
+      USUL_PROPERTIES_MAP_CONVERT_NUMBER ( unsigned short, T );
+      USUL_PROPERTIES_MAP_CONVERT_NUMBER ( unsigned char,  T );
+      USUL_PROPERTIES_MAP_CONVERT_NUMBER ( bool,           T );
 
       throw std::runtime_error ( Usul::Strings::format ( "Property '", name, "' is an unknown type" ) );
     }

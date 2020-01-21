@@ -130,11 +130,14 @@ TEST_CASE ( "Property Functions" )
     a.insert ( "1f", 1.0f );
     a.insert ( "1i", 1 );
     a.insert ( "1u", 1u );
+    a.insert ( "1b", true );
 
-    REQUIRE ( 1.0  == a.get < double > ( "1d", 2.0  ) );
-    REQUIRE ( 1.0f == a.get < float  > ( "1f", 2.0f ) );
-    REQUIRE ( 1    == a.get < int    > ( "1i", 2    ) );
-    REQUIRE ( 1u   == a.get < uint   > ( "1u", 2u   ) );
+    REQUIRE ( 1.0  == a.get < double > ( "1d", 2.0   ) );
+    REQUIRE ( 1.0f == a.get < float  > ( "1f", 2.0f  ) );
+    REQUIRE ( 1    == a.get < int    > ( "1i", 2     ) );
+    REQUIRE ( 1u   == a.get < uint   > ( "1u", 2u    ) );
+    REQUIRE ( true == a.get < bool   > ( "1b", false ) );
+    REQUIRE ( true == a.get < bool   > ( "1b", true  ) );
 
     a.insert ( "md1", md1 );
     a.insert ( "mf1", mf1 );
@@ -168,6 +171,14 @@ TEST_CASE ( "Property Functions" )
 
     a.insert ( "p1", 20 );
     REQUIRE ( 10 == a.get < int > ( "p1", 100 ) );
+
+    a.insert ( "1b", false );
+    REQUIRE ( false == a.get < bool > ( "1b", false ) );
+    REQUIRE ( false == a.get < bool > ( "1b", true  ) );
+
+    a.insert ( "1b", true );
+    REQUIRE ( false == a.get < bool > ( "1b", false ) );
+    REQUIRE ( false == a.get < bool > ( "1b", true  ) );
   }
 
   SECTION ( "Can update properties" )
@@ -182,6 +193,39 @@ TEST_CASE ( "Property Functions" )
 
     a.update ( "p1", "p1" );
     REQUIRE ( "p1" == a.get < std::string > ( "p1", "p1" ) );
+
+    a.update ( "1b", false );
+    REQUIRE ( false == a.get < bool > ( "1b", true  ) );
+    REQUIRE ( false == a.get < bool > ( "1b", false ) );
+
+    a.update ( "1b", true );
+    REQUIRE ( true == a.get < bool > ( "1b", true  ) );
+    REQUIRE ( true == a.get < bool > ( "1b", false ) );
+  }
+
+  SECTION ( "Handles bool" )
+  {
+    Map a;
+
+    a.insert ( "b1", true );
+    REQUIRE ( true == Properties::get     < bool > ( a, "b1", true  ) );
+    REQUIRE ( true == Properties::get     < bool > ( a, "b1", false ) );
+    REQUIRE ( true == Properties::require < bool > ( a, "b1"        ) );
+
+    a.insert ( "b1", false );
+    REQUIRE ( true == Properties::get     < bool > ( a, "b1", true  ) );
+    REQUIRE ( true == Properties::get     < bool > ( a, "b1", false ) );
+    REQUIRE ( true == Properties::require < bool > ( a, "b1"        ) );
+
+    a.update ( "b1", false );
+    REQUIRE ( false == Properties::get     < bool > ( a, "b1", true  ) );
+    REQUIRE ( false == Properties::get     < bool > ( a, "b1", false ) );
+    REQUIRE ( false == Properties::require < bool > ( a, "b1"        ) );
+
+    a.update ( "b1", 100 );
+    REQUIRE (  100 == Properties::get     < int  > ( a, "b1", 10 ) );
+    REQUIRE (  100 == Properties::get     < int  > ( a, "b1", 10 ) );
+    REQUIRE ( true == Properties::require < bool > ( a, "b1"     ) );
   }
 
   SECTION ( "Getting properties can convert them to similar type" )
