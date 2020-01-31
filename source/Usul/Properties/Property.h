@@ -73,9 +73,13 @@ private:
 ///////////////////////////////////////////////////////////////////////////////
 
 template < class T >
-static Usul::Properties::Object *make ( const T &value )
+inline Usul::Properties::Object *make ( const T &value )
 {
   return new Property < T > ( value );
+}
+inline Usul::Properties::Object *make ( const char *value )
+{
+  return new Property < std::string > ( ( nullptr == value ) ? std::string() : std::string ( value ) );
 }
 
 

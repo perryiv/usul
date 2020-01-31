@@ -399,7 +399,7 @@ TEST_CASE ( "Property Functions" )
       { "2", mp ( 2.0 ) },
       { "3", mp ( 3.0f ) },
       { "4", mp ( 4u ) },
-      { "5", mp ( std::string ( "five" ) ) }, // Not sure why we have to wrap with a string.
+      { "5", mp ( "five" ) },
       { "6", mp ( Math::Vec3d ( 1, 2, 3 ) ) }
     } );
 
@@ -432,7 +432,7 @@ TEST_CASE ( "Property Functions" )
     } );
 
     const Map b ( {
-      { "3", mp ( std::string ( "three" ) ) },
+      { "3", mp ( "three" ) },
       { "4", mp ( 4 ) },
       { "5", mp ( 5 ) }
     } );
@@ -457,7 +457,7 @@ TEST_CASE ( "Property Functions" )
     } );
 
     const Map b = Usul::Properties::merge ( a, {
-      { "3", mp ( std::string ( "three" ) ) },
+      { "3", mp ( "three" ) },
       { "4", mp ( 4 ) },
       { "5", mp ( 5 ) }
     } );
