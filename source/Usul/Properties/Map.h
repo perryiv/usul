@@ -272,7 +272,7 @@ namespace Details
   };
   template < class T > struct Getter < false, T >
   {
-    static const T &get ( const Map &m, const std::string &name, T &defaultValue )
+    static const T &get ( const Map &m, const std::string &name, const T &defaultValue )
     {
       return m.get < T > ( name, defaultValue );
     }
