@@ -16,10 +16,9 @@
 #ifndef _USUL_ERRORS_CHECK_H_
 #define _USUL_ERRORS_CHECK_H_
 
-// Put these in the source files that actually use these macros.
-// #include "Usul/Strings/Format.h"
-// #include <iostream>
-// #include <stdexcept>
+#include <iostream>
+#include <stdexcept>
+#include <string>
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -59,10 +58,7 @@
 #define USUL_CHECK_AND_THROW(expression,message) \
   if ( false == ( expression ) ) \
   { \
-    throw std::runtime_error ( Usul::Strings::format ( \
-      USUL_GET_MESSAGE_OR_DEFAULT ( message ), \
-      ", ID: ", 1568933930 \
-    ) ); \
+    throw std::runtime_error ( USUL_GET_MESSAGE_OR_DEFAULT ( message ) ); \
   }
 
 
@@ -75,11 +71,15 @@
 #define USUL_CHECK_AND_LOG(expression,message)\
 if ( false == ( expression ) ) \
 { \
-  std::clog << ( Usul::Strings::format ( \
-    USUL_GET_MESSAGE_OR_DEFAULT ( message ), \
-    ", ID: ", 1568933931 \
-  ) ) << std::endl; \
+  std::clog << ( USUL_GET_MESSAGE_OR_DEFAULT ( message ) + "\n" ) << std::flush; \
 }
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Log an error if the expression is false, but only in a debug build.
+//
+///////////////////////////////////////////////////////////////////////////////
 
 #ifdef _DEBUG
 #define USUL_CHECK_AND_LOG_DEBUG(expression,message) \
@@ -87,15 +87,6 @@ if ( false == ( expression ) ) \
 #else
 #define USUL_CHECK_AND_LOG_DEBUG(expression,message)
 #endif
-
-
-///////////////////////////////////////////////////////////////////////////////
-//
-//  Set the default error checker.
-//
-///////////////////////////////////////////////////////////////////////////////
-
-#define USUL_CHECK USUL_CHECK_AND_THROW
 
 
 #endif // _USUL_ERRORS_CHECK_H_
