@@ -41,6 +41,7 @@ set ( SOURCE_FILES
   ./Usul/Base/Referenced.cpp
   ./Usul/Bits/Bits.cpp
   ./Usul/Errors/Check.cpp
+  ./Usul/File/Buffer.cpp
   ./Usul/Math/Base.cpp
   ./Usul/Math/CloseFloat.cpp
   ./Usul/Math/Functions.cpp
