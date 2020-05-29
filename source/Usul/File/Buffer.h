@@ -163,8 +163,6 @@ protected:
     }
   }
 
-  // #ifdef __APPLE__
-
   //
   // Overloaded to monitor progress.
   //
@@ -174,32 +172,6 @@ protected:
     this->_notifyProgressFunction ( answer );
     return answer;
   }
-
-  // #elif _WIN32
-  //
-  // //
-  // // Overloaded to monitor progress.
-  // //
-  // virtual int_type uflow()
-  // {
-  //   const int_type answer = BaseClass::uflow(); // Call this first.
-  //   this->_notifyProgressFunction ( this->egptr() - this->gptr() ); // End minus the current.
-  //   return answer;
-  // }
-  //
-  // #else // Linux
-  //
-  // //
-  // // Overloaded to monitor progress.
-  // //
-  // virtual int_type underflow()
-  // {
-  //   const int_type answer = BaseClass::underflow(); // Call this first.
-  //   this->_notifyProgressFunction ( this->egptr() - this->gptr() ); // End minus the current.
-  //   return answer;
-  // }
-  //
-  // #endif
 
 private:
 
