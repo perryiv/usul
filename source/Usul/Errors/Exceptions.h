@@ -9,17 +9,15 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-//  Exception classes that can optionally include a call stack.
+//  Exception classes that include a stack trace.
+//  If you include this header file you will need to link to Boost.Stacktrace.
 //
 ///////////////////////////////////////////////////////////////////////////////
 
 #ifndef _USUL_ERRORS_EXCEPTIONS_H_
 #define _USUL_ERRORS_EXCEPTIONS_H_
 
-#ifdef USUL_EXCEPTIONS_USE_BOOST_STACK_TRACE
-# define BOOST_STACKTRACE_GNU_SOURCE_NOT_REQUIRED
-# include "boost/stacktrace.hpp"
-#endif
+#include "Usul/Errors/StackTrace.h"
 
 #include <stdexcept>
 #include <string>
@@ -36,28 +34,22 @@ namespace Errors {
 ///////////////////////////////////////////////////////////////////////////////
 
 template < typename T >
-class Exception
+class Exception : public T
 {
 public:
 
   typedef T BaseClass;
 
-  #ifdef USUL_EXCEPTIONS_USE_BOOST_STACK_TRACE
-  typedef boost::stacktrace::stacktrace StackType;
-  #else
-  typedef std::string StackType;
-  #endif
-
   Exception ( const std::string &message = std::string() ) : BaseClass ( message ) :
-    _stack()
+    _stack ( Usul::Errors::StackTrace::get() )
   {
   }
 
-  const StackType &stack() const { return _stack; }
+  const std::string &stack() const { return _stack; }
 
 private:
 
-  StackType _stack;
+  const std::string _stack;
 };
 
 
