@@ -21,8 +21,6 @@
 #include <iostream>
 #include <stdexcept>
 
-std::string programName;
-
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -36,7 +34,6 @@ int main ( int argc, char **argv )
 
   try
   {
-    programName = argv[0];
     result = Catch::Session().run ( argc, argv );
 
     if ( false == Helpers::Instances::get().empty() )
