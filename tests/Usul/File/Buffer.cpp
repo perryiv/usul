@@ -53,7 +53,7 @@ TEST_CASE ( "File buffer" )
 
     // Make the command.
     std::ostringstream command;
-    const unsigned int numMegaBytes = 128;
+    const unsigned int numMegaBytes = 512;
 
     #ifdef _WIN32
     // https://www.windows-commandline.com/how-to-create-large-dummy-file/
@@ -87,7 +87,7 @@ TEST_CASE ( "File buffer" )
       fraction = ( static_cast < double > ( count ) / static_cast < double > ( size ) );
 
       // Uncomment if you want to see progress.
-      std::cout << "Progress fraction: " << fraction << std::endl;
+      // std::cout << "Progress fraction: " << fraction << std::endl;
     } );
 
     // Set the throttle to the same value to make sure it compiles.
