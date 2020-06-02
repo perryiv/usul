@@ -56,17 +56,14 @@ public:
   // Add a job to the queue.
   void addJob ( JobPtr );
 
-  // Cancel all the jobs. This is a hint; the jobs can ignore it.
-  void cancelAll();
+  // Cancel all the running jobs. This is a hint; the jobs can ignore it.
+  void cancelRunningJobs();
 
   // Clear any jobs that are in the queue.
   void clearQueuedJobs();
 
   // This will delete the singleton instance, if any.
   static void destroy();
-
-  // Is this the worker thread?
-  bool isWorkerThread() const;
 
   // Get the names of the running jobs.
   Names getRunningJobNames() const;
@@ -112,8 +109,14 @@ protected:
   void _checkRunningJobs();
   void _checkThreads();
 
+  JobPtr _getNextQueuedJob();
+
   bool _getShouldRunWorkerThread() const;
   void _setShouldRunWorkerThread ( bool );
+
+  bool _isWorkerThread() const;
+  void _isWorkerThreadOrThrow() const;
+  void _isNotWorkerThreadOrThrow() const;
 
   void _startWorkerThread();
   void _stopWorkerThread();

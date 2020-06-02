@@ -35,16 +35,8 @@ namespace Jobs {
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#define IS_WORKER_THREAD_OR_THROW \
-  if ( false == this->isWorkerThread() ) \
-  { \
-    throw std::runtime_error ( "The current thread should be the worker thread" ); \
-  }
-#define IS_NOT_WORKER_THREAD_OR_THROW \
-  if ( true == this->isWorkerThread() ) \
-  { \
-    throw std::runtime_error ( "The current thread should not be the worker thread" ); \
-  }
+#define IS_WORKER_THREAD_OR_THROW this->_isWorkerThreadOrThrow()
+#define IS_NOT_WORKER_THREAD_OR_THROW this->_isNotWorkerThreadOrThrow()
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -132,7 +124,7 @@ void Manager::_destroyManager()
 
   // Do some cleanup.
   this->clearQueuedJobs();
-  this->cancelAll();
+  this->cancelRunningJobs();
 
   // Wait for any jobs that are still running.
   this->waitAll();
@@ -188,7 +180,6 @@ void Manager::destroy()
 
 void Manager::sortQueuedJobs()
 {
-  IS_NOT_WORKER_THREAD_OR_THROW;
   Guard guard ( _mutex );
   std::sort ( _queuedJobs.begin(), _queuedJobs.end(), [] ( JobPtr a, JobPtr b )
   {
@@ -219,23 +210,26 @@ void Manager::addJob ( JobPtr job )
     throw std::runtime_error ( "Cannot add job to manager that is being destroyed" );
   }
 
-  // One thread at a time.
-  Guard guard ( _mutex );
-
-  // Do not allow more jobs than the unsigned int max.
-  typedef std::numeric_limits < unsigned int > Limits;
-  if ( _queuedJobs.size() >= Limits::max() )
+  // Need a local scope for the lock.
   {
-    std::ostringstream out;
-    out << "Exceeded maximum size of job queue: " << Limits::max();
-    throw std::runtime_error ( out.str() );
+    // One thread at a time.
+    Guard guard ( _mutex );
+
+    // Do not allow more jobs than the unsigned int max.
+    typedef std::numeric_limits < unsigned int > Limits;
+    if ( _queuedJobs.size() >= Limits::max() )
+    {
+      std::ostringstream out;
+      out << "Exceeded maximum size of job queue: " << Limits::max();
+      throw std::runtime_error ( out.str() );
+    }
+
+    // Add the job to the queue.
+    _queuedJobs.push_back ( job );
+
+    // Sort the queue now while the mutex is locked to keep it consistent.
+    this->sortQueuedJobs();
   }
-
-  // Add the job to the queue.
-  _queuedJobs.push_back ( job );
-
-  // Sort the queue.
-  this->sortQueuedJobs();
 
   // Make sure the worker thread is started.
   this->_startWorkerThread();
@@ -289,33 +283,14 @@ bool Manager::removeQueuedJob ( JobPtr j1 )
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-//  Cancel all the jobs.
+//  Cancel the running jobs.
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-void Manager::cancelAll()
+void Manager::cancelRunningJobs()
 {
   IS_NOT_WORKER_THREAD_OR_THROW;
-
-  // Needed below.
-  QueuedJobs queued;
-
-  {
-    // Guard the copying and clearing of the queue.
-    Guard guard ( _mutex );
-
-    // Make a copy of the queue.
-    queued = _queuedJobs;
-
-    // Clear the queue.
-    _queuedJobs.clear();
-  }
-
-  // Loop through the queued jobs and cancel them.
-  std::for_each ( queued.begin(), queued.end(), [] ( JobPtr job )
-  {
-    job->cancel();
-  } );
+  Guard guard ( _mutex );
 
   // Loop through the running jobs and cancel them.
   // Note: They stay in the container. The normal mechanism will remove them.
@@ -336,6 +311,8 @@ void Manager::clearQueuedJobs()
 {
   IS_NOT_WORKER_THREAD_OR_THROW;
   Guard guard ( _mutex );
+
+  // If the jobs are still in the queue then there is no need to cancel them.
   _queuedJobs.clear();
 }
 
@@ -348,7 +325,6 @@ void Manager::clearQueuedJobs()
 
 void Manager::getRunningJobNames ( Names &names ) const
 {
-  IS_NOT_WORKER_THREAD_OR_THROW;
   Guard guard ( _mutex );
   std::for_each ( _runningJobs.begin(), _runningJobs.end(), [ &names ] ( RunningInfo info )
   {
@@ -371,7 +347,6 @@ Manager::Names Manager::getRunningJobNames() const
 
 void Manager::getQueuedJobNames ( Names &names ) const
 {
-  IS_NOT_WORKER_THREAD_OR_THROW;
   Guard guard ( _mutex );
   std::for_each ( _queuedJobs.begin(), _queuedJobs.end(), [ &names ] ( JobPtr job )
   {
@@ -493,13 +468,27 @@ void Manager::waitAll()
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-//  Is this the worker thread?
+//  Functions for checking threads.
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-bool Manager::isWorkerThread() const
+bool Manager::_isWorkerThread() const
 {
   return ( std::this_thread::get_id() == _workerID );
+}
+void Manager::_isWorkerThreadOrThrow() const
+{
+  if ( false == this->_isWorkerThread() )
+  {
+    throw std::runtime_error ( "The current thread should be the worker thread" );
+  }
+}
+void Manager::_isNotWorkerThreadOrThrow() const
+{
+  if ( true == this->_isWorkerThread() )
+  {
+    throw std::runtime_error ( "The current thread should not be the worker thread" );
+  }
 }
 
 
@@ -596,6 +585,34 @@ void Manager::_threadStarted()
 
 ///////////////////////////////////////////////////////////////////////////////
 //
+//  Return the next job in the queue or null if the queue is empty.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+Manager::JobPtr Manager::_getNextQueuedJob()
+{
+  IS_WORKER_THREAD_OR_THROW;
+  Guard guard ( _mutex );
+
+  // Handle an empty queue.
+  if ( true == _queuedJobs.empty() )
+  {
+    return JobPtr();
+  }
+
+  // Get the last job. It should have the highest priority.
+  JobPtr job = _queuedJobs.back();
+
+  // Pop the job from the queue.
+  _queuedJobs.pop_back();
+
+  // Return the job.
+  return job;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
 //  Check the queue and maybe start a new job.
 //
 ///////////////////////////////////////////////////////////////////////////////
@@ -604,33 +621,23 @@ void Manager::_checkQueuedJobs()
 {
   IS_WORKER_THREAD_OR_THROW;
 
-  // One thread at a time.
-  Guard guard ( _mutex );
-
   // Do we have enough running jobs already?
-  if ( _runningJobs.size() >= this->getMaxNumThreadsAllowed() )
+  if ( this->getNumJobsRunning() >= this->getMaxNumThreadsAllowed() )
   {
     return;
   }
 
-  // Do we have any jobs in the queue?
-  if ( true == _queuedJobs.empty() )
-  {
-    return;
-  }
+  // Get the next job.
+  JobPtr job = this->_getNextQueuedJob();
 
-  // Get the last job. It should have the highest priority.
-  JobPtr job = _queuedJobs.back();
-  _queuedJobs.pop_back();
-
-  // This should never happen but make sure.
+  // This means the queue is empty.
   if ( nullptr == job.get() )
   {
-    throw std::runtime_error ( "Invalid job in queue" );
+    return;
   }
 
-  // Does the job have a callback function?
-  if ( !job->getCallback() ) // Do not compare to nullptr.
+  // If the job does not have a callback function then skip it.
+  if ( !job->getCallback() )
   {
     return;
   }
@@ -668,7 +675,10 @@ void Manager::_checkQueuedJobs()
   } ) );
 
   // Add the job to the container of running jobs.
-  _runningJobs.insert ( RunningInfo ( thread, job ) );
+  {
+    Guard guard ( _mutex );
+    _runningJobs.insert ( RunningInfo ( thread, job ) );
+  }
 }
 
 
@@ -682,19 +692,29 @@ void Manager::_checkRunningJobs()
 {
   IS_WORKER_THREAD_OR_THROW;
 
-  // One thread at a time.
-  Guard guard ( _mutex );
-
   // This is the set of jobs we will remove.
   RunningJobs removeMe;
 
-  // Loop through the running jobs.
-  for ( auto i = _runningJobs.begin(); i != _runningJobs.end(); ++i )
+  // We do these separate steps to avoid invalidating iterators while looping.
   {
-    // If the job is done then put it in the local container.
-    if ( true == i->second->isDone() )
+    // One thread at a time in here.
+    Guard guard ( _mutex );
+
+    // Loop through the running jobs.
+    for ( auto i = _runningJobs.begin(); i != _runningJobs.end(); ++i )
     {
-      removeMe.insert ( *i );
+      // If the job is done then put it in the local container.
+      if ( true == i->second->isDone() )
+      {
+        removeMe.insert ( *i );
+      }
+    }
+
+    // Loop through the set we are supposed to remove.
+    for ( auto i = removeMe.begin(); i != removeMe.end(); ++i )
+    {
+      // Remove this item from the container of running jobs.
+      _runningJobs.erase ( *i );
     }
   }
 
@@ -703,9 +723,6 @@ void Manager::_checkRunningJobs()
   {
     // Wait for the thread. Since the job is done this should return immediately.
     i->first->join();
-
-    // Remove this item from the container of running jobs.
-    _runningJobs.erase ( *i );
   }
 }
 
