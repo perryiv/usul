@@ -237,10 +237,6 @@ void Manager::addJob ( JobPtr job )
   // Sort the queue.
   this->sortQueuedJobs();
 
-  #ifdef _DEBUG
-  std::cout << "Added job " << job->getID() << " to the queue" << std::endl;
-  #endif
-
   // Make sure the worker thread is started.
   this->_startWorkerThread();
 }
@@ -486,26 +482,12 @@ void Manager::waitAll()
   // Shortcut
   const unsigned int numMillisecondsToSleep = this->getNumMillisecondsToSleep();
 
-  // #ifdef _DEBUG
-  // std::cout << "Waiting for all jobs to finish" << std::endl;
-  // #endif
-
   // Loop until there are no queued or running jobs.
   while ( this->getNumJobs() > 0 )
   {
-    #ifdef _DEBUG
-    std::ostringstream out;
-    out << "Waiting for " << this->getNumJobs() << " jobs to finish\n";
-    std::cout << out.str() << std::flush;
-    #endif
-
     // Sleep some so that we don't spike the cpu.
     std::this_thread::sleep_for ( std::chrono::milliseconds ( numMillisecondsToSleep ) );
   }
-
-  // #ifdef _DEBUG
-  // std::cout << "Done waiting for all jobs to finish" << std::endl;
-  // #endif
 }
 
 
@@ -556,16 +538,8 @@ void Manager::_stopWorkerThread()
 {
   IS_NOT_WORKER_THREAD_OR_THROW;
 
-  #ifdef _DEBUG
-  std::cout << "Asking the worker thread to stop" << std::endl;
-  #endif
-
   // The worker thread should break out of its loop.
   this->_setShouldRunWorkerThread ( false );
-
-  #ifdef _DEBUG
-  std::cout << "Done asking the worker thread to stop" << std::endl;
-  #endif
 
   // Make a copy of the worker thread pointer then make it null.
   ThreadPtr worker = nullptr;
@@ -579,22 +553,9 @@ void Manager::_stopWorkerThread()
   // We're done with our worker thread.
   if ( nullptr != worker.get() )
   {
-    #ifdef _DEBUG
-    std::cout << "Joining with the worker thread" << std::endl;
-    #endif
-
     worker->join();
-
-    #ifdef _DEBUG
-    std::cout << "Done joining with the worker thread" << std::endl;
-    #endif
-
     worker = nullptr;
   }
-
-  #ifdef _DEBUG
-  std::cout << "The worker thread has stopped" << std::endl;
-  #endif
 }
 
 
@@ -610,10 +571,6 @@ void Manager::_threadStarted()
 
   // Do not lock mutex here!
 
-  #ifdef _DEBUG
-  std::cout << "Entering worker thread function" << std::endl;
-  #endif
-
   // If an exception sneaks through it will bring down the house.
   try
   {
@@ -622,12 +579,6 @@ void Manager::_threadStarted()
     {
       // Note: A try-catch block in here will create an infinite loop if the
       // worker thread throws an exception.
-
-      #ifdef _DEBUG
-      std::ostringstream out;
-      out << "There are " << this->getNumJobsQueued() << " queued jobs and " << this->getNumJobsRunning() << " running jobs\n";
-      std::cout << out.str() << std::flush;
-      #endif
 
       // Check the running jobs and remove any that are done.
       this->_checkRunningJobs();
@@ -640,10 +591,6 @@ void Manager::_threadStarted()
     }
   }
   USUL_TOOLS_CATCH_AND_LOG ( 1591049996, &std::clog )
-
-  #ifdef _DEBUG
-  std::cout << "Exiting worker thread function" << std::endl;
-  #endif
 }
 
 
@@ -694,10 +641,6 @@ void Manager::_checkQueuedJobs()
     // If an exception sneaks through it will bring down the house.
     try
     {
-      #ifdef _DEBUG
-      std::cout << "Entering job thread function" << std::endl;
-      #endif
-
       // This should never happen but check anyway.
       if ( nullptr == job.get() )
       {
@@ -720,10 +663,6 @@ void Manager::_checkQueuedJobs()
         }
       }
       USUL_TOOLS_CATCH_AND_LOG ( 1591073635, &std::clog )
-
-      #ifdef _DEBUG
-      std::cout << "Exiting job thread function" << std::endl;
-      #endif
     }
     USUL_TOOLS_CATCH_AND_LOG ( 1591071534, &std::clog )
   } ) );
@@ -762,16 +701,8 @@ void Manager::_checkRunningJobs()
   // Loop through the set we are supposed to remove.
   for ( auto i = removeMe.begin(); i != removeMe.end(); ++i )
   {
-    #ifdef _DEBUG
-    std::cout << "Joining with the job thread" << std::endl;
-    #endif
-
     // Wait for the thread. Since the job is done this should return immediately.
     i->first->join();
-
-    #ifdef _DEBUG
-    std::cout << "Done joining with the job thread" << std::endl;
-    #endif
 
     // Remove this item from the container of running jobs.
     _runningJobs.erase ( *i );
