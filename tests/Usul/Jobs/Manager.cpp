@@ -14,11 +14,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "Usul/Jobs/Manager.h"
+#include "Usul/Strings/Format.h"
 #include "Usul/Tools/ScopedCall.h"
 
 #include "catch2/catch.hpp"
 
-#include <list>
+#include <iostream>
 #include <type_traits>
 
 
@@ -48,6 +49,10 @@ TEST_CASE ( "Job manager" )
 
   SECTION ( "Number of jobs" )
   {
+    std::cout << Usul::Strings::format (
+      "Job manager is using ", manager.getMaxNumThreadsAllowed(), " threads\n"
+    ) << std::flush;
+
     REQUIRE ( 0 == manager.getNumJobsQueued() );
     REQUIRE ( 0 == manager.getNumJobsRunning() );
     REQUIRE ( 0 == manager.getNumJobs() );
