@@ -19,6 +19,8 @@ set ( CMAKE_POSITION_INDEPENDENT_CODE ON )
 # Define a variable that holds all the source files.
 set ( SOURCE_FILES
   ./Usul/Base/Referenced.cpp
+  ./Usul/Jobs/Job.cpp
+  ./Usul/Jobs/Manager.cpp
   ./Usul/Plugins/Library.cpp
   ./Usul/Plugins/Manager.cpp
   ./Usul/Properties/Map.cpp
