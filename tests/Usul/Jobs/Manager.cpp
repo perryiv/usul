@@ -86,7 +86,7 @@ TEST_CASE ( "Job manager" )
   SECTION ( "Add fewer long jobs" )
   {
     // How many jobs to add.
-    const unsigned int numJobs = 100;
+    const unsigned int numJobs = 5;
 
     // Add jobs to the manager.
     for ( unsigned int i = 0; i < numJobs; ++i )
@@ -94,7 +94,7 @@ TEST_CASE ( "Job manager" )
       manager.addJob ( JobPtr ( new Job ( [] ()
       {
         // Sleep some to simulate a lengthy task.
-        std::this_thread::sleep_for ( std::chrono::milliseconds ( 500 ) );
+        std::this_thread::sleep_for ( std::chrono::milliseconds ( 100 ) );
       } ) ) );
     }
 
