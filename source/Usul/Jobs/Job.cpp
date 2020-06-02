@@ -54,10 +54,10 @@ Job::Job ( const std::string &name, double priority, Callback cb ) :
   _done ( false )
 {
 }
-Job::Job ( Callback cb ) : Job ( std::string(), 0, cb )
+Job::Job ( const std::string &name, Callback cb ) : Job ( name, 0, cb )
 {
 }
-Job::Job() : Job ( std::string(), 0, Callback() )
+Job::Job ( Callback cb ) : Job ( std::string(), 0, cb )
 {
 }
 
@@ -101,43 +101,23 @@ bool Job::isDone() const
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-//  Get/set the name.
-//
-///////////////////////////////////////////////////////////////////////////////
-
-std::string Job::getName() const
-{
-  Guard guard ( _mutex );
-  return _name;
-}
-void Job::setName ( const std::string &name )
-{
-  Guard guard ( _mutex );
-  _name = name;
-}
-
-
-///////////////////////////////////////////////////////////////////////////////
-//
 //  Get/set the priority.
 //
 ///////////////////////////////////////////////////////////////////////////////
 
 double Job::getPriority() const
 {
-  Guard guard ( _mutex );
-  return _priority;
+  return _priority; // This is atomic.
 }
 void Job::setPriority ( double priority )
 {
-  Guard guard ( _mutex );
-  _priority = priority;
+  _priority = priority; // This is atomic.
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-//  Get/set the callback.
+//  Get the callback.
 //
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -145,11 +125,6 @@ Job::Callback Job::getCallback()
 {
   Guard guard ( _mutex );
   return _callback;
-}
-void Job::setCallback ( Callback cb )
-{
-  Guard guard ( _mutex );
-  _callback = cb;
 }
 
 

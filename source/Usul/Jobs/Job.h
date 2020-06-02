@@ -19,6 +19,7 @@
 #include "Usul/Export.h"
 #include "Usul/Config.h" // Ignore the 4251 warning.
 
+#include <atomic>
 #include <functional>
 #include <memory>
 #include <mutex>
@@ -37,11 +38,12 @@ public:
   typedef std::lock_guard < Mutex > Guard;
   typedef std::function < void () > Callback;
   typedef std::shared_ptr < Job > Ptr;
+  typedef std::atomic < double > AtomicDouble;
 
   // Constructors
-  Job();
-  explicit Job ( Callback );
   Job ( const std::string &name, double priority, Callback );
+  Job ( const std::string &name, Callback );
+  explicit Job ( Callback cb = Callback() );
 
   // Get/set the flag that says we are cancelled.
   // This is a hint; the job can ignore it.
@@ -55,24 +57,22 @@ public:
   // Get the id.
   unsigned long getID() const { return _id; } // No need to guard.
 
-  // Get/set the name.
-  std::string getName() const;
-  void        setName ( const std::string & );
+  // Get the name.
+  std::string getName() const { return _name; } // No need to guard.
 
   // Get/set the priority.
   double getPriority() const;
   void   setPriority ( double );
 
-  // Get/set the callback.
+  // Get the callback.
   Callback getCallback();
-  void     setCallback ( Callback );
 
 private:
 
   mutable Mutex _mutex;
   const unsigned long _id;
-  std::string _name;
-  double _priority;
+  const std::string _name;
+  AtomicDouble _priority;
   Callback _callback;
   bool _cancelled;
   bool _done;
