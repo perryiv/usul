@@ -122,19 +122,35 @@ void Manager::_destroyManager()
   // Do not lock the mutex! Other threads may be running and you have to wait
   // for them, and they might need to lock the mutex.
 
+  // Local function to sleep some to hopefully side-step a somewhat rare crash
+  // that is difficult to reproduce and (as far as I know) only happens when
+  // the job-manager is being deleted while it was busy.
+  auto pause = [] ()
+  {
+    std::this_thread::sleep_for ( std::chrono::milliseconds ( 5 ) );
+  };
+
   // Do some cleanup.
   this->clearQueuedJobs();
   this->cancelRunningJobs();
 
+  pause();
+
   // Wait for any jobs that are still running.
   this->waitAll();
+
+  pause();
 
   // Clear the containers.
   _queuedJobs.clear();
   _runningJobs.clear();
 
+  pause();
+
   // Stop the worker thread.
   this->_stopWorkerThread();
+
+  pause();
 
   // We're done with our worker thread. This is probably already null.
   _workerThread = nullptr;
