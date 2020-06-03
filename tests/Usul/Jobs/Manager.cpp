@@ -127,7 +127,8 @@ TEST_CASE ( "Job manager" )
     // Make sure we have jobs. Note: Some of the jobs may have finished already.
     REQUIRE ( manager.getNumJobs() > 0 );
 
-    // This will wait for all the jobs to finish.
+    // This clears the queue, cancels the running jobs (which is just a hint),
+    // and waits for the running jobs to finish.
     Manager::destroy();
   }
 }

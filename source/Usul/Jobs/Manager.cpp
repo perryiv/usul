@@ -660,6 +660,18 @@ void Manager::_checkQueuedJobs()
     return;
   }
 
+  // If the job has been cancelled then skip it.
+  if ( true == job->isCancelled() )
+  {
+    return;
+  }
+
+  // If for some reason the job is done then skip it.
+  if ( true == job->isDone() )
+  {
+    return;
+  }
+
   // Start a new thread and have it run the job.
   ThreadPtr thread ( new std::thread ( [ job ] ()
   {
