@@ -129,15 +129,15 @@ void Manager::_destroyManager()
   // Wait for any jobs that are still running.
   this->waitAll();
 
-  // Stop the worker thread.
-  this->_stopWorkerThread();
-
-  // We're done with our worker thread.
-  _workerThread = nullptr;
-
   // Clear the containers.
   _queuedJobs.clear();
   _runningJobs.clear();
+
+  // Stop the worker thread.
+  this->_stopWorkerThread();
+
+  // We're done with our worker thread. This is probably already null.
+  _workerThread = nullptr;
 }
 
 
@@ -508,11 +508,24 @@ void Manager::_startWorkerThread()
   // Do not start the worker thread if it's already running.
   if ( nullptr == _workerThread.get() )
   {
-    // Make the new thread.
-    _workerThread = ThreadPtr ( new std::thread ( std::bind ( &Manager::_threadStarted, this ) ) );
+    // Make the new thread. Need a lambda here that assigns _workerID before
+    // calling the thread's function. Otherwise, it could start executing the
+    // thread before it assigns _workerID below, and then _isWorkerThreadOrThrow()
+    // will throw an exception when it should not.
+    _workerThread = ThreadPtr ( new std::thread ( [ this ] ()
+    {
+      // Assign the thread-id of this worker-thread. It is an atomic
+      // std::thread::id so no need to lock the mutex to access it.
+      // This helps avoid deadlock.
+      _workerID = std::this_thread::get_id();
 
-    // Save this separately to help avoid deadlock.
-    _workerID = _workerThread->get_id();
+      // I have no idea why this is necessary, but without it
+      // _isWorkerThreadOrThrow() will throw an exception.
+      // std::this_thread::sleep_for ( std::chrono::milliseconds ( this->getNumMillisecondsToSleep() ) );
+
+      // Now run this new thread.
+      this->_threadStarted();
+    } ) );
   }
 }
 
@@ -536,13 +549,18 @@ void Manager::_stopWorkerThread()
     Guard guard ( _mutex );
     worker = _workerThread;
     _workerThread = nullptr;
-    _workerID = std::thread::id();
   }
 
   // We're done with our worker thread.
   if ( nullptr != worker.get() )
   {
+    // Wait for it to finish.
     worker->join();
+
+    // Now we can do this, but not before.
+    _workerID = std::thread::id();
+
+    // This should be the last reference so it will get deleted.
     worker = nullptr;
   }
 }
