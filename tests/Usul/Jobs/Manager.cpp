@@ -19,6 +19,7 @@
 
 #include "catch2/catch.hpp"
 
+#include <atomic>
 #include <iostream>
 #include <type_traits>
 
@@ -34,6 +35,7 @@ TEST_CASE ( "Job manager" )
   typedef Usul::Jobs::Manager Manager;
   typedef Usul::Jobs::Job Job;
   typedef Job::Ptr JobPtr;
+  typedef std::atomic < unsigned int > AtomicUnsignedInt;
 
   static_assert ( std::is_same < JobPtr, Manager::JobPtr > ::value,
     "Inconsistent job pointer types" );
@@ -63,11 +65,17 @@ TEST_CASE ( "Job manager" )
     // How many jobs to add.
     const unsigned int numJobs = 100;
 
+    // Count the jobs.
+    AtomicUnsignedInt count = 0;
+
     // Add jobs to the manager.
     for ( unsigned int i = 0; i < numJobs; ++i )
     {
-      manager.addJob ( JobPtr ( new Job ( [] ()
+      manager.addJob ( JobPtr ( new Job ( [ &count ] ()
       {
+        // Increment the count.
+        ++count;
+
         // Sleep some to simulate a lengthy task.
         std::this_thread::sleep_for ( std::chrono::milliseconds ( 5 ) );
       } ) ) );
@@ -79,8 +87,9 @@ TEST_CASE ( "Job manager" )
     // Wait for all the jobs to finish.
     manager.waitAll();
 
-    // Make sure we have the right number of jobs.
+    // Make sure.
     REQUIRE ( 0 == manager.getNumJobs() );
+    REQUIRE ( numJobs == count );
   }
 
   SECTION ( "Add fewer long jobs" )
@@ -88,11 +97,17 @@ TEST_CASE ( "Job manager" )
     // How many jobs to add.
     const unsigned int numJobs = 5;
 
+    // Count the jobs.
+    AtomicUnsignedInt count = 0;
+
     // Add jobs to the manager.
     for ( unsigned int i = 0; i < numJobs; ++i )
     {
-      manager.addJob ( JobPtr ( new Job ( [] ()
+      manager.addJob ( JobPtr ( new Job ( [ &count ] ()
       {
+        // Increment the count.
+        ++count;
+
         // Sleep some to simulate a lengthy task.
         std::this_thread::sleep_for ( std::chrono::milliseconds ( 100 ) );
       } ) ) );
@@ -105,8 +120,9 @@ TEST_CASE ( "Job manager" )
     // Wait for all the jobs to finish.
     manager.waitAll();
 
-    // Make sure we have the right number of jobs.
+    // Make sure.
     REQUIRE ( 0 == manager.getNumJobs() );
+    REQUIRE ( numJobs == count );
   }
 
   SECTION ( "Add many fast jobs and do not wait for them" )
@@ -114,11 +130,17 @@ TEST_CASE ( "Job manager" )
     // How many jobs to add.
     const unsigned int numJobs = 100;
 
+    // Count the jobs.
+    AtomicUnsignedInt count = 0;
+
     // Add jobs to the manager.
     for ( unsigned int i = 0; i < numJobs; ++i )
     {
-      manager.addJob ( JobPtr ( new Job ( [] ()
+      manager.addJob ( JobPtr ( new Job ( [ &count ] ()
       {
+        // Increment the count.
+        ++count;
+
         // Sleep some to simulate a lengthy task.
         std::this_thread::sleep_for ( std::chrono::milliseconds ( 5 ) );
       } ) ) );
@@ -130,5 +152,8 @@ TEST_CASE ( "Job manager" )
     // This clears the queue, cancels the running jobs (which is just a hint),
     // and waits for the running jobs to finish.
     Manager::destroy();
+
+    // We should not have completed all the jobs.
+    REQUIRE ( count < numJobs );
   }
 }
