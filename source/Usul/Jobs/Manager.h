@@ -39,6 +39,7 @@ public:
 
   typedef std::recursive_mutex Mutex;
   typedef std::lock_guard < Mutex > Guard;
+  typedef Job::Callback Callback;
   typedef Job::Ptr JobPtr;
   typedef std::vector < JobPtr > QueuedJobs;
   typedef std::shared_ptr < std::thread > ThreadPtr;
@@ -54,7 +55,8 @@ public:
   ~Manager();
 
   // Add a job to the queue.
-  void addJob ( JobPtr );
+  void   addJob ( JobPtr );
+  JobPtr addJob ( Callback );
 
   // Cancel all the running jobs. This is a hint; the jobs can ignore it.
   void cancelRunningJobs();

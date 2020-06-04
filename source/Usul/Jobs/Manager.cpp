@@ -250,6 +250,12 @@ void Manager::addJob ( JobPtr job )
   // Make sure the worker thread is started.
   this->_startWorkerThread();
 }
+Manager::JobPtr Manager::addJob ( Callback cb )
+{
+  JobPtr job ( new Job ( cb ) );
+  this->addJob ( job );
+  return job;
+}
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -530,17 +536,22 @@ void Manager::_startWorkerThread()
     // will throw an exception when it should not.
     _workerThread = ThreadPtr ( new std::thread ( [ this ] ()
     {
-      // Assign the thread-id of this worker-thread. It is an atomic
-      // std::thread::id so no need to lock the mutex to access it.
-      // This helps avoid deadlock.
-      _workerID = std::this_thread::get_id();
+      // If an exception sneaks through it will bring down the house.
+      try
+      {
+        // Assign the thread-id of this worker-thread. It is an atomic
+        // std::thread::id so no need to lock the mutex to access it.
+        // This helps avoid deadlock.
+        _workerID = std::this_thread::get_id();
 
-      // I have no idea why this is necessary, but without it
-      // _isWorkerThreadOrThrow() will throw an exception.
-      // std::this_thread::sleep_for ( std::chrono::milliseconds ( this->getNumMillisecondsToSleep() ) );
+        // I have no idea why this is necessary, but without it
+        // _isWorkerThreadOrThrow() will throw an exception.
+        // std::this_thread::sleep_for ( std::chrono::milliseconds ( this->getNumMillisecondsToSleep() ) );
 
-      // Now run this new thread.
-      this->_threadStarted();
+        // Now run this new thread.
+        this->_threadStarted();
+      }
+      USUL_TOOLS_CATCH_AND_LOG ( 1591247240, &std::clog )
     } ) );
   }
 }
@@ -590,13 +601,13 @@ void Manager::_stopWorkerThread()
 
 void Manager::_threadStarted()
 {
-  IS_WORKER_THREAD_OR_THROW;
-
-  // Do not lock mutex here!
-
   // If an exception sneaks through it will bring down the house.
   try
   {
+    IS_WORKER_THREAD_OR_THROW;
+
+    // Do not lock mutex here!
+
     // Loop until told otherwise.
     while ( true == this->_getShouldRunWorkerThread() )
     {
