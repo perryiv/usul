@@ -40,8 +40,8 @@ public:
 
   typedef T BaseClass;
 
-  Exception ( const std::string &message = std::string() ) : BaseClass ( message ) :
-    _stack ( Usul::Errors::StackTrace::get() )
+  Exception ( const std::string &message = std::string() ) : BaseClass ( message ),
+    _stack ( std::string ( "\nstack:\n" ) + Usul::Errors::StackTrace::get() )
   {
   }
 

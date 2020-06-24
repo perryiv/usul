@@ -39,7 +39,7 @@ namespace StackTrace {
 inline std::string get()
 {
   std::ostringstream out;
-  out << message << "\nstack:\n" << boost::stacktrace::stacktrace();
+  out << boost::stacktrace::stacktrace();
   return out.str();
 };
 
