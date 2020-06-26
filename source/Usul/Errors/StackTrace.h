@@ -43,6 +43,13 @@ inline std::string get()
   return out.str();
 };
 
+inline std::string get ( unsigned int index )
+{
+  std::ostringstream out;
+  out << boost::stacktrace::stacktrace().as_vector().at ( index );
+  return out.str();
+};
+
 
 } // namespace StackTrace
 } // namespace Errors
