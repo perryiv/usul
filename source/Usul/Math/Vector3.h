@@ -259,6 +259,39 @@ inline Vector3 < T, I > operator * ( const Vector3 < T, I > &v, const T &s )
 
 ///////////////////////////////////////////////////////////////////////////////
 //
+//  Overloaded less-than operator so that it can be a key in std::map.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+template < class T, class I >
+inline bool operator < ( const Vector3 < T, I > &a, const Vector3 < T, I > &b )
+{
+  // Same algorithm as osg::Vec3f.
+  if ( a[0] < b[0] )
+  {
+    return true;
+  }
+  else if ( a[0] > b[0] )
+  {
+    return false;
+  }
+  else if ( a[1] < b[1] )
+  {
+    return true;
+  }
+  else if ( a[1] > b[1] )
+  {
+    return false;
+  }
+  else
+  {
+    return ( a[2] < b[2] );
+  }
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
 //  Call the given function for each value.
 //
 ///////////////////////////////////////////////////////////////////////////////
