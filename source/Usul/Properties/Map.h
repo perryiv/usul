@@ -64,7 +64,8 @@ public:
 
   // Get the value.
   template < class T >
-  const T &get ( const std::string &name, const T &defaultValue ) const;
+  const T &      get ( const std::string &name, const T &defaultValue ) const;
+  Object::RefPtr get ( const std::string &name ) const;
 
   // Is there a property with this name and (optionally) type?
   template < class T >
@@ -77,6 +78,7 @@ public:
   void insert ( const std::string &name, const std::string &value );
   void insert ( const std::string &name, const char *value );
   void insert ( const std::string &name, std::nullptr_t value );
+  void insert ( const std::string &name, Object::RefPtr value );
 
   // Merge the properties.
   void merge ( const Map & );
@@ -105,6 +107,7 @@ public:
   void update ( const std::string &name, const std::string &value );
   void update ( const std::string &name, const char *value );
   void update ( const std::string &name, std::nullptr_t value );
+  void update ( const std::string &name, Object::RefPtr value );
 
   // Get the internal values.
   const Values &values() const { return _values; }
@@ -398,7 +401,10 @@ inline void set ( Map &m, const std::string &name, const T &value )
 {
   m.update < T > ( name, value );
 }
-
+inline void set ( Map &m, const std::string &name, Object::RefPtr value )
+{
+  m.update ( name, value );
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 //

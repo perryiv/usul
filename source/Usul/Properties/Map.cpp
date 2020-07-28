@@ -158,6 +158,10 @@ void Map::insert ( const std::string &name, std::nullptr_t value )
 {
   this->insert < std::nullptr_t > ( name, value );
 }
+void Map::insert ( const std::string &name, Object::RefPtr value )
+{
+  _values.insert ( Values::value_type ( name, value ) );
+}
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -177,6 +181,10 @@ void Map::update ( const std::string &name, const char *value )
 void Map::update ( const std::string &name, std::nullptr_t value )
 {
   this->update < std::nullptr_t > ( name, value );
+}
+void Map::update ( const std::string &name, Object::RefPtr value )
+{
+  _values[name] = value;
 }
 
 
@@ -247,6 +255,18 @@ void Map::merge ( const Map::Values &source )
     const Key &key = i->first;
     _values[key] = i->second;
   }
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Get the value.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+Object::RefPtr Map::get ( const std::string &name ) const
+{
+  return Object::RefPtr ( const_cast < Object * > ( this->object ( name ) ) );
 }
 
 
