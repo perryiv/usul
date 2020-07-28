@@ -18,7 +18,7 @@
 
 #include <iostream>
 #include <stdexcept>
-#include <string>
+#include <sstream>
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -42,11 +42,30 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#define USUL_GET_MESSAGE_OR_DEFAULT(message) ( \
-  std::string ( message ).empty() ? \
-  std::string ( "Expression is false" ) : \
-  std::string ( message ) \
-)
+namespace Usul
+{
+  namespace Errors
+  {
+    namespace Details
+    {
+      inline std::string getMessage ( const std::string &message, const char *file, unsigned int line )
+      {
+        if ( true == message.empty() )
+        {
+          std::ostringstream out;
+          out << "Expression is false";
+          out << ", line: " << line;
+          out << ", file: " << ( ( nullptr == file ) ? "" : file );
+          return out.str();
+        }
+        else
+        {
+          return message;
+        }
+      }
+    }
+  }
+}
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -58,7 +77,7 @@
 #define USUL_CHECK_AND_THROW(expression,message) \
   if ( false == ( expression ) ) \
   { \
-    throw std::runtime_error ( USUL_GET_MESSAGE_OR_DEFAULT ( message ) ); \
+    throw std::runtime_error ( Usul::Errors::Details::getMessage ( message, __FILE__, __LINE__ ) ); \
   }
 
 
@@ -71,7 +90,7 @@
 #define USUL_CHECK_AND_LOG(expression,message)\
 if ( false == ( expression ) ) \
 { \
-  std::clog << ( USUL_GET_MESSAGE_OR_DEFAULT ( message ) + "\n" ) << std::flush; \
+  std::clog << ( Usul::Errors::Details::getMessage ( message, __FILE__, __LINE__ ) + "\n" ) << std::flush; \
 }
 
 
