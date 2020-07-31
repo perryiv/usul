@@ -38,24 +38,45 @@ namespace Details
       return false;
     }
 
-    const char *temp = nullptr;
-
     #ifdef _WIN32
 
-    temp = std::getenv ( name.c_str() );
+      char *buffer;
+      size_t length;
+      errno_t error = _dupenv_s ( &buffer, &length, name.c_str() );
+
+      if ( 0 != error )
+      {
+        return false;
+      }
+
+      // This might be null even though there was no error.
+      if ( nullptr == buffer )
+      {
+        return false;
+      }
+
+      // This should also be true.
+      if ( length <= 0 )
+      {
+        return false;
+      }
+
+      value = buffer;
+
+      ::free ( buffer );
 
     #else
 
-    temp = std::getenv ( name.c_str() );
+      const char *temp = std::getenv ( name.c_str() );
+
+      if ( nullptr == temp )
+      {
+        return false;
+      }
+
+      value = temp;
 
     #endif
-
-    if ( nullptr == temp )
-    {
-      return false;
-    }
-
-    value = temp;
 
     return true;
   }
