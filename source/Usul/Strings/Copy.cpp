@@ -40,7 +40,8 @@ char *Copy::copy ( const char *s )
   const size_t length = ::strlen ( s );
   char *answer = new char [ length + 1 ];
   ::memcpy ( answer, s, length );
-  s[length] = '\0';
+  answer[length] = '\0';
+  return answer;
 
   #else
 
