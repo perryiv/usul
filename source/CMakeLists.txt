@@ -25,6 +25,8 @@ set ( SOURCE_FILES
   ./Usul/Plugins/Manager.cpp
   ./Usul/Properties/Map.cpp
   ./Usul/Properties/Object.cpp
+  ./Usul/Strings/Copy.cpp
+  ./Usul/System/Environment.cpp
   ./Usul/System/LastError.cpp
 )
 
