@@ -32,7 +32,7 @@
 cmake_minimum_required ( VERSION 3.12.0 )
 
 # The name of this project.
-project ( usul VERSION 3.0.0 LANGUAGES CXX )
+project ( usul VERSION 3.1.0 LANGUAGES CXX )
 
 # Default to building usul as a shared library
 if ( NOT DEFINED BUILD_SHARED_LIBS )
