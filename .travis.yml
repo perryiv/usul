@@ -1,68 +1,115 @@
-
-################################################################################
-#
-#  Copyright (c) 2019, Perry L Miller IV
-#  All rights reserved.
-#  MIT License: https://opensource.org/licenses/mit-license.html
-#
-################################################################################
-
-################################################################################
-#
-#  Continuous integration configuration file.
-#
-#  These references helped:
-#  https://docs.travis-ci.com/user/languages/cpp/
-#  https://cmake.org/cmake/help/v3.12/release/3.12.html
-#  https://github.com/richelbilderbeek/travis_cpp_tutorial/blob/master/.travis.yml
-#  https://stackoverflow.com/questions/41916656/how-to-use-travis-ci-to-build-modern-c-using-modern-cmake
-#
-################################################################################
-
-# This flavor of linux comes with the version of cmake we need.
-# We use the add_compile_definitions command in a CMakeLists.txt file.
-# https://cmake.org/cmake/help/v3.12/release/3.12.html
-# https://docs.travis-ci.com/user/languages/cpp/
-dist: xenial
-
-# We're compiling C++ code.
-language: cpp
-
-# We install things so we need sudo.
-sudo: required
-
-# We need gcc version 7 because we are using C++17 features.
-# https://stackoverflow.com/questions/41916656/how-to-use-travis-ci-to-build-modern-c-using-modern-cmake
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-    packages:
-      - gcc-7
-      - g++-7
-
-# Install what we need.
+env:
+  global:
+  - CONAN_REFERENCE: usul/3.1.0
+  - CONAN_USERNAME: perryiv
+  - CONAN_LOGIN_USERNAME: perryiv
+  - CONAN_CHANNEL: stable
+linux:
+  os: linux
+  dist: xenial
+  language: python
+  python: '3.7'
+  services: &1
+  - docker
+osx:
+  os: osx
+  language: generic
+matrix:
+  include:
+  - os: linux
+    dist: xenial
+    language: python
+    python: '3.7'
+    services: *1
+    env: CONAN_GCC_VERSIONS=4.9 CONAN_DOCKER_IMAGE=conanio/gcc49
+  - os: linux
+    dist: xenial
+    language: python
+    python: '3.7'
+    services: *1
+    env: CONAN_GCC_VERSIONS=5 CONAN_DOCKER_IMAGE=conanio/gcc5
+  - os: linux
+    dist: xenial
+    language: python
+    python: '3.7'
+    services: *1
+    env: CONAN_GCC_VERSIONS=6 CONAN_DOCKER_IMAGE=conanio/gcc6
+  - os: linux
+    dist: xenial
+    language: python
+    python: '3.7'
+    services: *1
+    env: CONAN_GCC_VERSIONS=7 CONAN_DOCKER_IMAGE=conanio/gcc7
+  - os: linux
+    dist: xenial
+    language: python
+    python: '3.7'
+    services: *1
+    env: CONAN_GCC_VERSIONS=8 CONAN_DOCKER_IMAGE=conanio/gcc8
+  - os: linux
+    dist: xenial
+    language: python
+    python: '3.7'
+    services: *1
+    env: CONAN_CLANG_VERSIONS=3.9 CONAN_DOCKER_IMAGE=conanio/clang39
+  - os: linux
+    dist: xenial
+    language: python
+    python: '3.7'
+    services: *1
+    env: CONAN_CLANG_VERSIONS=4.0 CONAN_DOCKER_IMAGE=conanio/clang40
+  - os: linux
+    dist: xenial
+    language: python
+    python: '3.7'
+    services: *1
+    env: CONAN_CLANG_VERSIONS=5.0 CONAN_DOCKER_IMAGE=conanio/clang50
+  - os: linux
+    dist: xenial
+    language: python
+    python: '3.7'
+    services: *1
+    env: CONAN_CLANG_VERSIONS=6.0 CONAN_DOCKER_IMAGE=conanio/clang60
+  - os: linux
+    dist: xenial
+    language: python
+    python: '3.7'
+    services: *1
+    env: CONAN_CLANG_VERSIONS=7.0 CONAN_DOCKER_IMAGE=conanio/clang70
+  - os: linux
+    dist: xenial
+    language: python
+    python: '3.7'
+    services: *1
+    env: CONAN_CLANG_VERSIONS=7.1 CONAN_DOCKER_IMAGE=conanio/clang71
+  - os: osx
+    language: generic
+    osx_image: xcode7.3
+    env: CONAN_APPLE_CLANG_VERSIONS=7.3
+  - os: osx
+    language: generic
+    osx_image: xcode8.3
+    env: CONAN_APPLE_CLANG_VERSIONS=8.1
+  - os: osx
+    language: generic
+    osx_image: xcode9.2
+    env: CONAN_APPLE_CLANG_VERSIONS=9.0
+  - os: osx
+    language: generic
+    osx_image: xcode9.3
+    env: CONAN_APPLE_CLANG_VERSIONS=9.1
+  - os: osx
+    language: generic
+    osx_image: xcode10
+    env: CONAN_APPLE_CLANG_VERSIONS=10.0
 install:
-- sudo pip install gcovr
-
-# The sequence of commands that get executed.
+- chmod +x .travis/install.sh
+- "./.travis/install.sh"
 script:
-
-# Use the new gcc installed above:
-- export CC=gcc-7
-- export CXX=g++-7
-
-# Set up Catch2 one level up so that gcovr does not analyze it too.
-- pushd .
-- cd ..
-- export Catch2_ROOT="$(pwd)/Catch2"
-- curl -L# https://github.com/catchorg/Catch2/archive/v2.9.1.tar.gz | tar xz
-- cd Catch2-2.9.1
-- mkdir build
-- cd build
-- cmake ../ -DCMAKE_VERBOSE_MAKEFILE=ON -DBUILD_TESTING=OFF -DCATCH_INSTALL_DOCS=OFF -DCATCH_INSTALL_HELPERS=OFF -DCMAKE_INSTALL_PREFIX="${Catch2_ROOT}"
-- cmake --build . --target install
-- popd
-
-# Now we can run our script.
-- sh run_tests.sh
+- chmod +x .travis/run.sh
+- "./.travis/run.sh"
+deploy:
+  on: master
+  dry_run: true
+  key:
+    secure: sZU9UID2f23yWTrbY/9f81OkrYh+P4mdKKczsVREYwvWCQjM1X8dRfc+Yx1+I5XKdaG6sFPEQLr0IlEv7YPn8M2Ulkt1joreOV6E0kkKXNbdtam+iubsoKzEjo7qW5GGXq9vejn6Rcy+/qVxFZ65HphjtAPoWZdW8giMeYxKe7pPH3ThvNL5OGJytRwGhNEYY64l65KksVI3EM9hyGfK3go+V+BBvOvDmuj67yOb9bMAgbr7J0zSgnUPbA2SW0HoGyo07zBZQG6VHA5hCMUs5caRN27Lrpod1PVxnKutVaQ9qvrZky8QG2BC43Tdv2x5MnXL13zCIhrHHODQImsT0yasFQqFnVT4mVGyqBSJTeMH4Wsir/Etxph1Hj9rAReSG8912cHWSaFzDXrZwB/ej8U2bHsGR6gGuXtRcWc0krynB8Gk2TMV5oVQ9DKM2Qbo1VnBLdGW+qht8NAyFsu5/dqr8qjnVL4FeSEoFy/45Zk34P+YAey9b+hCRZycMspWoDcQ+4Rr4cuBox2L50kOqmUQTbecgcICV3T8YdUAWzTZmY3R796G3wmlV3SUsHkR7smZZxyDEljstyg3PMk6DtNe/mIJ9U8pQsoodLe1LdNMc18P+IDf74y0vwm+V9XqxFRkn/ui4gvJF8ImdWhdwvR5XqZqBT8n+dULeFHmY8c=

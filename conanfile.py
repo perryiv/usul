@@ -1,25 +1,25 @@
-from conans import python_requires
-import glob, os, subprocess
-
-intel = python_requires("intel_helper/0.0.0@vaone-dev/master")
+from conans import ConanFile, CMake, tools
 
 
-class Usul(intel.ConanFile):
+class UsulConan(ConanFile):
     name = "usul"
     version = "3.1.0"
-    settings = "os", "arch", "compiler", "build_type"
+    license = "https://opensource.org/licenses/mit-license.html"
+    author = "Perry L Miller IV (perry@modelspace.com)"
+    url = "https://github.com/perryiv/usul"
+    description = "Low-level C++ utility code"
+    topics = ( "low-level", "C++", "utility" )
+    settings = "os", "compiler", "build_type", "arch"
     options = {"shared": [True, False], "build_tests": [True, False]}
     default_options = {"shared": True, "build_tests": False}
-    no_copy_source = True
-    scm = {"type": "git", "url": "auto", "revision": "auto"}
-    revision_mode = "scm"
+    generators = "cmake"
 
     def build_requirements(self):
         if self.options.build_tests:
             self.build_requires("Catch2/[^2.9.1]@catchorg/stable")
 
     def build(self):
-        cmake = intel.CMake(self)
+        cmake = CMake(self)
         defs = {
             "CMAKE_BUILD_WITH_INSTALL_RPATH": True,
             "CMAKE_DEBUG_POSTFIX": "",
@@ -31,7 +31,7 @@ class Usul(intel.ConanFile):
         cmake.build()
 
     def package(self):
-        cmake = intel.CMake(self)
+        cmake = CMake(self)
         cmake.install()
 
     def package_info(self):
