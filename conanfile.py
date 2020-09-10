@@ -20,7 +20,7 @@ class UsulConan(ConanFile):
         "build_tests": True
     }
     # no_copy_source = True
-    generators = "cmake"
+    # generators = "cmake"
 
     def config_options(self):
         if self.settings.build_type == "Release":
