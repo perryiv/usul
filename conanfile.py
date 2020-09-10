@@ -1,4 +1,5 @@
 from conans import ConanFile, CMake, tools
+import os
 
 
 class UsulConan(ConanFile):
@@ -10,9 +11,20 @@ class UsulConan(ConanFile):
     description = "Low-level C++ utility code"
     topics = ( "low-level", "C++", "utility" )
     settings = "os", "compiler", "build_type", "arch"
-    options = {"shared": [True, False], "build_tests": [True, False]}
-    default_options = {"shared": True, "build_tests": False}
+    options = {
+        "shared": [True, False],
+        "build_tests": [True, False]
+    }
+    default_options = {
+        "shared": True,
+        "build_tests": True
+    }
+    no_copy_source = True
     generators = "cmake"
+
+    def config_options(self):
+        if self.settings.build_type == "Release":
+            self.options.shared = True
 
     def build_requirements(self):
         if self.options.build_tests:
@@ -21,9 +33,12 @@ class UsulConan(ConanFile):
     def build(self):
         cmake = CMake(self)
         defs = {
-            "CMAKE_BUILD_WITH_INSTALL_RPATH": True,
-            "CMAKE_DEBUG_POSTFIX": "",
             "USUL_BUILD_TESTS": self.options.build_tests,
+            "CMAKE_ARCHIVE_OUTPUT_DIRECTORY": os.path.join(self.build_folder, "lib"),
+            "CMAKE_DEBUG_POSTFIX": "",
+            "CMAKE_INSTALL_RPATH": "\\$ORIGIN",
+            "CMAKE_LIBRARY_OUTPUT_DIRECTORY": os.path.join(self.build_folder, "lib"),
+            "CMAKE_RUNTIME_OUTPUT_DIRECTORY": os.path.join(self.build_folder, "bin"),
         }
         if self.options.build_tests:
             defs["Catch2_ROOT"] = self.deps_cpp_info["Catch2"].rootpath
@@ -37,7 +52,13 @@ class UsulConan(ConanFile):
     def package_info(self):
         self.cpp_info.libs = ["usul"]
         if not self.options.shared:
-            self.cpp_info.defines = ["USUL_STATIC_DEFINE"]
+            self.cpp_info.defines = [
+                "USUL_STATIC_DEFINE"
+            ]
+        if not self.in_local_cache:
+            self.cpp_info.includedirs = [
+                "source", os.path.join("build", self.settings.build_type.value, "config")
+            ]
 
     def package_id(self):
         super().package_id()
