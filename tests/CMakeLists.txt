@@ -74,7 +74,9 @@ add_executable ( ${PROJECT_NAME}_test ${SOURCE_FILES} )
 
 # Append a "d" to the file name if this is a debug build.
 # Unlike with the library files, this does not happen automatically.
-set_target_properties ( ${PROJECT_NAME}_test PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX} )
+if ( ( DEFINED CMAKE_DEBUG_POSTFIX ) AND ( NOT ${CMAKE_DEBUG_POSTFIX} STREQUAL "" ) )
+  set_target_properties ( ${PROJECT_NAME}_test PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX} )
+endif()
 
 # Tell cmake we are going to use these libraries.
 # It will automatically add -I, -L, and -D (etc) appropriately.
