@@ -19,7 +19,7 @@ class UsulConan(ConanFile):
         "shared": True,
         "build_tests": True
     }
-    no_copy_source = True
+    # no_copy_source = True
     generators = "cmake"
 
     def config_options(self):
