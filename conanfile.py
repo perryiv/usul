@@ -34,11 +34,13 @@ class UsulConan(ConanFile):
         cmake = CMake(self)
         defs = {
             "USUL_BUILD_TESTS": self.options.build_tests,
+            "USUL_ENABLE_CODE_COVERAGE": False,
             "CMAKE_ARCHIVE_OUTPUT_DIRECTORY": os.path.join(self.build_folder, "lib"),
             "CMAKE_DEBUG_POSTFIX": "",
             "CMAKE_INSTALL_RPATH": "\\$ORIGIN",
             "CMAKE_LIBRARY_OUTPUT_DIRECTORY": os.path.join(self.build_folder, "lib"),
             "CMAKE_RUNTIME_OUTPUT_DIRECTORY": os.path.join(self.build_folder, "bin"),
+            "CMAKE_VERBOSE_MAKEFILE": True,
         }
         if self.options.build_tests:
             defs["Catch2_ROOT"] = self.deps_cpp_info["Catch2"].rootpath
