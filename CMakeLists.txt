@@ -152,6 +152,7 @@ add_compile_definitions ( $<$<CONFIG:Debug>:_DEBUG> )
 # Also process the CMakeLists.txt files found in these directories.
 add_subdirectory ( source ) # The library.
 if ( USUL_BUILD_TESTS )
+  enable_testing()
   add_subdirectory ( tests ) # The tests.
 endif()
 

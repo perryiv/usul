@@ -71,6 +71,17 @@ set ( SOURCE_FILES
 
 # Make an executable.
 add_executable ( ${PROJECT_NAME}_test ${SOURCE_FILES} )
+add_test (
+  NAME ${PROJECT_NAME}
+  COMMAND ${PROJECT_NAME}_test --abort --use-colour=yes --durations=no
+)
+
+if ( WIN32 AND BUILD_SHARED_LIBS )
+  add_custom_command ( TARGET ${PROJECT_NAME}_test
+    POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${PROJECT_NAME}> $<TARGET_FILE_DIR:${PROJECT_NAME}_test>
+  )
+endif()
 
 # Append a "d" to the file name if this is a debug build.
 # Unlike with the library files, this does not happen automatically.

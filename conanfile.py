@@ -13,9 +13,9 @@ class UsulConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     options = {
         "shared": [True, False],
-        "build_tests": [True, False],
+        "run_tests": [True, False],
     }
-    default_options = {"shared": False, "build_tests": True}
+    default_options = {"shared": False, "run_tests": True}
 
     scm = {"type": "git", "url": "auto", "revision": "auto"}
     revision_mode = "scm"
@@ -24,12 +24,12 @@ class UsulConan(ConanFile):
     generators = "cmake_find_package",
 
     def requirements(self):
-        if self.options.build_tests:
+        if self.options.run_tests:
             self.requires("catch2/2.13.0", private=True)
 
     def toolchain(self):
         toolchain = CMakeToolchain(self)
-        toolchain.definitions["USUL_BUILD_TESTS"] = self.options.build_tests
+        toolchain.definitions["USUL_BUILD_TESTS"] = self.options.run_tests
         toolchain.definitions["USUL_ENABLE_CODE_COVERAGE"] = False
         toolchain.definitions["CMAKE_DEBUG_POSTFIX"] = ""
         toolchain.definitions["CMAKE_INSTALL_RPATH"] = "\\$ORIGIN"
@@ -40,6 +40,8 @@ class UsulConan(ConanFile):
         cmake = CMake(self)
         cmake.configure()
         cmake.build()
+        if self.options.run_tests:
+            cmake.test()
 
     def package(self):
         cmake = CMake(self)
@@ -56,4 +58,4 @@ class UsulConan(ConanFile):
             ]
 
     def package_id(self):
-        del self.info.options.build_tests
+        del self.info.options.run_tests
