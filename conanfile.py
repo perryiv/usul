@@ -41,7 +41,7 @@ class UsulConan(ConanFile):
         cmake.configure()
         cmake.build()
         if self.options.run_tests:
-            cmake.test()
+            cmake.test(output_on_failure=True)
 
     def package(self):
         cmake = CMake(self)
