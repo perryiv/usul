@@ -1,113 +1,38 @@
 env:
   global:
-  - CONAN_REFERENCE: usul/3.1.0
-  - CONAN_USERNAME: perryiv
-  - CONAN_LOGIN_USERNAME: perryiv
-  - CONAN_CHANNEL: stable
-linux:
+    - CONAN_REFERENCE: usul/3.1.0
+    - CONAN_USERNAME: perryiv
+    - CONAN_LOGIN_USERNAME: perryiv
+    - CONAN_CHANNEL: stable
+
+.linux: &linux
   os: linux
   dist: xenial
   language: python
   python: '3.7'
-  services: &1
-  - docker
-osx:
+  services:
+    - docker
+
+.osx: &osx
   os: osx
   language: generic
+
 matrix:
   include:
-  - os: linux
-    dist: xenial
-    language: python
-    python: '3.7'
-    services: *1
-    env: CONAN_GCC_VERSIONS=4.9 CONAN_DOCKER_IMAGE=conanio/gcc49
-  - os: linux
-    dist: xenial
-    language: python
-    python: '3.7'
-    services: *1
-    env: CONAN_GCC_VERSIONS=5 CONAN_DOCKER_IMAGE=conanio/gcc5
-  - os: linux
-    dist: xenial
-    language: python
-    python: '3.7'
-    services: *1
-    env: CONAN_GCC_VERSIONS=6 CONAN_DOCKER_IMAGE=conanio/gcc6
-  - os: linux
-    dist: xenial
-    language: python
-    python: '3.7'
-    services: *1
-    env: CONAN_GCC_VERSIONS=7 CONAN_DOCKER_IMAGE=conanio/gcc7
-  - os: linux
-    dist: xenial
-    language: python
-    python: '3.7'
-    services: *1
-    env: CONAN_GCC_VERSIONS=8 CONAN_DOCKER_IMAGE=conanio/gcc8
-  - os: linux
-    dist: xenial
-    language: python
-    python: '3.7'
-    services: *1
-    env: CONAN_CLANG_VERSIONS=3.9 CONAN_DOCKER_IMAGE=conanio/clang39
-  - os: linux
-    dist: xenial
-    language: python
-    python: '3.7'
-    services: *1
-    env: CONAN_CLANG_VERSIONS=4.0 CONAN_DOCKER_IMAGE=conanio/clang40
-  - os: linux
-    dist: xenial
-    language: python
-    python: '3.7'
-    services: *1
-    env: CONAN_CLANG_VERSIONS=5.0 CONAN_DOCKER_IMAGE=conanio/clang50
-  - os: linux
-    dist: xenial
-    language: python
-    python: '3.7'
-    services: *1
-    env: CONAN_CLANG_VERSIONS=6.0 CONAN_DOCKER_IMAGE=conanio/clang60
-  - os: linux
-    dist: xenial
-    language: python
-    python: '3.7'
-    services: *1
-    env: CONAN_CLANG_VERSIONS=7.0 CONAN_DOCKER_IMAGE=conanio/clang70
-  - os: linux
-    dist: xenial
-    language: python
-    python: '3.7'
-    services: *1
-    env: CONAN_CLANG_VERSIONS=7.1 CONAN_DOCKER_IMAGE=conanio/clang71
-  - os: osx
-    language: generic
-    osx_image: xcode7.3
-    env: CONAN_APPLE_CLANG_VERSIONS=7.3
-  - os: osx
-    language: generic
-    osx_image: xcode8.3
-    env: CONAN_APPLE_CLANG_VERSIONS=8.1
-  - os: osx
-    language: generic
-    osx_image: xcode9.2
-    env: CONAN_APPLE_CLANG_VERSIONS=9.0
-  - os: osx
-    language: generic
-    osx_image: xcode9.3
-    env: CONAN_APPLE_CLANG_VERSIONS=9.1
-  - os: osx
-    language: generic
-    osx_image: xcode10
-    env: CONAN_APPLE_CLANG_VERSIONS=10.0
+    - <<: *linux
+      env: CONAN_GCC_VERSIONS=8 CONAN_DOCKER_IMAGE=conanio/gcc8
+    - <<: *osx
+      osx_image: xcode10
+      env: CONAN_APPLE_CLANG_VERSIONS=10.0
+
 install:
-- chmod +x .travis/install.sh
-- "./.travis/install.sh"
+  - pip3 install conan --upgrade
+  - pip3 install conan_package_tools
+  - conan user
+
 script:
-- chmod +x .travis/run.sh
-- "./.travis/run.sh"
+  - python3 build.py
+
 deploy:
   on: master
   dry_run: true
