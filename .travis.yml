@@ -4,6 +4,10 @@ env:
     - CONAN_USERNAME: perryiv
     - CONAN_LOGIN_USERNAME: perryiv
     - CONAN_CHANNEL: stable
+    - CONAN_UPLOAD: https://api.bintray.com/conan/perryiv/conan
+    - CONAN_UPLOAD_ONLY_WHEN_STABLE: 1
+    - CONAN_STABLE_BRANCH_PATTERN: "^master$"
+    - secure: DABVR0xQB+M0m9RoumGVB53kH4gmQwYplM9FRLDgR2fHCmpOkIQjoQrVYs87N63LY6/ltMdJ8dAx8CLyUnp2EJ2fI3ZyYwPYDSGP47NCPu/Yxh/hu1jpZBBAucB5DkPGqO7/Mw1PPOWk9ovkjUiiAWE02GDJjgxswmcwIjB5KN9/eigwI3mUG/DY7ZcnsnIof/jstiK625OEs5cBgJ1/ViopQrIILNV36uPQArwPYNBqcxjVx/ehfRFBo2IcWNZ+tBfIP/2q8vtmos1RF7x4D0Z2gns9X5qVmCIc+YgbSwX43fQhaY6+OstxQmPN6kvO+Ak5UcTYDslWJgxbe+VBjD4XV6mTH9pGRD9K6+qszYGoopd5SPTcLCSY+pj45byJRWrP3DHotdlCDXz5f93MOAiUirih2dW7USZIpp6ookwGpkvsrTZV8+x+K7ogaWqRTVPY0UwfPe1ceIj1Pgn3RkJXn2BUa+BZXL3ThYvBpqoqjjXP3ouPkRC5y2DOePOaE3wKjCKNYTWOTDE+TZZUWHc6r/AmOs+nTz1UATr+Ud4lMLTxthDgSI8kUWOLR7ADuUObdHOH2zMy8wG4Q6ttQ0rxRzMD8zS3OUdlUaeFsWQbKOyyywkgJeGj2WadwEf7AbGX7OF/CjAdaj8zoeUugtjqp3BrabuMJTyj2sPyBfI=
 
 .linux: &linux
   os: linux
@@ -36,9 +40,3 @@ install:
 
 script:
   - python3 build.py
-
-deploy:
-  on: master
-  dry_run: true
-  key:
-    secure: sZU9UID2f23yWTrbY/9f81OkrYh+P4mdKKczsVREYwvWCQjM1X8dRfc+Yx1+I5XKdaG6sFPEQLr0IlEv7YPn8M2Ulkt1joreOV6E0kkKXNbdtam+iubsoKzEjo7qW5GGXq9vejn6Rcy+/qVxFZ65HphjtAPoWZdW8giMeYxKe7pPH3ThvNL5OGJytRwGhNEYY64l65KksVI3EM9hyGfK3go+V+BBvOvDmuj67yOb9bMAgbr7J0zSgnUPbA2SW0HoGyo07zBZQG6VHA5hCMUs5caRN27Lrpod1PVxnKutVaQ9qvrZky8QG2BC43Tdv2x5MnXL13zCIhrHHODQImsT0yasFQqFnVT4mVGyqBSJTeMH4Wsir/Etxph1Hj9rAReSG8912cHWSaFzDXrZwB/ej8U2bHsGR6gGuXtRcWc0krynB8Gk2TMV5oVQ9DKM2Qbo1VnBLdGW+qht8NAyFsu5/dqr8qjnVL4FeSEoFy/45Zk34P+YAey9b+hCRZycMspWoDcQ+4Rr4cuBox2L50kOqmUQTbecgcICV3T8YdUAWzTZmY3R796G3wmlV3SUsHkR7smZZxyDEljstyg3PMk6DtNe/mIJ9U8pQsoodLe1LdNMc18P+IDf74y0vwm+V9XqxFRkn/ui4gvJF8ImdWhdwvR5XqZqBT8n+dULeFHmY8c=
