@@ -61,6 +61,9 @@ endif()
 set ( USUL_CONFIG_DIR_INPUT ${CMAKE_CURRENT_SOURCE_DIR}/config )
 set ( USUL_CONFIG_DIR_OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/config )
 
+# Tell CMake to not skip using rpath.
+set ( CMAKE_SKIP_RPATH OFF )
+
 # Set the version.
 configure_file (
   ${USUL_CONFIG_DIR_INPUT}/Version.h.in
