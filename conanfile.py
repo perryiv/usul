@@ -32,7 +32,6 @@ class UsulConan(ConanFile):
         toolchain.definitions["USUL_BUILD_TESTS"] = self.options.run_tests
         toolchain.definitions["USUL_ENABLE_CODE_COVERAGE"] = False
         toolchain.definitions["CMAKE_DEBUG_POSTFIX"] = ""
-        toolchain.definitions["CMAKE_INSTALL_RPATH"] = "\\$ORIGIN"
         toolchain.definitions["CMAKE_VERBOSE_MAKEFILE"] = True
         toolchain.write_toolchain_files()
 
