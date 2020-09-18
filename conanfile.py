@@ -5,7 +5,7 @@ import os
 class UsulConan(ConanFile):
     name = "usul"
     version = "3.1.0"
-    license = "https://opensource.org/licenses/mit-license.html"
+    license = "MIT"
     author = "Perry L Miller IV (perry@modelspace.com)"
     url = "https://github.com/perryiv/usul"
     description = "Low-level C++ utility code"
@@ -45,6 +45,7 @@ class UsulConan(ConanFile):
     def package(self):
         cmake = CMake(self)
         cmake.install()
+        self.copy(pattern="License.md", dst="licenses")
 
     def package_info(self):
         self.cpp_info.libs = ["usul"]
