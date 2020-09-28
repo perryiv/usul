@@ -23,6 +23,10 @@ class UsulConan(ConanFile):
     no_copy_source = True
     generators = "cmake_find_package",
 
+    def set_version(self):
+        with open("version.txt") as file:
+            self.version = file.read()
+
     def requirements(self):
         if self.options.run_tests:
             self.requires("catch2/2.13.0", private=True)

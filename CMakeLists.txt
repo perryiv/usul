@@ -31,8 +31,11 @@
 # https://cmake.org/cmake/help/v3.12/release/3.12.html
 cmake_minimum_required ( VERSION 3.12.0 )
 
+# Get the version from this file.
+file ( STRINGS ${CMAKE_CURRENT_LIST_DIR}/version.txt PROJECT_VERSION )
+
 # The name of this project.
-project ( usul VERSION 3.2.0 LANGUAGES CXX )
+project ( usul VERSION ${PROJECT_VERSION} LANGUAGES CXX )
 
 # Default to building usul as a shared library
 if ( NOT DEFINED BUILD_SHARED_LIBS )
