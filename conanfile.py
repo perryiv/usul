@@ -4,7 +4,6 @@ import os
 
 class UsulConan(ConanFile):
     name = "usul"
-    version = "3.1.0"
     license = "MIT"
     author = "Perry L Miller IV (perry@modelspace.com)"
     url = "https://github.com/perryiv/usul"
