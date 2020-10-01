@@ -11,20 +11,6 @@
 #
 #  Top-level CMake file for the usul project.
 #
-#  Sources:
-#  https://doc.qt.io/qt-5/cmake-manual.html
-#  https://vicrucann.github.io/tutorials/cmake-qt-osg-1/
-#  https://stackoverflow.com/questions/10851247/how-to-activate-c-11-in-cmake
-#  https://stackoverflow.com/questions/6594796/how-do-i-make-cmake-output-into-a-bin-dir
-#  https://stackoverflow.com/questions/2368811/how-to-set-warning-level-in-cmake/50882216
-#  https://docs.microsoft.com/en-us/cpp/build/reference/compiler-option-warning-level?view=vs-2017
-#  https://softwareengineering.stackexchange.com/questions/88532/whether-to-use-pedantic-flag-in-g-or-not
-#  https://stackoverflow.com/questions/4001736/whats-up-with-the-thousands-of-warnings-in-standard-headers-in-msvc-wall
-#  http://cmake.3232098.n2.nabble.com/Directing-cmake-to-link-against-shared-object-with-debug-postfix-d-td7595338.html
-#  https://stackoverflow.com/questions/16682606/how-to-resovle-gcov-init-undefined-reference-issue-when-link
-#  https://cmake.org/cmake/help/v3.13/module/FindOpenSceneGraph.html?highlight=findopenscenegraph
-#  https://gitlab.kitware.com/cmake/community/wikis/doc/tutorials/How-to-create-a-ProjectConfig.cmake-file
-#
 ################################################################################
 
 # We use the add_compile_definitions command.
@@ -36,6 +22,9 @@ file ( STRINGS ${CMAKE_CURRENT_LIST_DIR}/version.txt PROJECT_VERSION )
 
 # The name of this project.
 project ( usul VERSION ${PROJECT_VERSION} LANGUAGES CXX )
+
+# Changes to the version file should trigger a re-configuration.
+set_property ( DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS ${CMAKE_CURRENT_LIST_DIR}/version.txt )
 
 # Default to building usul as a shared library
 if ( NOT DEFINED BUILD_SHARED_LIBS )
@@ -169,3 +158,21 @@ endif()
 
 # Configure how this project gets imported into other cmake projects.
 include ( ${CMAKE_CURRENT_SOURCE_DIR}/cmake/export.cmake )
+
+################################################################################
+#
+#  Sources:
+#  https://doc.qt.io/qt-5/cmake-manual.html
+#  https://vicrucann.github.io/tutorials/cmake-qt-osg-1/
+#  https://stackoverflow.com/questions/10851247/how-to-activate-c-11-in-cmake
+#  https://stackoverflow.com/questions/6594796/how-do-i-make-cmake-output-into-a-bin-dir
+#  https://stackoverflow.com/questions/2368811/how-to-set-warning-level-in-cmake/50882216
+#  https://docs.microsoft.com/en-us/cpp/build/reference/compiler-option-warning-level?view=vs-2017
+#  https://softwareengineering.stackexchange.com/questions/88532/whether-to-use-pedantic-flag-in-g-or-not
+#  https://stackoverflow.com/questions/4001736/whats-up-with-the-thousands-of-warnings-in-standard-headers-in-msvc-wall
+#  http://cmake.3232098.n2.nabble.com/Directing-cmake-to-link-against-shared-object-with-debug-postfix-d-td7595338.html
+#  https://stackoverflow.com/questions/16682606/how-to-resovle-gcov-init-undefined-reference-issue-when-link
+#  https://cmake.org/cmake/help/v3.13/module/FindOpenSceneGraph.html?highlight=findopenscenegraph
+#  https://gitlab.kitware.com/cmake/community/wikis/doc/tutorials/How-to-create-a-ProjectConfig.cmake-file
+#
+################################################################################
