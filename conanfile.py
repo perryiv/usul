@@ -32,10 +32,10 @@ class UsulConan(ConanFile):
 
     def toolchain(self):
         toolchain = CMakeToolchain(self)
-        toolchain.definitions["USUL_BUILD_TESTS"] = self.options.run_tests
-        toolchain.definitions["USUL_ENABLE_CODE_COVERAGE"] = False
-        toolchain.definitions["CMAKE_DEBUG_POSTFIX"] = ""
-        toolchain.definitions["CMAKE_VERBOSE_MAKEFILE"] = True
+        toolchain.variables["USUL_BUILD_TESTS"] = self.options.run_tests
+        toolchain.variables["USUL_ENABLE_CODE_COVERAGE"] = False
+        toolchain.variables["CMAKE_DEBUG_POSTFIX"] = ""
+        toolchain.variables["CMAKE_VERBOSE_MAKEFILE"] = True
         toolchain.write_toolchain_files()
 
     def build(self):
