@@ -2,6 +2,10 @@
 #
 #  Travis configuration file.
 #
+#  Pipeline results are here:
+#
+#    https://travis-ci.com/github/perryiv/usul
+#
 ################################################################################
 
 env:
