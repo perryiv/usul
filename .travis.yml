@@ -42,10 +42,10 @@ matrix:
       osx_image: xcode12
       env: CONAN_APPLE_CLANG_VERSIONS=12.0
 
-install:
-  - pip3 install conan --upgrade
-  - pip3 install conan_package_tools
-  - conan user
+# install:
+#   - pip3 install conan --upgrade
+#   - pip3 install conan_package_tools
+#   - conan user
 
 # script:
 #   - python3 build.py
