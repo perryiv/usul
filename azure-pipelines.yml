@@ -1,19 +1,37 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+################################################################################
+#
+#  Azure Pipelines configuration file.
+#
+#  Pipeline results are here:
+#
+#    https://dev.azure.com/perryiv/usul
+#
+################################################################################
 
 trigger:
 - master
 
+strategy:
+  matrix:
+    gcc8:
+      imageName: 'conanio/gcc8'
+    gcc9:
+      imageName: 'conanio/gcc9'
+    gcc10:
+      imageName: 'conanio/gcc10'
+    mac:
+      imageName: 'macos-10.15'
+    windows:
+      imageName: 'vs2017-win2016'
+
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: $(imageName)
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+- script: echo This is script number 1
+  displayName: 'Script 1'
 
 - script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+    echo This is script number 2
+    echo This is the second line
+  displayName: 'Script 2'
