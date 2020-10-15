@@ -47,5 +47,5 @@ install:
   - pip3 install conan_package_tools
   - conan user
 
-script:
-  - python3 build.py
+# script:
+#   - python3 build.py
