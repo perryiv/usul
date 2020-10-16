@@ -43,6 +43,16 @@ jobs:
       conan user
     displayName: 'Configure conan'
 
+- job: Windows_Job
+  displayName: Windows Job
+  strategy:
+    matrix:
+      gcc8:
+        imageName: 'mcr.microsoft.com/windows/servercore:ltsc2019'
+  pool:
+    vmImage: 'windows-latest'
+  container: $[variables['imageName']]
+
 - job: Mac_10_15
   displayName: Mac 10.15 Job
   pool:
@@ -52,8 +62,3 @@ jobs:
   displayName: Mac 10.14 Job
   pool:
     vmImage: 'macOS-10.14'
-
-- job: Windows_Job
-  displayName: Windows Job
-  pool:
-    vmImage: 'windows-latest'
