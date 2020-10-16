@@ -13,6 +13,12 @@
 #    https://medium.com/@brentrobinson5/containerised-ci-cd-pipelines-with-azure-devops-74064c679f20
 #    https://github.com/conan-io/conan-docker-tools/blob/master/azure-pipelines.yml
 #
+#  Notes:
+#
+#    -- When we run inside a container we use the latest OS for the host and
+#       specify the version of the image.
+#    -- When we run directly on the OS (e.g., Mac) we specify the OS version.
+#
 ################################################################################
 
 trigger:
@@ -36,7 +42,6 @@ jobs:
   steps:
   - script: |
       whoami
-      su
       apt-get install python3-pip
     displayName: 'Configure pip3'
   - script: |
@@ -49,7 +54,7 @@ jobs:
   displayName: Windows Job
   strategy:
     matrix:
-      gcc8:
+      ltsc2019:
         imageName: 'mcr.microsoft.com/windows/servercore:ltsc2019'
   pool:
     vmImage: 'windows-latest'
