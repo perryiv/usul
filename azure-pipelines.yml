@@ -35,7 +35,7 @@ jobs:
   container: $[variables['imageName']]
   steps:
   - script: |
-      python3 -v
+      python3 --version
     displayName: 'Configure python'
   - script: |
       pip3 install conan --upgrade
