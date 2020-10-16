@@ -11,6 +11,7 @@
 #    https://docs.microsoft.com/en-us/azure/devops/pipelines/process/container-phases
 #    https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/hosted
 #    https://medium.com/@brentrobinson5/containerised-ci-cd-pipelines-with-azure-devops-74064c679f20
+#    https://github.com/conan-io/conan-docker-tools/blob/master/azure-pipelines.yml
 #
 ################################################################################
 
@@ -20,18 +21,21 @@ trigger:
 jobs:
 
 - job: LinuxJob
+  displayName: Linux Job
   pool:
     vmImage: 'ubuntu-latest'
   steps:
   - script: echo hello from Linux
 
 - job: MacJob
+  displayName: Mac Job
   pool:
     vmImage: 'macOS-latest'
   steps:
   - script: echo hello from macOS
 
 - job: WindowsJob
+  displayName: Windows Job
   pool:
     vmImage: 'windows-latest'
   steps:
