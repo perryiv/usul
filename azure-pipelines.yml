@@ -19,19 +19,19 @@ trigger:
 
 jobs:
 
-- job: Linux gcc 8
+- job: LinuxJob
   pool:
     vmImage: 'ubuntu-latest'
   steps:
   - script: echo hello from Linux
 
-- job: macOS
+- job: MacJob
   pool:
     vmImage: 'macOS-latest'
   steps:
   - script: echo hello from macOS
 
-- job: Windows
+- job: WindowsJob
   pool:
     vmImage: 'windows-latest'
   steps:
