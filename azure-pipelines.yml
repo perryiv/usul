@@ -32,7 +32,8 @@ jobs:
         imageName: 'conanio/gcc10:latest'
   pool:
     vmImage: 'ubuntu-latest'
-  container: $[variables['containerImage']]
+  container: 'conanio/gcc9:latest'
+  # container: $[variables['containerImage']]
   steps:
   - script: echo Hello from Linux
   - script: uname -a
