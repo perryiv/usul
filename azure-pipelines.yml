@@ -35,7 +35,7 @@ jobs:
   container: $[variables['imageName']]
   steps:
   - script: |
-      sudo apt-get install python3-pip
+      apt-get install python3-pip
     displayName: 'Configure pip3'
   - script: |
       pip3 install conan --upgrade
