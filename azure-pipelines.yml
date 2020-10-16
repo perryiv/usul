@@ -35,6 +35,8 @@ jobs:
   container: $[variables['imageName']]
   steps:
   - script: |
+      whoami
+      su
       apt-get install python3-pip
     displayName: 'Configure pip3'
   - script: |
