@@ -25,21 +25,24 @@ jobs:
   pool:
     vmImage: 'ubuntu-latest'
   steps:
-  - script: echo hello from Linux
+  - script: echo Hello from Linux
+  - script: uname -a
 
 - job: MacJob
   displayName: Mac Job
   pool:
     vmImage: 'macOS-latest'
   steps:
-  - script: echo hello from macOS
+  - script: echo Hello from Mac
+  - script: uname -a
 
 - job: WindowsJob
   displayName: Windows Job
   pool:
     vmImage: 'windows-latest'
   steps:
-  - script: echo hello from Windows
+  - script: echo Hello from Windows
+  - script: uname -a
 
 
 # strategy:
