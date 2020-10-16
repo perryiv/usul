@@ -33,12 +33,12 @@ jobs:
   displayName: Linux
   strategy:
     matrix:
-      gcc8:
-        imageName: 'gcc-cmake:8'
-      gcc9:
-        imageName: 'gcc-cmake:9'
-      gcc10:
-        imageName: 'gcc-cmake:10'
+      Ubuntu_16_04:
+        imageName: 'ubuntu:16.04'
+      Ubuntu_18_04:
+        imageName: 'ubuntu:18.04'
+      Ubuntu_20_10:
+        imageName: 'ubuntu:20.10'
   pool:
     vmImage: 'ubuntu-latest'
   container: $[variables['imageName']]
