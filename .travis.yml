@@ -6,6 +6,10 @@
 #
 #    https://travis-ci.com/github/perryiv/usul
 #
+#  Resources:
+#
+#    https://docs.travis-ci.com/user/deployment/bintray/
+#
 ################################################################################
 
 env:
