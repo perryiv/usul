@@ -25,15 +25,14 @@ jobs:
   strategy:
     matrix:
       gcc8:
-        imageName: 'conanio/gcc8:latest'
+        imageName: 'gcc:8'
       gcc9:
-        imageName: 'conanio/gcc9:latest'
+        imageName: 'gcc:9'
       gcc10:
-        imageName: 'conanio/gcc10:latest'
+        imageName: 'gcc:10'
   pool:
     vmImage: 'ubuntu-latest'
-  container: 'conanio/gcc9:latest'
-  # container: $[variables['containerImage']]
+  container: $[variables['imageName']]
   steps:
   - script: echo Hello from Linux
   - script: uname -a
