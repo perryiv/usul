@@ -22,11 +22,21 @@ jobs:
 
 - job: LinuxJob
   displayName: Linux Job
+  strategy:
+    matrix:
+      gcc8:
+        imageName: 'conanio/gcc8'
+      gcc9:
+        imageName: 'conanio/gcc9'
+      gcc10:
+        imageName: 'conanio/gcc10'
   pool:
     vmImage: 'ubuntu-latest'
+  container: $[variables['containerImage']]
   steps:
   - script: echo Hello from Linux
   - script: uname -a
+  - script: gcc -a
 
 - job: MacJob
   displayName: Mac Job
@@ -35,6 +45,7 @@ jobs:
   steps:
   - script: echo Hello from Mac
   - script: uname -a
+  - script: clang -a
 
 - job: WindowsJob
   displayName: Windows Job
