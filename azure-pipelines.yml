@@ -27,7 +27,7 @@ trigger:
 jobs:
 
 - job: Linux_Job
-  displayName: Linux Job
+  displayName: Linux
   strategy:
     matrix:
       gcc8:
@@ -44,14 +44,16 @@ jobs:
       whoami
       apt-get install python3-pip
     displayName: 'Configure pip3'
+    runAsRoot: true
   - script: |
       pip3 install conan --upgrade
       pip3 install conan_package_tools
       conan user
     displayName: 'Configure conan'
+    runAsRoot: true
 
 - job: Windows_Job
-  displayName: Windows Job
+  displayName: Windows
   strategy:
     matrix:
       ltsc2019:
@@ -61,11 +63,11 @@ jobs:
   container: $[variables['imageName']]
 
 - job: Mac_10_15
-  displayName: Mac 10.15 Job
+  displayName: Mac 10.15
   pool:
     vmImage: 'macOS-10.15'
 
 - job: Mac_10_14
-  displayName: Mac 10.14 Job
+  displayName: Mac 10.14
   pool:
     vmImage: 'macOS-10.14'
