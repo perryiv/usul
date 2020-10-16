@@ -6,32 +6,58 @@
 #
 #    https://dev.azure.com/perryiv/usul
 #
+#  Resources:
+#
+#    https://docs.microsoft.com/en-us/azure/devops/pipelines/process/container-phases
+#    https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/hosted
+#    https://medium.com/@brentrobinson5/containerised-ci-cd-pipelines-with-azure-devops-74064c679f20
+#
 ################################################################################
 
 trigger:
 - master
 
-strategy:
-  matrix:
-    gcc8:
-      imageName: 'conanio/gcc8'
-    gcc9:
-      imageName: 'conanio/gcc9'
-    gcc10:
-      imageName: 'conanio/gcc10'
-    mac:
-      imageName: 'macos-10.15'
-    windows:
-      imageName: 'vs2017-win2016'
+jobs:
 
-pool:
-  vmImage: $(imageName)
+- job: Linux gcc 8
+  pool:
+    vmImage: 'ubuntu-latest'
+  steps:
+  - script: echo hello from Linux
 
-steps:
-- script: echo This is script number 1
-  displayName: 'Script 1'
+- job: macOS
+  pool:
+    vmImage: 'macOS-latest'
+  steps:
+  - script: echo hello from macOS
 
-- script: |
-    echo This is script number 2
-    echo This is the second line
-  displayName: 'Script 2'
+- job: Windows
+  pool:
+    vmImage: 'windows-latest'
+  steps:
+  - script: echo hello from Windows
+
+
+# strategy:
+#   matrix:
+#     gcc8:
+#       imageName: 'conanio/gcc8'
+#     gcc9:
+#       imageName: 'conanio/gcc9'
+#     gcc10:
+#       imageName: 'conanio/gcc10'
+#     mac:
+#       imageName: 'macos-10.15'
+#     windows:
+#       imageName: 'vs2017-win2016'
+
+
+
+# steps:
+# - script: echo This is script number 1
+#   displayName: 'Script 1'
+#
+# - script: |
+#     echo This is script number 2
+#     echo This is the second line
+#   displayName: 'Script 2'
