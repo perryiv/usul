@@ -33,49 +33,26 @@ jobs:
   pool:
     vmImage: 'ubuntu-latest'
   container: $[variables['imageName']]
-  steps:
-  - script: echo Hello from Linux
-  - script: uname -a
-  - script: gcc -v
 
 - job: MacJob
   displayName: Mac Job
   pool:
     vmImage: 'macOS-latest'
-  steps:
-  - script: echo Hello from Mac
-  - script: uname -a
-  - script: clang -v
 
 - job: WindowsJob
   displayName: Windows Job
   pool:
     vmImage: 'windows-latest'
-  steps:
-  - script: echo Hello from Windows
-  - script: uname -a
 
 
-# strategy:
-#   matrix:
-#     gcc8:
-#       imageName: 'conanio/gcc8'
-#     gcc9:
-#       imageName: 'conanio/gcc9'
-#     gcc10:
-#       imageName: 'conanio/gcc10'
 #     mac:
 #       imageName: 'macos-10.15'
 #     windows:
 #       imageName: 'vs2017-win2016'
 
-
-
-# steps:
-# - script: echo This is script number 1
-#   displayName: 'Script 1'
-#
-# - script: |
-#     echo This is script number 2
-#     echo This is the second line
-#   displayName: 'Script 2'
+steps:
+- script: |
+    pip3 install conan --upgrade
+    pip3 install conan_package_tools
+    conan user
+  displayName: 'Configure conan'
