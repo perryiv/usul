@@ -33,12 +33,12 @@ jobs:
   displayName: Linux
   strategy:
     matrix:
-      Ubuntu_16_04:
-        imageName: 'ubuntu:16.04'
-      Ubuntu_18_04:
-        imageName: 'ubuntu:18.04'
-      Ubuntu_20_10:
-        imageName: 'ubuntu:20.10'
+      gcc8:
+        imageName: 'conanio/gcc8'
+      gcc9:
+        imageName: 'conanio/gcc9'
+      gcc10:
+        imageName: 'conanio/gcc10'
   pool:
     vmImage: 'ubuntu-latest'
   container:
@@ -50,8 +50,8 @@ jobs:
       apt-get install python3-pip
     displayName: 'Configure pip3'
   - script: |
-      sudo pip3 install conan --upgrade
-      sudo pip3 install conan_package_tools
+      pip3 install conan --upgrade
+      pip3 install conan_package_tools
       conan user
     displayName: 'Configure conan'
 
