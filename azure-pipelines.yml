@@ -41,10 +41,13 @@ jobs:
         imageName: 'ubuntu:20.10'
   pool:
     vmImage: 'ubuntu-latest'
-  container: $[variables['imageName']]
+  container:
+    image: $[variables['imageName']]
+    options: --user root
   steps:
   - script: |
-      sudo apt-get install python3-pip
+      whoami
+      apt-get install python3-pip
     displayName: 'Configure pip3'
   - script: |
       sudo pip3 install conan --upgrade
