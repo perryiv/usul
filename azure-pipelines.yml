@@ -47,6 +47,8 @@ jobs:
   steps:
   - script: |
       echo ---- 1 ----
+      sudo apt-get -y update && sudo apt-get -y upgrade
+      echo ---- 1.1 ----
       sudo apt-get install python3-wheel
       echo ---- 2 ----
       pip3 --version
