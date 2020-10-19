@@ -44,7 +44,7 @@ jobs:
   container:
     image: $[variables['imageName']]
     options: --user root
-  # steps:
+  steps:
   # - script: |
   #     whoami
   #     which sudo
