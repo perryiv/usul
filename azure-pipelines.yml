@@ -47,11 +47,11 @@ jobs:
   steps:
   - script: |
       echo ---- 1 ----
-      python3 -m pip install --upgrade pip
+      sudo python3 -m pip install --upgrade pip
       echo ---- 2 ----
-      pip3 install conan --upgrade
+      sudo pip3 install conan --upgrade
       echo ---- 3 ----
-      pip3 install conan_package_tools
+      sudo pip3 install conan_package_tools
       echo ---- 4 ----
       conan user
       echo ---- 5 ----
