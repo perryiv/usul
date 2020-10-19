@@ -48,6 +48,14 @@ jobs:
   - script: |
       whoami
       which sudo
+      which python
+      which python3
+      which pip
+      which pip3
+      python --version
+      python3 --version
+      pip --version
+      pip3 --version
       sudo apt-get install python3-pip
     displayName: 'Configure pip3'
   # - script: |
