@@ -45,21 +45,13 @@ jobs:
     image: $[variables['imageName']]
     options: --user root
   steps:
-  # - script: |
-  #     whoami
-  #     which sudo
-  #     which python
-  #     which python3
-  #     which pip
-  #     which pip3
-  #     python --version
-  #     python3 --version
-  #     pip --version
-  #     pip3 --version
-  #     sudo apt-get install python3-pip
-  #   displayName: 'Configure pip3'
   - script: |
+      pip3 --version
+      python3 -m pip install --upgrade pip
+      pip3 --version
+      conan --version
       pip3 install conan --upgrade
+      conan --version
       pip3 install conan_package_tools
       conan user
     displayName: 'Configure conan'
