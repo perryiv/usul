@@ -47,26 +47,14 @@ jobs:
   steps:
   - script: |
       echo ---- 1 ----
-      sudo apt-get -y update && sudo apt-get -y upgrade
-      echo ---- 1.1 ----
-      sudo apt-get install python3-wheel
-      echo ---- 2 ----
-      pip3 --version
-      echo ---- 3 ----
       python3 -m pip install --upgrade pip
-      echo ---- 4 ----
-      pip3 --version
-      echo ---- 5 ----
-      conan --version
-      echo ---- 6 ----
+      echo ---- 2 ----
       pip3 install conan --upgrade
-      echo ---- 7 ----
-      conan --version
-      echo ---- 8 ----
+      echo ---- 3 ----
       pip3 install conan_package_tools
-      echo ---- 9 ----
+      echo ---- 4 ----
       conan user
-      echo ---- 10 ----
+      echo ---- 5 ----
     displayName: 'Configure conan'
 
 # - job: Windows_Job
