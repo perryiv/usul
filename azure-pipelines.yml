@@ -47,7 +47,8 @@ jobs:
   steps:
   - script: |
       whoami
-      apt-get install python3-pip
+      which sudo
+      sudo apt-get install python3-pip
     displayName: 'Configure pip3'
   # - script: |
   #     pip3 install conan --upgrade
