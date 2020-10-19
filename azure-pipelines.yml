@@ -44,25 +44,25 @@ jobs:
   container:
     image: $[variables['imageName']]
     options: --user root
-  steps:
-  - script: |
-      whoami
-      which sudo
-      which python
-      which python3
-      which pip
-      which pip3
-      python --version
-      python3 --version
-      pip --version
-      pip3 --version
-      sudo apt-get install python3-pip
-    displayName: 'Configure pip3'
+  # steps:
   # - script: |
-  #     pip3 install conan --upgrade
-  #     pip3 install conan_package_tools
-  #     conan user
-  #   displayName: 'Configure conan'
+  #     whoami
+  #     which sudo
+  #     which python
+  #     which python3
+  #     which pip
+  #     which pip3
+  #     python --version
+  #     python3 --version
+  #     pip --version
+  #     pip3 --version
+  #     sudo apt-get install python3-pip
+  #   displayName: 'Configure pip3'
+  - script: |
+      pip3 install conan --upgrade
+      pip3 install conan_package_tools
+      conan user
+    displayName: 'Configure conan'
 
 # - job: Windows_Job
 #   displayName: Windows
