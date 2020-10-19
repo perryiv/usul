@@ -35,10 +35,10 @@ jobs:
     matrix:
       gcc8:
         imageName: 'conanio/gcc8'
-      gcc9:
-        imageName: 'conanio/gcc9'
-      gcc10:
-        imageName: 'conanio/gcc10'
+      # gcc9:
+      #   imageName: 'conanio/gcc9'
+      # gcc10:
+      #   imageName: 'conanio/gcc10'
   pool:
     vmImage: 'ubuntu-latest'
   container:
@@ -49,28 +49,28 @@ jobs:
       whoami
       apt-get install python3-pip
     displayName: 'Configure pip3'
-  - script: |
-      pip3 install conan --upgrade
-      pip3 install conan_package_tools
-      conan user
-    displayName: 'Configure conan'
+  # - script: |
+  #     pip3 install conan --upgrade
+  #     pip3 install conan_package_tools
+  #     conan user
+  #   displayName: 'Configure conan'
 
-- job: Windows_Job
-  displayName: Windows
-  strategy:
-    matrix:
-      ltsc2019:
-        imageName: 'mcr.microsoft.com/windows/servercore:ltsc2019'
-  pool:
-    vmImage: 'windows-latest'
-  container: $[variables['imageName']]
-
-- job: Mac_10_15
-  displayName: Mac 10.15
-  pool:
-    vmImage: 'macOS-10.15'
-
-- job: Mac_10_14
-  displayName: Mac 10.14
-  pool:
-    vmImage: 'macOS-10.14'
+# - job: Windows_Job
+#   displayName: Windows
+#   strategy:
+#     matrix:
+#       ltsc2019:
+#         imageName: 'mcr.microsoft.com/windows/servercore:ltsc2019'
+#   pool:
+#     vmImage: 'windows-latest'
+#   container: $[variables['imageName']]
+#
+# - job: Mac_10_15
+#   displayName: Mac 10.15
+#   pool:
+#     vmImage: 'macOS-10.15'
+#
+# - job: Mac_10_14
+#   displayName: Mac 10.14
+#   pool:
+#     vmImage: 'macOS-10.14'
