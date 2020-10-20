@@ -104,6 +104,5 @@ steps:
       conan user
     displayName: Configure
   - script: |
-      env
       python build.py
     displayName: Build
