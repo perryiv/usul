@@ -49,7 +49,7 @@ strategy:
       gcc-version: 9
       python-arch: "x64"
       python-version: "3.x"
-    # Ubuntu_16_04:
+    # Ubuntu_16_04: # Getting a compile error.
     #   imageName: 'ubuntu-16.04'
     #   timeoutInMinutes: 0
     #   gcc-version: 8
@@ -67,12 +67,12 @@ strategy:
       vs-version: 16 # Visual Studio 2019
       python-arch: "x64"
       python-version: "3.x"
-    Windows_2016_VS_2017:
-      imageName: 'vs2017-win2016'
-      timeoutInMinutes: 0
-      vs-version: 15 # Visual Studio 2017
-      python-arch: "x86"
-      python-version: "2.x"
+    # Windows_2016_VS_2017: # CMake is too old.
+    #   imageName: 'vs2017-win2016'
+    #   timeoutInMinutes: 0
+    #   vs-version: 15 # Visual Studio 2017
+    #   python-arch: "x86"
+    #   python-version: "2.x"
 
 pool:
   vmImage: $(imageName)
