@@ -54,17 +54,17 @@ strategy:
       python-version: "3.x"
     Mac_10_15:
       imageName: 'macOS-10.15'
-      clang-version: 12
+      clang-version: 12.0
       python-arch: "x64"
       python-version: "3.x"
     Windows_2019_VS_2019:
       imageName: 'windows-2019'
-      vs-version: 19
+      vs-version: 16 # Visual Studio 2019
       python-arch: "x64"
       python-version: "3.x"
     Windows_2016_VS_2017:
       imageName: 'vs2017-win2016'
-      vs-version: 17
+      vs-version: 15 # Visual Studio 2017
       python-arch: "x64"
       python-version: "3.x"
 
