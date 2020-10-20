@@ -73,6 +73,8 @@ pool:
 
 variables:
   CONAN_USERNAME: perryiv
+  CONAN_LOGIN_USERNAME: $(CONAN_LOGIN_USERNAME)
+  CONAN_PASSWORD: $(CONAN_PASSWORD)
   CONAN_CHANNEL: stable
   CONAN_UPLOAD: https://api.bintray.com/conan/perryiv/conan
   CONAN_UPLOAD_ONLY_WHEN_STABLE: 1
@@ -97,8 +99,6 @@ steps:
       conan user
     displayName: Configure
   - script: |
-      export CONAN_PASSWORD=$CONAN_PASSWORD
-      export CONAN_LOGIN_USERNAME=$CONAN_LOGIN_USERNAME
       env
       python build.py
     displayName: Build
