@@ -50,6 +50,13 @@ jobs:
   container:
     image: $[variables['imageName']]
     options: --user root
+  steps:
+  - script: |
+      sudo python3 -m pip install --upgrade pip
+      sudo pip3 install conan --upgrade
+      sudo pip3 install conan_package_tools
+      conan user
+    displayName: Configure conan
 
 # - job: Windows_Job
 #   displayName: Windows
@@ -84,12 +91,3 @@ jobs:
 #   timeoutInMinutes: 0
 #   pool:
 #     vmImage: macOS-10.14
-
-steps:
-
-  - script: |
-      sudo python3 -m pip install --upgrade pip
-      sudo pip3 install conan --upgrade
-      sudo pip3 install conan_package_tools
-      conan user
-    displayName: Configure conan
