@@ -21,7 +21,6 @@ env:
     - CONAN_UPLOAD_ONLY_WHEN_STABLE: 1
     - CONAN_STABLE_BRANCH_PATTERN: "^master$"
     - CONAN_REVISIONS_ENABLED: 1
-    # - secure: RwK53tVXeprQtUoBq+qQNisXgCI0CxAplJ/FWa/h71gqKBexJ420TmnX8aRjVhyWRXnWSy7svhEgrdojSnLAmXxELakyUxoAuyXaO+PFxSHX0kxHsVxytS94tL/ZspiHeqXXIZoPyM3+dLYz6N2v29fAK1CCGp3K1N8Rqmp1gjZi6NNBrVUuJGWfqWLWYltSgwXJOSSFGvSIxjpMXMju1dXm6ai1WgIBLbupcTwlDwWe28lIA3HFXq815FXGOvROmbwP/1N1aTJC6+FIwfFyE1mmDmV1ke2ZYIdpqB3D9ul3djvs0kIVpkDnxI20HXpPQGBGB9J3XNCcyXYUbclfCHak8n7Eaeayy2riA2YvFvbsWUDW4ckxsQXB/SrN35k1ivmtL+NYb+6GAhHGhA8s8Sc8VrepYrqsanq763DMB+4EHgBTyBoqUiZo1QG2KZKpcHoRtc7H05uRzyYasJSLywBNnHe8EuwXx/1ZgeRTYmkBaGXmAo+qgy0KL+Rq2q6SsadZ7XS4giCEq0tgzu4YaiDqiH2OoChtc42k70pgFw1ttKrbX4vDyTEC6uNweJcYaoERpG1WY9NmTIPYpY8OMIGh2ly39OR0teIgXaDbrUqWyNYwtvfhrFusgxpfvxTQn13Z/V6NBkZfyeUFltqInPw3BDMkl6tYOzC4gds1BDk=
 
 .linux: &linux
   os: linux
@@ -47,10 +46,10 @@ matrix:
       osx_image: xcode12
       env: CONAN_APPLE_CLANG_VERSIONS=12.0
 
-install:
-  - pip3 install conan --upgrade
-  - pip3 install conan_package_tools
-  - conan user
-
-script:
-  - python3 build.py
+# install:
+#   - pip3 install conan --upgrade
+#   - pip3 install conan_package_tools
+#   - conan user
+#
+# script:
+#   - python3 build.py
