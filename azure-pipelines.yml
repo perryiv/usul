@@ -20,6 +20,8 @@
 #    https://docs.microsoft.com/en-us/azure/devops/pipelines/process/variables#secret-variables
 #    https://docs.microsoft.com/en-us/azure/devops/pipelines/process/phases#timeouts
 #    https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/utility/shell-script
+#    https://github.com/actions/virtual-environments
+#    https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks
 #
 #  Notes:
 #
@@ -33,64 +35,69 @@
 trigger:
 - master
 
-jobs:
+strategy:
+  matrix:
+    Ubuntu_20_04:
+      imageName: 'Ubuntu 20.04'
+      gcc-version: 10
+      python-arch: "x64"
+      python-version: "3.x"
+    Ubuntu_18_04:
+      imageName: 'Ubuntu 18.04'
+      gcc-version: 9
+      python-arch: "x64"
+      python-version: "3.x"
+    Ubuntu_16_04:
+      imageName: 'ubuntu-16.04'
+      gcc-version: 8
+      python-arch: "x64"
+      python-version: "3.x"
+    Mac_10_15:
+      imageName: 'macOS-10.15'
+      clang-version: 12
+      python-arch: "x64"
+      python-version: "3.x"
+    Windows_2019_VS_2019:
+      imageName: 'windows-2019'
+      vs-version: 19
+      python-arch: "x64"
+      python-version: "3.x"
+    Windows_2016_VS_2017:
+      imageName: 'vs2017-win2016'
+      vs-version: 17
+      python-arch: "x64"
+      python-version: "3.x"
 
-- job: Linux_Job
-  displayName: Linux
-  timeoutInMinutes: 0
-  strategy:
-    matrix:
-      gcc8:
-        imageName: 'conanio/gcc8'
-      gcc9:
-        imageName: 'conanio/gcc9'
-      gcc10:
-        imageName: 'conanio/gcc10'
-  pool:
-    vmImage: 'ubuntu-latest'
-  container:
-    image: $[variables['imageName']]
-    options: --user root
-  steps:
-  - script: sudo sh scripts/configure_conan.sh
-    displayName: Configure conan
+pool:
+  vmImage: $(imageName)
 
-- job: Windows_2019_VS_2019
-  displayName: Windows 2019 VS 2019
-  timeoutInMinutes: 0
-  pool:
-    vmImage: windows-2019
-  steps:
-  - task: ShellScript@2
+variables:
+  CONAN_USERNAME: perryiv
+  CONAN_CHANNEL: stable
+  CONAN_UPLOAD: https://api.bintray.com/conan/perryiv/conan
+  CONAN_UPLOAD_ONLY_WHEN_STABLE: 1
+  CONAN_STABLE_BRANCH_PATTERN: "^master$"
+  CONAN_REVISIONS_ENABLED: 1
+  CONAN_VISUAL_VERSIONS: $(vs-version)
+  CONAN_APPLE_CLANG_VERSIONS: $(clang-version)
+  CONAN_GCC_VERSIONS: $(gcc-version)
+
+steps:
+  - task: UsePythonVersion@0
     inputs:
-      scriptPath: scripts/configure_conan.sh
+      versionSpec: $(python-version)
+      addToPath: true
+      architecture: $(python-arch)
+  # - script: sudo apt-get update && sudo apt-get install -y gcc-multilib
+  #   displayName: Installing C/C++ header files
+  #   condition: eq(variables.INSTALL_HEADERFILES, true)
+  - script: |
+      python --version
+      pip --version
+      python -m pip install --upgrade pip
+      pip install conan --upgrade
+      pip install conan_package_tools
     displayName: Configure conan
-
-- job: Windows_2016_VS_2017
-  displayName: Windows 2016 VS 2017
-  timeoutInMinutes: 0
-  pool:
-    vmImage: vs2017-win2016
-  steps:
-  - task: ShellScript@2
-    inputs:
-      scriptPath: scripts/configure_conan.sh
-    displayName: Configure conan
-
-- job: Mac_10_15
-  displayName: Mac 10.15
-  timeoutInMinutes: 0
-  pool:
-    vmImage: macOS-10.15
-  steps:
-  - script: sudo sh scripts/configure_conan.sh
-    displayName: Configure conan
-
-- job: Mac_10_14
-  displayName: Mac 10.14
-  timeoutInMinutes: 0
-  pool:
-    vmImage: macOS-10.14
-  steps:
-  - script: sudo sh scripts/configure_conan.sh
-    displayName: Configure conan
+  - script: |
+      python build.py
+    displayName: 'Build, test, and deploy'
