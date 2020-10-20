@@ -14,7 +14,9 @@
 #    https://github.com/conan-io/conan-docker-tools/blob/master/azure-pipelines.yml
 #    https://jaylee.org/archive/2019/03/21/azure-devops-wasm-build-container.html
 #    https://github.com/microsoft/azure-pipelines-agent/issues/2043
-#    https://hub.docker.com/r/rikorose/gcc-cmake
+#    https://hub.docker.com/r/conanio/gcc8
+#    https://hub.docker.com/_/microsoft-windows-servercore
+#    https://github.com/jonico/libzengithub/blob/master/azure-pipelines.yml
 #
 #  Notes:
 #
@@ -34,45 +36,57 @@ jobs:
   strategy:
     matrix:
       gcc8:
-        imageName: 'conanio/gcc8'
-      # gcc9:
-      #   imageName: 'conanio/gcc9'
-      # gcc10:
-      #   imageName: 'conanio/gcc10'
+        imageName: conanio/gcc8
+        install-headerfiles : false
+      gcc9:
+        imageName: conanio/gcc9
+        install-headerfiles : false
+      gcc10:
+        imageName: conanio/gcc10
+        install-headerfiles : true
   pool:
-    vmImage: 'ubuntu-latest'
+    vmImage: ubuntu-latest
   container:
-    image: $[variables['imageName']]
+    image: $[variables[imageName]]
     options: --user root
   steps:
   - script: |
-      echo ---- 1 ----
       sudo python3 -m pip install --upgrade pip
-      echo ---- 2 ----
       sudo pip3 install conan --upgrade
-      echo ---- 3 ----
       sudo pip3 install conan_package_tools
-      echo ---- 4 ----
       conan user
-      echo ---- 5 ----
-    displayName: 'Configure conan'
+    displayName: Configure conan
 
-# - job: Windows_Job
-#   displayName: Windows
-#   strategy:
-#     matrix:
-#       ltsc2019:
-#         imageName: 'mcr.microsoft.com/windows/servercore:ltsc2019'
-#   pool:
-#     vmImage: 'windows-latest'
-#   container: $[variables['imageName']]
-#
+- job: Windows_Job
+  displayName: Windows
+  strategy:
+    matrix:
+      ltsc2019:
+        imageName: mcr.microsoft.com/windows/servercore:ltsc2019
+        vs-version: 19
+        install-headerfiles : false
+      ltsc2016:
+        imageName: mcr.microsoft.com/windows/servercore:ltsc2016
+        vs-version: 17
+        install-headerfiles : false
+  pool:
+    vmImage: windows-latest
+  container: $[variables[imageName]]
+  steps:
+  - script: |
+      sudo python3 -m pip install --upgrade pip
+      sudo pip3 install conan --upgrade
+      sudo pip3 install conan_package_tools
+      conan user
+    displayName: Configure conan
+
+
 # - job: Mac_10_15
 #   displayName: Mac 10.15
 #   pool:
-#     vmImage: 'macOS-10.15'
+#     vmImage: macOS-10.15
 #
 # - job: Mac_10_14
 #   displayName: Mac 10.14
 #   pool:
-#     vmImage: 'macOS-10.14'
+#     vmImage: macOS-10.14
