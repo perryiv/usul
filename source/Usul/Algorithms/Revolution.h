@@ -61,9 +61,9 @@ namespace Details
     typedef Usul::Math::Vector3 < RealNumber > RealVec3;
 
     // Should be true.
-    static_assert ( true == std::is_floating_point < RealNumber > ::value );
-    static_assert ( true == std::is_floating_point < typename SourceVec3::value_type > ::value );
-    static_assert ( true == std::is_floating_point < typename TargetVec3::value_type > ::value );
+    static_assert ( true == std::is_floating_point < RealNumber > ::value, "Real number type is not floating point" );
+    static_assert ( true == std::is_floating_point < typename SourceVec3::value_type > ::value, "Source vector value type is not floating point" );
+    static_assert ( true == std::is_floating_point < typename TargetVec3::value_type > ::value, "Target vector value type is not floating point" );
 
     // Get the source value in the same precision as the matrix.
     const SourceVec3 &s = source.at ( i );
