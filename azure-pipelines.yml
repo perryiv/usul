@@ -17,11 +17,14 @@
 #    https://hub.docker.com/r/conanio/gcc8
 #    https://hub.docker.com/_/microsoft-windows-servercore
 #    https://github.com/jonico/libzengithub/blob/master/azure-pipelines.yml
+#    https://docs.microsoft.com/en-us/azure/devops/pipelines/process/variables#secret-variables
+#    https://docs.microsoft.com/en-us/azure/devops/pipelines/process/phases#timeouts
 #
 #  Notes:
 #
 #    -- When we run inside a container we use the latest OS for the host and
 #       specify the version of the image.
+#
 #    -- When we run directly on the OS (e.g., Mac) we specify the OS version.
 #
 ################################################################################
@@ -33,17 +36,15 @@ jobs:
 
 - job: Linux_Job
   displayName: Linux
+  timeoutInMinutes: 0
   strategy:
     matrix:
       gcc8:
         imageName: conanio/gcc8
-        install-headerfiles : false
       gcc9:
         imageName: conanio/gcc9
-        install-headerfiles : false
       gcc10:
         imageName: conanio/gcc10
-        install-headerfiles : true
   pool:
     vmImage: ubuntu-latest
   container:
@@ -59,16 +60,15 @@ jobs:
 
 - job: Windows_Job
   displayName: Windows
+  timeoutInMinutes: 0
   strategy:
     matrix:
       ltsc2019:
         imageName: mcr.microsoft.com/windows/servercore:ltsc2019
         vs-version: 19
-        install-headerfiles : false
       ltsc2016:
         imageName: mcr.microsoft.com/windows/servercore:ltsc2016
         vs-version: 17
-        install-headerfiles : false
   pool:
     vmImage: windows-latest
   container: $[variables[imageName]]
@@ -80,13 +80,14 @@ jobs:
       conan user
     displayName: Configure conan
 
+- job: Mac_10_15
+  displayName: Mac 10.15
+  timeoutInMinutes: 0
+  pool:
+    vmImage: macOS-10.15
 
-# - job: Mac_10_15
-#   displayName: Mac 10.15
-#   pool:
-#     vmImage: macOS-10.15
-#
-# - job: Mac_10_14
-#   displayName: Mac 10.14
-#   pool:
-#     vmImage: macOS-10.14
+- job: Mac_10_14
+  displayName: Mac 10.14
+  timeoutInMinutes: 0
+  pool:
+    vmImage: macOS-10.14
