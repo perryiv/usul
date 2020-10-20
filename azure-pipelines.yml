@@ -54,27 +54,25 @@ jobs:
   - script: sh scripts/configure_conan.sh
     displayName: Configure conan
 
-# - job: Windows_Job
-#   displayName: Windows
-#   timeoutInMinutes: 0
-#   strategy:
-#     matrix:
-#       ltsc2019:
-#         imageName: mcr.microsoft.com/windows/servercore:ltsc2019
-#         vs-version: 19
-#       ltsc2016:
-#         imageName: mcr.microsoft.com/windows/servercore:ltsc2016
-#         vs-version: 17
-#   pool:
-#     vmImage: windows-latest
-#   container: $[variables['imageName']]
-#   steps:
-#   - script: |
-#       sudo python3 -m pip install --upgrade pip
-#       sudo pip3 install conan --upgrade
-#       sudo pip3 install conan_package_tools
-#       conan user
-#     displayName: Configure conan
+- job: Windows_Job
+  displayName: Windows
+  timeoutInMinutes: 0
+  strategy:
+    matrix:
+      ltsc2019:
+        imageName: mcr.microsoft.com/windows/servercore:ltsc2019
+        vs-version: 19
+      ltsc2016:
+        imageName: mcr.microsoft.com/windows/servercore:ltsc2016
+        vs-version: 17
+  pool:
+    vmImage: windows-latest
+  container:
+    image: $[variables['imageName']]
+    options: --user root
+  steps:
+  - script: sh scripts/configure_conan.sh
+    displayName: Configure conan
 
 # - job: Mac_10_15
 #   displayName: Mac 10.15
