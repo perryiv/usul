@@ -47,11 +47,11 @@ strategy:
       gcc-version: 9
       python-arch: "x64"
       python-version: "3.x"
-    Ubuntu_16_04:
-      imageName: 'ubuntu-16.04'
-      gcc-version: 8
-      python-arch: "x64"
-      python-version: "3.x"
+    # Ubuntu_16_04:
+    #   imageName: 'ubuntu-16.04'
+    #   gcc-version: 8
+    #   python-arch: "x64"
+    #   python-version: "3.x"
     Mac_10_15:
       imageName: 'macOS-10.15'
       clang-version: 12.0
@@ -62,17 +62,18 @@ strategy:
       vs-version: 16 # Visual Studio 2019
       python-arch: "x64"
       python-version: "3.x"
-    Windows_2016_VS_2017:
-      imageName: 'vs2017-win2016'
-      vs-version: 15 # Visual Studio 2017
-      python-arch: "x64"
-      python-version: "3.x"
+    # Windows_2016_VS_2017:
+    #   imageName: 'vs2017-win2016'
+    #   vs-version: 15 # Visual Studio 2017
+    #   python-arch: "x64"
+    #   python-version: "3.x"
 
 pool:
   vmImage: $(imageName)
 
 variables:
   CONAN_USERNAME: perryiv
+  # CONAN_PASSWORD: $CONAN_PASSWORD
   CONAN_CHANNEL: stable
   CONAN_UPLOAD: https://api.bintray.com/conan/perryiv/conan
   CONAN_UPLOAD_ONLY_WHEN_STABLE: 1
@@ -88,16 +89,14 @@ steps:
       versionSpec: $(python-version)
       addToPath: true
       architecture: $(python-arch)
-  # - script: sudo apt-get update && sudo apt-get install -y gcc-multilib
-  #   displayName: Installing C/C++ header files
-  #   condition: eq(variables.INSTALL_HEADERFILES, true)
   - script: |
       python --version
       pip --version
       python -m pip install --upgrade pip
       pip install conan --upgrade
       pip install conan_package_tools
-    displayName: Configure conan
+      conan user
+    displayName: Configure
   - script: |
       python build.py
-    displayName: 'Build, test, and deploy'
+    displayName: Build
