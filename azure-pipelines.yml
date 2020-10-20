@@ -54,33 +54,38 @@ jobs:
   - script: sh scripts/configure_conan.sh
     displayName: Configure conan
 
-- job: Windows_Job
-  displayName: Windows
+- job: Windows_2019_VS_2019
+  displayName: Windows 2019 VS 2019
   timeoutInMinutes: 0
-  strategy:
-    matrix:
-      ltsc2019:
-        imageName: mcr.microsoft.com/windows/servercore:ltsc2019
-        vs-version: 19
-      ltsc2016:
-        imageName: mcr.microsoft.com/windows/servercore:ltsc2016
-        vs-version: 17
   pool:
-    vmImage: windows-latest
-  container:
-    image: $[variables['imageName']]
+    vmImage: windows-2019
   steps:
   - script: sh scripts/configure_conan.sh
     displayName: Configure conan
 
-# - job: Mac_10_15
-#   displayName: Mac 10.15
-#   timeoutInMinutes: 0
-#   pool:
-#     vmImage: macOS-10.15
+- job: Windows_2016_VS_2017
+  displayName: Windows 2016 VS 2017
+  timeoutInMinutes: 0
+  pool:
+    vmImage: vs2017-win2016
+  steps:
+  - script: sh scripts/configure_conan.sh
+    displayName: Configure conan
 
-# - job: Mac_10_14
-#   displayName: Mac 10.14
-#   timeoutInMinutes: 0
-#   pool:
-#     vmImage: macOS-10.14
+- job: Mac_10_15
+  displayName: Mac 10.15
+  timeoutInMinutes: 0
+  pool:
+    vmImage: macOS-10.15
+  steps:
+  - script: sh scripts/configure_conan.sh
+    displayName: Configure conan
+
+- job: Mac_10_14
+  displayName: Mac 10.14
+  timeoutInMinutes: 0
+  pool:
+    vmImage: macOS-10.14
+  steps:
+  - script: sh scripts/configure_conan.sh
+    displayName: Configure conan
