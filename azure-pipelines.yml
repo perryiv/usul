@@ -95,13 +95,18 @@ steps:
       addToPath: true
       architecture: $(python-arch)
   - script: |
-      python --version
       python -m pip install --upgrade pip
-      pip --version
       pip install conan --upgrade
       pip install conan_package_tools
       conan user
     displayName: Configure
+  - script: |
+      python --version
+      pip --version
+      gcc --version
+      cmake --version
+      conan --version
+    displayName: Versions
   - script: |
       python build.py
     displayName: Build
