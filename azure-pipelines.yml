@@ -51,7 +51,7 @@ strategy:
       python-version: "3.x"
     # Ubuntu_16_04:
     #   imageName: 'ubuntu-16.04'
-    timeoutInMinutes: 0
+    #   timeoutInMinutes: 0
     #   gcc-version: 8
     #   python-arch: "x64"
     #   python-version: "3.x"
@@ -69,7 +69,7 @@ strategy:
       python-version: "3.x"
     # Windows_2016_VS_2017:
     #   imageName: 'vs2017-win2016'
-    timeoutInMinutes: 0
+    #   timeoutInMinutes: 0
     #   vs-version: 15 # Visual Studio 2017
     #   python-arch: "x64"
     #   python-version: "3.x"
