@@ -67,12 +67,12 @@ strategy:
       vs-version: 16 # Visual Studio 2019
       python-arch: "x64"
       python-version: "3.x"
-    # Windows_2016_VS_2017:
-    #   imageName: 'vs2017-win2016'
-    #   timeoutInMinutes: 0
-    #   vs-version: 15 # Visual Studio 2017
-    #   python-arch: "x64"
-    #   python-version: "3.x"
+    Windows_2016_VS_2017:
+      imageName: 'vs2017-win2016'
+      timeoutInMinutes: 0
+      vs-version: 15 # Visual Studio 2017
+      python-arch: "x86"
+      python-version: "2.x"
 
 pool:
   vmImage: $(imageName)
