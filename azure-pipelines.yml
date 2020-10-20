@@ -60,7 +60,9 @@ jobs:
   pool:
     vmImage: windows-2019
   steps:
-  - script: sh scripts/configure_conan.sh
+  - task: ShellScript@2
+    inputs:
+      scriptPath: scripts/configure_conan.sh
     displayName: Configure conan
 
 - job: Windows_2016_VS_2017
@@ -69,7 +71,9 @@ jobs:
   pool:
     vmImage: vs2017-win2016
   steps:
-  - script: sh scripts/configure_conan.sh
+  - task: ShellScript@2
+    inputs:
+      scriptPath: scripts/configure_conan.sh
     displayName: Configure conan
 
 - job: Mac_10_15
