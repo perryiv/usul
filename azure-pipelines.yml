@@ -97,10 +97,8 @@ steps:
       conan user
     displayName: Configure
   - script: |
-      export CONAN_LOGIN_USERNAME=$CONAN_LOGIN_USERNAME
       export CONAN_PASSWORD=$CONAN_PASSWORD
+      export CONAN_LOGIN_USERNAME=$CONAN_LOGIN_USERNAME
       env
-    displayName: Environment
-  - script: |
       python build.py
     displayName: Build
