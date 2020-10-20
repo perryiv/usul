@@ -19,6 +19,7 @@
 #    https://github.com/jonico/libzengithub/blob/master/azure-pipelines.yml
 #    https://docs.microsoft.com/en-us/azure/devops/pipelines/process/variables#secret-variables
 #    https://docs.microsoft.com/en-us/azure/devops/pipelines/process/phases#timeouts
+#    https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/utility/shell-script
 #
 #  Notes:
 #
@@ -51,7 +52,7 @@ jobs:
     image: $[variables['imageName']]
     options: --user root
   steps:
-  - script: sh scripts/configure_conan.sh
+  - script: sudo sh scripts/configure_conan.sh
     displayName: Configure conan
 
 - job: Windows_2019_VS_2019
@@ -82,7 +83,7 @@ jobs:
   pool:
     vmImage: macOS-10.15
   steps:
-  - script: sh scripts/configure_conan.sh
+  - script: sudo sh scripts/configure_conan.sh
     displayName: Configure conan
 
 - job: Mac_10_14
@@ -91,5 +92,5 @@ jobs:
   pool:
     vmImage: macOS-10.14
   steps:
-  - script: sh scripts/configure_conan.sh
+  - script: sudo sh scripts/configure_conan.sh
     displayName: Configure conan
