@@ -1,6 +1,8 @@
 set -e
 set -x
-python3 -m pip install --upgrade pip
-pip3 install conan --upgrade
-pip3 install conan_package_tools
+python --version
+pip --version
+python -m pip install --upgrade pip
+pip install conan --upgrade
+pip install conan_package_tools
 conan user
