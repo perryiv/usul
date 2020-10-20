@@ -40,11 +40,11 @@ jobs:
   strategy:
     matrix:
       gcc8:
-        imageName: conanio/gcc8
+        imageName: 'conanio/gcc8'
       gcc9:
-        imageName: conanio/gcc9
+        imageName: 'conanio/gcc9'
       gcc10:
-        imageName: conanio/gcc10
+        imageName: 'conanio/gcc10'
   pool:
     vmImage: ubuntu-latest
   container: $[variables['imageName']]
@@ -69,7 +69,7 @@ jobs:
 #         vs-version: 17
 #   pool:
 #     vmImage: windows-latest
-#   container: $[variables[imageName]]
+#   container: $[variables['imageName']]
 #   steps:
 #   - script: |
 #       sudo python3 -m pip install --upgrade pip
