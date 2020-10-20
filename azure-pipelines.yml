@@ -51,11 +51,7 @@ jobs:
     image: $[variables['imageName']]
     options: --user root
   steps:
-  - script: |
-      sudo python3 -m pip install --upgrade pip
-      sudo pip3 install conan --upgrade
-      sudo pip3 install conan_package_tools
-      conan user
+  - script: sh scripts/configure_conan.sh
     displayName: Configure conan
 
 # - job: Windows_Job
