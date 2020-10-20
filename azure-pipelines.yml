@@ -46,8 +46,10 @@ jobs:
       gcc10:
         imageName: 'conanio/gcc10'
   pool:
-    vmImage: ubuntu-latest
-  container: $[variables['imageName']]
+    vmImage: 'ubuntu-latest'
+  container:
+    image: $[variables['imageName']]
+    options: --user root
   steps:
   - script: |
       sudo python3 -m pip install --upgrade pip
