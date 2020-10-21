@@ -110,24 +110,24 @@ steps:
       architecture: "x64"
     displayName: Select Python
 
-  - script: |
-      python -m pip install --upgrade pip
-      pip install conan --upgrade
-      pip install conan_package_tools
-      conan user
-    displayName: Configure Conan
-
-  - script: |
-      python --version
-      pip --version
-      gcc --version
-      cmake --version
-      conan --version
-    displayName: Print Versions
-
-  - script: |
-      env
-    displayName: Print Environment
+  # - script: |
+  #     python -m pip install --upgrade pip
+  #     pip install conan --upgrade
+  #     pip install conan_package_tools
+  #     conan user
+  #   displayName: Configure Conan
+  #
+  # - script: |
+  #     python --version
+  #     pip --version
+  #     gcc --version
+  #     cmake --version
+  #     conan --version
+  #   displayName: Print Versions
+  #
+  # - script: |
+  #     env
+  #   displayName: Print Environment
 
   - script: |
       python build.py
