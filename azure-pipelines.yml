@@ -34,18 +34,22 @@ strategy:
   matrix:
     Linux_GCC_10:
       imageName: 'ubuntu-latest'
+      docker_image: conanio/gcc10
       compiler_version: 10
       timeoutInMinutes: 120
     Linux_GCC_9:
       imageName: 'ubuntu-latest'
+      docker_image: conanio/gcc9
       compiler_version: 9
       timeoutInMinutes: 120
     Linux_GCC_8:
       imageName: 'ubuntu-latest'
+      docker_image: conanio/gcc8
       compiler_version: 8
       timeoutInMinutes: 120
     Linux_GCC_7:
       imageName: 'ubuntu-latest'
+      docker_image: conanio/gcc7
       compiler_version: 7
       timeoutInMinutes: 120
 
@@ -93,9 +97,10 @@ variables:
   CONAN_STABLE_BRANCH_PATTERN: "^master$"
   CONAN_REVISIONS_ENABLED: 1
   CONAN_USE_DOCKER: 1
-  # CONAN_VISUAL_VERSIONS: $(compiler_version)
-  # CONAN_APPLE_CLANG_VERSIONS: $(compiler_version)
+  CONAN_DOCKER_IMAGE: $(docker_image)
   CONAN_GCC_VERSIONS: $(compiler_version)
+  # CONAN_APPLE_CLANG_VERSIONS: $(compiler_version)
+  # CONAN_VISUAL_VERSIONS: $(compiler_version)
 
 steps:
   - task: UsePythonVersion@0
@@ -116,6 +121,9 @@ steps:
       cmake --version
       conan --version
     displayName: Versions
+  - script: |
+      env
+    displayName: Environment
   - script: |
       python build.py
     displayName: Build
