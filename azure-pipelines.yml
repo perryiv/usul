@@ -31,54 +31,54 @@ trigger:
 
 strategy:
   matrix:
-    GCC_10:
+    Linux_GCC_10:
       imageName: 'ubuntu-latest'
-      displayName: GCC 10
+      displayName: Linux GCC 10
       gcc-version: 10
       timeoutInMinutes: 120
-    GCC_9:
+    Linux_GCC_9:
       imageName: 'ubuntu-latest'
-      displayName: GCC 9
+      displayName: Linux GCC 9
       gcc-version: 9
       timeoutInMinutes: 120
-    GCC_8:
+    Linux_GCC_8:
       imageName: 'ubuntu-latest'
-      displayName: GCC 8
+      displayName: Linux GCC 8
       gcc-version: 8
       timeoutInMinutes: 120
-    GCC_7:
+    Linux_GCC_7:
       imageName: 'ubuntu-latest'
-      displayName: GCC 7
+      displayName: Linux GCC 7
       gcc-version: 7
       timeoutInMinutes: 120
-    Clang_12:
+    Apple_Clang_12:
       imageName: 'macOS-latest'
-      displayName: Clang 12
+      displayName: Apple Clang 12
       clang-version: 12.0
       timeoutInMinutes: 120
-    Clang_11:
+    Apple_Clang_11:
       imageName: 'macOS-latest'
-      displayName: Clang 11
+      displayName: Apple Clang 11
       clang-version: 11.0
       timeoutInMinutes: 120
-    Clang_10:
+    Apple_Clang_10:
       imageName: 'macOS-latest'
-      displayName: Clang 10
+      displayName: Apple Clang 10
       clang-version: 10.0
       timeoutInMinutes: 120
-    Clang_9:
+    Apple_Clang_9:
       imageName: 'macOS-latest'
-      displayName: Clang 9
+      displayName: Apple Clang 9
       clang-version: 9.0
       timeoutInMinutes: 120
     Visual_Studio_2019:
       imageName: 'windows-latest'
-      displayName: VC++ 2019
+      displayName: Visual Studio 2019
       vs-version: 16 # Visual Studio 2019
       timeoutInMinutes: 120
-    Visual_Studio_2019:
+    Visual_Studio_2017:
       imageName: 'windows-latest'
-      displayName: VC++ 2017
+      displayName: Visual Studio 2017
       vs-version: 15 # Visual Studio 2017
       timeoutInMinutes: 120
 
