@@ -1,6 +1,13 @@
 from cpt.packager import ConanMultiPackager
+import os
 
 if __name__ == "__main__":
-    builder = ConanMultiPackager(archs=["x86_64"])
-    builder.add_common_builds()
-    builder.run()
+
+    if os.environ["CONAN_USE_DOCKER"] == "1"
+        os.environ["CONAN_DOCKER_IMAGE"] = os.environ["JOB_DOCKER_IMAGE"]
+
+    print "Operating system = ", os.uname().sysname
+
+    # builder = ConanMultiPackager(archs=["x86_64"])
+    # builder.add_common_builds()
+    # builder.run()
