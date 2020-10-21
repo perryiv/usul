@@ -32,43 +32,43 @@ trigger:
 
 strategy:
   matrix:
-    Linux_GCC_10:
-      imageName: 'ubuntu-latest'
-      docker_image: conanio/gcc10
-      compiler_version: 10
-      timeoutInMinutes: 120
-    Linux_GCC_9:
-      imageName: 'ubuntu-latest'
-      docker_image: conanio/gcc9
-      compiler_version: 9
-      timeoutInMinutes: 120
-    Linux_GCC_8:
-      imageName: 'ubuntu-latest'
-      docker_image: conanio/gcc8
-      compiler_version: 8
-      timeoutInMinutes: 120
-    Linux_GCC_7:
-      imageName: 'ubuntu-latest'
-      docker_image: conanio/gcc7
-      compiler_version: 7
-      timeoutInMinutes: 120
+    # Linux_GCC_10:
+    #   imageName: 'ubuntu-latest'
+    #   docker_image: conanio/gcc10
+    #   compiler_version: 10
+    #   timeoutInMinutes: 120
+    # Linux_GCC_9:
+    #   imageName: 'ubuntu-latest'
+    #   docker_image: conanio/gcc9
+    #   compiler_version: 9
+    #   timeoutInMinutes: 120
+    # Linux_GCC_8:
+    #   imageName: 'ubuntu-latest'
+    #   docker_image: conanio/gcc8
+    #   compiler_version: 8
+    #   timeoutInMinutes: 120
+    # Linux_GCC_7:
+    #   imageName: 'ubuntu-latest'
+    #   docker_image: conanio/gcc7
+    #   compiler_version: 7
+    #   timeoutInMinutes: 120
 
-    # Apple_Clang_12:
-    #   imageName: 'macOS-latest'
-    #   compiler_version: 12.0
-    #   timeoutInMinutes: 120
-    # Apple_Clang_11:
-    #   imageName: 'macOS-latest'
-    #   compiler_version: 11.0
-    #   timeoutInMinutes: 120
-    # Apple_Clang_10:
-    #   imageName: 'macOS-latest'
-    #   compiler_version: 10.0
-    #   timeoutInMinutes: 120
-    # Apple_Clang_9:
-    #   imageName: 'macOS-latest'
-    #   compiler_version: 9.0
-    #   timeoutInMinutes: 120
+    Apple_Clang_12:
+      imageName: 'macOS-latest'
+      compiler_version: 12.0
+      timeoutInMinutes: 120
+    Apple_Clang_11:
+      imageName: 'macOS-latest'
+      compiler_version: 11.0
+      timeoutInMinutes: 120
+    Apple_Clang_10:
+      imageName: 'macOS-latest'
+      compiler_version: 10.0
+      timeoutInMinutes: 120
+    Apple_Clang_9:
+      imageName: 'macOS-latest'
+      compiler_version: 9.0
+      timeoutInMinutes: 120
 
     # Visual_Studio_2019:
     #   imageName: 'windows-latest'
@@ -99,8 +99,8 @@ variables:
   CONAN_USE_DOCKER: 1
   CONAN_DOCKER_IMAGE: $(docker_image)
   CONAN_GCC_VERSIONS: $(compiler_version)
-  # CONAN_APPLE_CLANG_VERSIONS: $(compiler_version)
-  # CONAN_VISUAL_VERSIONS: $(compiler_version)
+  CONAN_APPLE_CLANG_VERSIONS: $(compiler_version)
+  CONAN_VISUAL_VERSIONS: $(compiler_version)
 
 steps:
   - task: UsePythonVersion@0
