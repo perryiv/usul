@@ -22,6 +22,7 @@
 #    https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/utility/shell-script
 #    https://github.com/actions/virtual-environments
 #    https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks
+#    https://docs.conan.io/en/1.10/howtos/run_conan_in_docker.html
 #
 ################################################################################
 
@@ -30,48 +31,62 @@ trigger:
 
 strategy:
   matrix:
-    Ubuntu_20_04:
-      imageName: 'ubuntu 20.04'
-      displayName: Ubuntu 20.04
-      timeoutInMinutes: 0
+    GCC_10:
+      imageName: 'ubuntu-latest'
+      displayName: GCC 10
       gcc-version: 10
-      python-arch: "x64"
-      python-version: "3.x"
-    Ubuntu_18_04:
-      imageName: 'ubuntu 18.04'
-      displayName: Ubuntu 18.04
-      timeoutInMinutes: 0
+      timeoutInMinutes: 120
+    GCC_9:
+      imageName: 'ubuntu-latest'
+      displayName: GCC 9
       gcc-version: 9
-      python-arch: "x64"
-      python-version: "3.x"
-    # Ubuntu_16_04: # Getting a compile error.
-    #   imageName: 'ubuntu-16.04'
-    #   displayName: Ubuntu 16.04
-    #   timeoutInMinutes: 0
-    #   gcc-version: 8
-    #   python-arch: "x64"
-    #   python-version: "3.x"
-    Mac_10_15:
-      imageName: 'macOS-10.15'
-      displayName: macOS-10.15
-      timeoutInMinutes: 0
+      timeoutInMinutes: 120
+    GCC_8:
+      imageName: 'ubuntu-latest'
+      displayName: GCC 8
+      gcc-version: 8
+      timeoutInMinutes: 120
+    GCC_7:
+      imageName: 'ubuntu-latest'
+      displayName: GCC 7
+      gcc-version: 7
+      timeoutInMinutes: 120
+    Clang_12:
+      imageName: 'macOS-latest'
+      displayName: Clang 12
       clang-version: 12.0
-      python-arch: "x64"
-      python-version: "3.x"
-    Windows_2019:
-      imageName: 'windows-2019'
-      displayName: Windows 2019
-      timeoutInMinutes: 0
+      timeoutInMinutes: 120
+    Clang_11:
+      imageName: 'macOS-latest'
+      displayName: Clang 11
+      clang-version: 11.0
+      timeoutInMinutes: 120
+    Clang_10:
+      imageName: 'macOS-latest'
+      displayName: Clang 10
+      clang-version: 10.0
+      timeoutInMinutes: 120
+    Clang_9:
+      imageName: 'macOS-latest'
+      displayName: Clang 9
+      clang-version: 9.0
+      timeoutInMinutes: 120
+    Visual_Studio_2019:
+      imageName: 'windows-latest'
+      displayName: VC++ 2019
       vs-version: 16 # Visual Studio 2019
-      python-arch: "x64"
-      python-version: "3.x"
+      timeoutInMinutes: 120
+    Visual_Studio_2019:
+      imageName: 'windows-latest'
+      displayName: VC++ 2017
+      vs-version: 15 # Visual Studio 2017
+      timeoutInMinutes: 120
+
     # Windows_2016: # CMake is too old.
     #   imageName: 'vs2017-win2016' # windows-2016 does not exist.
     #   displayName: Windows 2016
-    #   timeoutInMinutes: 0
     #   vs-version: 15 # Visual Studio 2017
-    #   python-arch: "x86"
-    #   python-version: "2.x"
+    #   timeoutInMinutes: 120
 
 pool:
   vmImage: $(imageName)
@@ -84,24 +99,22 @@ variables:
   CONAN_UPLOAD_ONLY_WHEN_STABLE: 1
   CONAN_STABLE_BRANCH_PATTERN: "^master$"
   CONAN_REVISIONS_ENABLED: 1
+  CONAN_USE_DOCKER: 1
   CONAN_VISUAL_VERSIONS: $(vs-version)
   CONAN_APPLE_CLANG_VERSIONS: $(clang-version)
   CONAN_GCC_VERSIONS: $(gcc-version)
 
-scripts:
-  configure: |
-    python -m pip install --upgrade pip
-    pip install conan --upgrade
-    pip install conan_package_tools
-    conan user
-
 steps:
   - task: UsePythonVersion@0
     inputs:
-      versionSpec: $(python-version)
+      versionSpec: "3.x"
       addToPath: true
-      architecture: $(python-arch)
-  - script: scripts.configure
+      architecture: "x64"
+  - script: |
+      python -m pip install --upgrade pip
+      pip install conan --upgrade
+      pip install conan_package_tools
+      conan user
     displayName: Configure
   - script: |
       python --version
