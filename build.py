@@ -1,4 +1,4 @@
-from cpt.packager import ConanMultiPackager
+# from cpt.packager import ConanMultiPackager
 import sys
 import os
 
