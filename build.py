@@ -4,7 +4,7 @@ import os
 
 if __name__ == "__main__":
 
-    if os.getenv ( "THIS_JOB_USE_DOCKER" ) is "1":
+    if os.getenv ( "THIS_JOB_USE_DOCKER" ) == "1":
         os.environ["CONAN_DOCKER_IMAGE"] = os.environ["THIS_JOB_DOCKER_IMAGE"]
         os.environ["CONAN_USE_DOCKER"] = "1"
         print ( "Going to use docker" )
