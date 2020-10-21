@@ -32,55 +32,66 @@ trigger:
 
 strategy:
   matrix:
-    # Linux_GCC_10:
-    #   imageName: 'ubuntu-latest'
-    #   docker_image: conanio/gcc10
-    #   compiler_version: 10
-    #   timeoutInMinutes: 120
-    # Linux_GCC_9:
-    #   imageName: 'ubuntu-latest'
-    #   docker_image: conanio/gcc9
-    #   compiler_version: 9
-    #   timeoutInMinutes: 120
-    # Linux_GCC_8:
-    #   imageName: 'ubuntu-latest'
-    #   docker_image: conanio/gcc8
-    #   compiler_version: 8
-    #   timeoutInMinutes: 120
-    # Linux_GCC_7:
-    #   imageName: 'ubuntu-latest'
-    #   docker_image: conanio/gcc7
-    #   compiler_version: 7
-    #   timeoutInMinutes: 120
+
+    Linux_GCC_10:
+      imageName: 'ubuntu-latest'
+      docker_image: conanio/gcc10
+      compiler_version: 10
+      use_docker: 1
+      timeoutInMinutes: 120
+    Linux_GCC_9:
+      imageName: 'ubuntu-latest'
+      docker_image: conanio/gcc9
+      compiler_version: 9
+      use_docker: 1
+      timeoutInMinutes: 120
+    Linux_GCC_8:
+      imageName: 'ubuntu-latest'
+      docker_image: conanio/gcc8
+      compiler_version: 8
+      use_docker: 1
+      timeoutInMinutes: 120
+    Linux_GCC_7:
+      imageName: 'ubuntu-latest'
+      docker_image: conanio/gcc7
+      compiler_version: 7
+      use_docker: 1
+      timeoutInMinutes: 120
 
     Apple_Clang_12:
       imageName: 'macOS-latest'
       docker_image: mac02-10.15
       compiler_version: 12.0
+      use_docker: 0
       timeoutInMinutes: 120
     Apple_Clang_11:
       imageName: 'macOS-latest'
       docker_image: mac02-10.14
       compiler_version: 11.0
+      use_docker: 0
       timeoutInMinutes: 120
     Apple_Clang_10:
       imageName: 'macOS-latest'
       docker_image: mac02-10.13
       compiler_version: 10.0
+      use_docker: 0
       timeoutInMinutes: 120
     Apple_Clang_9:
       imageName: 'macOS-latest'
       docker_image: mac02-10.12
       compiler_version: 9.0
+      use_docker: 0
       timeoutInMinutes: 120
 
     # Visual_Studio_2019:
     #   imageName: 'windows-latest'
     #   compiler_version: 16 # Visual Studio 2019
+    #   use_docker: 0
     #   timeoutInMinutes: 120
     # Visual_Studio_2017:
     #   imageName: 'windows-latest'
     #   compiler_version: 15 # Visual Studio 2017
+    #   use_docker: 0
     #   timeoutInMinutes: 120
 
     # Windows_2016: # CMake is too old.
@@ -100,34 +111,40 @@ variables:
   CONAN_UPLOAD_ONLY_WHEN_STABLE: 1
   CONAN_STABLE_BRANCH_PATTERN: "^master$"
   CONAN_REVISIONS_ENABLED: 1
-  CONAN_USE_DOCKER: 1
+  CONAN_USE_DOCKER: $(use_docker)
   CONAN_DOCKER_IMAGE: $(docker_image)
-  # CONAN_GCC_VERSIONS: $(compiler_version)
+  CONAN_GCC_VERSIONS: $(compiler_version)
   CONAN_APPLE_CLANG_VERSIONS: $(compiler_version)
   # CONAN_VISUAL_VERSIONS: $(compiler_version)
 
 steps:
+
   - task: UsePythonVersion@0
     inputs:
       versionSpec: "3.x"
       addToPath: true
       architecture: "x64"
+    displayName: Select Python
+
   - script: |
       python -m pip install --upgrade pip
       pip install conan --upgrade
       pip install conan_package_tools
       conan user
-    displayName: Configure
+    displayName: Configure Conan
+
   - script: |
       python --version
       pip --version
       gcc --version
       cmake --version
       conan --version
-    displayName: Versions
+    displayName: Print Versions
+
   - script: |
       env
-    displayName: Environment
+    displayName: Print Environment
+
   - script: |
       python build.py
     displayName: Build
