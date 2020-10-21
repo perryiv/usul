@@ -55,18 +55,22 @@ strategy:
 
     Apple_Clang_12:
       imageName: 'macOS-latest'
+      docker_image: mac02-10.15
       compiler_version: 12.0
       timeoutInMinutes: 120
     Apple_Clang_11:
       imageName: 'macOS-latest'
+      docker_image: mac02-10.14
       compiler_version: 11.0
       timeoutInMinutes: 120
     Apple_Clang_10:
       imageName: 'macOS-latest'
+      docker_image: mac02-10.13
       compiler_version: 10.0
       timeoutInMinutes: 120
     Apple_Clang_9:
       imageName: 'macOS-latest'
+      docker_image: mac02-10.12
       compiler_version: 9.0
       timeoutInMinutes: 120
 
