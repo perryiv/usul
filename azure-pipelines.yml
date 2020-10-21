@@ -23,6 +23,7 @@
 #    https://github.com/actions/virtual-environments
 #    https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks
 #    https://docs.conan.io/en/1.10/howtos/run_conan_in_docker.html
+#    https://stackoverflow.com/questions/57411060/azure-pipeline-using-matrix-environment-variable-in-step-condition
 #
 ################################################################################
 
@@ -33,59 +34,51 @@ strategy:
   matrix:
     Linux_GCC_10:
       imageName: 'ubuntu-latest'
-      displayName: Linux GCC 10
-      gcc-version: 10
+      compiler_version: 10
       timeoutInMinutes: 120
     Linux_GCC_9:
       imageName: 'ubuntu-latest'
-      displayName: Linux GCC 9
-      gcc-version: 9
+      compiler_version: 9
       timeoutInMinutes: 120
     Linux_GCC_8:
       imageName: 'ubuntu-latest'
-      displayName: Linux GCC 8
-      gcc-version: 8
+      compiler_version: 8
       timeoutInMinutes: 120
     Linux_GCC_7:
       imageName: 'ubuntu-latest'
-      displayName: Linux GCC 7
-      gcc-version: 7
+      compiler_version: 7
       timeoutInMinutes: 120
-    Apple_Clang_12:
-      imageName: 'macOS-latest'
-      displayName: Apple Clang 12
-      clang-version: 12.0
-      timeoutInMinutes: 120
-    Apple_Clang_11:
-      imageName: 'macOS-latest'
-      displayName: Apple Clang 11
-      clang-version: 11.0
-      timeoutInMinutes: 120
-    Apple_Clang_10:
-      imageName: 'macOS-latest'
-      displayName: Apple Clang 10
-      clang-version: 10.0
-      timeoutInMinutes: 120
-    Apple_Clang_9:
-      imageName: 'macOS-latest'
-      displayName: Apple Clang 9
-      clang-version: 9.0
-      timeoutInMinutes: 120
-    Visual_Studio_2019:
-      imageName: 'windows-latest'
-      displayName: Visual Studio 2019
-      vs-version: 16 # Visual Studio 2019
-      timeoutInMinutes: 120
-    Visual_Studio_2017:
-      imageName: 'windows-latest'
-      displayName: Visual Studio 2017
-      vs-version: 15 # Visual Studio 2017
-      timeoutInMinutes: 120
+
+    # Apple_Clang_12:
+    #   imageName: 'macOS-latest'
+    #   compiler_version: 12.0
+    #   timeoutInMinutes: 120
+    # Apple_Clang_11:
+    #   imageName: 'macOS-latest'
+    #   compiler_version: 11.0
+    #   timeoutInMinutes: 120
+    # Apple_Clang_10:
+    #   imageName: 'macOS-latest'
+    #   compiler_version: 10.0
+    #   timeoutInMinutes: 120
+    # Apple_Clang_9:
+    #   imageName: 'macOS-latest'
+    #   compiler_version: 9.0
+    #   timeoutInMinutes: 120
+
+    # Visual_Studio_2019:
+    #   imageName: 'windows-latest'
+    #   compiler_version: 16 # Visual Studio 2019
+    #   timeoutInMinutes: 120
+    # Visual_Studio_2017:
+    #   imageName: 'windows-latest'
+    #   compiler_version: 15 # Visual Studio 2017
+    #   timeoutInMinutes: 120
 
     # Windows_2016: # CMake is too old.
     #   imageName: 'vs2017-win2016' # windows-2016 does not exist.
     #   displayName: Windows 2016
-    #   vs-version: 15 # Visual Studio 2017
+    #   compiler_version: 15 # Visual Studio 2017
     #   timeoutInMinutes: 120
 
 pool:
@@ -100,9 +93,9 @@ variables:
   CONAN_STABLE_BRANCH_PATTERN: "^master$"
   CONAN_REVISIONS_ENABLED: 1
   CONAN_USE_DOCKER: 1
-  CONAN_VISUAL_VERSIONS: $(vs-version)
-  CONAN_APPLE_CLANG_VERSIONS: $(clang-version)
-  CONAN_GCC_VERSIONS: $(gcc-version)
+  # CONAN_VISUAL_VERSIONS: $(compiler_version)
+  # CONAN_APPLE_CLANG_VERSIONS: $(compiler_version)
+  CONAN_GCC_VERSIONS: $(compiler_version)
 
 steps:
   - task: UsePythonVersion@0
