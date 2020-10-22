@@ -13,9 +13,9 @@
 #
 ################################################################################
 
-# We use the add_compile_definitions command.
-# https://cmake.org/cmake/help/v3.12/release/3.12.html
-cmake_minimum_required ( VERSION 3.12.0 )
+# Without this version or greater we get this error in Azure Pipelines:
+# "make: *** No rule to make target 'test'.  Stop."
+cmake_minimum_required ( VERSION 3.13.0 )
 
 # Get the version from this file.
 file ( STRINGS ${CMAKE_CURRENT_LIST_DIR}/version.txt PROJECT_VERSION )
