@@ -37,58 +37,59 @@ strategy:
 
     # Using conan's recommended docker images.
 
-    # Linux_GCC_10:
-    #   imageName: 'ubuntu-latest'
-    #   use_docker: 1
-    #   docker_image: conanio/gcc10
-    #   compiler_version: 10
-    #   timeoutInMinutes: 120
-    #
-    # Linux_GCC_9:
-    #   imageName: 'ubuntu-latest'
-    #   use_docker: 1
-    #   docker_image: conanio/gcc9
-    #   compiler_version: 9
-    #   timeoutInMinutes: 120
-    #
-    # Linux_GCC_8:
-    #   imageName: 'ubuntu-latest'
-    #   use_docker: 1
-    #   docker_image: conanio/gcc8
-    #   compiler_version: 8
-    #   timeoutInMinutes: 120
-    #
-    # Linux_GCC_7:
-    #   imageName: 'ubuntu-latest'
-    #   use_docker: 1
-    #   docker_image: conanio/gcc7
-    #   compiler_version: 7
-    #   timeoutInMinutes: 120
-    #
-    # # All versions of macOS appear to be using clang 11, so just doing one.
-    #
-    # Apple_Clang_11:
-    #   imageName: 'macOS-10.15'
-    #   use_docker: 0
-    #   compiler_version: 11.0
-    #   timeoutInMinutes: 120
-    #
-    # # On windows the kernel version of the host and docker image must match.
-    # # However, neither of these have pip so just using the host machine.
-    # # -- mcr.microsoft.com/windows/servercore:ltsc2019
-    # # -- mcr.microsoft.com/windows/servercore:ltsc2016
-    #
-    # Visual_Studio_2019:
-    #   imageName: 'windows-2019'
-    #   use_docker: 0
-    #   compiler_version: 16 # Visual Studio 2019
-    #   timeoutInMinutes: 120
-
-    Visual_Studio_2017:
-      imageName: 'vs2017-win2016'
-      use_docker: 0
-      compiler_version: 15 # Visual Studio 2017
+    Linux_GCC_10:
+      imageName: 'ubuntu-latest'
+      use_docker: 1
+      docker_image: conanio/gcc10
+      compiler_version: 10
       timeoutInMinutes: 120
+
+    Linux_GCC_9:
+      imageName: 'ubuntu-latest'
+      use_docker: 1
+      docker_image: conanio/gcc9
+      compiler_version: 9
+      timeoutInMinutes: 120
+
+    Linux_GCC_8:
+      imageName: 'ubuntu-latest'
+      use_docker: 1
+      docker_image: conanio/gcc8
+      compiler_version: 8
+      timeoutInMinutes: 120
+
+    Linux_GCC_7:
+      imageName: 'ubuntu-latest'
+      use_docker: 1
+      docker_image: conanio/gcc7
+      compiler_version: 7
+      timeoutInMinutes: 120
+
+    # All versions of macOS appear to be using clang 11, so just doing one.
+
+    Apple_Clang_11:
+      imageName: 'macOS-10.15'
+      use_docker: 0
+      compiler_version: 11.0
+      timeoutInMinutes: 120
+
+    # On windows the kernel version of the host and docker image must match.
+    # However, neither of these have pip so just using the host machine.
+    # -- mcr.microsoft.com/windows/servercore:ltsc2019
+    # -- mcr.microsoft.com/windows/servercore:ltsc2016
+
+    Visual_Studio_2019:
+      imageName: 'windows-2019'
+      use_docker: 0
+      compiler_version: 16 # Visual Studio 2019
+      timeoutInMinutes: 120
+
+    # Not working. The original cmake 3.12 is still getting used.
+    # Visual_Studio_2017:
+    #   imageName: 'vs2017-win2016'
+    #   use_docker: 0
+    #   compiler_version: 15 # Visual Studio 2017
+    #   timeoutInMinutes: 120
 
 pool:
   vmImage: $(imageName)
@@ -118,6 +119,7 @@ steps:
       architecture: "x64"
     displayName: Select Python
 
+  # Not working. The original cmake 3.12 is still getting used.
   - task: PowerShell@2
     inputs:
       script: |
