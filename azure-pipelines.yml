@@ -8,22 +8,23 @@
 #
 #  Resources:
 #
-#    https://docs.microsoft.com/en-us/azure/devops/pipelines/process/container-phases
+#    https://docs.conan.io/en/1.10/howtos/run_conan_in_docker.html
 #    https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/hosted
-#    https://medium.com/@brentrobinson5/containerised-ci-cd-pipelines-with-azure-devops-74064c679f20
-#    https://github.com/conan-io/conan-docker-tools/blob/master/azure-pipelines.yml
-#    https://jaylee.org/archive/2019/03/21/azure-devops-wasm-build-container.html
-#    https://github.com/microsoft/azure-pipelines-agent/issues/2043
-#    https://hub.docker.com/r/conanio/gcc8
-#    https://hub.docker.com/_/microsoft-windows-servercore
-#    https://github.com/jonico/libzengithub/blob/master/azure-pipelines.yml
-#    https://docs.microsoft.com/en-us/azure/devops/pipelines/process/variables#secret-variables
+#    https://docs.microsoft.com/en-us/azure/devops/pipelines/build/variables
+#    https://docs.microsoft.com/en-us/azure/devops/pipelines/process/container-phases
 #    https://docs.microsoft.com/en-us/azure/devops/pipelines/process/phases#timeouts
+#    https://docs.microsoft.com/en-us/azure/devops/pipelines/process/variables#secret-variables
+#    https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks
 #    https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/utility/shell-script
 #    https://github.com/actions/virtual-environments
-#    https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks
-#    https://docs.conan.io/en/1.10/howtos/run_conan_in_docker.html
+#    https://github.com/conan-io/conan-docker-tools/blob/master/azure-pipelines.yml
+#    https://github.com/jonico/libzengithub/blob/master/azure-pipelines.yml
+#    https://github.com/microsoft/azure-pipelines-agent/issues/2043
 #    https://github.com/microsoft/containerregistry
+#    https://hub.docker.com/_/microsoft-windows-servercore
+#    https://hub.docker.com/r/conanio/gcc8
+#    https://jaylee.org/archive/2019/03/21/azure-devops-wasm-build-container.html
+#    https://medium.com/@brentrobinson5/containerised-ci-cd-pipelines-with-azure-devops-74064c679f20
 #
 ################################################################################
 
@@ -120,7 +121,7 @@ steps:
     inputs:
       script: |
         choco upgrade -y cmake
-    condition: eq ( Agent.JobName, 'Visual_Studio_2017' )
+    condition: eq ( $(Agent.JobName), 'Visual_Studio_2017' )
     displayName: Update CMake
 
   - script: |
