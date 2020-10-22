@@ -122,7 +122,7 @@ steps:
     inputs:
       script: |
         C:
-        cd C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise
+        cd 'C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise'
         dir
         .\vs_enterprise.exe modify --quiet --norestart --remove Microsoft.VisualStudio.Component.VC.CMake.Project
         .\vs_enterprise.exe modify --quiet --norestart --remove Component.Linux.CMake
