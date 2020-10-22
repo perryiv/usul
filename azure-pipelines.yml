@@ -122,20 +122,9 @@ steps:
     inputs:
       script: |
         C:
-        cd 'C:\Temp'
-        $Response = Invoke-WebRequest -Uri 'https://aka.ms/vs/16/release/vs_buildtools.exe'
-        $Stream = [System.IO.StreamWriter]::new('.\vs_buildtools.exe', $false, $Response.Encoding)
-        try
-        {
-          $Stream.Write($Response.Content)
-        }
-        finally
-        {
-          $Stream.Dispose()
-        }
-
-
-        Invoke-WebRequest -Uri https://aka.ms/vs/16/release/vs_buildtools.exe -Out-File vs_buildtools.exe
+        cd C:\TEMP
+        Invoke-WebRequest -Uri 'https://aka.ms/vs/16/release/vs_buildtools.exe' -OutFile C:\TEMP\vs_buildtools.exe
+        dir
         .\vs_buildtools.exe modify --quiet --norestart --remove Microsoft.VisualStudio.Component.VC.CMake.Project
         .\vs_buildtools.exe modify --quiet --norestart --remove Component.Linux.CMake
       targetType: inline
