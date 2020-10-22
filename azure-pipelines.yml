@@ -121,10 +121,8 @@ steps:
   - task: PowerShell@2
     inputs:
       script: |
-        C:
-        cd C:\TEMP
-        Invoke-WebRequest -Uri 'https://aka.ms/vs/16/release/vs_buildtools.exe' -OutFile vs_buildtools.exe
-        vs_buildtools.exe modify --quiet --wait --norestart --nocache --remove Microsoft.VisualStudio.Component.VC.CMake.Project --remove Component.Linux.CMake
+        Invoke-WebRequest -Uri 'https://aka.ms/vs/16/release/vs_buildtools.exe' -OutFile C:\TEMP\vs_buildtools.exe
+        C:\TEMP\vs_buildtools.exe modify --quiet --wait --norestart --nocache --remove Microsoft.VisualStudio.Component.VC.CMake.Project --remove Component.Linux.CMake
       targetType: inline
     condition: eq(variables['Agent.JobName'], 'Job Visual_Studio_2017')
     displayName: Remove Visual Studio CMake
