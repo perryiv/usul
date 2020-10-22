@@ -122,7 +122,7 @@ steps:
     inputs:
       script: |
         C:
-        cd 'C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise'
+        cd 'C:\ProgramData\package cache\{a60a492e-b5eb-4218-a9e6-f38d18a7dbaf}'
         dir
         .\vs_enterprise.exe modify --quiet --norestart --remove Microsoft.VisualStudio.Component.VC.CMake.Project
         .\vs_enterprise.exe modify --quiet --norestart --remove Component.Linux.CMake
