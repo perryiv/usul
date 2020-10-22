@@ -23,7 +23,7 @@
 #    https://github.com/actions/virtual-environments
 #    https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks
 #    https://docs.conan.io/en/1.10/howtos/run_conan_in_docker.html
-#    https://stackoverflow.com/questions/57411060/azure-pipeline-using-matrix-environment-variable-in-step-condition
+#    https://github.com/microsoft/containerregistry
 #
 ################################################################################
 
@@ -32,6 +32,8 @@ trigger:
 
 strategy:
   matrix:
+
+    # Using conan's recommended docker images.
 
     Linux_GCC_10:
       imageName: 'ubuntu-latest'
@@ -61,39 +63,27 @@ strategy:
       compiler_version: 7
       timeoutInMinutes: 120
 
-    Apple_Clang_12:
-      imageName: 'macOS-10.15'
-      use_docker: 0
-      compiler_version: 12.0
-      timeoutInMinutes: 120
+    # All versions of macOS appear to be using clang 11, so just doing one.
 
     Apple_Clang_11:
-      imageName: 'macOS-10.14'
+      imageName: 'macOS-10.15'
       use_docker: 0
       compiler_version: 11.0
       timeoutInMinutes: 120
 
-    Apple_Clang_10:
-      imageName: 'macOS-10.14'
-      use_docker: 0
-      compiler_version: 10.0
-      timeoutInMinutes: 120
-
-    Apple_Clang_9:
-      imageName: 'macOS-10.14'
-      use_docker: 0
-      compiler_version: 9.0
-      timeoutInMinutes: 120
+    # On windows the kernel version of the host and docker image must match.
 
     Visual_Studio_2019:
       imageName: 'windows-2019'
-      use_docker: 0
+      use_docker: 1
+      docker_image: mcr.microsoft.com/windows/servercore:ltsc2019
       compiler_version: 16 # Visual Studio 2019
       timeoutInMinutes: 120
 
     Visual_Studio_2017:
-      imageName: 'windows-2019'
-      use_docker: 0
+      imageName: 'vs2017-win2016'
+      use_docker: 1
+      docker_image: mcr.microsoft.com/windows/servercore:ltsc2016
       compiler_version: 15 # Visual Studio 2017
       timeoutInMinutes: 120
 
@@ -101,6 +91,8 @@ pool:
   vmImage: $(imageName)
 
 variables:
+
+  # These directly control conan.
   CONAN_USERNAME: perryiv
   CONAN_PASSWORD: $(SECRET_BINTRAY_PASSWORD) # Configured in Azure UI
   CONAN_CHANNEL: stable
@@ -108,6 +100,8 @@ variables:
   CONAN_UPLOAD_ONLY_WHEN_STABLE: 1
   CONAN_STABLE_BRANCH_PATTERN: "^master$"
   CONAN_REVISIONS_ENABLED: 1
+
+  # These are used in build.py
   THIS_JOB_USE_DOCKER: $(use_docker)
   THIS_JOB_DOCKER_IMAGE: $(docker_image)
   THIS_JOB_COMPILER_VERSION: $(compiler_version)
@@ -135,10 +129,6 @@ steps:
       cmake --version
       conan --version
     displayName: Print Versions
-
-  # - script: |
-  #     env
-  #   displayName: Print Environment
 
   - script: |
       python build.py
