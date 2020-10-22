@@ -121,7 +121,10 @@ steps:
   - task: PowerShell@2
     inputs:
       script: |
+        cmake --version
         choco upgrade -y cmake
+        cmake --version
+      targetType: inline
     condition: eq(variables['Agent.JobName'], 'Job Visual_Studio_2017')
     displayName: Update CMake
 
