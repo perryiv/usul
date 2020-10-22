@@ -17,6 +17,8 @@
 #    https://docs.microsoft.com/en-us/azure/devops/pipelines/process/variables#secret-variables
 #    https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks
 #    https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/utility/shell-script
+#    https://docs.microsoft.com/en-us/visualstudio/install/build-tools-container
+#    https://docs.microsoft.com/en-us/visualstudio/install/use-command-line-parameters-to-install-visual-studio
 #    https://github.com/actions/virtual-environments
 #    https://github.com/conan-io/conan-docker-tools/blob/master/azure-pipelines.yml
 #    https://github.com/jonico/libzengithub/blob/master/azure-pipelines.yml
