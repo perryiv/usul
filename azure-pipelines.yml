@@ -122,10 +122,10 @@ steps:
     inputs:
       script: |
         C:
-        cd 'C:\ProgramData\package cache\{a60a492e-b5eb-4218-a9e6-f38d18a7dbaf}'
-        dir
-        .\vs_enterprise.exe modify --quiet --norestart --remove Microsoft.VisualStudio.Component.VC.CMake.Project
-        .\vs_enterprise.exe modify --quiet --norestart --remove Component.Linux.CMake
+        cd 'C:\Temp'
+        Invoke-WebRequest -Uri https://aka.ms/vs/16/release/vs_buildtools.exe Out-File vs_buildtools.exe
+        .\vs_buildtools.exe modify --quiet --norestart --remove Microsoft.VisualStudio.Component.VC.CMake.Project
+        .\vs_buildtools.exe modify --quiet --norestart --remove Component.Linux.CMake
       targetType: inline
     condition: eq(variables['Agent.JobName'], 'Job Visual_Studio_2017')
     displayName: Remove Visual Studio CMake
