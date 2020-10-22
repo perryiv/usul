@@ -121,12 +121,11 @@ steps:
   - task: PowerShell@2
     inputs:
       script: |
-        cmake --version
-        choco upgrade -y cmake
-        cmake --version
+        vs_enterprise.exe modify --remove Microsoft.VisualStudio.Component.VC.CMake.Project --quiet --norestart
+        vs_enterprise.exe modify --remove Component.Linux.CMake --quiet --norestart
       targetType: inline
     condition: eq(variables['Agent.JobName'], 'Job Visual_Studio_2017')
-    displayName: Update CMake
+    displayName: Remove Visual Studio CMake
 
   - script: |
       python -m pip install --upgrade pip
