@@ -12,6 +12,7 @@
 #    https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/hosted
 #    https://docs.microsoft.com/en-us/azure/devops/pipelines/build/variables
 #    https://docs.microsoft.com/en-us/azure/devops/pipelines/process/container-phases
+#    https://docs.microsoft.com/en-us/azure/devops/pipelines/process/expressions
 #    https://docs.microsoft.com/en-us/azure/devops/pipelines/process/phases#timeouts
 #    https://docs.microsoft.com/en-us/azure/devops/pipelines/process/variables#secret-variables
 #    https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks
@@ -121,7 +122,7 @@ steps:
     inputs:
       script: |
         choco upgrade -y cmake
-    condition: eq($(Agent.JobName), 'Job Visual_Studio_2017')
+    condition: eq(variables['Agent.JobName'], 'Job Visual_Studio_2017')
     displayName: Update CMake
 
   - script: |
