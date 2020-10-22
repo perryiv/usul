@@ -120,7 +120,7 @@ steps:
     inputs:
       script: |
         choco upgrade -y cmake
-    condition: eq ( job.name, 'Visual_Studio_2017' )
+    condition: eq ( Agent.JobName, 'Visual_Studio_2017' )
     displayName: Update CMake
 
   - script: |
