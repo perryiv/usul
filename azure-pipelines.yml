@@ -121,8 +121,8 @@ steps:
   - task: PowerShell@2
     inputs:
       script: |
-        vs_professional.exe modify --quiet --norestart --remove Microsoft.VisualStudio.Component.VC.CMake.Project
-        vs_professional.exe modify --quiet --norestart --remove Component.Linux.CMake
+        vs_community.exe modify --quiet --norestart --remove Microsoft.VisualStudio.Component.VC.CMake.Project
+        vs_community.exe modify --quiet --norestart --remove Component.Linux.CMake
       targetType: inline
     condition: eq(variables['Agent.JobName'], 'Job Visual_Studio_2017')
     displayName: Remove Visual Studio CMake
