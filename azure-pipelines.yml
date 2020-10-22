@@ -72,18 +72,19 @@ strategy:
       timeoutInMinutes: 120
 
     # On windows the kernel version of the host and docker image must match.
+    # However, neither of these have pip so just using the host machine.
+    # -- mcr.microsoft.com/windows/servercore:ltsc2019
+    # -- mcr.microsoft.com/windows/servercore:ltsc2016
 
     Visual_Studio_2019:
       imageName: 'windows-2019'
-      use_docker: 1
-      docker_image: mcr.microsoft.com/windows/servercore:ltsc2019
+      use_docker: 0
       compiler_version: 16 # Visual Studio 2019
       timeoutInMinutes: 120
 
     Visual_Studio_2017:
       imageName: 'vs2017-win2016'
-      use_docker: 1
-      docker_image: mcr.microsoft.com/windows/servercore:ltsc2016
+      use_docker: 0
       compiler_version: 15 # Visual Studio 2017
       timeoutInMinutes: 120
 
@@ -125,7 +126,6 @@ steps:
   - script: |
       python --version
       pip --version
-      gcc --version
       cmake --version
       conan --version
     displayName: Print Versions
