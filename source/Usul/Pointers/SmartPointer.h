@@ -137,12 +137,14 @@ struct SmartPointer
 
   const T *get() const
   {
-    NullAccess::check ( _p );
+    // Always return the pointer. Use check() elsewhere.
+    // NullAccess::check ( _p );
     return _p;
   }
   T *get()
   {
-    NullAccess::check ( _p );
+    // Always return the pointer. Use check() elsewhere.
+    // NullAccess::check ( _p );
     return _p;
   }
 
@@ -155,11 +157,13 @@ struct SmartPointer
 
   const T& operator * () const
   {
-    return *(this->get());
+    NullAccess::check ( _p );
+    return *_p;
   }
   T& operator * ()
   {
-    return *(this->get());
+    NullAccess::check ( _p );
+    return *_p;
   }
 
 
@@ -171,11 +175,13 @@ struct SmartPointer
 
   const T* operator -> () const
   {
-    return this->get();
+    NullAccess::check ( _p );
+    return _p;
   }
   T* operator -> ()
   {
-    return this->get();
+    NullAccess::check ( _p );
+    return _p;
   }
 
 
@@ -217,11 +223,11 @@ struct SmartPointer
 
   bool equal ( const ThisType &p ) const
   {
-    return _p == p._p; // Do not use get() because it may throw.
+    return ( _p == p._p );
   }
   bool equal ( const T *p ) const
   {
-    return _p == p;
+    return ( _p == p );
   }
   bool operator == ( const ThisType &p ) const
   {
@@ -257,7 +263,7 @@ struct SmartPointer
 
   bool operator < ( const ThisType &p ) const
   {
-    return _p < p._p; // Do not use get() because it may throw.
+    return ( _p < p._p );
   }
 
 
