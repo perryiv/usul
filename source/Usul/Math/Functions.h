@@ -111,6 +111,22 @@ inline T decay ( T u )
 }
 
 
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Fix the given angle by keeping it in the given range.
+//  http://stackoverflow.com/questions/1628386/normalise-orientation-between-0-and-360
+//
+///////////////////////////////////////////////////////////////////////////////
+
+template < class T >
+inline T fixAngle ( const T &angle, const T &low, const T &high )
+{
+  const T width = high - low;
+  const T offsetValue = angle - low;
+  return ( offsetValue - ( std::floor ( offsetValue / width ) * width ) ) + low;
+};
+
+
 } // namespace Math
 } // namespace Usul
 
