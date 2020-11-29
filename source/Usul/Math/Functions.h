@@ -124,7 +124,7 @@ inline T fixAngle ( const T &angle, const T &low, const T &high )
   const T width = high - low;
   const T offsetValue = angle - low;
   return ( offsetValue - ( std::floor ( offsetValue / width ) * width ) ) + low;
-};
+}
 
 
 } // namespace Math
