@@ -31,15 +31,28 @@ namespace Math {
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-template < class T > inline T absolute ( T value )
+template < class T > inline T absolute ( const T &value )
 {
   static_assert ( std::is_arithmetic < T >::value, "Not an arithmetic type" );
   static_assert ( std::is_signed < T >::value, "Not a signed number" );
   return ( ( value < 0 ) ? ( -value ) : value );
 }
-template < class T > inline T abs ( T value )
+template < class T > inline T abs ( const T &value )
 {
   return absolute ( value );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Clamp the value. This is here because std::clamp() is C++ 17.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+template < class T > inline T clamp ( const T &value, const T &mn, const T &mx )
+{
+  static_assert ( std::is_arithmetic < T >::value, "Not an arithmetic type" );
+  return ( ( value < mn ) ? mn : ( ( value > mx ) ? mx : value ) );
 }
 
 

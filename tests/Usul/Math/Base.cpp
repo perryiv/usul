@@ -63,3 +63,22 @@ TEMPLATE_TEST_CASE ( "Absolute value template function with signed types", "",
     testAbsoluteValue ( Limits::denorm_min() );
   }
 }
+
+
+TEST_CASE ( "Clamp function" )
+{
+  SECTION ( "Can clamp the value" )
+  {
+    REQUIRE ( 0.5 == Usul::Math::clamp (  0.5, 0.0, 1.0  ) );
+    REQUIRE ( 0.0 == Usul::Math::clamp ( -0.5, 0.0, 1.0  ) );
+    REQUIRE ( 1.0 == Usul::Math::clamp (  1.5, 0.0, 1.0  ) );
+
+    REQUIRE ( 0.5f == Usul::Math::clamp (  0.5f, 0.0f, 1.0f  ) );
+    REQUIRE ( 0.0f == Usul::Math::clamp ( -0.5f, 0.0f, 1.0f  ) );
+    REQUIRE ( 1.0f == Usul::Math::clamp (  1.5f, 0.0f, 1.0f  ) );
+
+    REQUIRE (  5 == Usul::Math::clamp (  5, 0, 10 ) );
+    REQUIRE (  0 == Usul::Math::clamp ( -5, 0, 10 ) );
+    REQUIRE ( 10 == Usul::Math::clamp ( 15, 0, 10 ) );
+  }
+}
