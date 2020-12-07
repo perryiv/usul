@@ -61,13 +61,17 @@ set ( SOURCE_FILES
   ./Usul/Pointers/QueryPointer.cpp
   ./Usul/Pointers/SmartPointer.cpp
   ./Usul/Properties/Map.cpp
-  ./Usul/Tools/Any.cpp
   ./Usul/Tools/Cast.cpp
   ./Usul/Tools/NoThrow.cpp
   ./Usul/Tools/ScopedCall.cpp
   ./Usul/Main.cpp
   ./Usul/Version.cpp
 )
+
+# Add these files if the standard is new enough.
+if ( ${CMAKE_CXX_STANDARD} VERSION_GREATER_EQUAL "17" )
+  set (SOURCE_FILES ${SOURCE_FILES} ./Usul/Tools/Any.cpp )
+endif()
 
 # Make an executable.
 add_executable ( ${PROJECT_NAME}_test ${SOURCE_FILES} )
