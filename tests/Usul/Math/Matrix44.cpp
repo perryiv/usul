@@ -557,7 +557,7 @@ TEMPLATE_TEST_CASE ( "Matrix44 functions for float and double", "", float, doubl
   typedef typename Usul::Math::Matrix44 < T > MatrixType;
   typedef typename Usul::Math::Vector3  < T > Vector3Type;
 
-  static_assert ( false == Limits::is_integer );
+  static_assert ( ( false == Limits::is_integer ), "Template type is an integer" );
   constexpr TestType tol = Limits::epsilon();
 
   SECTION ( "Can rotate a matrix" )
