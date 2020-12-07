@@ -66,7 +66,7 @@ TEST_CASE ( "Job manager" )
     const unsigned int numJobs = 100;
 
     // Count the jobs.
-    AtomicUnsignedInt count = 0;
+    AtomicUnsignedInt count ( 0 );
 
     // Add jobs to the manager.
     for ( unsigned int i = 0; i < numJobs; ++i )
@@ -107,7 +107,7 @@ TEST_CASE ( "Job manager" )
     const unsigned int numJobs = 5;
 
     // Count the jobs.
-    AtomicUnsignedInt count = 0;
+    AtomicUnsignedInt count ( 0 );
 
     // Add jobs to the manager.
     for ( unsigned int i = 0; i < numJobs; ++i )
@@ -150,7 +150,7 @@ TEST_CASE ( "Job manager" )
     const unsigned int numJobs = 100;
 
     // Count the jobs.
-    AtomicUnsignedInt count = 0;
+    AtomicUnsignedInt count ( 0 );
 
     // Add jobs to the manager.
     for ( unsigned int i = 0; i < numJobs; ++i )
