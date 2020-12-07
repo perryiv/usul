@@ -17,6 +17,7 @@
 #define _USUL_MATH_VECTOR_3D_H_
 
 #include "Usul/Errors/Check.h"
+#include "Usul/Math/Base.h"
 
 #include <cmath>
 #include <cstdlib>
@@ -536,6 +537,21 @@ inline void random ( Vector3 < T, I > &v, const T &mn = 0, const T &mx = 1 )
   v[0] = ( mn + ( ( static_cast < T > ( std::rand() ) / randMax ) * ( mx - mn ) ) );
   v[1] = ( mn + ( ( static_cast < T > ( std::rand() ) / randMax ) * ( mx - mn ) ) );
   v[2] = ( mn + ( ( static_cast < T > ( std::rand() ) / randMax ) * ( mx - mn ) ) );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Clamp the vector to the given range.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+template < class T, class I >
+inline void clamp ( Vector3 < T, I > &v, const T &mn, const T &mx )
+{
+  v[0] = Usul::Math::clamp ( v[0], mn, mx );
+  v[1] = Usul::Math::clamp ( v[1], mn, mx );
+  v[2] = Usul::Math::clamp ( v[2], mn, mx );
 }
 
 

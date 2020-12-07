@@ -17,6 +17,7 @@
 #define _USUL_MATH_VECTOR_4D_H_
 
 #include "Usul/Errors/Check.h"
+#include "Usul/Math/Base.h"
 
 #include <cmath>
 #include <cstdlib>
@@ -536,6 +537,22 @@ inline void random ( Vector4 < T, I > &v, const T &mn = 0, const T &mx = 1 )
   v[1] = ( mn + ( ( static_cast < T > ( std::rand() ) / randMax ) * ( mx - mn ) ) );
   v[2] = ( mn + ( ( static_cast < T > ( std::rand() ) / randMax ) * ( mx - mn ) ) );
   v[3] = ( mn + ( ( static_cast < T > ( std::rand() ) / randMax ) * ( mx - mn ) ) );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Clamp the vector to the given range.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+template < class T, class I >
+inline void clamp ( Vector4 < T, I > &v, const T &mn, const T &mx )
+{
+  v[0] = Usul::Math::clamp ( v[0], mn, mx );
+  v[1] = Usul::Math::clamp ( v[1], mn, mx );
+  v[2] = Usul::Math::clamp ( v[2], mn, mx );
+  v[3] = Usul::Math::clamp ( v[3], mn, mx );
 }
 
 
