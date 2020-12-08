@@ -118,12 +118,13 @@ jobs:
     CONAN_UPLOAD_ONLY_WHEN_STABLE: 1
     CONAN_STABLE_BRANCH_PATTERN: "^master$"
     CONAN_REVISIONS_ENABLED: 1
-    CONAN_CPPSTDS: $(cpp_standard_version)
+    CONAN_VERBOSE_TRACEBACK: 1
 
     # These are used in build.py
     THIS_JOB_USE_DOCKER: $(use_docker)
     THIS_JOB_DOCKER_IMAGE: $(docker_image)
     THIS_JOB_COMPILER_VERSION: $(compiler_version)
+    THIS_JOB_CPP_STANDARD: $(cpp_standard_version)
 
   steps:
 

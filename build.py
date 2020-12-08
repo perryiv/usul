@@ -4,6 +4,8 @@ import os
 
 if __name__ == "__main__":
 
+    os.environ["CONAN_CPPSTDS"] = os.environ["THIS_JOB_CPP_STANDARD"]
+
     if sys.platform.startswith ( "linux" ):
         os.environ["CONAN_GCC_VERSIONS"] = os.environ["THIS_JOB_COMPILER_VERSION"]
         print ( "Building on Linux" )
