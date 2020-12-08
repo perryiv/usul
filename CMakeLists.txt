@@ -42,6 +42,11 @@ if ( NOT DEFINED CMAKE_CXX_EXTENSIONS )
   set ( CMAKE_CXX_EXTENSIONS OFF )
 endif()
 
+# Make VC++ more standard compliant.
+if ( MSVC )
+  add_compile_options ( /permissive- /Zc:__cplusplus )
+endif()
+
 # Make default __attribute__ visibility hidden not public to hide non-exported symbols.
 # It is not working on Mac so we disable it.
 if ( NOT APPLE )
