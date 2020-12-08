@@ -44,29 +44,40 @@ jobs:
 
       # Using conan's recommended docker images.
 
-      Linux_GCC_10:
+      Linux_GCC_10_CPP_17:
         imageName: 'ubuntu-latest'
         use_docker: 1
         docker_image: conanio/gcc10
         compiler_version: 10
+        cpp_standard_version: 17
+
+      Linux_GCC_10_CPP_14:
+        imageName: 'ubuntu-latest'
+        use_docker: 1
+        docker_image: conanio/gcc10
+        compiler_version: 10
+        cpp_standard_version: 14
 
       Linux_GCC_9:
         imageName: 'ubuntu-latest'
         use_docker: 1
         docker_image: conanio/gcc9
         compiler_version: 9
+        cpp_standard_version: 17
 
       Linux_GCC_8:
         imageName: 'ubuntu-latest'
         use_docker: 1
         docker_image: conanio/gcc8
         compiler_version: 8
+        cpp_standard_version: 17
 
       Linux_GCC_7:
         imageName: 'ubuntu-latest'
         use_docker: 1
         docker_image: conanio/gcc7
         compiler_version: 7
+        cpp_standard_version: 17
 
       # All versions of macOS appear to be using clang 11, so just doing one.
 
@@ -74,6 +85,7 @@ jobs:
         imageName: 'macOS-10.15'
         use_docker: 0
         compiler_version: 11.0
+        cpp_standard_version: 17
 
       # On windows the kernel version of the host and docker image must match.
       # However, neither of these have pip so just using the host machine.
@@ -84,12 +96,14 @@ jobs:
         imageName: 'windows-2019'
         use_docker: 0
         compiler_version: 16 # Visual Studio 2019
+        cpp_standard_version: 17
 
       # Not working. The original cmake 3.12 is still getting used.
       # Visual_Studio_2017:
       #   imageName: 'vs2017-win2016'
       #   use_docker: 0
       #   compiler_version: 15 # Visual Studio 2017
+      #   cpp_standard_version: 17
 
   pool:
     vmImage: $(imageName)
@@ -104,6 +118,7 @@ jobs:
     CONAN_UPLOAD_ONLY_WHEN_STABLE: 1
     CONAN_STABLE_BRANCH_PATTERN: "^master$"
     CONAN_REVISIONS_ENABLED: 1
+    CONAN_CPPSTDS: $(cpp_standard_version)
 
     # These are used in build.py
     THIS_JOB_USE_DOCKER: $(use_docker)
