@@ -4,7 +4,7 @@ import os
 
 if __name__ == "__main__":
 
-    os.environ["CONAN_CPPSTDS"] = "14"
+    os.environ["CONAN_CMAKE_CXX_STANDARD"] = "14"
 
     if sys.platform.startswith ( "linux" ):
         os.environ["CONAN_GCC_VERSIONS"] = os.environ["THIS_JOB_COMPILER_VERSION"]
