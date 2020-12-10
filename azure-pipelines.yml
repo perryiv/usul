@@ -135,7 +135,9 @@ jobs:
         pip install conan --upgrade
         pip install conan_package_tools
         conan user
+        conan profile new pipeline_profile --detect
         conan profile list
+        conan profile show pipeline_profile
       displayName: Configure Conan
 
     - script: |
