@@ -9,7 +9,7 @@ class UsulConan(ConanFile):
     url = "https://github.com/perryiv/usul"
     description = "Low-level C++ utility code"
     topics = "low-level", "C++", "utility"
-    settings = "os", "compiler", "build_type", "arch"
+    settings = "os", "compiler", "build_type", "arch", "compiler.cppstd"
     options = {
         "shared": [True, False],
         "run_tests": [True, False],
