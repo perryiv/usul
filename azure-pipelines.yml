@@ -44,7 +44,7 @@ jobs:
 
       # Using conan's recommended docker images.
 
-      Linux_GCC_10_CPP:
+      Linux_GCC_10:
         imageName: 'ubuntu-latest'
         use_docker: 1
         docker_image: conanio/gcc10
