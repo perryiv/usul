@@ -147,6 +147,7 @@ jobs:
         conan --version
       displayName: Print Versions
 
-    # - script: |
-    #     python build.py
-    #   displayName: Build
+    - script: |
+        conan profile show pipeline_profile
+        python build.py
+      displayName: Build
