@@ -42,6 +42,15 @@ if ( NOT DEFINED CMAKE_CXX_EXTENSIONS )
   set ( CMAKE_CXX_EXTENSIONS OFF )
 endif()
 
+# If there is an environment for verbose output then use it.
+if ( DEFINED ENV{USE_VERBOSE_MAKEFILE} )
+  if ( "$ENV{USE_VERBOSE_MAKEFILE}" STREQUAL "1" )
+    set ( CMAKE_VERBOSE_MAKEFILE ON )
+  else()
+    set ( CMAKE_VERBOSE_MAKEFILE OFF )
+  endif()
+endif()
+
 # Make VC++ more standard compliant.
 if ( MSVC )
   add_compile_options ( /permissive- /Zc:__cplusplus )
