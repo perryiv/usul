@@ -165,12 +165,6 @@ jobs:
         compiler_version: 16 # Visual Studio 2019
         cpp_standard: 14
 
-      Visual_Studio_2019_CPP_11:
-        imageName: 'windows-2019'
-        use_docker: 0
-        compiler_version: 16 # Visual Studio 2019
-        cpp_standard: 11
-
       # Not working. The original cmake 3.12 is still getting used.
       # Visual_Studio_2017:
       #   imageName: 'vs2017-win2016'
