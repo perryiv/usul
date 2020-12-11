@@ -128,7 +128,7 @@ jobs:
         compiler_version: 7
         cpp_standard: 11
 
-      # All versions of macOS appear to be using clang 11, so just doing one.
+      # All versions of macOS appear to be using clang 11, so just doing that.
 
       Apple_Clang_11_CPP_17:
         imageName: 'macOS-10.15'
