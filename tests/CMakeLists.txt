@@ -44,6 +44,7 @@ set ( SOURCE_FILES
   ./Usul/File/Buffer.cpp
   ./Usul/Jobs/Manager.cpp
   ./Usul/Math/Base.cpp
+  ./Usul/Math/Box.cpp
   ./Usul/Math/CloseFloat.cpp
   ./Usul/Math/Functions.cpp
   ./Usul/Math/Line2.cpp
