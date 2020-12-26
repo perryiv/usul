@@ -87,15 +87,14 @@ TEST_CASE ( "Job manager" )
     // Wait for all the jobs to finish.
     manager.waitAll();
 
+    // Try to prevent test failures that look like this:
+    //   REQUIRE( 0 == manager.getNumJobs() )
+    // with expansion:
+    //   0 == 1
+    std::this_thread::sleep_for ( std::chrono::milliseconds ( 5 ) );
+
     // Make sure.
     REQUIRE ( 0 == manager.getNumJobs() );
-
-    // Try to prevent test failures that look like this:
-    // /some/path/usul/tests/Usul/Jobs/Manager.cpp:92: FAILED:
-    //   REQUIRE( numJobs == count )
-    // with expansion:
-    //   100 == 100
-    std::this_thread::sleep_for ( std::chrono::milliseconds ( 5 ) );
 
     // Did all the jobs run?
     REQUIRE ( numJobs == count );
