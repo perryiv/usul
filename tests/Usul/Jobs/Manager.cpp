@@ -91,7 +91,7 @@ TEST_CASE ( "Job manager" )
     //   REQUIRE( 0 == manager.getNumJobs() )
     // with expansion:
     //   0 == 1
-    std::this_thread::sleep_for ( std::chrono::milliseconds ( 50 ) );
+    std::this_thread::sleep_for ( std::chrono::milliseconds ( 500 ) );
 
     // Make sure.
     REQUIRE ( 0 == manager.getNumJobs() );
