@@ -96,9 +96,6 @@ TEMPLATE_TEST_CASE ( "Box class", "",
 
     a.grow ( p0 );
     REQUIRE ( true == a.valid() );
-    REQUIRE ( p0[0] == a.getMin()[0] );
-    REQUIRE ( p0[2] == a.getMin()[2] );
-    REQUIRE ( p0[1] == a.getMin()[1] );
     REQUIRE ( true == Usul::Math::equal ( p0, a.getMin() ) );
     REQUIRE ( true == Usul::Math::equal ( p0, a.getMax() ) );
 
@@ -115,17 +112,20 @@ TEMPLATE_TEST_CASE ( "Box class", "",
 
   SECTION ( "Can get the size" )
   {
-    const Box a;
-    REQUIRE ( false == a.valid() );
-    REQUIRE ( true == Usul::Math::equal ( defaultSize, a.getSize() ) );
-
-    const Box b ( Vec3 ( -1, -1, -1 ), Vec3 ( 1, 1, 1 ) );
-    REQUIRE ( true == b.valid() );
-    REQUIRE ( true == Usul::Math::equal ( Vec3 ( 2, 2, 2 ), b.getSize() ) );
+    const Box a ( Vec3 ( -1, -1, -1 ), Vec3 ( 1, 1, 1 ) );
+    REQUIRE ( true == a.valid() );
+    REQUIRE ( true == Usul::Math::equal ( Vec3 ( 2, 2, 2 ), a.getSize() ) );
   }
 
   SECTION ( "Can get the center" )
   {
+    const Box a ( Vec3 ( -1, -1, -1 ), Vec3 ( 1, 1, 1 ) );
+    REQUIRE ( true == a.valid() );
+    REQUIRE ( true == Usul::Math::equal ( Vec3 ( 0, 0, 0 ), a.getCenter() ) );
+
+    const Box b ( Vec3 ( 0, 0, 0 ), Vec3 ( 10, 10, 10 ) );
+    REQUIRE ( true == b.valid() );
+    REQUIRE ( true == Usul::Math::equal ( Vec3 ( 5, 5, 5 ), b.getCenter() ) );
   }
 
   SECTION ( "Can get the length of the diagonal" )
