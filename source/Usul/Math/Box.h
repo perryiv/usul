@@ -145,7 +145,20 @@ public:
   Vec3 getCenter() const
   {
     constexpr value_type half = static_cast < value_type > ( 0.5 );
-    return ( Usul::Math::scale ( ( this->getMin() + this->getMax() ), half ) );
+    return ( Usul::Math::scale ( ( _min + _max ), half ) );
+  }
+
+
+  /////////////////////////////////////////////////////////////////////////////
+  //
+  //  Get the radius.
+  //
+  /////////////////////////////////////////////////////////////////////////////
+
+  value_type getRadius() const
+  {
+    constexpr value_type half = static_cast < value_type > ( 0.5 );
+    return ( half * Usul::Math::distance ( _min, _max ) );
   }
 
 

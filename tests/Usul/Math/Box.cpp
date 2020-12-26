@@ -128,9 +128,12 @@ TEMPLATE_TEST_CASE ( "Box class", "",
     REQUIRE ( true == Usul::Math::equal ( Vec3 ( 5, 5, 5 ), b.getCenter() ) );
   }
 
-  SECTION ( "Can get the length of the diagonal" )
+  SECTION ( "Can get the radius" )
   {
-    // const Vec3 size = b.getSize();
-    // REQUIRE ( true == Usul::Math::equal ( Vec3 ( std::sqrt ( ) ), b.getSize() ) );
+    const Box a ( Vec3 ( 0, 0, 0 ), Vec3 ( 3, 4, 0 ) );
+    REQUIRE ( 2.5 == a.getRadius() );
+
+    const Box b ( Vec3 ( 0, 0, 0 ), Vec3 ( 0, 9, 40 ) );
+    REQUIRE ( 20.5 == b.getRadius() );
   }
 }
