@@ -16,7 +16,6 @@
 #ifndef _USUL_MATH_SPHERE_H_
 #define _USUL_MATH_SPHERE_H_
 
-#include "Usul/Errors/Check.h"
 #include "Usul/Math/Vector3.h"
 
 
