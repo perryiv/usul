@@ -85,7 +85,7 @@ TEMPLATE_TEST_CASE ( "Box class", "",
     REQUIRE ( b == a );
   }
 
-  SECTION ( "Can grow the box" )
+  SECTION ( "Can grow the box by points" )
   {
     Box a;
     REQUIRE ( false == a.valid() );
@@ -108,6 +108,26 @@ TEMPLATE_TEST_CASE ( "Box class", "",
     REQUIRE ( true == a.valid() );
     REQUIRE ( true == Usul::Math::equal ( pn1, a.getMin() ) );
     REQUIRE ( true == Usul::Math::equal ( p1,  a.getMax() ) );
+  }
+
+  SECTION ( "Can grow the box by other boxes" )
+  {
+    Box a;
+    REQUIRE ( false == a.valid() );
+
+    const Vec3 p0 ( 0, 0, 0 );
+    const Vec3 p1 ( 1, 1, 1 );
+    const Vec3 pn1 ( -1, -1, -1 );
+
+    Box b ( p0, p1 );
+    REQUIRE ( true == b.valid() );
+    REQUIRE ( true == Usul::Math::equal ( p0, b.getMin() ) );
+    REQUIRE ( true == Usul::Math::equal ( p1, b.getMax() ) );
+
+    b.grow ( Box ( pn1, p0 ) );
+    REQUIRE ( true == b.valid() );
+    REQUIRE ( true == Usul::Math::equal ( pn1, b.getMin() ) );
+    REQUIRE ( true == Usul::Math::equal ( p1,  b.getMax() ) );
   }
 
   SECTION ( "Can get the size" )
