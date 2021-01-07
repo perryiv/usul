@@ -43,6 +43,9 @@ if ( NOT DEFINED CMAKE_CXX_EXTENSIONS )
 endif()
 
 # If there is an environment for verbose output then use it.
+# Note: Conan is passing -DCMAKE_VERBOSE_MAKEFILE=OFF even though it's set
+# to ON in the conanfile.py. This is the only way (that I know of) that it
+# can be set to ON.
 if ( DEFINED ENV{USE_VERBOSE_MAKEFILE} )
   if ( "$ENV{USE_VERBOSE_MAKEFILE}" STREQUAL "1" )
     set ( CMAKE_VERBOSE_MAKEFILE ON )
