@@ -1,3 +1,4 @@
+
 ################################################################################
 #
 #  Azure Pipelines configuration file.
@@ -5,30 +6,6 @@
 #  Pipeline results are here:
 #
 #    https://dev.azure.com/perryiv/usul
-#
-#  Resources:
-#
-#    https://docs.conan.io/en/1.10/howtos/run_conan_in_docker.html
-#    https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/hosted
-#    https://docs.microsoft.com/en-us/azure/devops/pipelines/build/variables
-#    https://docs.microsoft.com/en-us/azure/devops/pipelines/process/container-phases
-#    https://docs.microsoft.com/en-us/azure/devops/pipelines/process/expressions
-#    https://docs.microsoft.com/en-us/azure/devops/pipelines/process/phases#timeouts
-#    https://docs.microsoft.com/en-us/azure/devops/pipelines/process/variables#secret-variables
-#    https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks
-#    https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/utility/shell-script
-#    https://docs.microsoft.com/en-us/azure/devops/pipelines/yaml-schema
-#    https://docs.microsoft.com/en-us/visualstudio/install/build-tools-container
-#    https://docs.microsoft.com/en-us/visualstudio/install/use-command-line-parameters-to-install-visual-studio
-#    https://github.com/actions/virtual-environments
-#    https://github.com/conan-io/conan-docker-tools/blob/master/azure-pipelines.yml
-#    https://github.com/jonico/libzengithub/blob/master/azure-pipelines.yml
-#    https://github.com/microsoft/azure-pipelines-agent/issues/2043
-#    https://github.com/microsoft/containerregistry
-#    https://hub.docker.com/_/microsoft-windows-servercore
-#    https://hub.docker.com/r/conanio/gcc8
-#    https://jaylee.org/archive/2019/03/21/azure-devops-wasm-build-container.html
-#    https://medium.com/@brentrobinson5/containerised-ci-cd-pipelines-with-azure-devops-74064c679f20
 #
 ################################################################################
 
@@ -42,110 +19,124 @@ jobs:
   strategy:
     matrix:
 
-      # Using conan's recommended docker images.
-
       Linux_GCC_10_CPP_17:
-        imageName: 'ubuntu-latest'
+        image_name: 'ubuntu-latest'
         use_docker: 1
         docker_image: conanio/gcc10
         compiler_version: 10
         cpp_standard: 17
 
       Linux_GCC_10_CPP_14:
-        imageName: 'ubuntu-latest'
+        image_name: 'ubuntu-latest'
         use_docker: 1
         docker_image: conanio/gcc10
         compiler_version: 10
         cpp_standard: 14
 
       Linux_GCC_10_CPP_11:
-        imageName: 'ubuntu-latest'
+        image_name: 'ubuntu-latest'
         use_docker: 1
         docker_image: conanio/gcc10
         compiler_version: 10
         cpp_standard: 11
 
       Linux_GCC_9_CPP_17:
-        imageName: 'ubuntu-latest'
+        image_name: 'ubuntu-latest'
         use_docker: 1
         docker_image: conanio/gcc9
         compiler_version: 9
         cpp_standard: 17
 
       Linux_GCC_9_CPP_14:
-        imageName: 'ubuntu-latest'
+        image_name: 'ubuntu-latest'
         use_docker: 1
         docker_image: conanio/gcc9
         compiler_version: 9
         cpp_standard: 14
 
       Linux_GCC_9_CPP_11:
-        imageName: 'ubuntu-latest'
+        image_name: 'ubuntu-latest'
         use_docker: 1
         docker_image: conanio/gcc9
         compiler_version: 9
         cpp_standard: 11
 
       Linux_GCC_8_CPP_17:
-        imageName: 'ubuntu-latest'
+        image_name: 'ubuntu-latest'
         use_docker: 1
         docker_image: conanio/gcc8
         compiler_version: 8
         cpp_standard: 17
 
       Linux_GCC_8_CPP_14:
-        imageName: 'ubuntu-latest'
+        image_name: 'ubuntu-latest'
         use_docker: 1
         docker_image: conanio/gcc8
         compiler_version: 8
         cpp_standard: 14
 
       Linux_GCC_8_CPP_11:
-        imageName: 'ubuntu-latest'
+        image_name: 'ubuntu-latest'
         use_docker: 1
         docker_image: conanio/gcc8
         compiler_version: 8
         cpp_standard: 11
 
       Linux_GCC_7_CPP_17:
-        imageName: 'ubuntu-latest'
+        image_name: 'ubuntu-latest'
         use_docker: 1
         docker_image: conanio/gcc7
         compiler_version: 7
         cpp_standard: 17
 
       Linux_GCC_7_CPP_14:
-        imageName: 'ubuntu-latest'
+        image_name: 'ubuntu-latest'
         use_docker: 1
         docker_image: conanio/gcc7
         compiler_version: 7
         cpp_standard: 14
 
       Linux_GCC_7_CPP_11:
-        imageName: 'ubuntu-latest'
+        image_name: 'ubuntu-latest'
         use_docker: 1
         docker_image: conanio/gcc7
         compiler_version: 7
         cpp_standard: 11
 
-      # All versions of macOS appear to be using clang 11, so just doing that.
-
       Apple_Clang_11_CPP_17:
-        imageName: 'macOS-10.15'
+        image_name: 'macOS-10.15'
         use_docker: 0
         compiler_version: 11.0
         cpp_standard: 17
 
       Apple_Clang_11_CPP_14:
-        imageName: 'macOS-10.15'
+        image_name: 'macOS-10.15'
         use_docker: 0
         compiler_version: 11.0
         cpp_standard: 14
 
       Apple_Clang_11_CPP_11:
-        imageName: 'macOS-10.15'
+        image_name: 'macOS-10.15'
         use_docker: 0
         compiler_version: 11.0
+        cpp_standard: 11
+
+      Apple_Clang_12_CPP_17:
+        image_name: 'macOS-10.15'
+        use_docker: 0
+        compiler_version: 12.0
+        cpp_standard: 17
+
+      Apple_Clang_12_CPP_14:
+        image_name: 'macOS-10.15'
+        use_docker: 0
+        compiler_version: 12.0
+        cpp_standard: 14
+
+      Apple_Clang_12_CPP_11:
+        image_name: 'macOS-10.15'
+        use_docker: 0
+        compiler_version: 12.0
         cpp_standard: 11
 
       # On windows the kernel version of the host and docker image must match.
@@ -154,26 +145,26 @@ jobs:
       # -- mcr.microsoft.com/windows/servercore:ltsc2016
 
       Visual_Studio_2019_CPP_17:
-        imageName: 'windows-2019'
+        image_name: 'windows-2019'
         use_docker: 0
         compiler_version: 16 # Visual Studio 2019
         cpp_standard: 17
 
       Visual_Studio_2019_CPP_14:
-        imageName: 'windows-2019'
+        image_name: 'windows-2019'
         use_docker: 0
         compiler_version: 16 # Visual Studio 2019
         cpp_standard: 14
 
       # Not working. The original cmake 3.12 is still getting used.
       # Visual_Studio_2017:
-      #   imageName: 'vs2017-win2016'
+      #   image_name: 'vs2017-win2016'
       #   use_docker: 0
       #   compiler_version: 15 # Visual Studio 2017
       #   cpp_standard: 17
 
   pool:
-    vmImage: $(imageName)
+    vmImage: $(image_name)
 
   variables:
 
@@ -203,14 +194,14 @@ jobs:
       displayName: Select Python
 
     # Not working. The original cmake 3.12 is still getting used.
-    - task: PowerShell@2
-      inputs:
-        script: |
-          Invoke-WebRequest -Uri 'https://aka.ms/vs/16/release/vs_buildtools.exe' -OutFile C:\TEMP\vs_buildtools.exe
-          C:\TEMP\vs_buildtools.exe --installPath C:\BuildTools --quiet --wait --norestart --nocache --remove Microsoft.VisualStudio.Component.VC.CMake.Project --remove Component.Linux.CMake
-        targetType: inline
-      condition: eq(variables['Agent.JobName'], 'Job Visual_Studio_2017')
-      displayName: Remove Visual Studio CMake
+    # - task: PowerShell@2
+    #   inputs:
+    #     script: |
+    #       Invoke-WebRequest -Uri 'https://aka.ms/vs/16/release/vs_buildtools.exe' -OutFile C:\TEMP\vs_buildtools.exe
+    #       C:\TEMP\vs_buildtools.exe --installPath C:\BuildTools --quiet --wait --norestart --nocache --remove Microsoft.VisualStudio.Component.VC.CMake.Project --remove Component.Linux.CMake
+    #     targetType: inline
+    #   condition: eq(variables['Agent.JobName'], 'Job Visual_Studio_2017')
+    #   displayName: Remove Visual Studio CMake
 
     - script: |
         python -m pip install --upgrade pip
@@ -233,3 +224,31 @@ jobs:
         conan profile show pipeline_profile
         python build.py
       displayName: Build
+
+################################################################################
+#
+#  Resources:
+#
+#    https://docs.conan.io/en/1.10/howtos/run_conan_in_docker.html
+#    https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/hosted
+#    https://docs.microsoft.com/en-us/azure/devops/pipelines/build/variables
+#    https://docs.microsoft.com/en-us/azure/devops/pipelines/process/container-phases
+#    https://docs.microsoft.com/en-us/azure/devops/pipelines/process/expressions
+#    https://docs.microsoft.com/en-us/azure/devops/pipelines/process/phases#timeouts
+#    https://docs.microsoft.com/en-us/azure/devops/pipelines/process/variables#secret-variables
+#    https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks
+#    https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/utility/shell-script
+#    https://docs.microsoft.com/en-us/azure/devops/pipelines/yaml-schema
+#    https://docs.microsoft.com/en-us/visualstudio/install/build-tools-container
+#    https://docs.microsoft.com/en-us/visualstudio/install/use-command-line-parameters-to-install-visual-studio
+#    https://github.com/actions/virtual-environments
+#    https://github.com/conan-io/conan-docker-tools/blob/master/azure-pipelines.yml
+#    https://github.com/jonico/libzengithub/blob/master/azure-pipelines.yml
+#    https://github.com/microsoft/azure-pipelines-agent/issues/2043
+#    https://github.com/microsoft/containerregistry
+#    https://hub.docker.com/_/microsoft-windows-servercore
+#    https://hub.docker.com/r/conanio/gcc8
+#    https://jaylee.org/archive/2019/03/21/azure-devops-wasm-build-container.html
+#    https://medium.com/@brentrobinson5/containerised-ci-cd-pipelines-with-azure-devops-74064c679f20
+#
+################################################################################
