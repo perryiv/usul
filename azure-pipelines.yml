@@ -20,84 +20,84 @@ jobs:
     matrix:
 
       Linux_GCC_10_CPP_17:
-        image_name: 'ubuntu-latest'
+        image_name: 'ubuntu-20.04'
         use_docker: 1
         docker_image: conanio/gcc10
         compiler_version: 10
         cpp_standard: 17
 
       Linux_GCC_10_CPP_14:
-        image_name: 'ubuntu-latest'
+        image_name: 'ubuntu-20.04'
         use_docker: 1
         docker_image: conanio/gcc10
         compiler_version: 10
         cpp_standard: 14
 
       Linux_GCC_10_CPP_11:
-        image_name: 'ubuntu-latest'
+        image_name: 'ubuntu-20.04'
         use_docker: 1
         docker_image: conanio/gcc10
         compiler_version: 10
         cpp_standard: 11
 
       Linux_GCC_9_CPP_17:
-        image_name: 'ubuntu-latest'
+        image_name: 'ubuntu-20.04'
         use_docker: 1
         docker_image: conanio/gcc9
         compiler_version: 9
         cpp_standard: 17
 
       Linux_GCC_9_CPP_14:
-        image_name: 'ubuntu-latest'
+        image_name: 'ubuntu-20.04'
         use_docker: 1
         docker_image: conanio/gcc9
         compiler_version: 9
         cpp_standard: 14
 
       Linux_GCC_9_CPP_11:
-        image_name: 'ubuntu-latest'
+        image_name: 'ubuntu-20.04'
         use_docker: 1
         docker_image: conanio/gcc9
         compiler_version: 9
         cpp_standard: 11
 
       Linux_GCC_8_CPP_17:
-        image_name: 'ubuntu-latest'
+        image_name: 'ubuntu-20.04'
         use_docker: 1
         docker_image: conanio/gcc8
         compiler_version: 8
         cpp_standard: 17
 
       Linux_GCC_8_CPP_14:
-        image_name: 'ubuntu-latest'
+        image_name: 'ubuntu-20.04'
         use_docker: 1
         docker_image: conanio/gcc8
         compiler_version: 8
         cpp_standard: 14
 
       Linux_GCC_8_CPP_11:
-        image_name: 'ubuntu-latest'
+        image_name: 'ubuntu-20.04'
         use_docker: 1
         docker_image: conanio/gcc8
         compiler_version: 8
         cpp_standard: 11
 
       Linux_GCC_7_CPP_17:
-        image_name: 'ubuntu-latest'
+        image_name: 'ubuntu-20.04'
         use_docker: 1
         docker_image: conanio/gcc7
         compiler_version: 7
         cpp_standard: 17
 
       Linux_GCC_7_CPP_14:
-        image_name: 'ubuntu-latest'
+        image_name: 'ubuntu-20.04'
         use_docker: 1
         docker_image: conanio/gcc7
         compiler_version: 7
         cpp_standard: 14
 
       Linux_GCC_7_CPP_11:
-        image_name: 'ubuntu-latest'
+        image_name: 'ubuntu-20.04'
         use_docker: 1
         docker_image: conanio/gcc7
         compiler_version: 7
