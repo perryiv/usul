@@ -13,9 +13,15 @@
 #
 ################################################################################
 
+# Feedback.
+message ( "<>\n<> Start ${CMAKE_CURRENT_LIST_FILE}\n<>" )
+
 # Without this version or greater we get this error in Azure Pipelines:
 # "make: *** No rule to make target 'test'.  Stop."
 cmake_minimum_required ( VERSION 3.13.0 )
+
+# Include these functions.
+include ( ${CMAKE_CURRENT_SOURCE_DIR}/cmake/functions.cmake )
 
 # Get the version from this file.
 file ( STRINGS ${CMAKE_CURRENT_LIST_DIR}/version.txt PROJECT_VERSION )
@@ -131,7 +137,7 @@ endif()
 # Does the user want strict warnings?
 option ( USUL_ENABLE_STRICT_WARNINGS "Enable strict warnings" ON )
 if ( USUL_ENABLE_STRICT_WARNINGS )
-  message ( "   -- Enabling strict warnings" )
+  message ( "<> Enabling strict warnings" )
   if ( MSVC ) # Also true for Intel compiler. Means "looks like Visual C++".
     add_compile_options ( /W4 )
   else()
@@ -142,7 +148,7 @@ endif()
 # Does the user want to treat warnings the same as errors?
 option ( USUL_TREAT_WARNINGS_LIKE_ERRORS "Treat warnings like errors" ON )
 if ( USUL_TREAT_WARNINGS_LIKE_ERRORS )
-  message ( "   -- Treating warnings like errors" )
+  message ( "<> Treating warnings like errors" )
   if ( MSVC ) # Also true for Intel compiler. Means "looks like Visual C++".
     add_compile_options ( /WX )
   else()
@@ -156,6 +162,7 @@ option ( USUL_BUILD_TESTS "Build the tests" OFF )
 # Need Catch2 to build the tests
 if ( USUL_BUILD_TESTS )
   find_package ( Catch2 REQUIRED )
+  print_package ( Catch2 )
 endif()
 
 # Set default postfix if none was given on the command line.
@@ -175,6 +182,9 @@ endif()
 
 # Configure how this project gets imported into other cmake projects.
 include ( ${CMAKE_CURRENT_SOURCE_DIR}/cmake/export.cmake )
+
+# Feedback.
+message ( "<>\n<> End ${CMAKE_CURRENT_LIST_FILE}" )
 
 ################################################################################
 #
