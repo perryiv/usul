@@ -21,7 +21,7 @@
 ################################################################################
 
 function(print_property)
-  if ( NOT ${${ARGV0}_${ARGV1}} STREQUAL "" )
+  if ( NOT "${${ARGV0}_${ARGV1}}" STREQUAL "" )
     message ( "   <> ${ARGV0}_${ARGV1} = ${${ARGV0}_${ARGV1}}" )
   endif()
 endfunction()
@@ -39,7 +39,6 @@ function(print_package)
   print_property ( ${ARGV0} "INCLUDE_DIRS" )
   print_property ( ${ARGV0} "INCLUDES" )
   print_property ( ${ARGV0} "DEFINITIONS" )
-  print_property ( ${ARGV0} "LIBS" )
   print_property ( ${ARGV0} "LIBRARIES" )
   print_property ( ${ARGV0} "BUILD_MODULES" )
   print_property ( ${ARGV0} "SYSTEM_LIBS" )
