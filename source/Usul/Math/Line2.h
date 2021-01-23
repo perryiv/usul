@@ -230,6 +230,19 @@ public:
   }
 
 
+  /////////////////////////////////////////////////////////////////////////////
+  //
+  //  Is the line valid?
+  //
+  /////////////////////////////////////////////////////////////////////////////
+
+  bool valid() const
+  {
+    // It is valid if the two points are not equal.
+    return ( false == Usul::Math::equal ( _p0, _p1 ) );
+  }
+
+
 private:
 
   Point _p0;
