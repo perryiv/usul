@@ -90,7 +90,7 @@ endif()
 
 # Append a "d" to the file name if this is a debug build.
 # Unlike with the library files, this does not happen automatically.
-if ( ( DEFINED CMAKE_DEBUG_POSTFIX ) AND ( NOT ${CMAKE_DEBUG_POSTFIX} STREQUAL "" ) )
+if ( ( DEFINED CMAKE_DEBUG_POSTFIX ) AND ( NOT "${CMAKE_DEBUG_POSTFIX}" STREQUAL "" ) )
   set_target_properties ( ${PROJECT_NAME}_test PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX} )
 endif()
 
