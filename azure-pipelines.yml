@@ -19,142 +19,148 @@ jobs:
   strategy:
     matrix:
 
-      Linux_GCC_10_CPP_17:
-        image_name: 'ubuntu-20.04'
-        use_docker: 1
-        docker_image: conanio/gcc10
-        compiler_version: 10
-        cpp_standard: 17
+      # Linux_GCC_10_CPP_17:
+      #   image_name: 'ubuntu-20.04'
+      #   use_docker: 1
+      #   docker_image: conanio/gcc10
+      #   compiler_version: 10
+      #   cpp_standard: 17
+      #
+      # Linux_GCC_10_CPP_14:
+      #   image_name: 'ubuntu-20.04'
+      #   use_docker: 1
+      #   docker_image: conanio/gcc10
+      #   compiler_version: 10
+      #   cpp_standard: 14
+      #
+      # Linux_GCC_10_CPP_11:
+      #   image_name: 'ubuntu-20.04'
+      #   use_docker: 1
+      #   docker_image: conanio/gcc10
+      #   compiler_version: 10
+      #   cpp_standard: 11
+      #
+      # Linux_GCC_9_CPP_17:
+      #   image_name: 'ubuntu-20.04'
+      #   use_docker: 1
+      #   docker_image: conanio/gcc9
+      #   compiler_version: 9
+      #   cpp_standard: 17
+      #
+      # Linux_GCC_9_CPP_14:
+      #   image_name: 'ubuntu-20.04'
+      #   use_docker: 1
+      #   docker_image: conanio/gcc9
+      #   compiler_version: 9
+      #   cpp_standard: 14
+      #
+      # Linux_GCC_9_CPP_11:
+      #   image_name: 'ubuntu-20.04'
+      #   use_docker: 1
+      #   docker_image: conanio/gcc9
+      #   compiler_version: 9
+      #   cpp_standard: 11
+      #
+      # Linux_GCC_8_CPP_17:
+      #   image_name: 'ubuntu-20.04'
+      #   use_docker: 1
+      #   docker_image: conanio/gcc8
+      #   compiler_version: 8
+      #   cpp_standard: 17
+      #
+      # Linux_GCC_8_CPP_14:
+      #   image_name: 'ubuntu-20.04'
+      #   use_docker: 1
+      #   docker_image: conanio/gcc8
+      #   compiler_version: 8
+      #   cpp_standard: 14
+      #
+      # Linux_GCC_8_CPP_11:
+      #   image_name: 'ubuntu-20.04'
+      #   use_docker: 1
+      #   docker_image: conanio/gcc8
+      #   compiler_version: 8
+      #   cpp_standard: 11
+      #
+      # Linux_GCC_7_CPP_17:
+      #   image_name: 'ubuntu-20.04'
+      #   use_docker: 1
+      #   docker_image: conanio/gcc7
+      #   compiler_version: 7
+      #   cpp_standard: 17
+      #
+      # Linux_GCC_7_CPP_14:
+      #   image_name: 'ubuntu-20.04'
+      #   use_docker: 1
+      #   docker_image: conanio/gcc7
+      #   compiler_version: 7
+      #   cpp_standard: 14
+      #
+      # Linux_GCC_7_CPP_11:
+      #   image_name: 'ubuntu-20.04'
+      #   use_docker: 1
+      #   docker_image: conanio/gcc7
+      #   compiler_version: 7
+      #   cpp_standard: 11
+      #
+      # Apple_Clang_12_CPP_17:
+      #   image_name: 'macOS-10.15'
+      #   use_docker: 0
+      #   compiler_version: 12.0
+      #   cpp_standard: 17
+      #
+      # Apple_Clang_12_CPP_14:
+      #   image_name: 'macOS-10.15'
+      #   use_docker: 0
+      #   compiler_version: 12.0
+      #   cpp_standard: 14
+      #
+      # Apple_Clang_12_CPP_11:
+      #   image_name: 'macOS-10.15'
+      #   use_docker: 0
+      #   compiler_version: 12.0
+      #   cpp_standard: 11
+      #
+      # Apple_Clang_11_CPP_17:
+      #   image_name: 'macOS-10.14'
+      #   use_docker: 0
+      #   compiler_version: 11.0
+      #   cpp_standard: 17
+      #
+      # Apple_Clang_11_CPP_14:
+      #   image_name: 'macOS-10.14'
+      #   use_docker: 0
+      #   compiler_version: 11.0
+      #   cpp_standard: 14
+      #
+      # Apple_Clang_11_CPP_11:
+      #   image_name: 'macOS-10.14'
+      #   use_docker: 0
+      #   compiler_version: 11.0
+      #   cpp_standard: 11
+      #
+      # # On windows the kernel version of the host and docker image must match.
+      # # However, neither of these have pip so just using the host machine.
+      # # -- mcr.microsoft.com/windows/servercore:ltsc2019
+      # # -- mcr.microsoft.com/windows/servercore:ltsc2016
+      #
+      # Visual_Studio_2019_CPP_17:
+      #   image_name: 'windows-2019'
+      #   use_docker: 0
+      #   compiler_version: 16 # Visual Studio 2019
+      #   cpp_standard: 17
+      #
+      # Visual_Studio_2019_CPP_14:
+      #   image_name: 'windows-2019'
+      #   use_docker: 0
+      #   compiler_version: 16 # Visual Studio 2019
+      #   cpp_standard: 14
 
-      Linux_GCC_10_CPP_14:
-        image_name: 'ubuntu-20.04'
-        use_docker: 1
-        docker_image: conanio/gcc10
-        compiler_version: 10
-        cpp_standard: 14
-
-      Linux_GCC_10_CPP_11:
-        image_name: 'ubuntu-20.04'
-        use_docker: 1
-        docker_image: conanio/gcc10
-        compiler_version: 10
-        cpp_standard: 11
-
-      Linux_GCC_9_CPP_17:
-        image_name: 'ubuntu-20.04'
-        use_docker: 1
-        docker_image: conanio/gcc9
-        compiler_version: 9
-        cpp_standard: 17
-
-      Linux_GCC_9_CPP_14:
-        image_name: 'ubuntu-20.04'
-        use_docker: 1
-        docker_image: conanio/gcc9
-        compiler_version: 9
-        cpp_standard: 14
-
-      Linux_GCC_9_CPP_11:
-        image_name: 'ubuntu-20.04'
-        use_docker: 1
-        docker_image: conanio/gcc9
-        compiler_version: 9
-        cpp_standard: 11
-
-      Linux_GCC_8_CPP_17:
-        image_name: 'ubuntu-20.04'
-        use_docker: 1
-        docker_image: conanio/gcc8
-        compiler_version: 8
-        cpp_standard: 17
-
-      Linux_GCC_8_CPP_14:
-        image_name: 'ubuntu-20.04'
-        use_docker: 1
-        docker_image: conanio/gcc8
-        compiler_version: 8
-        cpp_standard: 14
-
-      Linux_GCC_8_CPP_11:
-        image_name: 'ubuntu-20.04'
-        use_docker: 1
-        docker_image: conanio/gcc8
-        compiler_version: 8
-        cpp_standard: 11
-
-      Linux_GCC_7_CPP_17:
-        image_name: 'ubuntu-20.04'
-        use_docker: 1
-        docker_image: conanio/gcc7
-        compiler_version: 7
-        cpp_standard: 17
-
-      Linux_GCC_7_CPP_14:
-        image_name: 'ubuntu-20.04'
-        use_docker: 1
-        docker_image: conanio/gcc7
-        compiler_version: 7
-        cpp_standard: 14
-
-      Linux_GCC_7_CPP_11:
-        image_name: 'ubuntu-20.04'
-        use_docker: 1
-        docker_image: conanio/gcc7
-        compiler_version: 7
-        cpp_standard: 11
-
-      Apple_Clang_12_CPP_17:
-        image_name: 'macOS-10.15'
-        use_docker: 0
-        compiler_version: 12.0
-        cpp_standard: 17
-
-      Apple_Clang_12_CPP_14:
-        image_name: 'macOS-10.15'
-        use_docker: 0
-        compiler_version: 12.0
-        cpp_standard: 14
-
-      Apple_Clang_12_CPP_11:
-        image_name: 'macOS-10.15'
-        use_docker: 0
-        compiler_version: 12.0
-        cpp_standard: 11
-
-      Apple_Clang_11_CPP_17:
-        image_name: 'macOS-10.14'
-        use_docker: 0
-        compiler_version: 11.0
-        cpp_standard: 17
-
-      Apple_Clang_11_CPP_14:
-        image_name: 'macOS-10.14'
-        use_docker: 0
-        compiler_version: 11.0
-        cpp_standard: 14
-
-      Apple_Clang_11_CPP_11:
-        image_name: 'macOS-10.14'
-        use_docker: 0
-        compiler_version: 11.0
-        cpp_standard: 11
-
-      # On windows the kernel version of the host and docker image must match.
-      # However, neither of these have pip so just using the host machine.
-      # -- mcr.microsoft.com/windows/servercore:ltsc2019
-      # -- mcr.microsoft.com/windows/servercore:ltsc2016
-
-      Visual_Studio_2019_CPP_17:
+      Visual_Studio_2019_CPP_11:
         image_name: 'windows-2019'
         use_docker: 0
         compiler_version: 16 # Visual Studio 2019
-        cpp_standard: 17
-
-      Visual_Studio_2019_CPP_14:
-        image_name: 'windows-2019'
-        use_docker: 0
-        compiler_version: 16 # Visual Studio 2019
-        cpp_standard: 14
+        cpp_standard: 11
 
       # Not working. The original cmake 3.12 is still getting used.
       # Visual_Studio_2017:
