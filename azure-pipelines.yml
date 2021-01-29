@@ -124,6 +124,24 @@ jobs:
         compiler_version: 12.0
         cpp_standard: 11
 
+      Apple_Clang_11_CPP_17:
+        image_name: 'macOS-10.14'
+        use_docker: 0
+        compiler_version: 11.0
+        cpp_standard: 17
+
+      Apple_Clang_11_CPP_14:
+        image_name: 'macOS-10.14'
+        use_docker: 0
+        compiler_version: 11.0
+        cpp_standard: 14
+
+      Apple_Clang_11_CPP_11:
+        image_name: 'macOS-10.14'
+        use_docker: 0
+        compiler_version: 11.0
+        cpp_standard: 11
+
       # On windows the kernel version of the host and docker image must match.
       # However, neither of these have pip so just using the host machine.
       # -- mcr.microsoft.com/windows/servercore:ltsc2019

@@ -1,4 +1,5 @@
-from conans import CMake, CMakeToolchain, ConanFile, tools
+from conan.tools.cmake import CMake, CMakeToolchain
+from conans import ConanFile, tools
 import os
 
 
@@ -30,20 +31,21 @@ class UsulConan(ConanFile):
         if self.options.run_tests:
             self.requires("catch2/2.13.1", private=True)
 
-    def toolchain(self):
+    def generate(self):
         toolchain = CMakeToolchain(self)
         toolchain.variables["USUL_BUILD_TESTS"] = self.options.run_tests
         toolchain.variables["USUL_ENABLE_CODE_COVERAGE"] = False
         toolchain.variables["CMAKE_DEBUG_POSTFIX"] = ""
         toolchain.variables["CMAKE_VERBOSE_MAKEFILE"] = True
-        toolchain.write_toolchain_files()
+        toolchain.generate()
 
     def build(self):
         cmake = CMake(self)
         cmake.configure()
         cmake.build()
         if self.options.run_tests:
-            cmake.test(output_on_failure=True)
+            with tools.run_environment(self):
+                cmake.test(output_on_failure=True)
 
     def package(self):
         cmake = CMake(self)
@@ -62,3 +64,4 @@ class UsulConan(ConanFile):
 
     def package_id(self):
         del self.info.options.run_tests
+        del self.info.settings.compiler.cppstd
