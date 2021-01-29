@@ -17,6 +17,9 @@
 #ifndef _USUL_MATH_MISSING_BASIC_FUNCTION_H_
 #define _USUL_MATH_MISSING_BASIC_FUNCTION_H_
 
+#include "Usul/Define.h"
+
+#include <algorithm>
 #include <cmath>
 #include <type_traits>
 
@@ -49,11 +52,19 @@ template < class T > inline T abs ( const T &value )
 //
 ///////////////////////////////////////////////////////////////////////////////
 
+#if ( USUL_CPP_STANDARD < 17 )
+
 template < class T > inline T clamp ( const T &value, const T &mn, const T &mx )
 {
   static_assert ( std::is_arithmetic < T >::value, "Not an arithmetic type" );
   return ( ( value < mn ) ? mn : ( ( value > mx ) ? mx : value ) );
 }
+
+#else
+
+using std::clamp;
+
+#endif
 
 
 } // namespace Math
