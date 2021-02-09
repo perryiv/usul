@@ -174,4 +174,28 @@ TEST_CASE ( "Job manager" )
     // We should not have completed all the jobs.
     REQUIRE ( count < numJobs );
   }
+
+  SECTION ( "Add jobs with just lambda expression" )
+  {
+    // The jobs will increment this.
+    unsigned int count = 0;
+
+    // How many jobs to add.
+    const unsigned int numJobs = 100;
+
+    // Add several jobs.
+    for ( unsigned int i = 0; i < numJobs; ++i )
+    {
+      Usul::Jobs::Manager::instance().addJob ( [ &count ] ()
+      {
+        ++count;
+      } );
+    }
+
+    // Wait for all the jobs to finish.
+    Usul::Jobs::Manager::instance().waitAll();
+
+    // This should be true.
+    REQUIRE ( numJobs == count );
+  }
 }
