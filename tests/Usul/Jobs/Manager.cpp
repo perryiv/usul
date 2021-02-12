@@ -105,6 +105,9 @@ TEST_CASE ( "Job manager" )
     // Count the jobs.
     AtomicUnsignedInt count ( 0 );
 
+    // Should be true.
+    REQUIRE ( ( 0 == manager.getNumJobs() ) );
+
     // Add jobs to the manager.
     for ( unsigned int i = 0; i < numJobs; ++i )
     {
@@ -118,10 +121,8 @@ TEST_CASE ( "Job manager" )
       } ) ) );
     }
 
-    // Make sure we have the right number of jobs. Note: It's unlikely that any
-    // of them are already done and removed from the job manager.
-    // Wrong, this often fails, but it does not matter, the checks below matter.
-    // REQUIRE ( ( numJobs == manager.getNumJobs() ) );
+    // Make sure we have some jobs. It's unlikely that they all finished by now.
+    REQUIRE ( ( manager.getNumJobs() > 0 ) );
 
     // Wait for all the jobs to finish.
     manager.waitAll();
@@ -253,7 +254,7 @@ TEST_CASE ( "Job manager" )
     // Set the error handler.
     manager.setErrorHandler ( [ &manager ] ( Manager::JobPtr job, const std::exception & )
     {
-      std::cout << "Job " << job->getID() << " deliberately had an error, cancelling all jobs" << std::endl;
+      std::cout << Usul::Strings::format ( "Job ", job->getID(), " deliberately had an error, cancelling all jobs", '\n' ) << std::flush;
 
       // Clears the queue of jobs that are still waiting to execute.
       manager.clearQueuedJobs();
@@ -274,10 +275,10 @@ TEST_CASE ( "Job manager" )
           // Sleep some to simulate a lengthy task.
           std::this_thread::sleep_for ( std::chrono::milliseconds ( 50 ) );
 
-          std::cout << "Job " << job->getID() << " is doing work" << std::endl;
+          std::cout << Usul::Strings::format ( "Job ", job->getID(), " is doing work", '\n' ) << std::flush;
         }
 
-        std::cout << "Job " << job->getID() << " has been cancelled" << std::endl;
+        std::cout << Usul::Strings::format ( "Job ", job->getID(), " has been cancelled", '\n' ) << std::flush;
       } );
     }
 
