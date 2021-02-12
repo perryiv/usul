@@ -198,9 +198,6 @@ TEST_CASE ( "Job manager" )
 
   SECTION ( "Add jobs that throw exceptions and call error handler" )
   {
-    typedef Usul::Jobs::Manager Manager;
-    Manager &manager = Manager::instance();
-
     // The jobs will increment this.
     unsigned int count = 0;
 
@@ -246,9 +243,6 @@ TEST_CASE ( "Job manager" )
 
   SECTION ( "Remove all jobs from inside error handler" )
   {
-    typedef Usul::Jobs::Manager Manager;
-    Manager &manager = Manager::instance();
-
     // Save the original error handler (which is probably null) and always restore it.
     Manager::ErrorHandler original = manager.getErrorHandler();
     USUL_SCOPED_CALL ( ( [ &manager, original ] () { manager.setErrorHandler ( original ); } ) );
