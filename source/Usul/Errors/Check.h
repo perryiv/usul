@@ -83,11 +83,24 @@ namespace Usul
 
 ///////////////////////////////////////////////////////////////////////////////
 //
+//  Throw an error if the expression is false, but only in a debug build.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+#ifdef _DEBUG
+#define USUL_CHECK_AND_THROW_DEBUG(expression,message) USUL_CHECK_AND_THROW ( expression, message )
+#else
+#define USUL_CHECK_AND_THROW_DEBUG(expression,message)
+#endif
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
 //  Log an error if the expression is false.
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#define USUL_CHECK_AND_LOG(expression,message)\
+#define USUL_CHECK_AND_LOG(expression,message) \
 if ( false == ( expression ) ) \
 { \
   std::clog << ( Usul::Errors::Details::getMessage ( message, __FILE__, __LINE__ ) + "\n" ) << std::flush; \
@@ -101,8 +114,7 @@ if ( false == ( expression ) ) \
 ///////////////////////////////////////////////////////////////////////////////
 
 #ifdef _DEBUG
-#define USUL_CHECK_AND_LOG_DEBUG(expression,message) \
-  USUL_CHECK_AND_LOG ( expression, message )
+#define USUL_CHECK_AND_LOG_DEBUG(expression,message) USUL_CHECK_AND_LOG ( expression, message )
 #else
 #define USUL_CHECK_AND_LOG_DEBUG(expression,message)
 #endif
