@@ -60,7 +60,7 @@ namespace Details
 
 namespace Details
 {
-  unsigned int getDefaultMaxNumThreadsAllowed()
+  inline unsigned int getDefaultMaxNumThreadsAllowed()
   {
     // Keep one available for the worker as well as any user-interface thread.
     const unsigned int keep = 2u;
@@ -76,6 +76,71 @@ namespace Details
 
 ///////////////////////////////////////////////////////////////////////////////
 //
+//  Helper functions to handle standard exception.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+namespace Details
+{
+  template < class IdType >
+  inline void handleStandardException ( Manager &me, Manager::JobPtr job, const std::exception &e, IdType id )
+  {
+    Manager::ErrorHandler handler = me.getErrorHandler();
+    if ( handler )
+    {
+      handler ( job, e );
+    }
+    else
+    {
+      Usul::Tools::Details::logStandardException ( e, id, &std::clog );
+    }
+  }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Helper functions to handle unknown exception.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+namespace Details
+{
+  template < class IdType >
+  inline void handleUnknownException ( Manager &me, Manager::JobPtr job, IdType id )
+  {
+    Manager::ErrorHandler handler = me.getErrorHandler();
+    if ( handler )
+    {
+      std::runtime_error e ( Usul::Strings::format ( "Unknown exception caught at location ", id ) );
+      handler ( job, e );
+    }
+    else
+    {
+      Usul::Tools::Details::logUnknownException ( id, &std::clog );
+    }
+  }
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Macro used below in try-catch blocks.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+#define JOB_MANAGER_CATCH_EXCEPTIONS(id,job) \
+  catch ( const std::exception &e ) \
+  { \
+    Details::handleStandardException ( *this, job, e, id ); \
+  } \
+  catch ( ... ) \
+  { \
+    Details::handleUnknownException ( *this, job, id ); \
+  }
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
 //  Constructor
 //
 ///////////////////////////////////////////////////////////////////////////////
@@ -86,6 +151,7 @@ Manager::Manager() :
   _workerID(),
   _queuedJobs(),
   _runningJobs(),
+  _errorHandler(),
   _maxNumThreadsAllowed ( Details::getDefaultMaxNumThreadsAllowed() ),
   _numMillisecondsToSleep ( 10 ),
   _shouldRunWorkerThread ( true ),
@@ -544,14 +610,14 @@ void Manager::_startWorkerThread()
         // This helps avoid deadlock.
         _workerID = std::this_thread::get_id();
 
-        // I have no idea why this is necessary, but without it
-        // _isWorkerThreadOrThrow() will throw an exception.
+        // TODO: At one point, without this _isWorkerThreadOrThrow() would
+        // throw an exception. Is this still needed?
         // std::this_thread::sleep_for ( std::chrono::milliseconds ( this->getNumMillisecondsToSleep() ) );
 
         // Now run this new thread.
         this->_threadStarted();
       }
-      USUL_TOOLS_CATCH_AND_LOG ( 1591247240, &std::clog )
+      JOB_MANAGER_CATCH_EXCEPTIONS ( 1591247240, JobPtr() )
     } ) );
   }
 }
@@ -624,7 +690,7 @@ void Manager::_threadStarted()
       std::this_thread::sleep_for ( std::chrono::milliseconds ( this->getNumMillisecondsToSleep() ) );
     }
   }
-  USUL_TOOLS_CATCH_AND_LOG ( 1591049996, &std::clog )
+  JOB_MANAGER_CATCH_EXCEPTIONS ( 1591049996, JobPtr() )
 }
 
 
@@ -700,7 +766,7 @@ void Manager::_checkQueuedJobs()
   }
 
   // Start a new thread and have it run the job.
-  ThreadPtr thread ( new std::thread ( [ job ] ()
+  ThreadPtr thread ( new std::thread ( [ job, this ] ()
   {
     // If an exception sneaks through it will bring down the house.
     try
@@ -723,12 +789,12 @@ void Manager::_checkQueuedJobs()
         if ( fun )
         {
           // Call the function.
-          fun();
+          fun ( job );
         }
       }
-      USUL_TOOLS_CATCH_AND_LOG ( 1591073635, &std::clog )
+      JOB_MANAGER_CATCH_EXCEPTIONS ( 1591073635, job )
     }
-    USUL_TOOLS_CATCH_AND_LOG ( 1591071534, &std::clog )
+    JOB_MANAGER_CATCH_EXCEPTIONS ( 1591071534, job )
   } ) );
 
   // Add the job to the container of running jobs.
@@ -781,6 +847,24 @@ void Manager::_checkRunningJobs()
     // Wait for the thread. Since the job is done this should return immediately.
     i->first->join();
   }
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Get/set the error handler.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+Manager::ErrorHandler Manager::getErrorHandler() const
+{
+  Guard guard ( _mutex );
+  return _errorHandler;
+}
+void Manager::setErrorHandler ( ErrorHandler handler )
+{
+  Guard guard ( _mutex );
+  _errorHandler = handler;
 }
 
 

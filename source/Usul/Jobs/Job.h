@@ -36,8 +36,8 @@ public:
 
   typedef std::recursive_mutex Mutex;
   typedef std::lock_guard < Mutex > Guard;
-  typedef std::function < void () > Callback;
   typedef std::shared_ptr < Job > Ptr;
+  typedef std::function < void ( Ptr ) > Callback;
   typedef std::atomic < double > AtomicDouble;
 
   // Constructors

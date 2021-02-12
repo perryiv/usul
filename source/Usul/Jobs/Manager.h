@@ -22,6 +22,7 @@
 #include "Usul/Tools/NoCopying.h"
 
 #include <atomic>
+#include <functional>
 #include <mutex>
 #include <set>
 #include <string>
@@ -45,6 +46,7 @@ public:
   typedef std::shared_ptr < std::thread > ThreadPtr;
   typedef std::pair < ThreadPtr, JobPtr > RunningInfo;
   typedef std::set < RunningInfo > RunningJobs;
+  typedef std::function < void ( JobPtr, const std::exception & ) > ErrorHandler;
   typedef std::vector < std::string > Names;
   typedef std::atomic < unsigned int > AtomicUnsignedInt;
   typedef std::atomic < bool > AtomicBool;
@@ -66,6 +68,10 @@ public:
 
   // This will delete the singleton instance, if any.
   static void destroy();
+
+  // Get/set the error handler.
+  ErrorHandler getErrorHandler() const;
+  void         setErrorHandler ( ErrorHandler );
 
   // Get the names of the running jobs.
   Names getRunningJobNames() const;
@@ -134,6 +140,7 @@ private:
   AtomicThreadID _workerID;
   QueuedJobs _queuedJobs;
   RunningJobs _runningJobs;
+  ErrorHandler _errorHandler;
   AtomicUnsignedInt _maxNumThreadsAllowed;
   AtomicUnsignedInt _numMillisecondsToSleep;
   AtomicBool _shouldRunWorkerThread;
