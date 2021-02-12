@@ -52,9 +52,9 @@ TEST_CASE ( "Job manager" )
   SECTION ( "Number of jobs" )
   {
     std::cout << "Job manager is using " << manager.getMaxNumThreadsAllowed() << " threads" << std::endl;
-    REQUIRE ( 0 == manager.getNumJobsQueued() );
-    REQUIRE ( 0 == manager.getNumJobsRunning() );
-    REQUIRE ( 0 == manager.getNumJobs() );
+    REQUIRE ( ( 0 == manager.getNumJobsQueued() ) );
+    REQUIRE ( ( 0 == manager.getNumJobsRunning() ) );
+    REQUIRE ( ( 0 == manager.getNumJobs() ) );
   }
 
   SECTION ( "Add many fast jobs" )
@@ -79,7 +79,7 @@ TEST_CASE ( "Job manager" )
     }
 
     // Make sure we have jobs. Note: Some of the jobs may have finished already.
-    REQUIRE ( manager.getNumJobs() > 0 );
+    REQUIRE ( ( manager.getNumJobs() > 0 ) );
 
     // Wait for all the jobs to finish.
     manager.waitAll();
@@ -88,10 +88,10 @@ TEST_CASE ( "Job manager" )
     //   REQUIRE( 0 == manager.getNumJobs() )
     // with expansion:
     //   0 == 1
-    std::this_thread::sleep_for ( std::chrono::milliseconds ( 500 ) );
+    // std::this_thread::sleep_for ( std::chrono::milliseconds ( 500 ) );
 
     // Make sure.
-    REQUIRE ( 0 == manager.getNumJobs() );
+    REQUIRE ( ( 0 == manager.getNumJobs() ) );
 
     // Did all the jobs run?
     REQUIRE ( ( numJobs == count ) );
@@ -121,20 +121,20 @@ TEST_CASE ( "Job manager" )
     // Make sure we have the right number of jobs. Note: It's unlikely that any
     // of them are already done and removed from the job manager.
     // Wrong, this often fails, but it does not matter, the checks below matter.
-    // REQUIRE ( numJobs == manager.getNumJobs() );
+    // REQUIRE ( ( numJobs == manager.getNumJobs() ) );
 
     // Wait for all the jobs to finish.
     manager.waitAll();
 
     // Make sure.
-    REQUIRE ( 0 == manager.getNumJobs() );
+    REQUIRE ( ( 0 == manager.getNumJobs() ) );
 
     // Try to prevent test failures that look like this:
     // /some/path/usul/tests/Usul/Jobs/Manager.cpp:92: FAILED:
     //   REQUIRE( numJobs == count )
     // with expansion:
     //   100 == 100
-    std::this_thread::sleep_for ( std::chrono::milliseconds ( 5 ) );
+    // std::this_thread::sleep_for ( std::chrono::milliseconds ( 5 ) );
 
     // Did all the jobs run?
     REQUIRE ( ( numJobs == count ) );
@@ -162,7 +162,7 @@ TEST_CASE ( "Job manager" )
     }
 
     // Make sure we have jobs. Note: Some of the jobs may have finished already.
-    REQUIRE ( manager.getNumJobs() > 0 );
+    REQUIRE ( ( manager.getNumJobs() > 0 ) );
 
     // This clears the queue, cancels the running jobs (which is just a hint),
     // and waits for the running jobs to finish.
@@ -215,7 +215,7 @@ TEST_CASE ( "Job manager" )
     manager.setErrorHandler ( [ &count, &message ] ( Manager::JobPtr, const std::exception &e )
     {
       ++count;
-      REQUIRE ( message == e.what() );
+      REQUIRE ( ( message == e.what() ) );
     } );
 
     // Add several jobs.
