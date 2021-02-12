@@ -29,7 +29,7 @@
 TEST_CASE ( "Version should be correct" )
 {
   REQUIRE ( Usul::Version::MAJOR == 4 );
-  REQUIRE ( Usul::Version::MINOR == 0 );
+  REQUIRE ( Usul::Version::MINOR == 1 );
   REQUIRE ( Usul::Version::PATCH == 0 );
-  REQUIRE ( std::string ( Usul::Version::STRING ) == std::string ( "4.0.0" ) );
+  REQUIRE ( std::string ( Usul::Version::STRING ) == std::string ( "4.1.0" ) );
 }
