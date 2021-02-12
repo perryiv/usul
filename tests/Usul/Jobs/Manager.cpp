@@ -175,7 +175,7 @@ TEST_CASE ( "Job manager" )
   SECTION ( "Add jobs with just lambda expression" )
   {
     // The jobs will increment this.
-    AtomicUnsignedInt count = 0;
+    AtomicUnsignedInt count ( 0 );
 
     // How many jobs to add.
     const unsigned int numJobs = 100;
@@ -199,7 +199,7 @@ TEST_CASE ( "Job manager" )
   SECTION ( "Add jobs that throw exceptions and call error handler" )
   {
     // The jobs will increment this.
-    AtomicUnsignedInt count = 0;
+    AtomicUnsignedInt count ( 0 );
 
     // How many jobs to add.
     const unsigned int numJobs = 100;
