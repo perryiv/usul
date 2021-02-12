@@ -94,7 +94,7 @@ TEST_CASE ( "Job manager" )
     REQUIRE ( 0 == manager.getNumJobs() );
 
     // Did all the jobs run?
-    REQUIRE ( numJobs == count );
+    REQUIRE ( ( numJobs == count ) );
   }
 
   SECTION ( "Add fewer long jobs" )
@@ -137,7 +137,7 @@ TEST_CASE ( "Job manager" )
     std::this_thread::sleep_for ( std::chrono::milliseconds ( 5 ) );
 
     // Did all the jobs run?
-    REQUIRE ( numJobs == count );
+    REQUIRE ( ( numJobs == count ) );
   }
 
   SECTION ( "Add many fast jobs and do not wait for them" )
@@ -169,13 +169,13 @@ TEST_CASE ( "Job manager" )
     Manager::destroy();
 
     // We should not have completed all the jobs.
-    REQUIRE ( count < numJobs );
+    REQUIRE ( ( count < numJobs ) );
   }
 
   SECTION ( "Add jobs with just lambda expression" )
   {
     // The jobs will increment this.
-    unsigned int count = 0;
+    AtomicUnsignedInt count = 0;
 
     // How many jobs to add.
     const unsigned int numJobs = 100;
@@ -193,13 +193,13 @@ TEST_CASE ( "Job manager" )
     Usul::Jobs::Manager::instance().waitAll();
 
     // This should be true.
-    REQUIRE ( numJobs == count );
+    REQUIRE ( ( numJobs == count ) );
   }
 
   SECTION ( "Add jobs that throw exceptions and call error handler" )
   {
     // The jobs will increment this.
-    unsigned int count = 0;
+    AtomicUnsignedInt count = 0;
 
     // How many jobs to add.
     const unsigned int numJobs = 100;
@@ -238,7 +238,7 @@ TEST_CASE ( "Job manager" )
     manager.waitAll();
 
     // This should be true.
-    REQUIRE ( numJobs == count );
+    REQUIRE ( ( numJobs == count ) );
   }
 
   SECTION ( "Remove all jobs from inside error handler" )
