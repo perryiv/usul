@@ -155,7 +155,8 @@ Manager::Manager() :
   _maxNumThreadsAllowed ( Details::getDefaultMaxNumThreadsAllowed() ),
   _numMillisecondsToSleep ( 10 ),
   _shouldRunWorkerThread ( true ),
-  _isBeingDestroyed ( false )
+  _isBeingDestroyed ( false ),
+  _hasJobInTransition ( false )
 {
 }
 
@@ -461,8 +462,13 @@ unsigned int Manager::getNumJobs() const
   // accurate for the time this function was called.
   Guard guard ( _mutex );
 
-  // Return the number of both queued and running jobs.
-  return ( this->getNumJobsQueued() + this->getNumJobsRunning() );
+  // Return the number of queued jobs, jobs, and in transition.
+  // A job is in transition if it has been taken out of the queue
+  // but not yet put into the list of running jobs.
+  const unsigned int numQueued = this->getNumJobsQueued();
+  const unsigned int numRunning = this->getNumJobsRunning();
+  const unsigned int numInTransition = ( _hasJobInTransition ? 1 : 0 );
+  return ( numQueued + numRunning + numInTransition );
 }
 unsigned int Manager::getNumJobsRunning() const
 {
@@ -715,6 +721,9 @@ Manager::JobPtr Manager::_getNextQueuedJob()
   IS_WORKER_THREAD_OR_THROW;
   Guard guard ( _mutex );
 
+  // Should not happen but make sure.
+  USUL_CHECK_AND_THROW ( ( false == _hasJobInTransition ), "There is already a job in transition" );
+
   // Handle an empty queue.
   if ( true == _queuedJobs.empty() )
   {
@@ -723,6 +732,9 @@ Manager::JobPtr Manager::_getNextQueuedJob()
 
   // Get the last job. It should have the highest priority.
   JobPtr job = _queuedJobs.back();
+
+  // We now have a job in transition.
+  _hasJobInTransition = true;
 
   // Pop the job from the queue.
   _queuedJobs.pop_back();
@@ -750,6 +762,12 @@ void Manager::_checkQueuedJobs()
 
   // Get the next job.
   JobPtr job = this->_getNextQueuedJob();
+
+  // When we're done in here we no longer have a job in transition.
+  USUL_SCOPED_CALL ( [ this ] ()
+  {
+    _hasJobInTransition = false; // This variable is atomic.
+  } );
 
   // This means the queue is empty.
   if ( nullptr == job.get() )

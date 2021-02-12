@@ -145,6 +145,7 @@ private:
   AtomicUnsignedInt _numMillisecondsToSleep;
   AtomicBool _shouldRunWorkerThread;
   AtomicBool _isBeingDestroyed;
+  AtomicBool _hasJobInTransition;
 };
 
 
