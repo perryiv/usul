@@ -540,7 +540,7 @@ void Manager::_setShouldRunWorkerThread ( bool state )
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-void Manager::waitAll ( unsigned int extraMilliseconds )
+void Manager::waitAll()
 {
   IS_NOT_WORKER_THREAD_OR_THROW;
 
@@ -556,16 +556,6 @@ void Manager::waitAll ( unsigned int extraMilliseconds )
   {
     // Sleep some so that we don't spike the cpu.
     std::this_thread::sleep_for ( std::chrono::milliseconds ( numMillisecondsToSleep ) );
-  }
-
-  // Try to prevent test failures that look like this:
-  // /some/path/usul/tests/Usul/Jobs/Manager.cpp:92: FAILED:
-  //   REQUIRE( numJobs == count )
-  // with expansion:
-  //   100 == 100
-  if ( extraMilliseconds > 0 )
-  {
-    std::this_thread::sleep_for ( std::chrono::milliseconds ( extraMilliseconds ) );
   }
 }
 

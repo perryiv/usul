@@ -109,7 +109,7 @@ public:
   void sortQueuedJobs();
 
   // Wait for all jobs to complete.
-  void waitAll ( unsigned int extraMilliseconds = 50 );
+  void waitAll();
 
 protected:
 
