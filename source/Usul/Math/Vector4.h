@@ -402,7 +402,12 @@ inline T length ( const Vector4 < T, I > &v )
 template < class T, class I >
 inline Vector4 < T, I > absolute ( const Vector4 < T, I > &v )
 {
-  return Vector4 < T, I > ( std::abs ( v[0] ), std::abs ( v[1] ), std::abs ( v[2] ), std::abs ( v[3] ) );
+  return Vector4 < T, I > (
+    Usul::Math::absolute ( v[0] ),
+    Usul::Math::absolute ( v[1] ),
+    Usul::Math::absolute ( v[2] ),
+    Usul::Math::absolute ( v[3] )
+  );
 }
 
 
