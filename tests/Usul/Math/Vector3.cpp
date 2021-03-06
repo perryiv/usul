@@ -350,6 +350,14 @@ TEMPLATE_TEST_CASE ( "Vector3 template math functions with signed primitive type
   {
     REQUIRE ( 27 == Usul::Math::distanceSquared ( VectorType ( -1, -1, -1 ), VectorType ( 2, 2, 2 ) ) );
   }
+
+  SECTION ( "Can get the absolute value of a vector" )
+  {
+    const VectorType a ( 1, 2, 3 );
+    const VectorType b ( -1, -2, -3 );
+    REQUIRE ( false == Usul::Math::equal ( a, b ) );
+    REQUIRE ( true == Usul::Math::equal ( a, Usul::Math::absolute ( b ) ) );
+  }
 }
 
 
