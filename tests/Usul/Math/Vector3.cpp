@@ -322,6 +322,14 @@ TEMPLATE_TEST_CASE ( "Vector3 template math functions with signed primitive type
 {
   typedef typename Usul::Math::Vector3 < TestType > VectorType;
 
+  SECTION ( "Can get the absolute value of a vector" )
+  {
+    const VectorType a (  1,  2,  3 );
+    const VectorType b ( -1, -2, -3 );
+    REQUIRE ( false == Usul::Math::equal ( a, b ) );
+    REQUIRE (  true == Usul::Math::equal ( a, Usul::Math::absolute ( b ) ) );
+  }
+
   SECTION ( "Can get the dot product" )
   {
     REQUIRE ( -26 == Usul::Math::dot ( VectorType ( 1, 2, 3 ), VectorType ( -3, -4, -5 ) ) );
@@ -349,14 +357,6 @@ TEMPLATE_TEST_CASE ( "Vector3 template math functions with signed primitive type
   SECTION ( "Can get the distance squared between two points" )
   {
     REQUIRE ( 27 == Usul::Math::distanceSquared ( VectorType ( -1, -1, -1 ), VectorType ( 2, 2, 2 ) ) );
-  }
-
-  SECTION ( "Can get the absolute value of a vector" )
-  {
-    const VectorType a ( 1, 2, 3 );
-    const VectorType b ( -1, -2, -3 );
-    REQUIRE ( false == Usul::Math::equal ( a, b ) );
-    REQUIRE ( true == Usul::Math::equal ( a, Usul::Math::absolute ( b ) ) );
   }
 }
 
