@@ -273,17 +273,20 @@ namespace Details
       return defaultValue;
     }
   };
-  template < class T > struct Getter < false, T >
-  {
-    static const T &get ( const Map &m, const std::string &name, const T &defaultValue )
-    {
-      return m.get < T > ( name, defaultValue );
-    }
-  };
+  // This causes things to compile that really should not; leaving it here as a reminder.
+  // Use the new macro below when there is a compile error for an unknown type.
+  // template < class T > struct Getter < false, T >
+  // {
+  //   static const T &get ( const Map &m, const std::string &name, const T &defaultValue )
+  //   {
+  //     return m.get < T > ( name, defaultValue );
+  //   }
+  // };
   template < typename T > struct Getter < false, T * >
   {
     static T *get ( const Map &m, const std::string &name, T *defaultValue )
     {
+      static_assert ( std::is_pointer < T * > ::value, "Not a pointer type" );
       return m.get < T * > ( name, defaultValue );
     }
   };
@@ -350,17 +353,20 @@ namespace Details
       throw std::runtime_error ( Usul::Strings::format ( "Property '", name, "' is an unknown type" ) );
     }
   };
-  template < class T > struct Require < false, T >
-  {
-    static const T &get ( const Map &m, const std::string &name )
-    {
-      return m.require < T > ( name );
-    }
-  };
+  // This causes things to compile that really should not; leaving it here as a reminder.
+  // Use the new macro below when there is a compile error for an unknown type.
+  // template < class T > struct Require < false, T >
+  // {
+  //   static const T &get ( const Map &m, const std::string &name )
+  //   {
+  //     return m.require < T > ( name );
+  //   }
+  // };
   template < typename T > struct Require < false, T * >
   {
     static T *get ( const Map &m, const std::string &name )
     {
+      static_assert ( std::is_pointer < T * > ::value, "Not a pointer type" );
       return m.require < T * > ( name );
     }
   };
@@ -476,6 +482,38 @@ inline Map::Values merge ( const Map::Values &source1, const Map::Values &source
 
 } // namespace Properties
 } // namespace Usul
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  For compatability with Usul::Properties::get and Usul::Properties::require.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+#define USUL_PROPERTIES_MAP_DEFINE_TYPE_CONVERSION(to_type) \
+namespace Usul \
+{ \
+  namespace Properties \
+  { \
+    namespace Details \
+    { \
+      template <> struct Getter < false, to_type > \
+      { \
+        static to_type get ( const Map &m, const std::string &name, const to_type &defaultValue ) \
+        { \
+          return m.get ( name, defaultValue ); \
+        } \
+      }; \
+      template <> struct Require < false, to_type > \
+      { \
+        static to_type get ( const Map &m, const std::string &name ) \
+        { \
+          return m.require < to_type > ( name ); \
+        } \
+      }; \
+    } \
+  } \
+}
 
 
 #endif // _USUL_PROPERTIES_MAP_H_
