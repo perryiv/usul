@@ -169,10 +169,10 @@ jobs:
   variables:
 
     # These directly control conan.
-    CONAN_USERNAME: perryiv
-    CONAN_PASSWORD: $(SECRET_BINTRAY_PASSWORD) # Configured in Azure UI
+    CONAN_USERNAME: perry
+    CONAN_PASSWORD: $(SECRET_JFROG_PASSWORD) # Configured in Azure UI
     CONAN_CHANNEL: stable
-    CONAN_UPLOAD: https://api.bintray.com/conan/perryiv/conan
+    CONAN_UPLOAD: https://modelspace.jfrog.io/artifactory/api/conan/conan
     CONAN_UPLOAD_ONLY_WHEN_STABLE: 1
     CONAN_STABLE_BRANCH_PATTERN: "^master$"
     CONAN_REVISIONS_ENABLED: 1
