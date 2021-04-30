@@ -169,7 +169,8 @@ jobs:
   variables:
 
     # These directly control conan.
-    CONAN_USERNAME: perry
+    CONAN_USERNAME: perryiv
+    CONAN_LOGIN_USERNAME: perry
     CONAN_PASSWORD: $(SECRET_JFROG_PASSWORD) # Configured in Azure UI
     CONAN_CHANNEL: stable
     CONAN_UPLOAD: https://modelspace.jfrog.io/artifactory/api/conan/conan
