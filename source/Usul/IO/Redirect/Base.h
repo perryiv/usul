@@ -35,6 +35,13 @@ struct Base
 
   ~Base()
   {
+    this->_restore();
+  }
+
+protected:
+
+  void _restore()
+  {
     try
     {
       std::cout.rdbuf ( _cout );
@@ -46,13 +53,18 @@ struct Base
     }
   }
 
-protected:
-
   void _setOutputStream ( std::ostream &out )
   {
     std::cout.rdbuf ( out.rdbuf() );
     std::cerr.rdbuf ( out.rdbuf() );
     std::clog.rdbuf ( out.rdbuf() );
+  }
+
+  void _setOutputBuffer ( std::streambuf *buffer )
+  {
+    std::cout.rdbuf ( buffer );
+    std::cerr.rdbuf ( buffer );
+    std::clog.rdbuf ( buffer );
   }
 
 private:
