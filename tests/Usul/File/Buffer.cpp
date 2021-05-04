@@ -14,7 +14,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "Usul/File/Buffer.h"
-#include "Usul/IO/Redirect/String.h"
 #include "Usul/Tools/ScopedCall.h"
 
 #include "catch2/catch.hpp"
@@ -29,6 +28,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 //
 //  Test the file buffer.
+//  We make a big file and then read it.
+//  When we read it we should get progress events.
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -68,7 +69,7 @@ TEST_CASE ( "File buffer" )
     REQUIRE ( 0 == std::system ( command.str().c_str() ) );
     std::cout << "Done generating file: " << file << std::endl;
 
-    // Open the one file we know is present, this program.
+    // Open the one file we know is present, the made above.
     FileBuffer buffer ( file );
 
     // Should be true.
@@ -90,7 +91,7 @@ TEST_CASE ( "File buffer" )
       // std::cout << "Progress fraction: " << fraction << std::endl;
     } );
 
-    // Set the throttle to the same value to make sure it compiles.
+    // This is just here to catch compile errors. There is no other purpose.
     buffer.getThrottlePolicy().setDelay ( buffer.getThrottlePolicy().getDelay() );
 
     // Make the input stream.
