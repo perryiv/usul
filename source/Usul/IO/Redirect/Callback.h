@@ -42,7 +42,6 @@ namespace Details
 
     FunctionBuffer ( Fun fun ) : BaseClass(), _fun ( fun )
     {
-      // this->pubsetbuf ( nullptr, 0 );
     }
 
     virtual ~FunctionBuffer()
@@ -60,42 +59,6 @@ namespace Details
       }
       return count;
     }
-
-    // virtual IntType overflow ( IntType c ) override
-    // {
-    //   if ( _fun )
-    //   {
-    //     const std::string s ( &c, &c + 1 );
-    //     _fun ( s );
-    //   }
-    //   return BaseClass::overflow ( c );
-    //   // if ( !TraitsType::eq_int_type ( c, TraitsType::eof() ) )
-    //   // {
-    //   //   CharType *ptr = this->pptr();
-    //   //   if ( nullptr != ptr )
-    //   //   {
-    //   //     CharType &current = *ptr;
-    //   //     current = TraitsType::to_char_type ( c );
-    //   //     this->pbump ( 1 );
-    //   //   }
-    //   // }
-    //   //
-    //   // return ( ( this->sync() ) ? TraitsType::not_eof ( c ) : TraitsType::eof() );
-    // }
-
-    // virtual int_type sync() override
-    // {
-    //   if ( this->pbase() != this->pptr() )
-    //   {
-    //     if ( _fun )
-    //     {
-    //       const std::string s ( this->pbase(), this->pptr() );
-    //       _fun ( s );
-    //     }
-    //     this->setp ( this->pbase(), this->epptr() );
-    //   }
-    //   return 0;
-    // }
 
   private:
 
