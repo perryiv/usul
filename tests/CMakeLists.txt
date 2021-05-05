@@ -42,6 +42,7 @@ set ( SOURCE_FILES
   ./Usul/Bits/Bits.cpp
   ./Usul/Errors/Check.cpp
   ./Usul/File/Buffer.cpp
+  ./Usul/IO/Redirect.cpp
   ./Usul/Jobs/Manager.cpp
   ./Usul/Math/Base.cpp
   ./Usul/Math/Box.cpp
