@@ -25,24 +25,6 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 //
-//  Constants used below.
-//
-////////////////////////////////////////////////////////////////////////////////
-
-const char *expectedFileContents =
-R"=====(Standard exception caught, ID: 1568933700, This is a standard exception
-Unknown exception caught, ID: 1568933701
-Unknown exception caught, ID: 1568933702
-Unknown exception caught, ID: 1568933703
-Unknown exception caught, ID: 1568933705
-Unknown exception caught, ID: 1568933706
-Unknown exception caught, ID: 1568933707
-This function does not throw
-)=====";
-
-
-////////////////////////////////////////////////////////////////////////////////
-//
 //  Helper functions that throw an exception.
 //
 ////////////////////////////////////////////////////////////////////////////////
@@ -70,6 +52,16 @@ inline void throwNumber()
 
 TEST_CASE ( "No-throw wrapper function" )
 {
+  std::ostringstream expected;
+  expected << "Standard exception caught, ID: 1568933700, This is a standard exception\n";
+  expected << "Unknown exception caught, ID: 1568933701\n";
+  expected << "Unknown exception caught, ID: 1568933702\n";
+  expected << "Unknown exception caught, ID: 1568933703\n";
+  expected << "Unknown exception caught, ID: 1568933705\n";
+  expected << "Unknown exception caught, ID: 1568933706\n";
+  expected << "Unknown exception caught, ID: 1568933707\n";
+  expected << "This function does not throw\n";
+
   SECTION ( "Can throw an exception and it gets caught" )
   {
     // Send all standard output to a string while we are within this scope.
@@ -99,6 +91,6 @@ TEST_CASE ( "No-throw wrapper function" )
     } );
 
     // Make sure the redirect object contains what it should.
-    REQUIRE ( redirect.getContents() == std::string ( expectedFileContents ) );
+    REQUIRE ( redirect.getContents() == expected.str() );
   }
 }
