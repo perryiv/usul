@@ -20,6 +20,7 @@
 #include "catch2/catch.hpp"
 
 #include <iostream>
+#include <string>
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -30,9 +31,15 @@
 
 inline void writeToStream ( std::ostream &out, const std::string &name, unsigned int start, unsigned int num )
 {
+  #ifdef _WIN32
+  const std::string NEW_LINE = "\r\n";
+  #else
+  const std::string NEW_LINE = "\n";
+  #endif
+
   for ( unsigned int i = start; i < ( start + num ); ++i )
   {
-    out << "Stream = " << name << ", count = " << i << '\n' << std::flush;
+    out << "Stream = " << name << ", count = " << i << NEW_LINE << std::flush;
   }
 }
 
