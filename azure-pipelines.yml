@@ -19,6 +19,27 @@ jobs:
   strategy:
     matrix:
 
+      Linux_GCC_11_CPP_17:
+        image_name: 'ubuntu-20.04'
+        use_docker: 1
+        docker_image: conanio/gcc11
+        compiler_version: 11
+        cpp_standard: 17
+
+      Linux_GCC_11_CPP_14:
+        image_name: 'ubuntu-20.04'
+        use_docker: 1
+        docker_image: conanio/gcc11
+        compiler_version: 11
+        cpp_standard: 14
+
+      Linux_GCC_11_CPP_11:
+        image_name: 'ubuntu-20.04'
+        use_docker: 1
+        docker_image: conanio/gcc11
+        compiler_version: 11
+        cpp_standard: 11
+
       Linux_GCC_10_CPP_17:
         image_name: 'ubuntu-20.04'
         use_docker: 1
