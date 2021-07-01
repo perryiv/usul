@@ -180,7 +180,7 @@ inline bool intersectLineWithPlane (
 
   // It worked.
   return true;
-};
+}
 
 
 } // namespace Math
