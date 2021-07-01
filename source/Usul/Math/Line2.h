@@ -157,7 +157,7 @@ public:
   //
   /////////////////////////////////////////////////////////////////////////////
 
-  Point getDirection() const
+  Vec getDirection() const
   {
     return Usul::Math::subtract ( _p1, _p0 );
   }
@@ -169,9 +169,40 @@ public:
   //
   /////////////////////////////////////////////////////////////////////////////
 
-  Point getUnitDirection() const
+  Vec getUnitDirection() const
   {
     return Usul::Math::normalize ( this->getDirection() );
+  }
+
+
+  /////////////////////////////////////////////////////////////////////////////
+  //
+  //  Get the point at the given parametric value.
+  //
+  /////////////////////////////////////////////////////////////////////////////
+
+  Point getPoint ( value_type u ) const
+  {
+    const value_type x0 = _p0[0];
+    const value_type y0 = _p0[1];
+
+    return Point (
+      ( x0 + u * ( _p1[0] - x0 ) ),
+      ( y0 + u * ( _p1[1] - y0 ) )
+    );
+  }
+
+
+  /////////////////////////////////////////////////////////////////////////////
+  //
+  //  Normalize the line by making the points one unit apart.
+  //
+  /////////////////////////////////////////////////////////////////////////////
+
+  void normalize()
+  {
+    const Vec dir = this->getUnitDirection();
+    _p1 = _p0 + dir;
   }
 
 
