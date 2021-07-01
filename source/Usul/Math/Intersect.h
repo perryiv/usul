@@ -36,7 +36,7 @@ namespace Math {
 ///////////////////////////////////////////////////////////////////////////////
 
 template < class Line, class Sphere >
-inline unsigned int intersect (
+inline unsigned int intersectLineWithSphere (
   const Line &line,
   const Sphere &sphere,
   typename Line::value_type &u1,
@@ -121,6 +121,66 @@ inline unsigned int intersect (
   u2 = ( -b + sqrtInner ) * denom;
   return 2;
 }
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Intersect a line with a plane.
+//  The answer is the parametric coordinate on the given line.
+//  Returns false if the line and plane are parallel.
+//  http://paulbourke.net/geometry/pointlineplane/
+//
+///////////////////////////////////////////////////////////////////////////////
+
+template < class Line, class Plane >
+inline bool intersectLineWithPlane (
+  const Line &line,
+  const Plane &plane,
+  typename Line::value_type &u )
+{
+  typedef typename Line::value_type Number;
+  typedef typename Line::Point Point;
+
+  // Make sure everybody has the same value type.
+  static_assert ( std::is_same < Number, typename Plane::value_type >::value, "Not the same value type" );
+
+  // Make sure we're working with a floating point number type.
+  static_assert ( std::is_floating_point < Number >::value, "Not a floating-point number type" );
+
+  // Get the line's two points.
+  const Point &p1 = line.start();
+  const Point &p2 = line.end();
+
+  // Shortcuts.
+  const Number x1 = p1[0];
+  const Number y1 = p1[1];
+  const Number z1 = p1[2];
+  const Number x2 = p2[0];
+  const Number y2 = p2[1];
+  const Number z2 = p2[2];
+
+  // Get the plane's coefficients.
+  const Number A = plane[0];
+  const Number B = plane[1];
+  const Number C = plane[2];
+  const Number D = plane[3];
+
+  // Calculate the denominator.
+  const Number denom = ( A * ( x1 - x2 ) ) + ( B * ( y1 - y2 ) ) + ( C * ( z1 - z2 ) );
+
+  // Is the line and the plane parallel?
+  if ( 0.0 == denom )
+  {
+    return false;
+  }
+
+  // If we get to here then they are not parallel, so finish the calculation.
+  const Number numer = ( A * x1 ) + ( B * y1 ) + ( C * z1 ) + D;
+  u = numer / denom;
+
+  // It worked.
+  return true;
+};
 
 
 } // namespace Math
