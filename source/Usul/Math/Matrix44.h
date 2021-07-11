@@ -440,6 +440,19 @@ inline Matrix44 < T, I > translate ( const Matrix44 < T, I > &a, const Vector3 <
   translate ( a, v, b );
   return b;
 }
+template < class T, class I >
+inline Matrix44 < T, I > translate ( const Vector3 < T, I > &v )
+{
+  Matrix44 < T, I > a;
+  Matrix44 < T, I > b;
+  translate ( a, v, b );
+  return b;
+}
+template < class T, class I >
+inline Matrix44 < T, I > translate ( const T &x, const T &y, const T &z )
+{
+  return translate ( Vector3 < T, I > ( x, y, z ) );
+}
 
 
 ///////////////////////////////////////////////////////////////////////////////
