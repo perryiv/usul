@@ -142,6 +142,32 @@ inline bool operator != ( const Map &a, const Map &b )
 
 ///////////////////////////////////////////////////////////////////////////////
 //
+//  Does the map have the property?
+//
+///////////////////////////////////////////////////////////////////////////////
+
+template < class T >
+bool Map::has ( const std::string &name ) const
+{
+  const Object *obj = this->object ( name );
+  if ( nullptr == obj )
+  {
+    return false;
+  }
+
+  typedef Property < T > PropertyType;
+  const PropertyType *prop = dynamic_cast < const PropertyType * > ( obj );
+  if ( nullptr == prop )
+  {
+    return false;
+  }
+
+  return true;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
 //  Get the value or return the default.
 //
 ///////////////////////////////////////////////////////////////////////////////
