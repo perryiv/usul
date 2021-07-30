@@ -8,6 +8,7 @@ class UsulConan(ConanFile):
     license = "MIT"
     author = "Perry L Miller IV (perry@modelspace.com)"
     url = "https://github.com/perryiv/usul"
+    homepage = "https://github.com/perryiv/usul"
     description = "Low-level C++ utility code"
     topics = "low-level", "C++", "utility"
     settings = "os", "compiler", "build_type", "arch"
