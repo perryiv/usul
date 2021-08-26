@@ -79,15 +79,15 @@ set ( USUL_CONFIG_DIR_OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/config )
 # Tell CMake to not skip using rpath.
 set ( CMAKE_SKIP_RPATH OFF )
 
-# Set the version.
-configure_file (
-  ${USUL_CONFIG_DIR_INPUT}/Version.h.in
-  ${USUL_CONFIG_DIR_OUTPUT}/Usul/Version.h )
-
 # Tell the linkers to write their output files here.
 set ( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin )
 set ( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib )
 set ( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib )
+
+# Set the version.
+configure_file (
+  ${USUL_CONFIG_DIR_INPUT}/Version.h.in
+  ${USUL_CONFIG_DIR_OUTPUT}/Usul/Version.h )
 
 # Does the user want an atomic reference counter?
 option ( USUL_USE_ATOMIC_REFERENCE_COUNTER
