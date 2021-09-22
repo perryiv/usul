@@ -25,7 +25,7 @@ class UsulConan(ConanFile):
     generators = "cmake_find_package",
 
     def set_version(self):
-        with open ( os.path.join ( self.recipe_folder, "version.txt" ) ) as file:
+        with open(os.path.join(self.recipe_folder, "version.txt")) as file:
             self.version = file.read()
 
     def requirements(self):
@@ -52,6 +52,9 @@ class UsulConan(ConanFile):
         cmake = CMake(self)
         cmake.install()
         self.copy(pattern="License.md", dst="licenses")
+
+        tools.rmdir(os.path.join(self.package_folder, "cmake"))
+        tools.rmdir(os.path.join(self.package_folder, "lib", "cmake"))
 
     def package_info(self):
         self.cpp_info.libs = ["usul"]
