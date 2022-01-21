@@ -25,7 +25,7 @@ if __name__ == "__main__":
 
     builder = ConanMultiPackager(
         archs=["x86_64"],
-        upload_only_recipe=True
+        upload_only_recipe=True # 2022-01-20: No binaries because of data-transfer limit at JFrog.
     )
     builder.add_common_builds()
     for conf in builder.items:
