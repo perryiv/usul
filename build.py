@@ -24,7 +24,8 @@ if __name__ == "__main__":
     standard = os.environ["THIS_JOB_CPP_STANDARD"]
 
     builder = ConanMultiPackager(
-        archs=["x86_64"]
+        archs=["x86_64"],
+        upload_only_recipe=True
     )
     builder.add_common_builds()
     for conf in builder.items:
