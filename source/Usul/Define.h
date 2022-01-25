@@ -30,6 +30,8 @@
     #define USUL_CPP_STANDARD 14
   #elif ( _MSVC_LANG == 201703L )
     #define USUL_CPP_STANDARD 17
+  #elif ( _MSVC_LANG == 202002L )
+    #define USUL_CPP_STANDARD 20
   #else
     #define USUL_CPP_STANDARD -1
   #endif
@@ -40,6 +42,8 @@
     #define USUL_CPP_STANDARD 14
   #elif ( __cplusplus == 201703L )
     #define USUL_CPP_STANDARD 17
+  #elif ( __cplusplus == 202002L )
+    #define USUL_CPP_STANDARD 20
   #else
     #define USUL_CPP_STANDARD -1
   #endif
