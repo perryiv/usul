@@ -24,29 +24,21 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #ifdef _MSVC_LANG
-  #if ( _MSVC_LANG < 201402L )
-    #define USUL_CPP_STANDARD 11
-  #elif ( _MSVC_LANG == 201402L )
-    #define USUL_CPP_STANDARD 14
-  #elif ( _MSVC_LANG == 201703L )
-    #define USUL_CPP_STANDARD 17
-  #elif ( _MSVC_LANG == 202002L )
-    #define USUL_CPP_STANDARD 20
-  #else
-    #define USUL_CPP_STANDARD -1
-  #endif
+  #define USUL_CPP_STANDARD_FULL _MSVC_LANG
 #else
-  #if ( __cplusplus < 201402L )
-    #define USUL_CPP_STANDARD 11
-  #elif ( __cplusplus == 201402L )
-    #define USUL_CPP_STANDARD 14
-  #elif ( __cplusplus == 201703L )
-    #define USUL_CPP_STANDARD 17
-  #elif ( __cplusplus == 202002L )
-    #define USUL_CPP_STANDARD 20
-  #else
-    #define USUL_CPP_STANDARD -1
-  #endif
+  #define USUL_CPP_STANDARD_FULL __cplusplus
+#endif
+
+#if ( USUL_CPP_STANDARD_FULL >= 202002L )
+  #define USUL_CPP_STANDARD 20
+#elif ( USUL_CPP_STANDARD_FULL >= 201703L )
+  #define USUL_CPP_STANDARD 17
+#elif ( USUL_CPP_STANDARD_FULL >= 201402L )
+  #define USUL_CPP_STANDARD 14
+#elif ( USUL_CPP_STANDARD_FULL >= 201103L )
+  #define USUL_CPP_STANDARD 11
+#else
+  #define USUL_CPP_STANDARD -1
 #endif
 
 
