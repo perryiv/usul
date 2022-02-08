@@ -162,6 +162,13 @@ option ( USUL_BUILD_TESTS "Build the tests" OFF )
 # Need Catch2 to build the tests
 if ( USUL_BUILD_TESTS )
   find_package ( Catch2 REQUIRED )
+  # Fix for problem in Azure pipeline with new conan and CMakeDeps generator.
+  if ( ( NOT Catch2::Catch2 ) AND ( catch2::catch2 ) )
+    add_library ( Catch2::Catch2 ALIAS catch2::catch2 )
+    message ( "<> Created alias target Catch2::Catch2" )
+  else()
+    message ( "<> Using found target Catch2::Catch2" )
+  endif()
   print_package ( Catch2 )
 endif()
 
