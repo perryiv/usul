@@ -103,27 +103,6 @@ jobs:
         compiler_version: 8
         cpp_standard: 14
 
-      Linux_GCC_7_CPP_20:
-        image_name: 'ubuntu-20.04'
-        use_docker: 1
-        docker_image: conanio/gcc7
-        compiler_version: 7
-        cpp_standard: 20
-
-      Linux_GCC_7_CPP_17:
-        image_name: 'ubuntu-20.04'
-        use_docker: 1
-        docker_image: conanio/gcc7
-        compiler_version: 7
-        cpp_standard: 17
-
-      Linux_GCC_7_CPP_14:
-        image_name: 'ubuntu-20.04'
-        use_docker: 1
-        docker_image: conanio/gcc7
-        compiler_version: 7
-        cpp_standard: 14
-
       Apple_Clang_12_CPP_20:
         image_name: 'macOS-10.15'
         use_docker: 0
