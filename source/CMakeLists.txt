@@ -28,6 +28,7 @@ set ( SOURCE_FILES
   ./Usul/Strings/Copy.cpp
   ./Usul/System/Environment.cpp
   ./Usul/System/LastError.cpp
+  ./Usul/Time/Now.cpp
 )
 
 # Make the library using the source files.

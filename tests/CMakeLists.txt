@@ -63,6 +63,7 @@ set ( SOURCE_FILES
   ./Usul/Pointers/QueryPointer.cpp
   ./Usul/Pointers/SmartPointer.cpp
   ./Usul/Properties/Map.cpp
+  ./Usul/Time/Now.cpp
   ./Usul/Tools/Cast.cpp
   ./Usul/Tools/NoThrow.cpp
   ./Usul/Tools/ScopedCall.cpp

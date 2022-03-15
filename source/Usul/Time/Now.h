@@ -16,8 +16,10 @@
 #ifndef _USUL_TIME_NOW_FUNCTIONS_H_
 #define _USUL_TIME_NOW_FUNCTIONS_H_
 
-#include <chrono>
+#include "Usul/Export.h"
+
 #include <cstdint>
+#include <string>
 
 
 namespace Usul {
@@ -27,16 +29,34 @@ namespace Now {
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-//  Return the time since the epoch in milliseconds.
+//  Hiding the implementations in a class because importing and exporting
+//  symbols on Windows works better this way.
 //
 ///////////////////////////////////////////////////////////////////////////////
 
+struct USUL_EXPORT Implementation
+{
+  static std::uint64_t milliseconds();
+  static std::string format ( const std::string & );
+};
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  These functions are the public ones.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+// Return the time since the epoch in milliseconds.
 inline std::uint64_t milliseconds()
 {
-  const auto now ( std::chrono::steady_clock::now().time_since_epoch() );
-  const auto duration ( std::chrono::duration_cast < std::chrono::milliseconds > ( now ) );
-  const auto count ( duration.count() );
-  return ( ( count > 0 ) ? static_cast < std::uint64_t > ( count ) : 0 );
+  return Implementation::milliseconds();
+}
+
+// Return a formatted string. See std::strftime for arguments.
+inline std::string format ( const std::string &fs = std::string() )
+{
+  return Implementation::format ( fs );
 }
 
 
