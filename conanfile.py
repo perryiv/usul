@@ -42,11 +42,14 @@ class UsulConan(ConanFile):
 
     def build(self):
         cmake = CMake(self)
-        cmake.configure()
-        cmake.build()
-        if self.options.run_tests:
-            with tools.run_environment(self):
-                cmake.test(output_on_failure=True)
+        with tools.run_environment(self):
+            cmake.configure()
+            cmake.build()
+            if self.options.run_tests:
+                with tools.environment_append({
+                        "CTEST_OUTPUT_ON_FAILURE": "1"
+                    }):
+                    cmake.test()
 
     def package(self):
         cmake = CMake(self)
