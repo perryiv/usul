@@ -13,6 +13,10 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
+#ifdef _WIN32
+#define _CRT_SECURE_NO_WARNINGS // TODO: Ignoring deprecated std::localtime.
+#endif
+
 #include "Usul/Time/Now.h"
 
 #include <chrono>
