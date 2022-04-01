@@ -22,7 +22,7 @@
 
 namespace Usul {
 namespace Properties {
-namespace { namespace Details {
+namespace Details {
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -130,9 +130,9 @@ template <> struct Require < false, Usul::Math::Vec3f >
 };
 
 
-} } // namespace Details
-}   // namespace Properties
-}   // namespace Usul
+} // namespace Details
+} // namespace Properties
+} // namespace Usul
 
 
 #endif // _USUL_PROPERTIES_VECTOR_3_H_

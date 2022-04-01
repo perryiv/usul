@@ -32,7 +32,7 @@ namespace Sphere {
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-namespace { namespace Details
+namespace Details
 {
   template < class Real, class Callback >
   inline void subdivide (
@@ -111,7 +111,7 @@ namespace { namespace Details
       Details::subdivide < Real > ( x12, y12, z12, x23, y23, z23, x31, y31, z31, numPoints, depth, fun );
     }
   }
-} }
+}
 
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -269,7 +269,7 @@ void Map::update ( const std::string &name, const T &value )
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-namespace { namespace Details
+namespace Details
 {
   template < bool arithmetic, class T > struct Getter;
   template < class T > struct Getter < true, T >
@@ -323,7 +323,7 @@ namespace { namespace Details
       return m.get < std::string > ( name, defaultValue );
     }
   };
-} }
+}
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -349,7 +349,7 @@ inline T get ( const Map &m, const std::string &name, const T &defaultValue )
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-namespace { namespace Details
+namespace Details
 {
   template < bool arithmetic, class T > struct Require;
   template < class T > struct Require < true, T >
@@ -403,7 +403,7 @@ namespace { namespace Details
       return m.require < std::string > ( name );
     }
   };
-} }
+}
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -521,7 +521,7 @@ namespace Usul \
 { \
   namespace Properties \
   { \
-    namespace { namespace Details \
+    namespace Details \
     { \
       template <> struct Getter < false, to_type > \
       { \
@@ -537,7 +537,7 @@ namespace Usul \
           return m.require < to_type > ( name ); \
         } \
       }; \
-    } } \
+    } \
   } \
 }
 

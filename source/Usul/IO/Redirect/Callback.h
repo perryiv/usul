@@ -30,7 +30,7 @@ namespace IO {
 namespace Redirect {
 
 
-namespace { namespace Details
+namespace Details
 {
   struct FunctionBuffer : public std::stringbuf
   {
@@ -64,7 +64,7 @@ namespace { namespace Details
 
     Fun _fun;
   };
-} }
+}
 
 
 struct Callback : public Base
@@ -85,7 +85,7 @@ struct Callback : public Base
 
 private:
 
-  Details::FunctionBuffer _buffer;
+  FunctionBuffer _buffer;
 };
 
 

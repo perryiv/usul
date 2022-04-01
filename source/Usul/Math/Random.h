@@ -30,7 +30,7 @@ namespace Math {
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-namespace { namespace Details
+namespace Details
 {
   template < class T > struct Random
   {
@@ -50,7 +50,7 @@ namespace { namespace Details
       answer = ( mn + ( value * ( mx - mn ) ) );
     }
   };
-} }
+}
 
 
 ///////////////////////////////////////////////////////////////////////////////

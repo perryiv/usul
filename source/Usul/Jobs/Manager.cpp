@@ -123,7 +123,7 @@ namespace { namespace Details
   inline void pause ( unsigned int ms = 5 )
   {
     std::this_thread::sleep_for ( std::chrono::milliseconds ( ms ) );
-  };
+  }
 } }
 
 

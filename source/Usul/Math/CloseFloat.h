@@ -47,7 +47,7 @@ namespace Math {
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-namespace { namespace Details
+namespace Details
 {
   inline std::int32_t handleTwosCompliment ( std::int32_t v )
   {
@@ -57,7 +57,7 @@ namespace { namespace Details
   {
     return ( ( v < 0 ) ? ( static_cast < std::int64_t > ( 0x8000000000000000ull - ( static_cast < std::uint64_t > ( v ) ) ) ) : v );
   }
-} }
+}
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -66,7 +66,7 @@ namespace { namespace Details
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-namespace { namespace Details
+namespace Details
 {
   template < class FloatType > struct IntegerSelector;
   template <> struct IntegerSelector < float >
@@ -83,7 +83,7 @@ namespace { namespace Details
   {
     // Without this it may select for double, and we do not support that.
   };
-} }
+}
 
 
 ///////////////////////////////////////////////////////////////////////////////

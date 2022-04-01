@@ -39,7 +39,7 @@ namespace Revolution {
 //
 //////////////////////////////////////////////////////////////////////////
 
-namespace { namespace Details
+namespace Details
 {
   template <
     class Source,
@@ -82,7 +82,7 @@ namespace { namespace Details
     // Save the target.
     target.push_back ( t );
   }
-} }
+}
 
 
 //////////////////////////////////////////////////////////////////////////
