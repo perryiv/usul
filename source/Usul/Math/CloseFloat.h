@@ -47,7 +47,7 @@ namespace Math {
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-namespace Detail
+namespace { namespace Details
 {
   inline std::int32_t handleTwosCompliment ( std::int32_t v )
   {
@@ -57,7 +57,7 @@ namespace Detail
   {
     return ( ( v < 0 ) ? ( static_cast < std::int64_t > ( 0x8000000000000000ull - ( static_cast < std::uint64_t > ( v ) ) ) ) : v );
   }
-}
+} }
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -66,7 +66,7 @@ namespace Detail
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-namespace Detail
+namespace { namespace Details
 {
   template < class FloatType > struct IntegerSelector;
   template <> struct IntegerSelector < float >
@@ -83,7 +83,7 @@ namespace Detail
   {
     // Without this it may select for double, and we do not support that.
   };
-}
+} }
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -102,7 +102,7 @@ template < class FloatType_ > struct CloseFloat
 {
   // Useful typedefs.
   typedef FloatType_ FloatType;
-  typedef Detail::IntegerSelector < FloatType > IntegerSelector;
+  typedef Details::IntegerSelector < FloatType > IntegerSelector;
   typedef typename IntegerSelector::SignedInteger SignedInteger;
   typedef typename IntegerSelector::UnsignedInteger UnsignedInteger;
   typedef CloseFloat < FloatType > ThisType;
@@ -179,8 +179,8 @@ template < class FloatType_ > struct CloseFloat
     // std::cout << "ia = " << ia << "\nib = " << ib << std::endl;
 
     // Make them lexicographically ordered as a twos-complement int.
-    ia = Detail::handleTwosCompliment ( ia );
-    ib = Detail::handleTwosCompliment ( ib );
+    ia = Details::handleTwosCompliment ( ia );
+    ib = Details::handleTwosCompliment ( ib );
 
     // See how far apart a and b are.
     const UnsignedInteger diff ( static_cast < UnsignedInteger > ( Usul::Math::absolute ( ia - ib ) ) );

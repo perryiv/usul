@@ -33,71 +33,14 @@ namespace Plugins {
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-//  Initialize the singleton at startup to avoid problems with construction
-//  in multi-threaded environments.
-//
-///////////////////////////////////////////////////////////////////////////////
-
-namespace
-{
-  struct Init
-  {
-    Init()
-    {
-      #ifdef USUL_AUTO_CREATE_SINGLETON_PLUGIN_MANAGER
-      Usul::Plugins::Manager::instance();
-      #endif
-    }
-    ~Init()
-    {
-      #ifdef USUL_AUTO_DELETE_SINGLETON_PLUGIN_MANAGER
-      Usul::Plugins::Manager::destroy();
-      #endif
-    }
-  } _init;
-}
-
-
-///////////////////////////////////////////////////////////////////////////////
-//
-//  Singleton instance.
-//
-///////////////////////////////////////////////////////////////////////////////
-
-namespace Details
-{
-  // The one singleton instance.
-  Usul::Plugins::Manager *_instance ( nullptr );
-}
-
-
-///////////////////////////////////////////////////////////////////////////////
-//
 //  Get the instance. Not thread safe. Call early from one thread.
 //
 ///////////////////////////////////////////////////////////////////////////////
 
 Manager& Manager::instance()
 {
-  if ( nullptr == Usul::Plugins::Details::_instance )
-  {
-    Usul::Plugins::Details::_instance = new Manager();
-  }
-  return *Usul::Plugins::Details::_instance;
-}
-
-
-///////////////////////////////////////////////////////////////////////////////
-//
-//  Destroy the single instance. Not thread safe. Call from one thread.
-//
-///////////////////////////////////////////////////////////////////////////////
-
-void Manager::destroy()
-{
-  Manager *m = Usul::Plugins::Details::_instance;
-  Usul::Plugins::Details::_instance = nullptr;
-  delete m;
+  static Manager instance; // Thread-safe construction as of C++11
+  return instance;
 }
 
 
@@ -135,6 +78,18 @@ Manager::~Manager()
 
 void Manager::_destroy()
 {
+  this->reset();
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Reset this instance.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+void Manager::reset()
+{
   this->removeAll ( &std::clog );
   this->unloadAll ( &std::clog );
 }
@@ -146,7 +101,7 @@ void Manager::_destroy()
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-namespace Details
+namespace { namespace Details
 {
   inline void finalizePlugin ( Usul::Interfaces::IUnknown::RefPtr unknown, std::ostream *out )
   {
@@ -166,7 +121,7 @@ namespace Details
       }
     }
   }
-}
+} }
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -175,7 +130,7 @@ namespace Details
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-namespace Details
+namespace { namespace Details
 {
   inline void finalizeLibrary ( Library::RefPtr library, std::ostream *out )
   {
@@ -188,7 +143,7 @@ namespace Details
       }
     }
   }
-}
+} }
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -294,7 +249,7 @@ void Manager::unloadAll ( std::ostream *out )
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-namespace Details
+namespace { namespace Details
 {
   inline bool implementsInterface ( Usul::Interfaces::IUnknown::RefPtr unknown, unsigned long iid )
   {
@@ -304,7 +259,7 @@ namespace Details
     }
     return false;
   }
-}
+} }
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -337,7 +292,7 @@ void Manager::findAll ( unsigned long iid, Plugins &answer ) const
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-Manager::Strings Manager::names ( bool sort ) const
+Manager::Strings Manager::getNames ( bool sort ) const
 {
   Manager::Strings names;
 
@@ -372,7 +327,7 @@ void Manager::print ( std::ostream &out ) const
 {
   std::ostringstream stream;
 
-  const Manager::Strings names ( this->names() );
+  const Manager::Strings names ( this->getNames() );
   stream << names.size() << ( ( 1 == names.size() ) ? ( " plugin" ) : ( " plugins" ) );
   if ( false == names.empty() )
   {

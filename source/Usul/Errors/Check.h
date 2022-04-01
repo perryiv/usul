@@ -46,7 +46,7 @@ namespace Usul
 {
   namespace Errors
   {
-    namespace Details
+    namespace { namespace Details
     {
       inline std::string getMessage ( const std::string &message, const char *file, unsigned int line )
       {
@@ -63,7 +63,7 @@ namespace Usul
           return message;
         }
       }
-    }
+    } }
   }
 }
 

@@ -43,10 +43,10 @@ TEST_CASE ( "Job manager" )
   // Make the singleton.
   Manager &manager = Manager::instance();
 
-  // Destroy the singleton.
-  USUL_SCOPED_CALL ( [] ()
+  // Reset the singleton.
+  USUL_SCOPED_CALL ( [ &manager ] ()
   {
-    Manager::destroy();
+    manager.reset();
   } );
 
   SECTION ( "Number of jobs" )
@@ -154,7 +154,7 @@ TEST_CASE ( "Job manager" )
 
     // This clears the queue, cancels the running jobs (which is just a hint),
     // and waits for the running jobs to finish.
-    Manager::destroy();
+    manager.reset();
 
     // We should not have completed all the jobs.
     REQUIRE ( ( count < numJobs ) );

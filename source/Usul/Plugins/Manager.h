@@ -42,46 +42,48 @@ public:
   typedef std::vector < std::string > Strings;
   typedef std::lock_guard < std::mutex > Guard;
 
-  // Singleton interface.
-  static Manager &                  instance();
-  static void                       destroy();
+  // Get the singleton interface.
+  static Manager &instance();
 
   // Add a plugin.
-  void                              add ( IUnknown::RefPtr );
+  void add ( IUnknown::RefPtr );
 
   // Remove all the plugins.
-  void                              removeAll ( std::ostream *out = nullptr );
+  void removeAll ( std::ostream *out = nullptr );
 
   // Find the first plugin that implements the interface or matches the predicate.
-  IUnknown::RefPtr                  findFirst ( unsigned long iid ) const;
+  IUnknown::RefPtr                      findFirst ( unsigned long iid ) const;
   template < class P > IUnknown::RefPtr findFirstIf ( P pred ) const;
 
   // Find all the plugins that implement the interface.
-  void                              findAll ( unsigned long iid, Plugins & ) const;
-  template < class P > void         findAllIf ( P pred, Plugins & ) const;
-
-  // Load the library.
-  void                              load ( const std::string &file );
+  void                      findAll ( unsigned long iid, Plugins & ) const;
+  template < class P > void findAllIf ( P pred, Plugins & ) const;
 
   // Return list of plugin names.
-  Strings                           names ( bool sort = true ) const;
+  Strings getNames ( bool sort = true ) const;
+
+  // Load the library.
+  void load ( const std::string &file );
 
   // Print message about loaded plugins.
-  void                              print ( std::ostream & ) const;
+  void print ( std::ostream & ) const;
+
+  // Reset the manager to the initial state.
+  void reset();
 
   // Unload all the libraries.
-  void                              unloadAll ( std::ostream *out = nullptr );
+  void unloadAll ( std::ostream *out = nullptr );
 
 private:
 
   Manager();
   ~Manager();
 
-  void                              _copy ( Plugins & ) const;
-  void                              _copyAndClear ( Plugins & );
-  void                              _copyAndClear ( Libraries & );
+  void _copy ( Plugins & ) const;
+  void _copyAndClear ( Plugins & );
+  void _copyAndClear ( Libraries & );
 
-  void                              _destroy();
+  void _destroy();
 
   mutable std::mutex _mutex;
   Plugins _plugins;

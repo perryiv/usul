@@ -66,9 +66,6 @@ public:
   // Clear any jobs that are in the queue.
   void clearQueuedJobs();
 
-  // This will delete the singleton instance, if any.
-  static void destroy();
-
   // Get/set the error handler.
   ErrorHandler getErrorHandler() const;
   void         setErrorHandler ( ErrorHandler );
@@ -98,11 +95,20 @@ public:
   unsigned int getNumMillisecondsToSleep() const;
   void         setNumMillisecondsToSleep ( unsigned int );
 
+  // Is the job manager being destroyed or reset?
+  bool isBeingDestroyed() const { return _isBeingDestroyed; }
+  bool isBeingReset() const { return _isBeingReset; }
+
   // Direct access to the mutex. Use with caution.
   Mutex &mutex() { return _mutex; }
 
   // Remove the queued job. Has no effect on running jobs.
   bool removeQueuedJob ( JobPtr );
+
+  // Reset the manager to the initial state. This will clear the queue,
+  // cancel running jobs, and wait for them to finish. If addJob() is called
+  // before this function returns then an exception is thrown.
+  void reset();
 
   // Sort the queue. Call this if you change a job's priority after adding it.
   // This function has no effect on a running job.
@@ -145,6 +151,7 @@ private:
   AtomicUnsignedInt _numMillisecondsToSleep;
   AtomicBool _shouldRunWorkerThread;
   AtomicBool _isBeingDestroyed;
+  AtomicBool _isBeingReset;
   AtomicBool _hasJobInTransition;
 };
 

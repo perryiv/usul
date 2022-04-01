@@ -93,14 +93,6 @@ configure_file (
 option ( USUL_USE_ATOMIC_REFERENCE_COUNTER
   "Use std::atomic for the reference counter in Usul/Base/Referenced.cpp" ON )
 
-# Should the code automatically create the singleton plugin manager?
-option ( USUL_AUTO_CREATE_SINGLETON_PLUGIN_MANAGER
-  "Automatically create the singleton plugin manager when the process starts" OFF )
-
-# Should the code automatically delete the singleton plugin manager?
-option ( USUL_AUTO_DELETE_SINGLETON_PLUGIN_MANAGER
-  "Automatically delete the singleton plugin manager when the process exits" ON )
-
 # Let the user change the plugin extension.
 set ( USUL_PLUGIN_EXTENSION "plug" CACHE STRING "File extension for plugins" )
 

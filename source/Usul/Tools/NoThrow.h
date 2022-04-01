@@ -32,7 +32,7 @@ namespace Tools {
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-namespace Details
+namespace { namespace Details
 {
   template < class IdType, class OutputStream >
   inline void logStandardException ( const std::exception &e, IdType id, OutputStream *out )
@@ -47,7 +47,7 @@ namespace Details
       ) ) << std::endl;
     }
   }
-}
+} }
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -56,7 +56,7 @@ namespace Details
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-namespace Details
+namespace { namespace Details
 {
   template < class IdType, class OutputStream >
   inline void logUnknownException ( IdType id, OutputStream *out )
@@ -70,7 +70,7 @@ namespace Details
       ) ) << std::endl;
     }
   }
-}
+} }
 
 
 ///////////////////////////////////////////////////////////////////////////////

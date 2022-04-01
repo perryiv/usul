@@ -40,8 +40,6 @@ int main ( int argc, char **argv )
     {
       throw std::runtime_error ( "Instances remain in memory" );
     }
-
-    Helpers::Instances::destroy();
   }
 
   catch ( const std::exception &e )

@@ -48,7 +48,7 @@ constexpr unsigned int R3C3 = Usul::Math::R3C3;
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-namespace Details
+namespace { namespace Details
 {
   template < class M1, class M2 >
   inline void compareMatrices ( const M1 &m1, const M2 &m2 )
@@ -73,7 +73,7 @@ namespace Details
     REQUIRE ( m1[14] == m2[14] );
     REQUIRE ( m1[15] == m2[15] );
   }
-}
+} }
 
 
 ////////////////////////////////////////////////////////////////////////////////

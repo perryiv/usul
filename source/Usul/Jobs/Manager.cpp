@@ -41,24 +41,11 @@ namespace Jobs {
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-//  Details for this class.
-//
-///////////////////////////////////////////////////////////////////////////////
-
-namespace Details
-{
-  std::mutex mutex;
-  Manager *_instance = nullptr;
-}
-
-
-///////////////////////////////////////////////////////////////////////////////
-//
 //  Return the default maximum number of threads.
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-namespace Details
+namespace { namespace Details
 {
   inline unsigned int getDefaultMaxNumThreadsAllowed()
   {
@@ -71,7 +58,7 @@ namespace Details
     // If we can, return the difference, otherwise return the bare minimum.
     return ( ( has > keep ) ? ( has - keep ) : 1u );
   }
-}
+} }
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -80,7 +67,7 @@ namespace Details
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-namespace Details
+namespace { namespace Details
 {
   template < class IdType >
   inline void handleStandardException ( Manager &me, Manager::JobPtr job, const std::exception &e, IdType id )
@@ -95,7 +82,8 @@ namespace Details
       Usul::Tools::Details::logStandardException ( e, id, &std::clog );
     }
   }
-}
+} }
+
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -103,7 +91,7 @@ namespace Details
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-namespace Details
+namespace { namespace Details
 {
   template < class IdType >
   inline void handleUnknownException ( Manager &me, Manager::JobPtr job, IdType id )
@@ -119,7 +107,24 @@ namespace Details
       Usul::Tools::Details::logUnknownException ( id, &std::clog );
     }
   }
-}
+} }
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Function to sleep some to hopefully side-step a somewhat rare crash
+//  that is difficult to reproduce and (as far as I know) only happens when
+//  the job-manager is being deleted while it was busy.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+namespace { namespace Details
+{
+  inline void pause ( unsigned int ms = 5 )
+  {
+    std::this_thread::sleep_for ( std::chrono::milliseconds ( ms ) );
+  };
+} }
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -156,6 +161,7 @@ Manager::Manager() :
   _numMillisecondsToSleep ( 10 ),
   _shouldRunWorkerThread ( true ),
   _isBeingDestroyed ( false ),
+  _isBeingReset ( false ),
   _hasJobInTransition ( false )
 {
 }
@@ -183,44 +189,67 @@ void Manager::_destroyManager()
 {
   IS_NOT_WORKER_THREAD_OR_THROW;
 
+  // Do not lock the mutex! Other threads may be running and you have to wait
+  // for them, and they might need to lock the mutex.
+
   // Set this first.
   _isBeingDestroyed = true;
+
+  // Do some cleanup.
+  this->reset();
+
+  Details::pause();
+
+  // Stop the worker thread.
+  this->_stopWorkerThread();
+
+  Details::pause();
+
+  // We're done with our worker thread. This is probably already null.
+  _workerThread = nullptr;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Reset
+//
+///////////////////////////////////////////////////////////////////////////////
+
+void Manager::reset()
+{
+  IS_NOT_WORKER_THREAD_OR_THROW;
 
   // Do not lock the mutex! Other threads may be running and you have to wait
   // for them, and they might need to lock the mutex.
 
-  // Local function to sleep some to hopefully side-step a somewhat rare crash
-  // that is difficult to reproduce and (as far as I know) only happens when
-  // the job-manager is being deleted while it was busy.
-  auto pause = [] ()
+  // Make sure we are not already being reset.
+  if ( true == _isBeingReset )
   {
-    std::this_thread::sleep_for ( std::chrono::milliseconds ( 5 ) );
-  };
+    throw std::runtime_error ( "The job manager is already being reset" );
+  }
+
+  // Set this first and make sure it is eventually set to false.
+  _isBeingReset = true;
+  USUL_SCOPED_CALL ( [ this ] ()
+  {
+    _isBeingReset = false; // This variable is atomic.
+  } );
 
   // Do some cleanup.
   this->clearQueuedJobs();
   this->cancelRunningJobs();
 
-  pause();
+  Details::pause();
 
   // Wait for any jobs that are still running.
   this->waitAll();
 
-  pause();
+  Details::pause();
 
-  // Clear the containers.
+  // Make sure these containers are empty.
   _queuedJobs.clear();
   _runningJobs.clear();
-
-  pause();
-
-  // Stop the worker thread.
-  this->_stopWorkerThread();
-
-  pause();
-
-  // We're done with our worker thread. This is probably already null.
-  _workerThread = nullptr;
 }
 
 
@@ -232,26 +261,8 @@ void Manager::_destroyManager()
 
 Manager &Manager::instance()
 {
-  std::lock_guard < std::mutex > guard ( Details::mutex );
-  if ( nullptr == Details::_instance )
-  {
-    Details::_instance = new Manager();
-  }
-  return *Details::_instance;
-}
-
-
-///////////////////////////////////////////////////////////////////////////////
-//
-//  Singleton destruction.
-//
-///////////////////////////////////////////////////////////////////////////////
-
-void Manager::destroy()
-{
-  std::lock_guard < std::mutex > guard ( Details::mutex );
-  delete Details::_instance;
-  Details::_instance = nullptr;
+  static Manager instance; // Thread-safe as of C++11
+  return instance;
 }
 
 
@@ -284,13 +295,19 @@ void Manager::addJob ( JobPtr job )
   // Check input.
   if ( nullptr == job.get() )
   {
-    throw std::runtime_error ( "Cannot add null job" );
+    throw std::runtime_error ( "Can not add null job" );
   }
 
-  // Do nothing if we are being destroyed.
+  // Make sure we are not being destroyed.
   if ( true == _isBeingDestroyed )
   {
-    throw std::runtime_error ( "Cannot add job to manager that is being destroyed" );
+    throw std::runtime_error ( "Can not add job to manager that is being destroyed" );
+  }
+
+  // Make sure we are not being reset.
+  if ( true == _isBeingReset )
+  {
+    throw std::runtime_error ( "Can not add job to manager that is being reset" );
   }
 
   // Need a local scope for the lock.

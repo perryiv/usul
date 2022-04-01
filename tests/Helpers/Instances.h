@@ -34,7 +34,6 @@ public:
   typedef std::set < void * > Set;
 
   static Instances &get();
-  static void destroy();
 
   ~Instances();
 

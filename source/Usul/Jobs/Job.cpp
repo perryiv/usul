@@ -15,8 +15,6 @@
 
 #include "Usul/Jobs/Job.h"
 
-#include <atomic>
-
 
 namespace Usul {
 namespace Jobs {
@@ -28,14 +26,14 @@ namespace Jobs {
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-namespace Details
+namespace { namespace Details
 {
-  std::atomic < unsigned long > _nextID ( 0 );
   unsigned long getNextID()
   {
+    static std::atomic < unsigned long > _nextID ( 0 );
     return ++_nextID;
   }
-}
+} }
 
 
 ///////////////////////////////////////////////////////////////////////////////

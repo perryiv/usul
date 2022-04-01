@@ -29,7 +29,7 @@ namespace System {
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-namespace Details
+namespace { namespace Details
 {
   inline bool get ( const std::string &name, std::string &value )
   {
@@ -80,7 +80,7 @@ namespace Details
 
     return true;
   }
-}
+} }
 
 
 ///////////////////////////////////////////////////////////////////////////////

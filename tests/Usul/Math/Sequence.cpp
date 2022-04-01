@@ -32,7 +32,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-namespace Details
+namespace { namespace Details
 {
   template < class T >
   inline void isEqualString ( const T &a, const T &b )
@@ -44,7 +44,7 @@ namespace Details
     const std::string sb = ssb.str();
     REQUIRE ( sa == sb );
   }
-}
+} }
 
 
 ////////////////////////////////////////////////////////////////////////////////

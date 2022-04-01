@@ -23,7 +23,7 @@
 
 namespace Usul {
 namespace Properties {
-namespace Details {
+namespace { namespace Details {
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -153,9 +153,9 @@ template <> struct Require < false, Usul::Math::Matrix44f >
 };
 
 
-} // namespace Details
-} // namespace Properties
-} // namespace Usul
+} } // namespace Details
+}   // namespace Properties
+}   // namespace Usul
 
 
 #endif // _USUL_PROPERTIES_4_BY_4_MATRIX_H_
