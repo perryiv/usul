@@ -26,7 +26,7 @@ class UsulConan(ConanFile):
 
     def set_version(self):
         with open(os.path.join(self.recipe_folder, "version.txt")) as file:
-            self.version = file.read()
+            self.version = file.read().strip()
 
     def requirements(self):
         if self.options.run_tests:
