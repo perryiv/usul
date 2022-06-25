@@ -35,9 +35,10 @@ set ( SOURCE_FILES
 # Hey CMake, here is a library and all the stuff you need to know about it.
 add_library ( ${PROJECT_NAME} ${SOURCE_FILES} )
 
-# We are compling usul.
+# We are compiling usul.
 target_compile_definitions ( ${PROJECT_NAME} PRIVATE COMPILING_USUL )
 
+# Define this if we are not building a shared library.
 if ( NOT BUILD_SHARED_LIBS )
   target_compile_definitions ( ${PROJECT_NAME} PUBLIC USUL_STATIC_DEFINE )
 endif()
@@ -50,7 +51,7 @@ target_include_directories (
   $<INSTALL_INTERFACE:include>
 )
 
-# CMake will automatically add -I, -L, and -D (etc) appropriately.
+# Link to these libraries if we're not on Windows or Mac.
 if ( UNIX )
   target_link_libraries ( ${PROJECT_NAME} PUBLIC dl pthread )
 endif()
