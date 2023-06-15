@@ -18,7 +18,7 @@ message ( "<>\n<> Start ${CMAKE_CURRENT_LIST_FILE}\n<>" )
 
 # Without this version or greater we get this error in Azure Pipelines:
 # "make: *** No rule to make target 'test'.  Stop."
-cmake_minimum_required ( VERSION 3.13.0 )
+cmake_minimum_required ( VERSION 3.15.0 )
 
 # Include these functions.
 include ( ${CMAKE_CURRENT_SOURCE_DIR}/cmake/functions.cmake )
