@@ -29,6 +29,7 @@ set ( SOURCE_FILES
   ./Usul/System/Environment.cpp
   ./Usul/System/LastError.cpp
   ./Usul/Time/Now.cpp
+  ./Usul/Tools/Counter.cpp
 )
 
 # Make the library using the source files.

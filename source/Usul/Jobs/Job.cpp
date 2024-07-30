@@ -14,6 +14,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "Usul/Jobs/Job.h"
+#include "Usul/Tools/Counter.h"
 
 
 namespace Usul {
@@ -22,17 +23,13 @@ namespace Jobs {
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-//  Get the next job id. This will also increment the internal counter.
+//  Get the next job id.
 //
 ///////////////////////////////////////////////////////////////////////////////
 
 namespace { namespace Details
 {
-  unsigned long getNextID()
-  {
-    static std::atomic < unsigned long > _nextID ( 0 );
-    return ++_nextID;
-  }
+  USUL_TOOLS_MAKE_COUNTER ( getNextJobID, unsigned long, 1 )
 } }
 
 
@@ -44,7 +41,7 @@ namespace { namespace Details
 
 Job::Job ( const std::string &name, double priority, Callback cb ) :
   _mutex(),
-  _id ( Details::getNextID() ),
+  _id ( Details::getNextJobID() ),
   _name ( name ),
   _priority ( priority ),
   _callback ( cb ),
