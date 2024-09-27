@@ -55,6 +55,9 @@ public:
   // Get the reference count.
   CounterType getReferenceCount() const;
 
+  // Return the type name, or null if it fails.
+  static const char* getTypeName ( const Referenced* );
+
 protected:
 
   Referenced();

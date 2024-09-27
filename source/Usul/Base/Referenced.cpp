@@ -14,14 +14,37 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "Usul/Base/Referenced.h"
+#include "Usul/Base/ObjectMap.h"
 #include "Usul/Interfaces/IUnknown.h"
 #include "Usul/Strings/Format.h"
 
 #include <iostream>
 #include <typeinfo>
 
+
 namespace Usul {
 namespace Base {
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Macro used to automatically add instances of the referenced class to the
+//  map when created, and remove them when they are deleted.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+#ifdef _DEBUG
+  #ifdef USUL_REFERENCED_CLASS_DEBUG_KEEP_TRACK
+    #define USUL_REFERENCED_CLASS_ADD_THIS    ObjectMap::getSingleton().add ( this )
+    #define USUL_REFERENCED_CLASS_REMOVE_THIS ObjectMap::getSingleton().remove ( this )
+  #else
+    #define USUL_REFERENCED_CLASS_ADD_THIS
+    #define USUL_REFERENCED_CLASS_REMOVE_THIS
+  #endif
+#else
+  #define USUL_REFERENCED_CLASS_ADD_THIS
+  #define USUL_REFERENCED_CLASS_REMOVE_THIS
+#endif
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -33,6 +56,7 @@ namespace Base {
 Referenced::Referenced() :
   _refCount ( 0 )
 {
+  USUL_REFERENCED_CLASS_ADD_THIS;
 }
 
 
@@ -45,6 +69,7 @@ Referenced::Referenced() :
 Referenced::Referenced ( const Referenced & ) :
   _refCount ( 0 )
 {
+  USUL_REFERENCED_CLASS_ADD_THIS;
 }
 
 
@@ -56,12 +81,14 @@ Referenced::Referenced ( const Referenced & ) :
 
 Referenced::~Referenced()
 {
+  USUL_REFERENCED_CLASS_REMOVE_THIS;
+
   if ( _refCount > 0 )
   {
     // We're inside of a destructor so we can't throw an exception.
     // If the user wants to capture this error they can redirect stderr.
     // We output one string because that works best when multi-threaded.
-    std::clog << Usul::Strings::format
+    std::cerr << Usul::Strings::format
       ( "Deleting ", this, " with a reference count of ", _refCount )
       << std::endl;
   }
@@ -171,7 +198,7 @@ void Referenced::_deleteMe()
 
   catch ( const std::exception &e )
   {
-    std::clog << ( Usul::Strings::format (
+    std::cerr << ( Usul::Strings::format (
       "Deleting ", self, " caused a standard exception: ", e.what(),
       ", Class: ", ( name ? name : "" ),
       ", ID: ", 1568933858
@@ -180,11 +207,35 @@ void Referenced::_deleteMe()
 
   catch ( ... )
   {
-    std::clog << ( Usul::Strings::format (
+    std::cerr << ( Usul::Strings::format (
       "Deleting ", self, " caused an unknown exception",
       ", Class: ", ( name ? name : "" ),
       ", ID: ", 1568933859
     ) ) << std::endl;
+  }
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Safely get the type name.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+const char* Referenced::getTypeName ( const Referenced* obj )
+{
+  try
+  {
+    if ( nullptr == obj )
+    {
+      return nullptr;
+    }
+
+    return ( typeid ( *obj ) ).name();
+  }
+  catch ( ... )
+  {
+    return nullptr;
   }
 }
 

@@ -172,6 +172,12 @@ endif()
 # For debug builds we want the _DEBUG preprocessor symbol to be defined.
 add_compile_definitions ( $<$<CONFIG:Debug>:_DEBUG> )
 
+# If this is a debug build, and this option was specified, compile in the
+# code to keep track of reference-counted objects.
+if ( USUL_REFERENCED_CLASS_DEBUG_KEEP_TRACK )
+  add_compile_definitions ( USUL_REFERENCED_CLASS_DEBUG_KEEP_TRACK )
+endif()
+
 # Also process the CMakeLists.txt files found in these directories.
 add_subdirectory ( source ) # The library.
 if ( USUL_BUILD_TESTS )
