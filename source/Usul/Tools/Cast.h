@@ -15,6 +15,7 @@
 
 #pragma once
 
+#include <cstdint>
 #include <limits>
 #include <stdexcept>
 #include <type_traits>
@@ -67,6 +68,26 @@ namespace Usul
 
         // We're trying to go from a large unsigned type to a smaller one.
         static_assert ( sizeof ( FromType ) >= sizeof ( ToType ) );
+
+        return ( from <= ( static_cast < FromType > ( ToTypeLimits::max() ) ) );
+      }
+    };
+    template <> struct CanCast < double, std::uint64_t >
+    {
+      typedef std::uint64_t FromType;
+      typedef double ToType;
+
+      typedef std::numeric_limits < ToType > ToTypeLimits;
+      typedef std::numeric_limits < FromType > FromTypeLimits;
+
+      static bool canCastTo ( FromType from )
+      {
+        static_assert ( std::is_integral_v < FromType > );
+        static_assert ( std::is_floating_point_v < ToType > );
+        static_assert ( std::is_unsigned_v < FromType > );
+        static_assert ( std::is_floating_point_v < ToType > );
+
+        static_assert ( sizeof ( FromType ) == sizeof ( ToType ) );
 
         return ( from <= ( static_cast < FromType > ( ToTypeLimits::max() ) ) );
       }
