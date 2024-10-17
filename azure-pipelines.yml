@@ -194,7 +194,6 @@ jobs:
 
     - script: |
         python -m pip install --upgrade pip
-        pip uninstall six
         pip install six
         pip install -v "conan==1.64.0"
         pip install conan_package_tools
